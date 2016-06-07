@@ -8,7 +8,7 @@ from .models import Member
 from .serializers import MemberSerializer
 from .helper import userhelper
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.sessions.models import Session, SessionManager, SessionStore
+from django.contrib.sessions.models import Session, SessionManager
 import requests
 import json
 from .helper import modelKey
