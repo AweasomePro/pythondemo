@@ -50,16 +50,17 @@ def member_register(request):
     if (not userhelper.phoneNumberisExist(phoneNumber)):
         print('phoneNumber 不存在')
         m = Member()
-        m.phoneNumber = phoneNumber
         print('m 的phoneNumber'+str(m.phoneNumber))
+        m.phoneNumber = phoneNumber
         m.set_password(password)
-        print(m.password)
         m.username = phoneNumber
+        print(m.password)
+        print('m 的username ='+str(m.username))
         m.save()
         serailizer_member = MemberSerializer(m, many=False)
         print(serailizer_member)
         # serailizer_member.data
-        return JSONWrappedResponse(serailizer_member,status=1, message="注册成功")
+        return JSONWrappedResponse(serailizer_member.data,status=1, message="注册成功")
     else:
         return JSONWrappedResponse(status=2, message="手机号已经存在")
 
