@@ -1,0 +1,14 @@
+rest_framework 版本问题
+
+如何生成数据库
+python manage.py makemigrations
+python manage.py migrate
+
+关闭CSRF 解决记录:
+https://segmentfault.com/a/1190000000764598
+
+如何自定义自己的Ｕｓｅｒ又用Ｄｊａｎｇｏ提供的管理平台
+http://www.tuicool.com/articles/jMzIr2
+
+#对于集合数据　使用ｒｅｓｅｔ的例子
+http://www.weiguda.com/blog/18/
