@@ -135,6 +135,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 # session setting
 SESSION_COOKIE_AGE = 365*24*60*60
 

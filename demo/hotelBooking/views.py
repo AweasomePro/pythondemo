@@ -8,7 +8,9 @@ from .models import Member
 from .serializers import MemberSerializer
 from .helper import userhelper
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.cache import never_cache
 from django.contrib.sessions.models import Session, SessionManager
+from django.contrib.sessions.backends.db import SessionStore
 import requests
 import json
 from .helper import modelKey
@@ -17,6 +19,7 @@ APP_ID = "P0fN7ArvLMtcgsACRwhOupHj-gzGzoHsz"
 APP_KEY = "cWK8NHllNg7N6huHiKA1HeRG"
 
 
+@never_cache
 @api_view(['POST'])
 def member_login(request):
     phoneNumber = request.POST.get(modelKey.KEY_PHONENUMBER)
@@ -37,7 +40,9 @@ def member_login(request):
         return JSONWrappedResponse(status=401, message="请求错误")
 
 
+@never_cache
 @csrf_exempt
+@api_view(['POST'])
 def member_register(request):
     phoneNumber = request.POST.get('phoneNumber')
     password = request.POST.get('password')
@@ -63,6 +68,7 @@ def member_logout(request):
     request.session.get()
     pass
 
+@never_cache
 def send_regist_sms(request):
     # url = 'https://api.leancloud.cn/1.1/requestSmsCode'
     # values = {"mobilePhoneNumber": 15726814574}
