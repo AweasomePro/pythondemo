@@ -35,7 +35,7 @@ def member_login(request):
         else:
             return JSONWrappedResponse(status=2, message="账号密码错误")
     except Member.DoesNotExist:
-        return JSONWrappedResponse(status=2, message="不存在该账号")
+        return JSONWrappedResponse(status=3, message="不存在该账号")
     except Exception:
         return JSONWrappedResponse(status=401, message="请求错误")
 
