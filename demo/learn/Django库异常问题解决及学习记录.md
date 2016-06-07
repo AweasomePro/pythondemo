@@ -12,3 +12,6 @@ http://www.tuicool.com/articles/jMzIr2
 
 #对于集合数据　使用ｒｅｓｅｔ的例子
 http://www.weiguda.com/blog/18/
+
+# python 中Dict 转 Json
+http://blog.csdn.net/shadou0109/article/details/32186135
