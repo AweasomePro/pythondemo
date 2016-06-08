@@ -2,10 +2,11 @@
 Decorators for views based on HTTP headers.
 """
 
+from .AppJsonResponse import JSONWrappedResponse
+
 import logging
 from calendar import timegm
 from functools import wraps
-
 from django.http import HttpResponseNotAllowed
 from django.middleware.http import ConditionalGetMiddleware
 from django.utils.cache import get_conditional_response
@@ -116,3 +117,13 @@ def etag(etag_func):
 
 def last_modified(last_modified_func):
     return condition(last_modified_func=last_modified_func)
+
+
+def necessary(self,*args):
+    def decorator(func):
+        def wrapper(request,*args,**kw):
+            if (request.method == 'POST'):
+                for i in args:
+                    if not request.POST.has_key(i):
+                        return JSONWrappedResponse( status=1, message="注册成功")
+

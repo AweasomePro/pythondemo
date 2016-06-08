@@ -15,6 +15,7 @@ from django.contrib.sessions.backends.db import SessionStore
 import requests
 import json
 from .helper import modelKey
+from .helper.decorators import necessary
 
 APP_ID = "P0fN7ArvLMtcgsACRwhOupHj-gzGzoHsz"
 APP_KEY = "cWK8NHllNg7N6huHiKA1HeRG"
@@ -22,6 +23,7 @@ APP_KEY = "cWK8NHllNg7N6huHiKA1HeRG"
 
 @never_cache
 @require_POST
+# @necessary('phoneNumber', 'password')
 def member_login(request):
     phoneNumber = request.POST.get(modelKey.KEY_PHONENUMBER)
     password = request.POST.get('password')
@@ -47,13 +49,11 @@ def member_login(request):
 def member_register(request):
     phone_number = request.POST.get('phoneNumber')
     password = request.POST.get('password')
-    sms_code = None
-    if request.POST.has_key('smsCode'):
-        sms_code = request.POST['smsCode']
+    sms_code = request.POST.get('smsCode',None)
+    print(sms_code)
     if (not userhelper.phoneNumberisExist(phone_number)):
-        print('phoneNumber 不存在')
         if sms_code != None:
-            verifySuccess, message = verifySmsCode()
+            verifySuccess, message = verifySmsCode(phone_number,password)
             if (verifySuccess):
                 m = Member()
                 print('m 的phoneNumber' + str(m.phoneNumber))
@@ -80,6 +80,7 @@ def member_logout(request):
 @require_POST
 def send_regist_sms(request):
     phoneNumber = request.POST.get(modelKey.KEY_PHONENUMBER)
+    smsType = request.POST.get('smsType')
     if (userhelper.phoneNumberisExist(phoneNumber)):
         return JSONWrappedResponse(status=2, message="手机号已经存在")
     url = 'https://api.leancloud.cn/1.1/requestSmsCode'
@@ -87,12 +88,22 @@ def send_regist_sms(request):
         modelKey.KEY_LEAN_PHONENUMBER: str(phoneNumber),
         "template": "register",
     }
+    if smsType == '2':
+        values['smsType']='voice'
+    else:
+        pass
     headers = {'X-LC-Id': APP_ID, 'X-LC-Key': APP_KEY, 'Content-Type': 'application/json'}
+    print(values)
     response = requests.post(url, data=json.dumps(values), headers=headers)
     # 使用异步
-    print(response.status_code)
-    print(str(response.content))
-    return JSONWrappedResponse(status=1, message="发送成功")
+    # print(response.status_code)
+    # print(str(response.content))
+    # print(response.request.body)
+    if response.status_code == 200:
+        return JSONWrappedResponse(status='10',message='发送验证码成功')
+    else:
+        response_dic = response.json()
+        return JSONWrappedResponse(status=response_dic['code'], message=response_dic['error'])
 
 
 # ----------------------------- NonView Method---------------------------------------
@@ -108,9 +119,10 @@ def verifySmsCode(mobilePhoneNumber, smscode):
     # 使用异步
     print(response.content)
     print(response.status_code)
+    print(type(response.json()))
     if response.status_code == 200:
         return True, "Success"
-    elif response.json().has_key('code') and response.json()['code'] == 603:
+    elif response.json().get('code',0) == 603:
         # Invalid SMS code
         print(response.json()['code'])
         return False, "Invalid SMS code"
