@@ -1,0 +1,1 @@
+-i http://pypi.douban.com/simple

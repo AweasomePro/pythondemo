@@ -9,10 +9,14 @@ class JSONWrappedResponse(JsonResponse):
     """
     An  HttpResponse that renders its content into JSON.
     """
+
     def __init__(self, data=None, status=1, message="success", **kwargs):
         # data is a OrderedDict
-        res = {"status": status, "message": message, "responseTime":  time.mktime(datetime.datetime.now().timetuple()),}
+        res = {"status": status, "message": message, "responseTime": time.mktime(datetime.datetime.now().timetuple()),}
         if not data is None:
-            res.pop("res",data)
-
-        super(JSONWrappedResponse, self).__init__(res,**kwargs)
+            print('data is not null')
+            res['res'] = data
+            print(res)
+        else:
+            print('data is null')
+        super(JSONWrappedResponse, self).__init__(res, **kwargs)

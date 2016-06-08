@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view, renderer_classes
-from rest_framework.response import Response
+
 # from rest_framework.renderers import JSONRenderer
 from .helper.AppJsonResponse import JSONWrappedResponse
 from .models import Member
@@ -9,6 +9,7 @@ from .serializers import MemberSerializer
 from .helper import userhelper
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
+from django.views.decorators.http import require_http_methods, require_POST
 from django.contrib.sessions.models import Session, SessionManager
 from django.contrib.sessions.backends.db import SessionStore
 import requests
@@ -20,20 +21,20 @@ APP_KEY = "cWK8NHllNg7N6huHiKA1HeRG"
 
 
 @never_cache
-@api_view(['POST'])
+@require_POST
 def member_login(request):
     phoneNumber = request.POST.get(modelKey.KEY_PHONENUMBER)
     password = request.POST.get('password')
     try:
         m = Member.objects.get(phoneNumber=phoneNumber)
-        print('是否存在m'+str(m))
+        print('是否存在m' + str(m))
         if m.check_password(password):
             request.session['member_id'] = m.id
-            respose = JSONWrappedResponse(status=1, message="登入成功")
-            respose.set_cookie("session_id","321432341")
+            kwargs = {'member': MemberSerializer(m, many=False).data}
+            respose = JSONWrappedResponse(data=kwargs, status=1, message="登入成功")
             return respose
         else:
-            return JSONWrappedResponse(status=2, message="账号密码错误")
+            return JSONWrappedResponse(status=2, message="账号密码错误", )
     except Member.DoesNotExist:
         return JSONWrappedResponse(status=3, message="不存在该账号")
     except Exception:
@@ -42,25 +43,30 @@ def member_login(request):
 
 @never_cache
 @csrf_exempt
-@api_view(['POST'])
+@require_POST
 def member_register(request):
-    phoneNumber = request.POST.get('phoneNumber')
+    phone_number = request.POST.get('phoneNumber')
     password = request.POST.get('password')
-    print(password)
-    if (not userhelper.phoneNumberisExist(phoneNumber)):
+    sms_code = None
+    if request.POST.has_key('smsCode'):
+        sms_code = request.POST['smsCode']
+    if (not userhelper.phoneNumberisExist(phone_number)):
         print('phoneNumber 不存在')
-        m = Member()
-        print('m 的phoneNumber'+str(m.phoneNumber))
-        m.phoneNumber = phoneNumber
-        m.set_password(password)
-        m.username = phoneNumber
-        print(m.password)
-        print('m 的username ='+str(m.username))
-        m.save()
-        serailizer_member = MemberSerializer(m, many=False)
-        print(serailizer_member)
-        # serailizer_member.data
-        return JSONWrappedResponse(serailizer_member.data,status=1, message="注册成功")
+        if sms_code != None:
+            verifySuccess, message = verifySmsCode()
+            if (verifySuccess):
+                m = Member()
+                print('m 的phoneNumber' + str(m.phoneNumber))
+                m.phoneNumber = phone_number
+                m.set_password(password)
+                m.username = phone_number
+                print('m 的username =' + str(m.username))
+                m.save()
+                serailizer_member = MemberSerializer(m, many=False)
+                # serailizer_member.data
+                return JSONWrappedResponse(serailizer_member.data, status=1, message="注册成功")
+            else:
+                return JSONWrappedResponse(status=-1, message="注册失败，验证码错误")
     else:
         return JSONWrappedResponse(status=2, message="手机号已经存在")
 
@@ -69,18 +75,48 @@ def member_logout(request):
     request.session.get()
     pass
 
+
 @never_cache
+@require_POST
 def send_regist_sms(request):
-    # url = 'https://api.leancloud.cn/1.1/requestSmsCode'
-    # values = {"mobilePhoneNumber": 15726814574}
-    # jdata = json.dumps(values)
-    # req = urllib.request.Request(url, jdata)
-    # print(req.get_method())
-    # req.add_header('X-LC-Id', APP_ID)
-    # req.add_header('X-LC-Key', APP_KEY)
-    # req.add_header('Content-Type', 'application/json')
     phoneNumber = request.POST.get(modelKey.KEY_PHONENUMBER)
+    if (userhelper.phoneNumberisExist(phoneNumber)):
+        return JSONWrappedResponse(status=2, message="手机号已经存在")
     url = 'https://api.leancloud.cn/1.1/requestSmsCode'
-    values = {modelKey.KEY_LEAN_PHONENUMBER: str(phoneNumber)}
+    values = {
+        modelKey.KEY_LEAN_PHONENUMBER: str(phoneNumber),
+        "template": "register",
+    }
     headers = {'X-LC-Id': APP_ID, 'X-LC-Key': APP_KEY, 'Content-Type': 'application/json'}
+    response = requests.post(url, data=json.dumps(values), headers=headers)
+    # 使用异步
+    print(response.status_code)
+    print(str(response.content))
     return JSONWrappedResponse(status=1, message="发送成功")
+
+
+# ----------------------------- NonView Method---------------------------------------
+def verifySmsCode(mobilePhoneNumber, smscode):
+    url = 'https://api.leancloud.cn/1.1/verifySmsCode/' + str(smscode)
+    print(url)
+    values = {
+        "mobilePhoneNumber": str(mobilePhoneNumber),
+    }
+    headers = {'X-LC-Id': APP_ID, 'X-LC-Key': APP_KEY, 'Content-Type': 'application/json'}
+    response = requests.post(url, headers=headers, params=values)
+    response.encoding = 'utf-8'
+    # 使用异步
+    print(response.content)
+    print(response.status_code)
+    if response.status_code == 200:
+        return True, "Success"
+    elif response.json().has_key('code') and response.json()['code'] == 603:
+        # Invalid SMS code
+        print(response.json()['code'])
+        return False, "Invalid SMS code"
+    else:
+        return False, "尚未处理的错误"
+
+
+def phoneNumberisExist(phoneNumber):
+    return Member.objects.exists(phoneNumber=phoneNumber)
