@@ -64,7 +64,8 @@ def member_register(request):
                 m.save()
                 serailizer_member = MemberSerializer(m, many=False)
                 # serailizer_member.data
-                return JSONWrappedResponse(serailizer_member.data, status=1, message="注册成功")
+                kwargs = {'member': serailizer_member.data}
+                return JSONWrappedResponse(data=kwargs, status=1, message="注册成功")
             else:
                 return JSONWrappedResponse(status=-1, message="注册失败，验证码错误")
     else:
