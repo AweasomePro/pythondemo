@@ -15,3 +15,6 @@ http://www.weiguda.com/blog/18/
 
 # python 中Dict 转 Json
 http://blog.csdn.net/shadou0109/article/details/32186135
+
+# 精辟的HttpRequest 类的参数和方法说明 使用
+http://blog.csdn.net/ei__nino/article/details/8566046

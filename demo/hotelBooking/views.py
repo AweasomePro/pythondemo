@@ -12,6 +12,9 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods, require_POST
 from django.contrib.sessions.models import Session, SessionManager
 from django.contrib.sessions.backends.db import SessionStore
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login
+from django.conf import settings
 import requests
 import json
 from .helper import modelKey
@@ -22,24 +25,27 @@ APP_KEY = "cWK8NHllNg7N6huHiKA1HeRG"
 
 
 @never_cache
-@require_POST
-# @necessary('phoneNumber', 'password')
+@necessary('phoneNumber', 'password',)
 def member_login(request):
     phoneNumber = request.POST.get(modelKey.KEY_PHONENUMBER)
     password = request.POST.get('password')
+    print(request.user)
     try:
         m = Member.objects.get(phoneNumber=phoneNumber)
-        print('是否存在m' + str(m))
+        print('primaray key is '+str(m.pk))
+        print('settings session cookie name is :'+settings.SESSION_COOKIE_NAME)
         if m.check_password(password):
-            request.session['member_id'] = m.id
+            # request.session['fuck_you'] = m.id
             kwargs = {'member': MemberSerializer(m, many=False).data}
             respose = JSONWrappedResponse(data=kwargs, status=1, message="登入成功")
+            respose.set_cookie('1',request.session.get('sessionid','not found'+phoneNumber))
             return respose
         else:
             return JSONWrappedResponse(status=2, message="账号密码错误", )
     except Member.DoesNotExist:
         return JSONWrappedResponse(status=3, message="不存在该账号")
-    except Exception:
+    except Exception as e:
+        print('exception '+e.__str__())
         return JSONWrappedResponse(status=401, message="请求错误")
 
 
@@ -105,6 +111,8 @@ def send_regist_sms(request):
     else:
         response_dic = response.json()
         return JSONWrappedResponse(status=response_dic['code'], message=response_dic['error'])
+
+
 
 
 # ----------------------------- NonView Method---------------------------------------

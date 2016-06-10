@@ -119,11 +119,16 @@ def last_modified(last_modified_func):
     return condition(last_modified_func=last_modified_func)
 
 
-def necessary(self,*args):
+def necessary(*necessary_key):
     def decorator(func):
         def wrapper(request,*args,**kw):
             if (request.method == 'POST'):
-                for i in args:
-                    if not request.POST.has_key(i):
-                        return JSONWrappedResponse( status=1, message="注册成功")
-
+                print(*necessary_key)
+                for i in necessary_key:
+                    if not request.POST.get(i):
+                        return JSONWrappedResponse( status=-1, message="缺少必要的参数"+str(i))
+                return func(request,*args,**kw)
+            else:
+                return JSONWrappedResponse( status=-2, message="错误的请求方式")
+        return wrapper
+    return decorator
