@@ -51,7 +51,7 @@ def member_login(request):
 
         if m.check_password(password):
             # request.session['fuck_you'] = m.id
-            kwargs = {'member': MemberSerializer(m, many=False).data}
+            kwargs = {'UserEntity': MemberSerializer(m, many=False).data}
             respose = JSONWrappedResponse(data=kwargs, status=appstatus.status_success, message="登入成功")
             respose.set_cookie('1', request.session.get('sessionid', 'not found' + phoneNumber))
             return respose
@@ -72,7 +72,7 @@ def member_register(request):
     password = request.POST.get('password')
     sms_code = request.POST.get('smsCode', None)
     print(sms_code)
-    if (not userhelper.phoneNumberisExist(phone_number)):
+    if (not userhelper.phoneNumberExist(phone_number)):
         if sms_code != None:
             verifySuccess, message = verifySmsCode(phone_number, password)
             if (True):
@@ -98,12 +98,14 @@ def member_logout(request):
     pass
 
 
+@necessary('phoneNumber',)
 @never_cache
 @require_POST
 def send_regist_sms(request):
     phoneNumber = request.POST.get(modelKey.KEY_PHONENUMBER)
+    print('regist phone number %s'%phoneNumber)
     smsType = request.POST.get('smsType')
-    if (userhelper.phoneNumberisExist(phoneNumber)):
+    if (userhelper.phoneNumberExist(phoneNumber)):
         return JSONWrappedResponse(status=2, message="手机号已经存在")
     url = 'https://api.leancloud.cn/1.1/requestSmsCode'
     values = {

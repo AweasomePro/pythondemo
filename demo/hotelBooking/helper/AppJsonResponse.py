@@ -15,7 +15,7 @@ class JSONWrappedResponse(JsonResponse):
         res = {"status": status, "message": message, "timeStamp": time.mktime(datetime.datetime.now().timetuple()),}
         if not data is None:
             print('data is not null')
-            res['res'] = data
+            res['Res'] = data
             print(res)
         else:
             print('data is null')

@@ -1,8 +1,10 @@
 from ..models import Member
+from django.core.exceptions import ObjectDoesNotExist
 
 
-def phoneNumberisExist(phoneNumber):
-    if Member.objects.get(phoneNumber = phoneNumber).exists():
+def phoneNumberExist(phoneNumber):
+    try:
+        Member.objects.get(phoneNumber=phoneNumber)
         return True
-    else:
+    except ObjectDoesNotExist:
         return False
