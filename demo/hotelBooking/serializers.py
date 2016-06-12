@@ -6,7 +6,7 @@ from rest_framework import serializers
 # phoneNumber = models.IntegerField(max_length=15)
 # register_time = models.DateTimeField(auto_created=True)
 
-from .models import  Member
+from .models import  Member,Installation
 
 
 class MemberSerializer(serializers.HyperlinkedModelSerializer):
@@ -14,5 +14,10 @@ class MemberSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Member
         fields = ('name','email','phoneNumber','registerTime')
+
+class InstallationSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Installation
+
 
 

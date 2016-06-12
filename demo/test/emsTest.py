@@ -44,6 +44,8 @@ def verifySmsCode(mobilePhoneNumber, smscode):
 # print(response.json()['code'])
 
 
+
+
 if __name__ == '__main__':
     verifySmsCode(15726816099, 200792)
     # send_register_sms()
