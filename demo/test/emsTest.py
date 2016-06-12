@@ -44,9 +44,31 @@ def verifySmsCode(mobilePhoneNumber, smscode):
 # print(response.json()['code'])
 
 
+def push_notification(putdata):
+    url = 'https://api.leancloud.cn/1.1/push'
+    print(url)
+    print(json.dumps(putdata))
+    headers = {'X-LC-Id': APP_ID, 'X-LC-Key': APP_KEY, 'Content-Type': 'application/json'}
+    response = requests.post(url, headers=headers, data=json.dumps(putdata))
+    response.encoding = 'utf-8'
+    # 使用异步
+    print(response.text)
+    print(response.status_code)
+    print(response.request)
+    if response.status_code == 200:
+        return True, "Success"
+    else:
+        print(str(response.status_code))
+        return False, "尚未处理的错误"
+
+
+
+
+
+
 
 
 if __name__ == '__main__':
-    verifySmsCode(15726816099, 200792)
+    push_notification()
     # send_register_sms()
     pass

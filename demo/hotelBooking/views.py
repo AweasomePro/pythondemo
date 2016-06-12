@@ -21,10 +21,20 @@ import requests
 import json
 from .helper import modelKey
 from .helper.decorators import necessary
+import logging
+
+logger = logging.getLogger(__name__)
+
+
 
 APP_ID = "P0fN7ArvLMtcgsACRwhOupHj-gzGzoHsz"
 APP_KEY = "cWK8NHllNg7N6huHiKA1HeRG"
 
+class appstatus:
+    status_success = '100'
+    pwd_error = '102'
+    phone_existed = '103'
+    phone_not_existed = '104'
 
 @never_cache
 @necessary('phoneNumber', 'password', )
@@ -41,16 +51,16 @@ def member_login(request):
         if m.check_password(password):
             # request.session['fuck_you'] = m.id
             kwargs = {'member': MemberSerializer(m, many=False).data}
-            respose = JSONWrappedResponse(data=kwargs, status=1, message="登入成功")
+            respose = JSONWrappedResponse(data=kwargs, status=appstatus.status_success, message="登入成功")
             respose.set_cookie('1', request.session.get('sessionid', 'not found' + phoneNumber))
             return respose
         else:
-            return JSONWrappedResponse(status=2, message="账号密码错误", )
+            return JSONWrappedResponse(status=appstatus.pwd_error, message="账号密码错误", )
     except Member.DoesNotExist:
-        return JSONWrappedResponse(status=3, message="不存在该账号")
+        return JSONWrappedResponse(status=appstatus.phone_not_existed, message="不存在该账号")
     except Exception as e:
         print('exception ' + e.__str__())
-        return JSONWrappedResponse(status=401, message="请求错误")
+        return JSONWrappedResponse(status=401, message="服务器内部请求错误")
 
 
 @never_cache
@@ -75,11 +85,11 @@ def member_register(request):
                 serailizer_member = MemberSerializer(m, many=False)
                 # serailizer_member.data
                 kwargs = {'member': serailizer_member.data}
-                return JSONWrappedResponse(data=kwargs, status=1, message="注册成功")
+                return JSONWrappedResponse(data=kwargs, status=appstatus.status_success, message="注册成功")
             else:
-                return JSONWrappedResponse(status=-1, message="注册失败，验证码错误")
+                return JSONWrappedResponse(status=appstatus.pwd_error, message="注册失败，验证码错误")
     else:
-        return JSONWrappedResponse(status=2, message="手机号已经存在")
+        return JSONWrappedResponse(status=appstatus.phone_existed, message="手机号已经存在")
 
 
 def member_logout(request):
@@ -120,15 +130,18 @@ def send_regist_sms(request):
 @never_cache
 @api_view(['POST'])
 @parser_classes((JSONParser,))
-def put_installtionId(request,format = None):
+def put_installtionId(request,formate = None):
     json = request.data
-
     serializer = InstallationSerializer(data=json)
     if serializer.is_valid():
         print('valid')
+        serializer.save()
     else:
         print(serializer.errors)
-    return Response({'received data':request.data})
+
+    return Response({'received data':serializer.data})
+
+
 
 # ----------------------------- NonView Method---------------------------------------
 def verifySmsCode(mobilePhoneNumber, smscode):
@@ -152,7 +165,6 @@ def verifySmsCode(mobilePhoneNumber, smscode):
         return False, "Invalid SMS code"
     else:
         return False, "尚未处理的错误"
-
 
 def phoneNumberisExist(phoneNumber):
     return Member.objects.exists(phoneNumber=phoneNumber)
