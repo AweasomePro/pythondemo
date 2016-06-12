@@ -2,7 +2,7 @@ from ..models import Member
 
 
 def phoneNumberisExist(phoneNumber):
-    if Member.objects.filter(phoneNumber = phoneNumber).exists():
+    if Member.objects.get(phoneNumber = phoneNumber).exists():
         return True
     else:
         return False

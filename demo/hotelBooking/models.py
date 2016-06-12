@@ -20,7 +20,7 @@ class Installation(models.Model):
     deviceType = models.CharField(max_length=200,default="")
     installationId = models.CharField(max_length=200,unique=True,null=True)
     timeZone = models.CharField(max_length=200,null=True,default="")
-    member = models.ForeignKey(Member,blank=True)
+    member = models.ForeignKey(Member,null=True,default=-1,blank=True)
 
 
 

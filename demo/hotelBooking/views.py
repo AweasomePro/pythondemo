@@ -6,8 +6,8 @@ from rest_framework.decorators import api_view, parser_classes
 
 # from rest_framework.renderers import JSONRenderer
 from .helper.AppJsonResponse import JSONWrappedResponse
-from .models import Member
-from .serializers import MemberSerializer,InstallationSerializer
+from .models import Member, Installation
+from .serializers import MemberSerializer, InstallationSerializer
 from .helper import userhelper
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
@@ -25,16 +25,17 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-
-
 APP_ID = "P0fN7ArvLMtcgsACRwhOupHj-gzGzoHsz"
 APP_KEY = "cWK8NHllNg7N6huHiKA1HeRG"
 
+
 class appstatus:
     status_success = '100'
+    status_error = '-100'
     pwd_error = '102'
     phone_existed = '103'
     phone_not_existed = '104'
+
 
 @never_cache
 @necessary('phoneNumber', 'password', )
@@ -84,7 +85,7 @@ def member_register(request):
                 m.save()
                 serailizer_member = MemberSerializer(m, many=False)
                 # serailizer_member.data
-                kwargs = {'member': serailizer_member.data}
+                kwargs = {'UserEntity': serailizer_member.data}
                 return JSONWrappedResponse(data=kwargs, status=appstatus.status_success, message="注册成功")
             else:
                 return JSONWrappedResponse(status=appstatus.pwd_error, message="注册失败，验证码错误")
@@ -130,17 +131,37 @@ def send_regist_sms(request):
 @never_cache
 @api_view(['POST'])
 @parser_classes((JSONParser,))
-def put_installtionId(request,formate = None):
+def put_installtionId(request, formate=None):
     json = request.data
     serializer = InstallationSerializer(data=json)
     if serializer.is_valid():
         print('valid')
         serializer.save()
+        return JSONWrappedResponse(status=appstatus.status_success,message="上传成功")
     else:
         print(serializer.errors)
+        return JSONWrappedResponse(status=appstatus.status_error,message=str(serializer.errors))
 
-    return Response({'received data':serializer.data})
 
+@necessary('phoneNumber')
+def bindUserAndMobilePhone(request):
+    phoneNumber = request.POST.get(modelKey.KEY_PHONENUMBER)
+    installationId = request.POST.get('installationId')
+    deviceToken = request.POST.get('deviceToken')
+    if phoneNumber:
+        if installationId:
+            installDevice = Installation.objects.get(installationId=installationId)
+            if installDevice:
+                member = Member.objects.get(phoneNumber=phoneNumber)
+                installDevice.member = member
+                installDevice.save()
+                return JSONWrappedResponse(status=110, message="success")
+            else:
+                return JSONWrappedResponse(status=111,message="这个installtionId尚未注册到服务端")
+        if deviceToken:
+            return JSONWrappedResponse(status=112,message="ios还没写")
+    else:
+        return JSONWrappedResponse(status=110, message="没有手机")
 
 
 # ----------------------------- NonView Method---------------------------------------
@@ -166,5 +187,6 @@ def verifySmsCode(mobilePhoneNumber, smscode):
     else:
         return False, "尚未处理的错误"
 
-def phoneNumberisExist(phoneNumber):
+
+def phoneNumberExist(phoneNumber):
     return Member.objects.exists(phoneNumber=phoneNumber)
