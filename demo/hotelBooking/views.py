@@ -106,7 +106,7 @@ def send_regist_sms(request):
     print('regist phone number %s'%phoneNumber)
     smsType = request.POST.get('smsType')
     if (userhelper.phoneNumberExist(phoneNumber)):
-        return JSONWrappedResponse(status=2, message="手机号已经存在")
+        return JSONWrappedResponse(status=appstatus.phone_existed, message="手机号已经存在")
     url = 'https://api.leancloud.cn/1.1/requestSmsCode'
     values = {
         modelKey.KEY_LEAN_PHONENUMBER: str(phoneNumber),
@@ -124,7 +124,7 @@ def send_regist_sms(request):
     # print(str(response.content))
     # print(response.request.body)
     if response.status_code == 200:
-        return JSONWrappedResponse(status='10', message='发送验证码成功')
+        return JSONWrappedResponse(status=appstatus.status_success, message='发送验证码成功')
     else:
         response_dic = response.json()
         return JSONWrappedResponse(status=response_dic['code'], message=response_dic['error'])

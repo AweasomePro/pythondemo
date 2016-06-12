@@ -37,27 +37,26 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/hotelBooking/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="443">
-              <caret line="58" column="31" selection-start-line="58" selection-start-column="31" selection-end-line="58" selection-end-column="31" />
+            <state relative-caret-position="2884">
+              <caret line="192" column="34" selection-start-line="192" selection-start-column="34" selection-end-line="192" selection-end-column="34" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
                 <element signature="e#3807#3837#0" expanded="false" />
-                <element signature="e#5101#5473#0" expanded="false" />
-                <element signature="e#5543#6367#0" expanded="false" />
-                <element signature="e#7258#7311#0" expanded="false" />
+                <element signature="e#5143#5515#0" expanded="false" />
+                <element signature="e#5585#6409#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AppJsonResponse.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AppJsonResponse.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/hotelBooking/helper/AppJsonResponse.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="21" column="36" selection-start-line="21" selection-start-column="36" selection-end-line="21" selection-end-column="36" />
+            <state relative-caret-position="350">
+              <caret line="18" column="22" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -185,8 +184,8 @@
         <option value="$PROJECT_DIR$/hotelBooking/helper/userhelper.py" />
         <option value="$PROJECT_DIR$/hotelBooking/helper/phoneUtil.py" />
         <option value="$PROJECT_DIR$/hotelBooking/urls.py" />
-        <option value="$PROJECT_DIR$/hotelBooking/views.py" />
         <option value="$PROJECT_DIR$/hotelBooking/helper/AppJsonResponse.py" />
+        <option value="$PROJECT_DIR$/hotelBooking/views.py" />
       </list>
     </option>
   </component>
@@ -1230,25 +1229,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hotelBooking/views.py">
+    <entry file="file://$PROJECT_DIR$/hotelBooking/helper/AppJsonResponse.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="443">
-          <caret line="58" column="31" selection-start-line="58" selection-start-column="31" selection-end-line="58" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#3807#3837#0" expanded="false" />
-            <element signature="e#5101#5473#0" expanded="false" />
-            <element signature="e#5543#6367#0" expanded="false" />
-            <element signature="e#7258#7311#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="350">
+          <caret line="18" column="22" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hotelBooking/helper/AppJsonResponse.py">
+    <entry file="file://$PROJECT_DIR$/hotelBooking/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="21" column="36" selection-start-line="21" selection-start-column="36" selection-end-line="21" selection-end-column="36" />
-          <folding />
+        <state relative-caret-position="2884">
+          <caret line="192" column="34" selection-start-line="192" selection-start-column="34" selection-end-line="192" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#3807#3837#0" expanded="false" />
+            <element signature="e#5143#5515#0" expanded="false" />
+            <element signature="e#5585#6409#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
