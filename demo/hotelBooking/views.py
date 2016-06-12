@@ -122,6 +122,7 @@ def send_regist_sms(request):
 @parser_classes((JSONParser,))
 def put_installtionId(request,format = None):
     json = request.data
+
     serializer = InstallationSerializer(data=json)
     if serializer.is_valid():
         print('valid')

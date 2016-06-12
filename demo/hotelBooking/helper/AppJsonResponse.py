@@ -12,7 +12,7 @@ class JSONWrappedResponse(JsonResponse):
 
     def __init__(self, data=None, status=1, message="success", **kwargs):
         # data is a OrderedDict
-        res = {"status": status, "message": message, "responseTime": time.mktime(datetime.datetime.now().timetuple()),}
+        res = {"status": status, "message": message, "timeStamp": time.mktime(datetime.datetime.now().timetuple()),}
         if not data is None:
             print('data is not null')
             res['res'] = data
