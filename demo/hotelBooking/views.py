@@ -12,6 +12,7 @@ from .helper import userhelper
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods, require_POST
+from django.contrib import auth
 from django.contrib.sessions.models import Session, SessionManager
 from django.contrib.sessions.backends.db import SessionStore
 from django.contrib.auth.decorators import login_required
@@ -45,16 +46,12 @@ def member_login(request):
     try:
         m = Member.objects.get(phoneNumber=phoneNumber)
         user = authenticate(phoneNumber=phoneNumber, password=password)
-        if user is not None:
+        if user is not None and user.is_active:
+            auth.login(request,user)
             print('login user ' + str(user.phoneNumber))
-        print('settings session cookie name is :' + settings.SESSION_COOKIE_NAME)
-
-        if m.check_password(password):
-            # request.session['fuck_you'] = m.id
             kwargs = {'UserEntity': MemberSerializer(m, many=False).data}
             respose = JSONWrappedResponse(data=kwargs, status=appstatus.status_success, message="登入成功")
-            respose.set_cookie('1', request.session.get('sessionid', 'not found' + phoneNumber))
-            return respose
+            print('settings session cookie name is :' + settings.SESSION_COOKIE_NAME)
         else:
             return JSONWrappedResponse(status=appstatus.pwd_error, message="账号密码错误", )
     except Member.DoesNotExist:
@@ -152,13 +149,14 @@ def bindUserAndMobilePhone(request):
     deviceToken = request.POST.get('deviceToken')
     if phoneNumber:
         if installationId:
-            installDevice = Installation.objects.get(installationId=installationId)
-            if installDevice:
+
+            try:
+                installDevice = Installation.objects.get(installationId=installationId)
                 member = Member.objects.get(phoneNumber=phoneNumber)
                 installDevice.member = member
                 installDevice.save()
                 return JSONWrappedResponse(status=110, message="success")
-            else:
+            except Installation.DoesNotExist:
                 return JSONWrappedResponse(status=111,message="这个installtionId尚未注册到服务端")
         if deviceToken:
             return JSONWrappedResponse(status=112,message="ios还没写")
