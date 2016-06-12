@@ -45,12 +45,13 @@ def member_login(request):
     password = request.POST.get('password')
     try:
         m = Member.objects.get(phoneNumber=phoneNumber)
-        user = authenticate(phoneNumber=phoneNumber, password=password)
-        if user is not None and user.is_active:
-            auth.login(request,user)
-            print('login user ' + str(user.phoneNumber))
+        valid = m.check_password(password)
+        if valid and m.is_active:
+            # auth.login(request,m)
+            print('login user ' + str(m.phoneNumber))
             kwargs = {'UserEntity': MemberSerializer(m, many=False).data}
             respose = JSONWrappedResponse(data=kwargs, status=appstatus.status_success, message="登入成功")
+            return respose
             print('settings session cookie name is :' + settings.SESSION_COOKIE_NAME)
         else:
             return JSONWrappedResponse(status=appstatus.pwd_error, message="账号密码错误", )
