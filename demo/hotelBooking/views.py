@@ -64,7 +64,7 @@ def member_login(request):
 
 @never_cache
 @csrf_exempt
-@require_POST
+@api_view(['POST'])
 @necessary('phoneNumber', 'password', 'smsCode')
 def member_register(request):
     phone_number = request.POST.get('phoneNumber')
@@ -154,14 +154,16 @@ def installationId_bind(request):
         if installationId:
             try:
                 installDevice = Installation.objects.get(installationId=installationId)
-                member = User.objects.get(phoneNumber=phoneNumber)
-                installDevice.member = member
+                user = User.objects.get(phone_number=phoneNumber)
+                installDevice.member = user
                 installDevice.save()
                 return JSONWrappedResponse(status=AppConst.STATUS_SUCCESSS, message="success")
             except Installation.DoesNotExist:
                 return JSONWrappedResponse(status=111,message="这个installationId尚未注册到服务端")
+            except User.DoesNotExist:
+                return JSONWrappedResponse(status=112, message="这个phoneNumber尚未注册到服务端")
         elif deviceToken:
-            return JSONWrappedResponse(status=112,message="ios还没写")
+            return JSONWrappedResponse(status=113,message="ios还没写")
 
 
 # ----------------------------- NonView Method---------------------------------------

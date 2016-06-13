@@ -82,7 +82,7 @@ class Installation(models.Model):
     deviceType = models.CharField(max_length=200,default="")
     installationId = models.CharField(max_length=200,unique=True,null=True)
     timeZone = models.CharField(max_length=200,null=True,default="")
-    # member = models.ForeignKey(Member,null=True,default=1)
+    user = models.ForeignKey(User,null=True,default=-1)
 
 class Hotel(models.Model):
     # 指定 主键 primary_key =True
