@@ -50,9 +50,9 @@ def member_login(request):
             # auth.login(request,m)
             print('login user ' + str(m.phoneNumber))
             kwargs = {'UserEntity': MemberSerializer(m, many=False).data}
-            respose = JSONWrappedResponse(data=kwargs, status=appstatus.status_success, message="登入成功")
-            return respose
+            response = JSONWrappedResponse(data=kwargs, status=appstatus.status_success, message="登入成功")
             print('settings session cookie name is :' + settings.SESSION_COOKIE_NAME)
+            return response
         else:
             return JSONWrappedResponse(status=appstatus.pwd_error, message="账号密码错误", )
     except Member.DoesNotExist:
@@ -99,7 +99,7 @@ def member_logout(request):
 @necessary('phoneNumber',)
 @never_cache
 @require_POST
-def send_regist_sms(request):
+def member_resiter_sms_send(request):
     phoneNumber = request.POST.get(modelKey.KEY_PHONENUMBER)
     print('regist phone number %s'%phoneNumber)
     smsType = request.POST.get('smsType')
@@ -131,7 +131,7 @@ def send_regist_sms(request):
 @never_cache
 @api_view(['POST'])
 @parser_classes((JSONParser,))
-def put_installtionId(request, formate=None):
+def installtionId_register(request, formate=None):
     json = request.data
     serializer = InstallationSerializer(data=json)
     if serializer.is_valid():
@@ -144,7 +144,7 @@ def put_installtionId(request, formate=None):
 
 
 @necessary('phoneNumber')
-def bindUserAndMobilePhone(request):
+def installtionId_bind(request):
     phoneNumber = request.POST.get(modelKey.KEY_PHONENUMBER)
     installationId = request.POST.get('installationId')
     deviceToken = request.POST.get('deviceToken')
@@ -159,7 +159,7 @@ def bindUserAndMobilePhone(request):
                 return JSONWrappedResponse(status=110, message="success")
             except Installation.DoesNotExist:
                 return JSONWrappedResponse(status=111,message="这个installtionId尚未注册到服务端")
-        if deviceToken:
+        elif deviceToken:
             return JSONWrappedResponse(status=112,message="ios还没写")
     else:
         return JSONWrappedResponse(status=110, message="没有手机")

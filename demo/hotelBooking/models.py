@@ -12,6 +12,7 @@ class Member(User):
     objects = UserManager
 
 
+
 class Installation(models.Model):
     badge = models.BigIntegerField(null=True,default=0)
     channels = ListField(default=[])
@@ -21,6 +22,10 @@ class Installation(models.Model):
     installationId = models.CharField(max_length=200,unique=True,null=True)
     timeZone = models.CharField(max_length=200,null=True,default="")
     member = models.ForeignKey(Member,null=True,default=-1,blank=True)
+
+class Hotel(models.Model):
+    # 指定 主键 primary_key =True
+    pass
 
 
 

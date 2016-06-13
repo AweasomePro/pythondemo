@@ -21,3 +21,6 @@ http://blog.csdn.net/ei__nino/article/details/8566046
 
 # 维护中的 数据库跟改
 http://blog.csdn.net/sundaydashu/article/details/7959977
+
+# django 中的异常表
+https://segmentfault.com/a/1190000003783438#articleHeader17
