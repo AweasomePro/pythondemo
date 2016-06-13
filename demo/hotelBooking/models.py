@@ -15,8 +15,8 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, phone, name, password):
-        user = self.create_user(phone,name, password)
+    def create_superuser(self, phone_number, name, password):
+        user = self.create_user(phone_number=phone_number,name=name, password=password)
         user.is_active = True
         user.is_admin = True
         user.save()
@@ -64,7 +64,7 @@ class User(AbstractBaseUser):
         return self.is_admin
 
     def __unicode__(self):
-        return self.phoneNumber
+        return self.phone_number
 
 # class Member(User):
     # name = models.CharField(max_length=50)

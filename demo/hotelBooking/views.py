@@ -65,6 +65,7 @@ def member_login(request):
 @never_cache
 @csrf_exempt
 @require_POST
+@necessary('phoneNumber', 'password', 'smsCode')
 def member_register(request):
     phone_number = request.POST.get('phoneNumber')
     password = request.POST.get('password')
