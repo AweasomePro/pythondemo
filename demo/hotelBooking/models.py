@@ -6,10 +6,10 @@ from .helper.fiels import ListField
 
 
 class UserManager(BaseUserManager):
-    def create_user(self,phone,name,password=None):
-        if not phone:
+    def create_user(self, phone_number, name, password=None):
+        if not phone_number:
             raise ValueError('User must have an phone')
-        user = self.model(phone = phone)
+        user = self.model(phone_number = phone_number)
         user.set_password(raw_password=password)
         user.name = name
         user.save(using=self._db)
@@ -23,9 +23,11 @@ class UserManager(BaseUserManager):
         return user
 
 class User(AbstractBaseUser):
-    phone = models.CharField(max_length=15,unique=True)
-    name = models.CharField(max_length=225)
+    phone_number = models.CharField(max_length=15, unique=True)
+    name = models.CharField(max_length=225,default="unknow name")
     email = models.EmailField(max_length=255)
+    phone_is_verify = models.BooleanField(default=False)
+
     is_admin = models.BooleanField(default=False)
     is_active = models.BigIntegerField(default=True)
     create_at = models.DateTimeField(auto_now_add=True)
@@ -34,7 +36,7 @@ class User(AbstractBaseUser):
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'phone'
+    USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = ['name',]
 
     def get_full_name(self):
@@ -62,14 +64,13 @@ class User(AbstractBaseUser):
         return self.is_admin
 
     def __unicode__(self):
-        return self.phone
+        return self.phoneNumber
 
-class Member(User):
+# class Member(User):
     # name = models.CharField(max_length=50)
     # phoneNumber = models.BigIntegerField()
-    # phoneNumberIsVerify = models.BooleanField(default=False)
-    registerTime = models.DateTimeField(auto_now_add=True)
-    objects = UserManager
+    # phone_is_verify = models.BooleanField(default=False)
+    # objects = UserManager
 
 
 

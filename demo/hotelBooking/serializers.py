@@ -6,7 +6,7 @@ from rest_framework import serializers
 # phoneNumber = models.IntegerField(max_length=15)
 # register_time = models.DateTimeField(auto_created=True)
 
-from .models import  Member,Installation
+from .models import  User,Installation
 
 
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
@@ -26,11 +26,11 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
                 self.fields.pop(field_name)
 
 
-class MemberSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Member
-        fields = ('name','email','phoneNumber','registerTime')
+        model = User
+        fields = ('name','phone_number','create_at')
 
 class InstallationSerializer(DynamicFieldsModelSerializer):
     # badge = models.BigIntegerField()

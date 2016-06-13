@@ -1,10 +1,10 @@
-from ..models import Member
+from ..models import User
 from django.core.exceptions import ObjectDoesNotExist
 
 
 def phoneNumberExist(phoneNumber):
     try:
-        Member.objects.get(phoneNumber=phoneNumber)
+        User.objects.get(phone_number=phoneNumber)
         return True
     except ObjectDoesNotExist:
         return False

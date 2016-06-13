@@ -6,8 +6,8 @@ from rest_framework.decorators import api_view, parser_classes
 
 # from rest_framework.renderers import JSONRenderer
 from .helper.AppJsonResponse import JSONWrappedResponse
-from .models import Member, Installation
-from .serializers import MemberSerializer, InstallationSerializer
+from .models import User, Installation
+from .serializers import UserSerializer, InstallationSerializer
 from .helper import userhelper
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
@@ -44,18 +44,18 @@ def member_login(request):
     phoneNumber = request.POST.get(modelKey.KEY_PHONENUMBER)
     password = request.POST.get('password')
     try:
-        m = Member.objects.get(phoneNumber=phoneNumber)
-        valid = m.check_password(password)
-        if valid and m.is_active:
-            # auth.login(request,m)
-            print('login user ' + str(m.phoneNumber))
-            kwargs = {'UserEntity': MemberSerializer(m, many=False).data}
+        user = User.objects.get(phone_number=phoneNumber)
+        valid = user.check_password(password)
+        if valid and user.is_active:
+            # auth.login(request,user)
+            print('login user ' + str(user.phone_number))
+            kwargs = {'UserEntity': UserSerializer(user, many=False).data}
             response = JSONWrappedResponse(data=kwargs, status=AppConst.STATUS_SUCCESSS, message="登入成功")
             print('settings session cookie name is :' + settings.SESSION_COOKIE_NAME)
             return response
         else:
             return JSONWrappedResponse(status=AppConst.STATUS_PWD_ERROR, message="账号密码错误", )
-    except Member.DoesNotExist:
+    except User.DoesNotExist:
         return JSONWrappedResponse(status=AppConst.STATUS_PHONE_NOT_EXISTED, message="不存在该账号")
     except Exception as e:
         print('exception ' + e.__str__())
@@ -74,14 +74,14 @@ def member_register(request):
         if sms_code != None:
             verifySuccess, message = verifySmsCode(phone_number, password)
             if (True):
-                m = Member()
-                print('m 的phoneNumber' + str(m.phoneNumber))
-                m.phoneNumber = phone_number
-                m.set_password(password)
-                m.username = phone_number
-                print('m 的username =' + str(m.username))
-                m.save()
-                serailizer_member = MemberSerializer(m, many=False)
+                user = User()
+                print('user 的phoneNumber' + str(user.phone_number))
+                user.phone_number = phone_number
+                user.set_password(password)
+                user.username = phone_number
+                print('user 的username =' + str(user.username))
+                user.save()
+                serailizer_member = UserSerializer(user, many=False)
                 # serailizer_member.data
                 kwargs = {'UserEntity': serailizer_member.data}
                 return JSONWrappedResponse(data=kwargs, status=AppConst.STATUS_SUCCESSS, message="注册成功")
@@ -153,7 +153,7 @@ def installationId_bind(request):
         if installationId:
             try:
                 installDevice = Installation.objects.get(installationId=installationId)
-                member = Member.objects.get(phoneNumber=phoneNumber)
+                member = User.objects.get(phoneNumber=phoneNumber)
                 installDevice.member = member
                 installDevice.save()
                 return JSONWrappedResponse(status=AppConst.STATUS_SUCCESSS, message="success")
@@ -188,4 +188,4 @@ def verifySmsCode(mobilePhoneNumber, smscode):
 
 
 def phoneNumberExist(phoneNumber):
-    return Member.objects.exists(phoneNumber=phoneNumber)
+    return User.objects.exists(phoneNumber=phoneNumber)
