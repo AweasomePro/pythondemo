@@ -133,6 +133,7 @@ def member_resiter_sms_send(request):
 @parser_classes((JSONParser,))
 def installtionId_register(request, formate=None):
     json = request.data
+    print(str(json))
     serializer = InstallationSerializer(data=json)
     if serializer.is_valid():
         print('valid')
@@ -142,7 +143,7 @@ def installtionId_register(request, formate=None):
         print(serializer.errors)
         return JSONWrappedResponse(status=appstatus.status_error,message=str(serializer.errors))
 
-
+@csrf_exempt
 @necessary('phoneNumber')
 def installtionId_bind(request):
     phoneNumber = request.POST.get(modelKey.KEY_PHONENUMBER)
@@ -150,7 +151,6 @@ def installtionId_bind(request):
     deviceToken = request.POST.get('deviceToken')
     if phoneNumber:
         if installationId:
-
             try:
                 installDevice = Installation.objects.get(installationId=installationId)
                 member = Member.objects.get(phoneNumber=phoneNumber)
