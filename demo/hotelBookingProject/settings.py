@@ -137,6 +137,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 # 是否最后可以 不加 splash
 APPEND_SLASH=False
 
+AUTH_USER_MODEL = 'hotelBooking.User'
 
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 # session setting

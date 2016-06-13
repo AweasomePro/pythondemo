@@ -30,12 +30,12 @@ APP_ID = "P0fN7ArvLMtcgsACRwhOupHj-gzGzoHsz"
 APP_KEY = "cWK8NHllNg7N6huHiKA1HeRG"
 
 
-class appstatus:
-    status_success = '100'
-    status_error = '-100'
-    pwd_error = '102'
-    phone_existed = '103'
-    phone_not_existed = '104'
+class AppConst:
+    STATUS_SUCCESSS = '100'
+    STATUS_ERROR = '-100'
+    STATUS_PWD_ERROR = '102'
+    STATUS_PHONE_EXISTED = '103'
+    STATUS_PHONE_NOT_EXISTED = '104'
 
 
 @never_cache
@@ -50,13 +50,13 @@ def member_login(request):
             # auth.login(request,m)
             print('login user ' + str(m.phoneNumber))
             kwargs = {'UserEntity': MemberSerializer(m, many=False).data}
-            response = JSONWrappedResponse(data=kwargs, status=appstatus.status_success, message="登入成功")
+            response = JSONWrappedResponse(data=kwargs, status=AppConst.STATUS_SUCCESSS, message="登入成功")
             print('settings session cookie name is :' + settings.SESSION_COOKIE_NAME)
             return response
         else:
-            return JSONWrappedResponse(status=appstatus.pwd_error, message="账号密码错误", )
+            return JSONWrappedResponse(status=AppConst.STATUS_PWD_ERROR, message="账号密码错误", )
     except Member.DoesNotExist:
-        return JSONWrappedResponse(status=appstatus.phone_not_existed, message="不存在该账号")
+        return JSONWrappedResponse(status=AppConst.STATUS_PHONE_NOT_EXISTED, message="不存在该账号")
     except Exception as e:
         print('exception ' + e.__str__())
         return JSONWrappedResponse(status=401, message="服务器内部请求错误")
@@ -84,11 +84,11 @@ def member_register(request):
                 serailizer_member = MemberSerializer(m, many=False)
                 # serailizer_member.data
                 kwargs = {'UserEntity': serailizer_member.data}
-                return JSONWrappedResponse(data=kwargs, status=appstatus.status_success, message="注册成功")
+                return JSONWrappedResponse(data=kwargs, status=AppConst.STATUS_SUCCESSS, message="注册成功")
             else:
-                return JSONWrappedResponse(status=appstatus.pwd_error, message="注册失败，验证码错误")
+                return JSONWrappedResponse(status=AppConst.STATUS_PWD_ERROR, message="注册失败，验证码错误")
     else:
-        return JSONWrappedResponse(status=appstatus.phone_existed, message="手机号已经存在")
+        return JSONWrappedResponse(status=AppConst.STATUS_PHONE_EXISTED, message="手机号已经存在")
 
 
 def member_logout(request):
@@ -104,7 +104,7 @@ def member_resiter_sms_send(request):
     print('regist phone number %s'%phoneNumber)
     smsType = request.POST.get('smsType')
     if (userhelper.phoneNumberExist(phoneNumber)):
-        return JSONWrappedResponse(status=appstatus.phone_existed, message="手机号已经存在")
+        return JSONWrappedResponse(status=AppConst.STATUS_PHONE_EXISTED, message="手机号已经存在")
     url = 'https://api.leancloud.cn/1.1/requestSmsCode'
     values = {
         modelKey.KEY_LEAN_PHONENUMBER: str(phoneNumber),
@@ -122,7 +122,7 @@ def member_resiter_sms_send(request):
     # print(str(response.content))
     # print(response.request.body)
     if response.status_code == 200:
-        return JSONWrappedResponse(status=appstatus.status_success, message='发送验证码成功')
+        return JSONWrappedResponse(status=AppConst.STATUS_SUCCESSS, message='发送验证码成功')
     else:
         response_dic = response.json()
         return JSONWrappedResponse(status=response_dic['code'], message=response_dic['error'])
@@ -138,10 +138,10 @@ def installationId_register(request, formate=None):
     if serializer.is_valid():
         print('valid'+serializer.__str__())
         serializer.save()
-        return JSONWrappedResponse(status=appstatus.status_success,message="上传成功")
+        return JSONWrappedResponse(status=AppConst.STATUS_SUCCESSS, message="上传成功")
     else:
         print(serializer.errors)
-        return JSONWrappedResponse(status=appstatus.status_error,message=str(serializer.errors))
+        return JSONWrappedResponse(status=AppConst.STATUS_ERROR, message=str(serializer.errors))
 
 @csrf_exempt
 @necessary('phoneNumber')
@@ -156,13 +156,11 @@ def installationId_bind(request):
                 member = Member.objects.get(phoneNumber=phoneNumber)
                 installDevice.member = member
                 installDevice.save()
-                return JSONWrappedResponse(status=110, message="success")
+                return JSONWrappedResponse(status=AppConst.STATUS_SUCCESSS, message="success")
             except Installation.DoesNotExist:
                 return JSONWrappedResponse(status=111,message="这个installationId尚未注册到服务端")
         elif deviceToken:
             return JSONWrappedResponse(status=112,message="ios还没写")
-    else:
-        return JSONWrappedResponse(status=110, message="没有手机")
 
 
 # ----------------------------- NonView Method---------------------------------------
