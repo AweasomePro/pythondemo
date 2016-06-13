@@ -17,11 +17,11 @@ class Installation(models.Model):
     badge = models.BigIntegerField(null=True,default=0)
     channels = ListField(default=[])
     deviceProfile = models.CharField(max_length=200,default="")
-    deviceToken = models.CharField(max_length=200,unique=True,null=True,default="")
+    deviceToken = models.CharField(max_length=200,unique=True,null=True)
     deviceType = models.CharField(max_length=200,default="")
     installationId = models.CharField(max_length=200,unique=True,null=True)
     timeZone = models.CharField(max_length=200,null=True,default="")
-    member = models.ForeignKey(Member,null=True,default=-1,blank=True)
+    # member = models.ForeignKey(Member,null=True,default=1)
 
 class Hotel(models.Model):
     # 指定 主键 primary_key =True

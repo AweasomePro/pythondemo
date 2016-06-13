@@ -131,12 +131,12 @@ def member_resiter_sms_send(request):
 @never_cache
 @api_view(['POST'])
 @parser_classes((JSONParser,))
-def installtionId_register(request, formate=None):
+def installationId_register(request, formate=None):
     json = request.data
     print(str(json))
     serializer = InstallationSerializer(data=json)
     if serializer.is_valid():
-        print('valid')
+        print('valid'+serializer.__str__())
         serializer.save()
         return JSONWrappedResponse(status=appstatus.status_success,message="上传成功")
     else:
@@ -145,7 +145,7 @@ def installtionId_register(request, formate=None):
 
 @csrf_exempt
 @necessary('phoneNumber')
-def installtionId_bind(request):
+def installationId_bind(request):
     phoneNumber = request.POST.get(modelKey.KEY_PHONENUMBER)
     installationId = request.POST.get('installationId')
     deviceToken = request.POST.get('deviceToken')
@@ -158,7 +158,7 @@ def installtionId_bind(request):
                 installDevice.save()
                 return JSONWrappedResponse(status=110, message="success")
             except Installation.DoesNotExist:
-                return JSONWrappedResponse(status=111,message="这个installtionId尚未注册到服务端")
+                return JSONWrappedResponse(status=111,message="这个installationId尚未注册到服务端")
         elif deviceToken:
             return JSONWrappedResponse(status=112,message="ios还没写")
     else:
