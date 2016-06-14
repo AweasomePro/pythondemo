@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import  BaseUserManager,AbstractBaseUser
 from django.contrib.auth.models import Group,Permission
+
 from .helper.fiels import ListField
 # Create your models here.
 
@@ -130,6 +131,20 @@ class City(models.Model):
     def __unicode__(self):
         return self.name
 
+    def __str__(self):
+        return self.name
+
+from django.forms.fields import MultiValueField
+from django.forms import widgets
+class TestMultiModelField(models.Field):
+    def formfield(self, form_class=None, choices_form_class=None, **kwargs):
+        defaults = {'form_class': MultiValueField}
+        defaults.update(kwargs)
+        return super(TestMultiModelField, self).formfield(**defaults)
+
+    def get_internal_type(self):
+        return 'TextField'
+
 
 class Hotel(models.Model):
 
@@ -140,7 +155,7 @@ class Hotel(models.Model):
     address = models.CharField(max_length=255,null=False)
     introduce = models.CharField(max_length=255)
     contact_phone = models.CharField(max_length=255)
-    introduce_imgs = ListField(verbose_name='展示图片(数组)')
+    introduce_imgs = ListField(blank=True,null=True)
 
     class Meta:
         verbose_name = "酒店"
@@ -162,6 +177,14 @@ class House(models.Model):
 
 class Booking(models.Model):
     pass
+
+
+
+
+# ------------------------------------------------------支持------------------------------------------------------------
+
+
+
 
 
 

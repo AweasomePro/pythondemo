@@ -1,14 +1,17 @@
-from django.shortcuts import render
-from rest_framework import viewsets, status
-from rest_framework.parsers import JSONParser
-from rest_framework.response import Response
-from rest_framework.decorators import api_view, parser_classes
-
-# from rest_framework.renderers import JSONRenderer
+#-*-coding:utf-8-*-
+import requests
+import json
+from .helper import modelKey
+from .helper.decorators import necessary
 from .helper.AppJsonResponse import JSONWrappedResponse
 from .models import User, Installation
 from .serializers import UserSerializer, InstallationSerializer
 from .helper import userhelper
+import logging
+
+# from rest_framework.renderers import JSONRenderer
+
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods, require_POST
@@ -18,11 +21,14 @@ from django.contrib.sessions.backends.db import SessionStore
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from django.conf import settings
-import requests
-import json
-from .helper import modelKey
-from .helper.decorators import necessary
-import logging
+
+from rest_framework import viewsets, status
+from rest_framework.parsers import JSONParser
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, parser_classes,permission_classes
+from rest_framework.authtoken.models import Token
+from rest_framework.permissions import IsAuthenticated
+
 
 logger = logging.getLogger(__name__)
 
@@ -73,7 +79,7 @@ def member_register(request):
     print(sms_code)
     if (not userhelper.phoneNumberExist(phone_number)):
         if sms_code != None:
-            verifySuccess, message = verifySmsCode(phone_number, password)
+            # verifySuccess, message = verifySmsCode(phone_number, password)
             if (True):
                 user = User()
                 print('user 的phoneNumber' + str(user.phone_number))
@@ -82,10 +88,15 @@ def member_register(request):
                 user.username = phone_number
                 print('user 的username =' + str(user.username))
                 user.save()
+                token = Token.objects.create(user=user)
                 serailizer_member = UserSerializer(user, many=False)
                 # serailizer_member.data
                 kwargs = {'UserEntity': serailizer_member.data}
                 return JSONWrappedResponse(data=kwargs, status=AppConst.STATUS_SUCCESSS, message="注册成功")
+                # response = {'token':token}
+                # print(type(response))
+                # return JSONWrappedResponse(response)
+                # return Response({'token':str(token)})
             else:
                 return JSONWrappedResponse(status=AppConst.STATUS_PWD_ERROR, message="注册失败，验证码错误")
     else:
@@ -128,9 +139,9 @@ def member_resiter_sms_send(request):
         response_dic = response.json()
         return JSONWrappedResponse(status=response_dic['code'], message=response_dic['error'])
 
-
 @never_cache
 @api_view(['POST'])
+# @permission_classes((IsAuthenticated,))
 @parser_classes((JSONParser,))
 def installationId_register(request, formate=None):
     json = request.data
