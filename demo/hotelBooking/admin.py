@@ -2,9 +2,10 @@ from django import forms
 from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
+from django.contrib.admin.options import ModelAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from .models import User
+from .models import User,Province,City,Installation
 class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
@@ -77,8 +78,23 @@ class MyUserAdmin(UserAdmin):
     ordering = ('phone_number',)
     filter_horizontal = ()
 
+class ProvinceAdmin(ModelAdmin):
+    list_display = ('id','name','name_py',)
+
+
+class CityAdmin(ModelAdmin):
+    list_display = ('name_py', 'name', 'province')
+
+class InstallationAdmin(ModelAdmin):
+    list_display = ('deviceToken',)
+
+
 # Now register the new UserAdmin...
 admin.site.register(User, MyUserAdmin)
+admin.site.register(Province, ProvinceAdmin)
+admin.site.register(City, CityAdmin)
+admin.site.register(Installation,ModelAdmin)
+
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
 admin.site.unregister(Group)

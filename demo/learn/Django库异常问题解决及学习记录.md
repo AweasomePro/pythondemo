@@ -24,3 +24,6 @@ http://blog.csdn.net/sundaydashu/article/details/7959977
 
 # django 中的异常表
 https://segmentfault.com/a/1190000003783438#articleHeader17
+
+# django 中的表的级联关系
+http://www.jianshu.com/p/c10be59aad7a
