@@ -33,31 +33,24 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('name','phone_number','create_at')
 
 class InstallationSerializer(DynamicFieldsModelSerializer):
-    # badge = models.BigIntegerField()
-    # channels = ListField()
-    # deviceProfile = models.CharField(max_length=200)
-    # deviceToken = models.CharField(max_length=200, unique=True)
-    # deviceType = models.CharField(max_length=200)
-    # installationId = models.CharField(max_length=200, unique=True)
-    # timeZone = models.CharField(max_length=200)
     class Meta:
         model = Installation
         # choices = {'badge','deviceProfile','installationId','timeZone'}
 
 
-class CitysSerializer(DynamicFieldsModelSerializer):
+class CitySerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = City
         exclude = ('province',)
 
 
-
 class ProvinceSerializer(DynamicFieldsModelSerializer):
-    citys = CitysSerializer(many=True)
-    size = serializers.IntegerField(initial=100,)
+    citys = CitySerializer(many=True)
+
     class Meta:
         model= Province
-        fields = ('citys','size',)
+
+
 
 
 

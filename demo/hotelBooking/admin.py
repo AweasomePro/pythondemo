@@ -5,7 +5,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.admin.options import ModelAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from .models import User,Province,City,Installation,Hotel
+from .models import *
 class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
@@ -78,8 +78,29 @@ class MyUserAdmin(UserAdmin):
     ordering = ('phone_number',)
     filter_horizontal = ()
 
+# -------------------inline----------------------------------------
+class CityInline(admin.StackedInline):
+    show_change_link = True
+    model = City
+
+class HotelLogoInline(admin.TabularInline):
+    model = HotelLogoImg
+
+class HouseInline(admin.StackedInline):
+    show_change_link = True
+    model = House
+
+class HousePackageInline(admin.StackedInline):
+    show_change_link = True
+    model = HousePackage
+    fields = ('package_name','need_point','package_state','detail')
+
+# -------------------inline-----end-----------------------------------
+
 class ProvinceAdmin(ModelAdmin):
     list_display = ('id','name','name_py',)
+    inlines = [CityInline,]
+
 
 
 class CityAdmin(ModelAdmin):
@@ -89,12 +110,32 @@ class InstallationAdmin(ModelAdmin):
     list_display = ('deviceToken',)
 
 
+
+
+class HotelAdmin(ModelAdmin):
+    inlines = [HotelLogoInline,HouseInline]
+
+class HotelLogoImgAdmin(ModelAdmin):
+    pass
+
+
+
+class HouseAdmin(ModelAdmin):
+    inlines = [HousePackageInline,]
+    pass
+
+
+
+
+
 # Now register the new UserAdmin...
 admin.site.register(User, MyUserAdmin)
 admin.site.register(Province, ProvinceAdmin)
 admin.site.register(City, CityAdmin)
 admin.site.register(Installation,InstallationAdmin)
-admin.site.register(Hotel,ModelAdmin)
+admin.site.register(Hotel,HotelAdmin)
+admin.site.register(HotelLogoImg,HotelLogoImgAdmin)
+admin.site.register(House,HouseAdmin)
 
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.

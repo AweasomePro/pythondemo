@@ -17,6 +17,7 @@ from django.conf.urls import url,include,patterns
 from django.contrib import admin
 from hotelBooking import urls as hotel_uls
 urlpatterns = [
+    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^', include('hotelBooking.urls')),
 ]

@@ -106,6 +106,8 @@ class Province(models.Model):
     name = models.CharField(max_length=200,null=False)
     name_py = models.CharField(max_length=200,null=False)
 
+
+
     class Meta:
         verbose_name = "省份"
         verbose_name_plural = "省份"
@@ -152,10 +154,9 @@ class Hotel(models.Model):
     id = models.AutoField(primary_key=True)
     city = models.ForeignKey(City,verbose_name='所在城市',related_name='hotels')
     name = models.CharField(max_length=200,null=False,verbose_name='酒店名')
-    address = models.CharField(max_length=255,null=False)
-    introduce = models.CharField(max_length=255)
-    contact_phone = models.CharField(max_length=255)
-    introduce_imgs = ListField(blank=True,null=True)
+    address = models.CharField(max_length=255,null=False,verbose_name='地址')
+    introduce = models.TextField(max_length=255,verbose_name='介绍')
+    contact_phone = models.CharField(max_length=255,verbose_name='联系电话')
 
     class Meta:
         verbose_name = "酒店"
@@ -166,26 +167,63 @@ class Hotel(models.Model):
 
     def __str__(self):
         return self.name
+class HotelLogoImg(models.Model):
+    id = models.AutoField(primary_key=True)
+    img_url = models.CharField(max_length=250,verbose_name='图片地址')
+    hotel = models.ForeignKey(Hotel)
+
+    class Meta:
+        verbose_name = "酒店展示图片"
+        verbose_name_plural = "酒店展示图片"
+
+    def __unicode__(self):
+        return self.hotel.name + ''
+
+    def __str__(self):
+        return self.hotel.name + ''
 
 
-HotelType =((1,'商务豪华'),(2,'商务普通'))
 
 class House(models.Model):
     """
     这个类表示发布的房源信息
     """
-    hotel = models.ForeignKey(Hotel,verbose_name='所属酒店',related_name='houses')
     id = models.AutoField(primary_key=True)
-
+    hotel = models.ForeignKey(Hotel,verbose_name='所属酒店',related_name='houses')
+    name = models.CharField(max_length=255,default='未定义',blank=False,verbose_name='房型')
     class Meta:
-        verbose_name = "房源"
-        verbose_name_plural = "房源"
+        verbose_name = "房型"
+        verbose_name_plural = "房型"
 
     def __unicode__(self):
-        return self.hotel + ''
+        return self.name + ''
 
     def __str__(self):
         return self.name + ''
+
+class HouseImg(models.Model):
+    id = models.AutoField(primary_key=True)
+    img_url = models.CharField(max_length=250, verbose_name='图片地址')
+    house = models.ForeignKey(House,verbose_name='房型')
+
+    def __unicode__(self):
+        return self.house.name + ':'+ self.img_url
+
+    def __str__(self):
+        return self.__unicode__()
+
+
+class HousePackage(models.Model):
+    house_states = (
+        (0,'充沛'),
+        (1,'满房')
+    )
+    id = models.AutoField(primary_key=True)
+    house = models.ForeignKey(House,verbose_name='房型')
+    package_name = models.CharField(max_length=255,default='套餐名',blank=False,verbose_name='套餐名')
+    need_point = models.IntegerField(verbose_name='所需积分')
+    package_state = models.CharField(max_length=255, choices=house_states)
+    detail = models.TextField()
 
 class Booking(models.Model):
     pass

@@ -181,7 +181,7 @@ def installationId_bind(request):
 
 @api_view(['GET',])
 def provinces(request):
-    provinces  =Province.objects.all()
+    provinces = Province.objects.all()
     serializer_provinces = ProvinceSerializer(provinces,many=True)
     data = {'procinces': serializer_provinces.data,}
     return DefaultJsonResponse(data=data,)

@@ -3,5 +3,3 @@ pymysql == 0.7.4
 djangorestframework == 3.3.3
 requests == 2.10.0
 django-admin-bootstrapped
-rest_framework_jwt
-
