@@ -161,6 +161,13 @@ class Hotel(models.Model):
         verbose_name = "酒店"
         verbose_name_plural = "酒店"
 
+    def __unicode__(self):
+        return self.name
+
+    def __str__(self):
+        return self.name
+
+
 HotelType =((1,'商务豪华'),(2,'商务普通'))
 
 class House(models.Model):
@@ -173,7 +180,12 @@ class House(models.Model):
     class Meta:
         verbose_name = "房源"
         verbose_name_plural = "房源"
-    pass
+
+    def __unicode__(self):
+        return self.hotel + ''
+
+    def __str__(self):
+        return self.name + ''
 
 class Booking(models.Model):
     pass

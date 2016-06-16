@@ -3,15 +3,14 @@ import requests
 import json
 from .helper import modelKey
 from .helper.decorators import necessary
-from .helper.AppJsonResponse import JSONWrappedResponse
-from .models import User, Installation
-from .serializers import UserSerializer, InstallationSerializer
+from .helper.AppJsonResponse import JSONWrappedResponse,DefaultJsonResponse
+from .models import *
+from .serializers import *
 from .helper import userhelper
 import logging
 
 # from rest_framework.renderers import JSONRenderer
 
-from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods, require_POST
@@ -140,8 +139,8 @@ def member_resiter_sms_send(request):
         return JSONWrappedResponse(status=response_dic['code'], message=response_dic['error'])
 
 @never_cache
-@api_view(['POST'])
-# @permission_classes((IsAuthenticated,))
+@api_view(['POST',])
+@permission_classes((IsAuthenticated,))
 @parser_classes((JSONParser,))
 def installationId_register(request, formate=None):
     json = request.data
@@ -175,6 +174,17 @@ def installationId_bind(request):
                 return JSONWrappedResponse(status=112, message="这个phoneNumber尚未注册到服务端")
         elif deviceToken:
             return JSONWrappedResponse(status=113,message="ios还没写")
+
+
+
+#  ------------------------------Province--------------------------------------------
+
+@api_view(['GET',])
+def provinces(request):
+    provinces  =Province.objects.all()
+    serializer_provinces = ProvinceSerializer(provinces,many=True)
+    data = {'procinces': serializer_provinces.data,}
+    return DefaultJsonResponse(data=data,)
 
 
 # ----------------------------- NonView Method---------------------------------------

@@ -1,8 +1,8 @@
 from django.test import TestCase
-from hotelBooking.models import Member
+from hotelBooking.models import User
 
 class ModelTestCase(TestCase):
     def setUp(self):
         pass
     def testMemberIsExist(self):
-        self.assertEquals(True,Member.objects.filter(phoneNumber=15726814574).exists())
+        self.assertEquals(True,User.objects.filter(phoneNumber=15726814574).exists())

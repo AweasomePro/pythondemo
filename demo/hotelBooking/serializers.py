@@ -6,7 +6,7 @@ from rest_framework import serializers
 # phoneNumber = models.IntegerField(max_length=15)
 # register_time = models.DateTimeField(auto_created=True)
 
-from .models import  User,Installation
+from .models import  User,Installation, Province, City, Hotel,House
 
 
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
@@ -43,6 +43,21 @@ class InstallationSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = Installation
         # choices = {'badge','deviceProfile','installationId','timeZone'}
+
+
+class CitysSerializer(DynamicFieldsModelSerializer):
+    class Meta:
+        model = City
+        exclude = ('province',)
+
+
+
+class ProvinceSerializer(DynamicFieldsModelSerializer):
+    citys = CitysSerializer(many=True)
+    size = serializers.IntegerField(initial=100,)
+    class Meta:
+        model= Province
+        fields = ('citys','size',)
 
 
 
