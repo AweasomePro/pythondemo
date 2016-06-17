@@ -78,7 +78,6 @@ class User(AbstractBaseUser):
     # objects = UserManager
 
 
-
 class Installation(models.Model):
     badge = models.BigIntegerField(null=True,default=0,verbose_name='ios badge数')
     channels = ListField(default=[],verbose_name='订阅渠道')
@@ -100,7 +99,6 @@ class Installation(models.Model):
         return '%s-Token %s'%(self.deviceType,self.deviceToken)
 
 
-
 class Province(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200,null=False)
@@ -117,7 +115,6 @@ class Province(models.Model):
 
     def __str__(self):
         return self.name
-
 
 
 class City(models.Model):
@@ -167,10 +164,12 @@ class Hotel(models.Model):
 
     def __str__(self):
         return self.name
+
+
 class HotelLogoImg(models.Model):
     id = models.AutoField(primary_key=True)
+    hotel = models.ForeignKey(Hotel,related_name='hotelLogoImgs')
     img_url = models.CharField(max_length=250,verbose_name='图片地址')
-    hotel = models.ForeignKey(Hotel)
 
     class Meta:
         verbose_name = "酒店展示图片"
@@ -183,7 +182,6 @@ class HotelLogoImg(models.Model):
         return self.hotel.name + ''
 
 
-
 class House(models.Model):
     """
     这个类表示发布的房源信息
@@ -191,6 +189,7 @@ class House(models.Model):
     id = models.AutoField(primary_key=True)
     hotel = models.ForeignKey(Hotel,verbose_name='所属酒店',related_name='houses')
     name = models.CharField(max_length=255,default='未定义',blank=False,verbose_name='房型')
+
     class Meta:
         verbose_name = "房型"
         verbose_name_plural = "房型"
@@ -202,7 +201,7 @@ class House(models.Model):
         return self.name + ''
 
 class HouseImg(models.Model):
-    id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True,)
     img_url = models.CharField(max_length=250, verbose_name='图片地址')
     house = models.ForeignKey(House,verbose_name='房型')
 
@@ -219,7 +218,7 @@ class HousePackage(models.Model):
         (1,'满房')
     )
     id = models.AutoField(primary_key=True)
-    house = models.ForeignKey(House,verbose_name='房型')
+    house = models.ForeignKey(House,verbose_name='房型',related_name='housePackages')
     package_name = models.CharField(max_length=255,default='套餐名',blank=False,verbose_name='套餐名')
     need_point = models.IntegerField(verbose_name='所需积分')
     package_state = models.CharField(max_length=255, choices=house_states)
@@ -227,8 +226,6 @@ class HousePackage(models.Model):
 
 class Booking(models.Model):
     pass
-
-
 
 
 # ------------------------------------------------------支持------------------------------------------------------------

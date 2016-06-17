@@ -187,6 +187,33 @@ def provinces(request):
     return DefaultJsonResponse(data=data,)
 
 
+# -------------------------基于类的视图----------------------------------------------#
+from  rest_framework.views import APIView
+from  rest_framework.generics import GenericAPIView
+
+class HotelView(GenericAPIView):
+
+    def get(self,request):
+        print('process hotel')
+        query_params = request.query_params
+        id = query_params.get('id')
+        excludes_str = query_params.get('excludes')
+
+        print('id is{}'.format(id))
+        hotel = Hotel.objects.get(id=id)
+        hotel_serializer =  HotelSerializer(hotel,many=False)
+        return DefaultJsonResponse({'hotel':hotel_serializer.data})
+
+
+class ProvinceView(APIView):
+
+    def get(self, request):
+        provinces = Province.objects.all()
+        serializer_provinces = ProvinceSerializer(provinces, many=True,)
+        data = {'procinces': serializer_provinces.data,}
+        return DefaultJsonResponse(data=data, )
+
+
 # ----------------------------- NonView Method---------------------------------------
 def verifySmsCode(mobilePhoneNumber, smscode):
     url = 'https://api.leancloud.cn/1.1/verifySmsCode/' + str(smscode)

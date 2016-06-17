@@ -6,7 +6,7 @@ from rest_framework import serializers
 # phoneNumber = models.IntegerField(max_length=15)
 # register_time = models.DateTimeField(auto_created=True)
 
-from .models import  User,Installation, Province, City, Hotel,House
+from .models import  User,Installation, Province, City, Hotel,House,HotelLogoImg,HouseImg,HousePackage
 
 
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
@@ -17,12 +17,19 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
     def __init__(self,*args,**kwargs):
         #Don't pass the 'fiels' arg up tp the superclass
         fields = kwargs.pop('fields',None)
+        exclude = kwargs.pop('excludes', None)
+
         super(DynamicFieldsModelSerializer, self).__init__(*args,**kwargs)
 
-        if fields is not None:
+        if fields is not None :
             allowed = set(fields)
             existing = set(self.fields.keys())
             for field_name in existing - allowed:
+                self.fields.pop(field_name)
+        if exclude is not None:
+            existing = set(self.fields.keys())
+            disallowed = set(exclude)
+            for field_name in existing & disallowed:
                 self.fields.pop(field_name)
 
 
@@ -37,8 +44,30 @@ class InstallationSerializer(DynamicFieldsModelSerializer):
         model = Installation
         # choices = {'badge','deviceProfile','installationId','timeZone'}
 
+class HotelImgSerializer(DynamicFieldsModelSerializer):
+
+    class Meta:
+        model = HotelLogoImg
+        exclude =('id',)
+
+
+class HouseSerializer(DynamicFieldsModelSerializer):
+
+    class Meta:
+        model = House
+
+
+class HotelSerializer(DynamicFieldsModelSerializer):
+    hotelLogoImgs = HotelImgSerializer(many=True)
+
+    houses = HouseSerializer(many=True, excludes=('hotel',))
+    class Meta:
+        model = Hotel
+
 
 class CitySerializer(DynamicFieldsModelSerializer):
+    hotels = HotelSerializer(many=True)
+
     class Meta:
         model = City
         exclude = ('province',)
@@ -49,6 +78,9 @@ class ProvinceSerializer(DynamicFieldsModelSerializer):
 
     class Meta:
         model= Province
+
+
+
 
 
 
