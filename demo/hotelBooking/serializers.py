@@ -50,9 +50,20 @@ class HotelImgSerializer(DynamicFieldsModelSerializer):
         model = HotelLogoImg
         exclude =('id',)
 
+class HouseImgSerializer(DynamicFieldsModelSerializer):
+
+    class Meta:
+        model = HouseImg
+        exclude=('id',)
+
+class HousePackageSerializer(DynamicFieldsModelSerializer):
+    class Meta:
+        model = HousePackage
+        exclude=('id',)
 
 class HouseSerializer(DynamicFieldsModelSerializer):
-
+    houseImgs = HouseImgSerializer(many=True)
+    housePackages = HousePackageSerializer(many=True)
     class Meta:
         model = House
 

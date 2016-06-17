@@ -2,7 +2,7 @@
 import requests
 import json
 from .helper import modelKey
-from .helper.decorators import necessary
+from .helper.decorators import query_necessary
 from .helper.AppJsonResponse import JSONWrappedResponse,DefaultJsonResponse
 from .models import *
 from .serializers import *
@@ -44,7 +44,7 @@ class AppConst:
 
 
 @never_cache
-@necessary('phoneNumber', 'password', )
+@query_necessary('phoneNumber', 'password', )
 def member_login(request):
     phoneNumber = request.POST.get(modelKey.KEY_PHONENUMBER)
     password = request.POST.get('password')
@@ -70,7 +70,7 @@ def member_login(request):
 @never_cache
 @csrf_exempt
 @api_view(['POST'])
-@necessary('phoneNumber', 'password', 'smsCode')
+@query_necessary('phoneNumber', 'password', 'smsCode')
 def member_register(request):
     phone_number = request.POST.get('phoneNumber')
     password = request.POST.get('password')
@@ -107,7 +107,7 @@ def member_logout(request):
     pass
 
 
-@necessary('phoneNumber',)
+@query_necessary('phoneNumber', )
 @never_cache
 @require_POST
 def member_resiter_sms_send(request):
@@ -155,7 +155,7 @@ def installationId_register(request, formate=None):
         return JSONWrappedResponse(status=AppConst.STATUS_ERROR, message=str(serializer.errors))
 
 @csrf_exempt
-@necessary('phoneNumber')
+@query_necessary('phoneNumber')
 def installationId_bind(request):
     phoneNumber = request.POST.get(modelKey.KEY_PHONENUMBER)
     installationId = request.POST.get('installationId')
@@ -192,9 +192,10 @@ from  rest_framework.views import APIView
 from  rest_framework.generics import GenericAPIView,ListAPIView
 from django.utils.decorators import method_decorator
 
+
 class HotelView(GenericAPIView):
 
-    @method_decorator(necessary('id',))
+    @method_decorator(query_necessary('id', ))
     def get(self,request):
         print('process hotel')
         query_params = request.query_params
@@ -206,7 +207,6 @@ class HotelView(GenericAPIView):
         hotel_serializer =  HotelSerializer(hotel,many=False)
         return DefaultJsonResponse({'hotel':hotel_serializer.data})
 
-
 class HotelListView(ListAPIView):
     serializer_class = HotelSerializer
     queryset = Hotel.objects.all()
@@ -216,8 +216,10 @@ class HotelListView(ListAPIView):
         city_id = request.query_params.get('cityId')
         need = queryset.filter()
         city = City.objects.get(id=city_id)
-        serializers = self.serializer_class(city.hotels,many=True)
-        return DefaultJsonResponse({'hotel':serializers.data})
+        serializers = self.serializer_class(city.hotels,many=True,excludes=('houses',))
+        return DefaultJsonResponse({'hotels':serializers.data})
+
+
 
 
 class ProvinceView(APIView):

@@ -93,6 +93,9 @@ class HouseInline(admin.StackedInline):
 class HousePackageInline(admin.StackedInline):
     show_change_link = True
     model = HousePackage
+    extra = 0
+    verbose_name = '套餐'
+    verbose_name_plural = '套餐'
     fields = ('package_name','need_point','package_state','detail')
 
 # -------------------inline-----end-----------------------------------
