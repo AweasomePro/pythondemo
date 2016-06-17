@@ -214,6 +214,7 @@ class ProvinceView(APIView):
         return DefaultJsonResponse(data=data, )
 
 
+
 # ----------------------------- NonView Method---------------------------------------
 def verifySmsCode(mobilePhoneNumber, smscode):
     url = 'https://api.leancloud.cn/1.1/verifySmsCode/' + str(smscode)
