@@ -9,5 +9,6 @@ urlpatterns = [
     url(r'^installation/bind/$', views.installationId_bind),
     # url(r'^provinces/$', views.provinces),
     url(r'provinces',views.ProvinceView.as_view()),
-    url(r'^hotel',views.HotelView.as_view())
+    url(r'^hotel$',views.HotelView.as_view()),
+    url(r'hotels$',views.HotelListView.as_view())
 ]

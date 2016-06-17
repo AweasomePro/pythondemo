@@ -189,10 +189,12 @@ def provinces(request):
 
 # -------------------------基于类的视图----------------------------------------------#
 from  rest_framework.views import APIView
-from  rest_framework.generics import GenericAPIView
+from  rest_framework.generics import GenericAPIView,ListAPIView
+from django.utils.decorators import method_decorator
 
 class HotelView(GenericAPIView):
 
+    @method_decorator(necessary('id',))
     def get(self,request):
         print('process hotel')
         query_params = request.query_params
@@ -205,11 +207,24 @@ class HotelView(GenericAPIView):
         return DefaultJsonResponse({'hotel':hotel_serializer.data})
 
 
+class HotelListView(ListAPIView):
+    serializer_class = HotelSerializer
+    queryset = Hotel.objects.all()
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        city_id = request.query_params.get('cityId')
+        need = queryset.filter()
+        city = City.objects.get(id=city_id)
+        serializers = self.serializer_class(city.hotels,many=True)
+        return DefaultJsonResponse({'hotel':serializers.data})
+
+
 class ProvinceView(APIView):
 
     def get(self, request):
         provinces = Province.objects.all()
-        serializer_provinces = ProvinceSerializer(provinces, many=True,)
+        serializer_provinces = ProvinceSerializer(provinces, many=True)
         data = {'procinces': serializer_provinces.data,}
         return DefaultJsonResponse(data=data, )
 

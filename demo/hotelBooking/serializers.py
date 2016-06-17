@@ -74,7 +74,7 @@ class CitySerializer(DynamicFieldsModelSerializer):
 
 
 class ProvinceSerializer(DynamicFieldsModelSerializer):
-    citys = CitySerializer(many=True)
+    citys = CitySerializer(many=True,excludes=('hotels',))
 
     class Meta:
         model= Province
