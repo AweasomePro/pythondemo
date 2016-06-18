@@ -19,6 +19,7 @@ from django.contrib.sessions.models import Session, SessionManager
 from django.contrib.sessions.backends.db import SessionStore
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
+from django.core.paginator import Paginator
 from django.conf import settings
 
 from rest_framework import viewsets, status
@@ -207,6 +208,8 @@ class HotelView(GenericAPIView):
         hotel_serializer =  HotelSerializer(hotel,many=False)
         return DefaultJsonResponse({'hotel':hotel_serializer.data})
 
+from time import time
+
 class HotelListView(ListAPIView):
     serializer_class = HotelSerializer
     queryset = Hotel.objects.all()
@@ -214,12 +217,22 @@ class HotelListView(ListAPIView):
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         city_id = request.query_params.get('cityId')
-        need = queryset.filter()
-        city = City.objects.get(id=city_id)
-        serializers = self.serializer_class(city.hotels,many=True,excludes=('houses',))
+        hotels =queryset.filter(city_id=city_id)
+
+        try:
+            page = request.query_params.get('page',1)
+            print('page is '+page)
+            if int(page) < 1 :
+                page =1
+        except ValueError as e:
+            print('catch error'+e.__str__())
+
+        print(hotels)
+        pageintor = Paginator(hotels,1)
+        backHotels = pageintor.page(1)
+        serializers = self.serializer_class(backHotels,many=True,excludes=('houses',))
+
         return DefaultJsonResponse({'hotels':serializers.data})
-
-
 
 
 class ProvinceView(APIView):

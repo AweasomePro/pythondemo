@@ -83,6 +83,10 @@ class CityInline(admin.StackedInline):
     show_change_link = True
     model = City
 
+class HotelInline(admin.TabularInline):
+    show_change_link = True
+    model = Hotel
+
 class HotelLogoInline(admin.TabularInline):
     model = HotelLogoImg
 
@@ -105,9 +109,9 @@ class ProvinceAdmin(ModelAdmin):
     inlines = [CityInline,]
 
 
-
 class CityAdmin(ModelAdmin):
     list_display = ('name_py', 'name', 'province')
+    inlines = [HotelInline,]
 
 class InstallationAdmin(ModelAdmin):
     list_display = ('deviceToken',)

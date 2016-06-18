@@ -24,7 +24,7 @@ class JSONWrappedResponse(JsonResponse):
         super(JSONWrappedResponse, self).__init__(res, **kwargs)
 
 class DefaultJsonResponse(Response):
-    def __init__(self, data=None, status=100, message="success",**kwargs):
+    def __init__(self, data=None, status=100, message="成功",**kwargs):
         # data is a OrderedDict
         res = {"status": status, "message": message, "timeStamp": timezone.now().timestamp(),}
 
