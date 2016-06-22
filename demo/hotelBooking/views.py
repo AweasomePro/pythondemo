@@ -2,7 +2,7 @@
 import requests
 import json
 from .helper import modelKey
-from .helper.decorators import query_necessary
+from .helper.decorators import parameter_necessary
 from .helper.AppJsonResponse import JSONWrappedResponse,DefaultJsonResponse
 from .models import *
 from .serializers import *
@@ -19,8 +19,10 @@ from django.contrib.sessions.models import Session, SessionManager
 from django.contrib.sessions.backends.db import SessionStore
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
+from django.dispatch import receiver
 from django.core.paginator import Paginator,EmptyPage
 from django.conf import settings
+from django.db.models.signals import post_save
 
 from rest_framework import viewsets, status
 from rest_framework.parsers import JSONParser
@@ -49,7 +51,7 @@ class AppConst:
 
 
 @never_cache
-@query_necessary('phoneNumber', 'password', )
+@parameter_necessary('phoneNumber', 'password', )
 def member_login(request):
     phoneNumber = request.POST.get(modelKey.KEY_PHONENUMBER)
     password = request.POST.get('password')
@@ -75,7 +77,7 @@ def member_login(request):
 @never_cache
 @csrf_exempt
 @api_view(['POST'])
-@query_necessary('phoneNumber', 'password', 'smsCode')
+@parameter_necessary('phoneNumber', 'password', 'smsCode')
 def member_register(request):
     phone_number = request.POST.get('phoneNumber')
     password = request.POST.get('password')
@@ -85,34 +87,47 @@ def member_register(request):
         if sms_code != None:
             # verifySuccess, message = verifySmsCode(phone_number, password)
             if (True):
-                user = User()
-                print('user 的phoneNumber' + str(user.phone_number))
-                user.phone_number = phone_number
-                user.set_password(password)
-                user.username = phone_number
-                print('user 的username =' + str(user.username))
-                user.save()
-                token = Token.objects.create(user=user)
-                serailizer_member = UserSerializer(user, many=False)
-                # serailizer_member.data
-                kwargs = {'UserEntity': serailizer_member.data}
-                return JSONWrappedResponse(data=kwargs, status=AppConst.STATUS_SUCCESSS, message="注册成功")
-                # response = {'token':token}
-                # print(type(response))
-                # return JSONWrappedResponse(response)
-                # return Response({'token':str(token)})
+                try:
+                    user = User()
+                    print('user 的phoneNumber' + str(user.phone_number))
+                    user.phone_number = phone_number
+                    user.set_password(password)
+                    user.username = phone_number
+                    print('user 的username =' + str(user.username))
+                    # token = Token.objects.create(user=user)
+                    serailizer_member = UserSerializer(user, many=False)
+                    # serailizer_member.data
+                    kwargs = {'UserEntity': serailizer_member.data}
+                    user.save()
+                    token = Token.objects.get(user_id=user.id)
+                    print('token is {}'.format_map(token.id))
+                    # response = {'token':token}
+                    # print(type(response))
+                    # return JSONWrappedResponse(response)
+                    # return Response({'token':str(token)})
+                except BaseException as e:
+                    raise e
+                    return DefaultJsonResponse(data=kwargs, status=AppConst.STATUS_ERROR, message="内部错误")
+                else:
+                    return DefaultJsonResponse(data=kwargs, status=AppConst.STATUS_SUCCESSS, message="注册成功")
+
+
             else:
                 return JSONWrappedResponse(status=AppConst.STATUS_PWD_ERROR, message="注册失败，验证码错误")
     else:
         return JSONWrappedResponse(status=AppConst.STATUS_PHONE_EXISTED, message="手机号已经存在")
 
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
 
 def member_logout(request):
     request.session.get()
     pass
 
 
-@query_necessary('phoneNumber', )
+@parameter_necessary('phoneNumber', )
 @never_cache
 @require_POST
 def member_resiter_sms_send(request):
@@ -162,7 +177,7 @@ def installationId_register(request, formate=None):
 
 
 @csrf_exempt
-@query_necessary('phoneNumber')
+@parameter_necessary('phoneNumber')
 def installationId_bind(request):
     phoneNumber = request.POST.get(modelKey.KEY_PHONENUMBER)
     installationId = request.POST.get('installationId')
@@ -187,13 +202,15 @@ access_key = 'u-ryAwaQeBx9BS5t8OMSPs6P1Ewoqiu6-ZbbMNYm'
 secret_key = 'hVXFHO8GusQduMqLeYXZx_C5_c7D-VSwz6AKhjZJ'
 
 
-
+@api_view(['GET'])
+@parameter_necessary('avatarName', )
 @authentication_classes((TokenAuthentication, BasicAuthentication))
 @permission_classes((IsAuthenticated,))
 def get_uploadAvatarToken(request):
     q = Auth(access_key,secret_key)
     bucket_name = 'hotelbook'
-    key = 'test.png'
+    imageName = request.query_params.get('avatarName')
+    key = imageName
     policy = {
         'callbackUrl': '183.136.198.78/avatar/upload/callback',
         'callbackBody': 'filename=$(fname)&filesize=$(fsize)'
@@ -201,6 +218,7 @@ def get_uploadAvatarToken(request):
 
     token = q.upload_token(bucket_name, key, 3600,policy)
     return JSONWrappedResponse(data ={'token':token})
+
 
 def update_user_avatar_callback(request):
     """
@@ -215,17 +233,6 @@ def update_user_avatar_callback(request):
     if(User.existUserId(userId)):
         userhelper.updateAvatar(userId,fname)
 
-
-#  ------------------------------Province--------------------------------------------
-
-@api_view(['GET',])
-def provinces(request):
-    provinces = Province.objects.all()
-    serializer_provinces = ProvinceSerializer(provinces,many=True)
-    data = {'procinces': serializer_provinces.data,}
-    return DefaultJsonResponse(data=data,)
-
-
 # -------------------------基于类的视图----------------------------------------------#
 from  rest_framework.views import APIView
 from  rest_framework.generics import GenericAPIView,ListAPIView
@@ -234,7 +241,7 @@ from django.utils.decorators import method_decorator
 
 class HotelView(GenericAPIView):
 
-    @method_decorator(query_necessary('id', ))
+    @method_decorator(parameter_necessary('id', ))
     def get(self,request):
         print('process hotel')
         query_params = request.query_params
@@ -280,8 +287,6 @@ class ProvinceView(APIView):
         serializer_provinces = ProvinceSerializer(provinces, many=True)
         data = {'procinces': serializer_provinces.data,}
         return DefaultJsonResponse(data=data, )
-
-
 
 
 # ----------------------------- NonView Method---------------------------------------

@@ -72,6 +72,7 @@ class User(AbstractBaseUser):
     def existUserId(self,userId):
         self.objects.filter(userId == userId).exists()
 
+
 class Member(User):
     pass
 
@@ -131,7 +132,6 @@ class City(models.Model):
         return self.name
 
 from django.forms.fields import MultiValueField
-from django.forms import widgets
 class TestMultiModelField(models.Field):
     def formfield(self, form_class=None, choices_form_class=None, **kwargs):
         defaults = {'form_class': MultiValueField}

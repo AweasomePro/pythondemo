@@ -138,7 +138,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 # 是否最后可以 不加 splash
-APPEND_SLASH=False
+APPEND_SLASH=True
 
 AUTH_USER_MODEL = 'hotelBooking.User'
 

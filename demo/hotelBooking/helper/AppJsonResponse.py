@@ -29,7 +29,7 @@ class DefaultJsonResponse(Response):
         res = {"status": status, "message": message, "timeStamp": timezone.now().timestamp(),}
 
         if not data is None:
-            res['Res'] = data
+            res['res'] = data
             print(res)
         else:
             print('data is null')
