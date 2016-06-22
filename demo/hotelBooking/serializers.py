@@ -37,7 +37,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('name','phone_number','create_at')
+        fields = ('name','phone_number','create_at','avatar')
 
 class InstallationSerializer(DynamicFieldsModelSerializer):
     class Meta:
