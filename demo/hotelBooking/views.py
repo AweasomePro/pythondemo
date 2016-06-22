@@ -19,7 +19,7 @@ from django.contrib.sessions.models import Session, SessionManager
 from django.contrib.sessions.backends.db import SessionStore
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator,EmptyPage
 from django.conf import settings
 
 from rest_framework import viewsets, status
@@ -254,7 +254,6 @@ class HotelListView(ListAPIView):
 
         try:
             page = request.query_params.get('page',1)
-            print('page is '+page)
             if int(page) < 1 :
                 page =1
         except ValueError as e:
@@ -262,8 +261,12 @@ class HotelListView(ListAPIView):
 
         print(hotels)
         pageintor = Paginator(hotels,1)
-        backHotels = pageintor.page(1)
-        serializers = self.serializer_class(backHotels,many=True,excludes=('houses',))
+
+        try:
+            backHotels = pageintor.page(page)
+            serializers = self.serializer_class(backHotels,many=True,excludes=('houses',))
+        except EmptyPage as e:
+            return DefaultJsonResponse(status=-100,message='没有更多数据')
 
         return DefaultJsonResponse({'hotels':serializers.data})
 

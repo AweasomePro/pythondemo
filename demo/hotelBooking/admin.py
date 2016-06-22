@@ -110,7 +110,7 @@ class ProvinceAdmin(ModelAdmin):
 
 
 class CityAdmin(ModelAdmin):
-    list_display = ('name_py', 'name', 'province')
+    list_display = ('name_py', 'name','logo', 'province')
     inlines = [HotelInline,]
 
 class InstallationAdmin(ModelAdmin):
