@@ -25,9 +25,12 @@ from django.conf import settings
 from rest_framework import viewsets, status
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, parser_classes,permission_classes
+from rest_framework.decorators import api_view, parser_classes,permission_classes,authentication_classes
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import BasicAuthentication,TokenAuthentication
+
+from qiniu import Auth
 
 logger = logging.getLogger(__name__)
 
@@ -141,9 +144,6 @@ def member_resiter_sms_send(request):
         return JSONWrappedResponse(status=response_dic['code'], message=response_dic['error'])
 
 
-
-
-
 @never_cache
 @api_view(['POST',])
 @permission_classes((IsAuthenticated,))
@@ -159,6 +159,7 @@ def installationId_register(request, formate=None):
     else:
         print(serializer.errors)
         return JSONWrappedResponse(status=AppConst.STATUS_ERROR, message=str(serializer.errors))
+
 
 @csrf_exempt
 @query_necessary('phoneNumber')
@@ -179,13 +180,16 @@ def installationId_bind(request):
             except User.DoesNotExist:
                 return JSONWrappedResponse(status=112, message="这个phoneNumber尚未注册到服务端")
         elif deviceToken:
-            return JSONWrappedResponse(status=113,message="ios还没写")
+            return JSONWrappedResponse(status=113,message="ios还没写,哇咔咔")
+
 
 access_key = 'u-ryAwaQeBx9BS5t8OMSPs6P1Ewoqiu6-ZbbMNYm'
 secret_key = 'hVXFHO8GusQduMqLeYXZx_C5_c7D-VSwz6AKhjZJ'
-from qiniu import Auth
 
 
+
+@authentication_classes((TokenAuthentication, BasicAuthentication))
+@permission_classes((IsAuthenticated,))
 def get_uploadAvatarToken(request):
     q = Auth(access_key,secret_key)
     bucket_name = 'hotelbook'
@@ -251,7 +255,6 @@ class HotelListView(ListAPIView):
         queryset = self.get_queryset()
         city_id = request.query_params.get('cityId')
         hotels =queryset.filter(city_id=city_id)
-
         try:
             page = request.query_params.get('page',1)
             if int(page) < 1 :
@@ -261,7 +264,6 @@ class HotelListView(ListAPIView):
 
         print(hotels)
         pageintor = Paginator(hotels,1)
-
         try:
             backHotels = pageintor.page(page)
             serializers = self.serializer_class(backHotels,many=True,excludes=('houses',))

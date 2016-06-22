@@ -12,7 +12,7 @@ def query_necessary(*necessary_key):
         def wrapper(request,*args,**kw):
             print(*necessary_key)
             for i in necessary_key:
-                if not request.query_params.get(i):
+                if not request.POST.get(i):
                     return JSONWrappedResponse( status=-1, message="缺少必要的参数"+str(i))
             return func(request,*args,**kw)
         return wrapper
