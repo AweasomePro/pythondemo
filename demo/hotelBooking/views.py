@@ -109,9 +109,7 @@ def member_register(request):
                     raise e
                     return DefaultJsonResponse(data=kwargs, status=AppConst.STATUS_ERROR, message="内部错误")
                 else:
-                    return DefaultJsonResponse(data=kwargs, status=AppConst.STATUS_SUCCESSS, message="注册成功")
-
-
+                    return DefaultJsonResponse(data=kwargs, status=AppConst.STATUS_SUCCESSS, message="注册成功",token=token)
             else:
                 return JSONWrappedResponse(status=AppConst.STATUS_PWD_ERROR, message="注册失败，验证码错误")
     else:
@@ -203,13 +201,14 @@ secret_key = 'hVXFHO8GusQduMqLeYXZx_C5_c7D-VSwz6AKhjZJ'
 
 
 @api_view(['GET'])
-@parameter_necessary('avatarName', )
+@parameter_necessary('userId', )
 @authentication_classes((TokenAuthentication, BasicAuthentication))
 @permission_classes((IsAuthenticated,))
 def get_uploadAvatarToken(request):
     q = Auth(access_key,secret_key)
     bucket_name = 'hotelbook'
-    imageName = request.query_params.get('avatarName')
+    userId = parse_get_userId(request)
+    imageName = 'avatar_'+userId+'.jpg'
     key = imageName
     policy = {
         'callbackUrl': '183.136.198.78/avatar/upload/callback',
@@ -217,7 +216,7 @@ def get_uploadAvatarToken(request):
     }
 
     token = q.upload_token(bucket_name, key, 3600,policy)
-    return JSONWrappedResponse(data ={'token':token})
+    return JSONWrappedResponse(data ={'token':token,'imageUrl':key})
 
 
 def update_user_avatar_callback(request):
@@ -315,3 +314,8 @@ def verifySmsCode(mobilePhoneNumber, smscode):
 
 def phoneNumberExist(phoneNumber):
     return User.objects.exists(phoneNumber=phoneNumber)
+
+
+def parse_get_userId(request):
+    userId = request.REQUEST.get('userId')
+    return userId

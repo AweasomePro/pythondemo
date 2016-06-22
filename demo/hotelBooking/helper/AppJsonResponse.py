@@ -14,7 +14,7 @@ class JSONWrappedResponse(JsonResponse):
 
     def __init__(self, data=None, status=100, message="success", **kwargs):
         # data is a OrderedDict
-        res = {"status": status, "message": message, "timeStamp": timezone.now().timestamp(),}
+        res = {"status": status, "message": message, "timeStamp": int(timezone.now().timestamp()),}
         if not data is None:
             print('data is not null')
             res['Res'] = data
@@ -26,7 +26,7 @@ class JSONWrappedResponse(JsonResponse):
 class DefaultJsonResponse(Response):
     def __init__(self, data=None, status=100, message="成功",**kwargs):
         # data is a OrderedDict
-        res = {"status": status, "message": message, "timeStamp": timezone.now().timestamp(),}
+        res = {"status": status, "message": message, "timeStamp": int(timezone.now().timestamp()),}
 
         if not data is None:
             res['res'] = data
