@@ -210,12 +210,8 @@ def get_uploadAvatarToken(request):
     userId = parse_get_userId(request)
     imageName = 'avatar_'+userId+'.jpg'
     key = imageName
-    policy = {
-        'callbackUrl': '183.136.198.78/avatar/upload/callback',
-        'callbackBody': 'filename=$(fname)&filesize=$(fsize)'
-    }
 
-    token = q.upload_token(bucket_name, key, 3600,policy)
+    token = q.upload_token(bucket_name, key, 3600)
     return JSONWrappedResponse(data ={'token':token,'imageUrl':key})
 
 

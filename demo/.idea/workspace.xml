@@ -17,6 +17,7 @@
     <SUITE FILE_PATH="coverage/demo$qiniuTest.coverage" NAME="qiniuTest Coverage Results" MODIFIED="1465959135996" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/demo$emsTest.coverage" NAME="emsTest Coverage Results" MODIFIED="1465711865789" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/demo$tests.coverage" NAME="tests Coverage Results" MODIFIED="1465212480363" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hotelBooking" />
+    <SUITE FILE_PATH="coverage/demo$desTeset.coverage" NAME="desTeset Coverage Results" MODIFIED="1466592809883" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/demo$arraytest.coverage" NAME="arraytest Coverage Results" MODIFIED="1466151924754" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/demo$pythonTest.coverage" NAME="pythonTest Coverage Results" MODIFIED="1466147359153" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/demo$Test__hotelBooking_tests.coverage" NAME="Test: hotelBooking.tests Coverage Results" MODIFIED="1465371031831" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
@@ -40,11 +41,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/hotelBooking/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="615">
-              <caret line="234" column="80" selection-start-line="234" selection-start-column="80" selection-end-line="234" selection-end-column="80" />
+            <state relative-caret-position="398">
+              <caret line="216" column="0" selection-start-line="216" selection-start-column="0" selection-end-line="216" selection-end-column="0" />
               <folding>
                 <element signature="e#1599#1747#0" expanded="false" />
                 <element signature="e#4971#5026#0" expanded="false" />
@@ -55,28 +56,79 @@
                 <element signature="e#7164#7889#0" expanded="false" />
                 <element signature="e#7195#7791#0" expanded="false" />
                 <element signature="e#7216#7529#0" expanded="false" />
-                <element signature="e#8690#8822#1" expanded="false" />
-                <element signature="e#9784#10618#0" expanded="false" />
-                <element signature="e#9909#10618#0" expanded="false" />
-                <element signature="e#10067#10163#0" expanded="false" />
-                <element signature="e#10329#10453#0" expanded="false" />
-                <element signature="e#10655#10901#0" expanded="false" />
-                <element signature="e#10687#10898#0" expanded="false" />
-                <element signature="e#11038#11750#0" expanded="false" />
-                <element signature="e#11133#11193#0" expanded="false" />
-                <element signature="e#11610#11708#0" expanded="false" />
-                <element signature="e#11792#11843#0" expanded="false" />
+                <element signature="e#9630#10464#0" expanded="false" />
+                <element signature="e#9755#10464#0" expanded="false" />
+                <element signature="e#9913#10009#0" expanded="false" />
+                <element signature="e#10175#10299#0" expanded="false" />
+                <element signature="e#10501#10747#0" expanded="false" />
+                <element signature="e#10533#10744#0" expanded="false" />
+                <element signature="e#10884#11596#0" expanded="false" />
+                <element signature="e#10979#11039#0" expanded="false" />
+                <element signature="e#11456#11554#0" expanded="false" />
+                <element signature="e#11638#11689#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AppJsonResponse.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="signing.py" pinned="false" current-in-tab="false">
+        <entry file="file://D:/Python34/Lib/site-packages/django/core/signing.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="236">
+              <caret line="74" column="29" selection-start-line="74" selection-start-column="29" selection-end-line="74" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="crypto.py" pinned="false" current-in-tab="false">
+        <entry file="file://D:/Python34/Lib/site-packages/django/utils/crypto.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="424">
+              <caret line="43" column="44" selection-start-line="43" selection-start-column="44" selection-end-line="43" selection-end-column="44" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="hmac.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/myappVirtual/Lib/hmac.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="300">
+              <caret line="114" column="16" selection-start-line="114" selection-start-column="16" selection-end-line="114" selection-end-column="16" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="base64.py" pinned="false" current-in-tab="false">
+        <entry file="file://D:/Python34/Lib/base64.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-165">
+              <caret line="50" column="4" selection-start-line="50" selection-start-column="4" selection-end-line="50" selection-end-column="4" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AppJsonResponse.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/hotelBooking/helper/AppJsonResponse.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="651">
               <caret line="28" column="65" selection-start-line="28" selection-start-column="65" selection-end-line="28" selection-end-column="65" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="desTeset.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/desTeset.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="158">
+              <caret line="183" column="0" selection-start-line="183" selection-start-column="0" selection-end-line="183" selection-end-column="0" />
+              <folding>
+                <element signature="e#15#44#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -150,8 +202,9 @@
         <option value="$PROJECT_DIR$/hotelBooking/models.py" />
         <option value="$PROJECT_DIR$/hotelBooking/helper/decorators.py" />
         <option value="$PROJECT_DIR$/hotelBooking/middleware/TestMiddleware.py" />
-        <option value="$PROJECT_DIR$/hotelBooking/views.py" />
         <option value="$PROJECT_DIR$/hotelBooking/helper/AppJsonResponse.py" />
+        <option value="$PROJECT_DIR$/test/desTeset.py" />
+        <option value="$PROJECT_DIR$/hotelBooking/views.py" />
       </list>
     </option>
   </component>
@@ -216,14 +269,6 @@
               <option name="myItemId" value="demo" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; Python 3.4.4 (D:\Python34\python.exe) &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -232,70 +277,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="demo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="demo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="demo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hotelBookingProject" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="demo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="demo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hotelBooking" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="demo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="demo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hotelBooking" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="middleware" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="demo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="demo" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hotelBooking" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="helper" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -310,7 +291,7 @@
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js-jscs-nodeInterpreter" value="D:\Program Files\nodejs\node.exe" />
-    <property name="SearchEverywhereHistoryKey" value="PageNum&#9;null&#9;null&#10;LimitOffsetPagination&#9;null&#9;null&#10;pagination&#9;null&#9;null&#10;get_object_&#9;null&#9;null&#10;QueryD&#9;null&#9;null&#10;UserAd&#9;null&#9;null&#10;User&#9;null&#9;null&#10;UserDict&#9;null&#9;null&#10;views&#9;null&#9;null&#10;permission&#9;null&#9;null&#10;ListCreate&#9;null&#9;null&#10;Prepare&#9;null&#9;null&#10;request&#9;null&#9;null&#10;FieldWithDefault&#9;null&#9;null&#10;nametuple&#9;null&#9;null&#10;login_re&#9;null&#9;null" />
+    <property name="SearchEverywhereHistoryKey" value="signing&#9;FILE&#9;file://D:/Python34/Lib/site-packages/django/core/signing.py&#10;PageNum&#9;null&#9;null&#10;LimitOffsetPagination&#9;null&#9;null&#10;pagination&#9;null&#9;null&#10;get_object_&#9;null&#9;null&#10;QueryD&#9;null&#9;null&#10;UserAd&#9;null&#9;null&#10;User&#9;null&#9;null&#10;UserDict&#9;null&#9;null&#10;views&#9;null&#9;null&#10;permission&#9;null&#9;null&#10;ListCreate&#9;null&#9;null&#10;Prepare&#9;null&#9;null&#10;request&#9;null&#9;null&#10;FieldWithDefault&#9;null&#9;null&#10;nametuple&#9;null&#9;null&#10;login_re&#9;null&#9;null" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -320,7 +301,7 @@
       <recent name="E:\pythondemo\demo\hotelBookingProject" />
     </key>
   </component>
-  <component name="RunManager" selected="Django server.demo">
+  <component name="RunManager" selected="Python.desTeset">
     <configuration default="false" name="emsTest" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -337,26 +318,6 @@
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test/emsTest.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="Test: hotelBooking.tests" type="DjangoTestsConfigurationType" factoryName="Django tests" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="demo" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="TARGET" value="hotelBooking.tests" />
-      <option name="SETTINGS_FILE" value="" />
-      <option name="CUSTOM_SETTINGS" value="false" />
-      <option name="USE_OPTIONS" value="false" />
-      <option name="OPTIONS" value="" />
       <method />
     </configuration>
     <configuration default="false" name="qiniuTest" type="PythonConfigurationType" factoryName="Python" temporary="true">
@@ -409,6 +370,24 @@
       <module name="demo" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test/pythonTest.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="desTeset" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="demo" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test/desTeset.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -671,18 +650,18 @@
     <list size="6">
       <item index="0" class="java.lang.String" itemvalue="Django server.demo" />
       <item index="1" class="java.lang.String" itemvalue="Python.emsTest" />
-      <item index="2" class="java.lang.String" itemvalue="Django tests.Test: hotelBooking.tests" />
-      <item index="3" class="java.lang.String" itemvalue="Python.qiniuTest" />
-      <item index="4" class="java.lang.String" itemvalue="Python.arraytest" />
-      <item index="5" class="java.lang.String" itemvalue="Python.pythonTest" />
+      <item index="2" class="java.lang.String" itemvalue="Python.qiniuTest" />
+      <item index="3" class="java.lang.String" itemvalue="Python.arraytest" />
+      <item index="4" class="java.lang.String" itemvalue="Python.pythonTest" />
+      <item index="5" class="java.lang.String" itemvalue="Python.desTeset" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.arraytest" />
-        <item index="1" class="java.lang.String" itemvalue="Python.pythonTest" />
-        <item index="2" class="java.lang.String" itemvalue="Python.qiniuTest" />
-        <item index="3" class="java.lang.String" itemvalue="Python.emsTest" />
-        <item index="4" class="java.lang.String" itemvalue="Django tests.Test: hotelBooking.tests" />
+        <item index="0" class="java.lang.String" itemvalue="Python.desTeset" />
+        <item index="1" class="java.lang.String" itemvalue="Python.arraytest" />
+        <item index="2" class="java.lang.String" itemvalue="Python.pythonTest" />
+        <item index="3" class="java.lang.String" itemvalue="Python.qiniuTest" />
+        <item index="4" class="java.lang.String" itemvalue="Python.emsTest" />
       </list>
     </recent_temporary>
   </component>
@@ -727,7 +706,7 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32827735" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.283857" sideWeight="0.4978678" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2936078" sideWeight="0.49785638" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2936078" sideWeight="0.49785638" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973205" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295711" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -785,7 +764,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/hotelBooking/views.py</url>
-          <line>272</line>
+          <line>268</line>
           <option name="timeStamp" value="56" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
@@ -823,127 +802,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/myappVirtual/Lib/site-packages/django/core/paginator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="115" column="22" selection-start-line="115" selection-start-column="22" selection-end-line="115" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/myappVirtual/Lib/site-packages/rest_framework/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="863">
-          <caret line="464" column="0" selection-start-line="464" selection-start-column="0" selection-end-line="464" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#82#1" expanded="false" />
-            <element signature="e#831#1312#0" expanded="false" />
-            <element signature="e#831#1053#1" expanded="false" />
-            <element signature="e#1367#1799#0" expanded="false" />
-            <element signature="e#1367#1603#1" expanded="false" />
-            <element signature="e#1843#3145#0" expanded="false" />
-            <element signature="e#2215#2654#0" expanded="false" />
-            <element signature="e#2908#3071#0" expanded="false" />
-            <element signature="e#4220#4652#0" expanded="false" />
-            <element signature="e#4260#4523#0" expanded="false" />
-            <element signature="e#4300#4505#0" expanded="false" />
-            <element signature="e#4743#4809#0" expanded="false" />
-            <element signature="e#4948#5044#1" expanded="false" />
-            <element signature="e#5147#5327#0" expanded="false" />
-            <element signature="e#5157#5222#0" expanded="false" />
-            <element signature="e#5402#5595#0" expanded="false" />
-            <element signature="e#5402#5537#1" expanded="false" />
-            <element signature="e#5661#5911#0" expanded="false" />
-            <element signature="e#5661#5756#1" expanded="false" />
-            <element signature="e#5961#6093#0" expanded="false" />
-            <element signature="e#5961#6052#1" expanded="false" />
-            <element signature="e#6151#6431#0" expanded="false" />
-            <element signature="e#6151#6287#1" expanded="false" />
-            <element signature="e#6489#6896#0" expanded="false" />
-            <element signature="e#6489#6619#1" expanded="false" />
-            <element signature="e#6628#6692#0" expanded="false" />
-            <element signature="e#6762#6896#0" expanded="false" />
-            <element signature="e#6942#7397#0" expanded="false" />
-            <element signature="e#6942#7077#1" expanded="false" />
-            <element signature="e#7086#7152#0" expanded="false" />
-            <element signature="e#7208#7397#0" expanded="false" />
-            <element signature="e#7452#7775#0" expanded="false" />
-            <element signature="e#7452#7570#1" expanded="false" />
-            <element signature="e#7586#7775#0" expanded="false" />
-            <element signature="e#7814#8037#0" expanded="false" />
-            <element signature="e#7814#7922#1" expanded="false" />
-            <element signature="e#8095#8321#0" expanded="false" />
-            <element signature="e#8095#8224#1" expanded="false" />
-            <element signature="e#8414#8612#0" expanded="false" />
-            <element signature="e#8414#8501#1" expanded="false" />
-            <element signature="e#8651#8811#0" expanded="false" />
-            <element signature="e#8651#8745#1" expanded="false" />
-            <element signature="e#8848#9000#0" expanded="false" />
-            <element signature="e#8848#8940#1" expanded="false" />
-            <element signature="e#9044#9207#0" expanded="false" />
-            <element signature="e#9044#9143#1" expanded="false" />
-            <element signature="e#9248#9417#0" expanded="false" />
-            <element signature="e#9248#9345#1" expanded="false" />
-            <element signature="e#9456#9613#0" expanded="false" />
-            <element signature="e#9456#9547#1" expanded="false" />
-            <element signature="e#9661#9892#0" expanded="false" />
-            <element signature="e#9661#9745#1" expanded="false" />
-            <element signature="e#10008#10411#0" expanded="false" />
-            <element signature="e#10008#10099#1" expanded="false" />
-            <element signature="e#10321#10411#0" expanded="false" />
-            <element signature="e#10468#10757#0" expanded="false" />
-            <element signature="e#10468#10736#1" expanded="false" />
-            <element signature="e#10809#11190#0" expanded="false" />
-            <element signature="e#10809#10947#1" expanded="false" />
-            <element signature="e#11010#11190#0" expanded="false" />
-            <element signature="e#11075#11190#0" expanded="false" />
-            <element signature="e#11254#11666#0" expanded="false" />
-            <element signature="e#11254#11411#1" expanded="false" />
-            <element signature="e#11474#11666#0" expanded="false" />
-            <element signature="e#11551#11666#0" expanded="false" />
-            <element signature="e#11716#12007#0" expanded="false" />
-            <element signature="e#11716#11846#1" expanded="false" />
-            <element signature="e#11905#12007#0" expanded="false" />
-            <element signature="e#12076#12436#0" expanded="false" />
-            <element signature="e#12076#12245#1" expanded="false" />
-            <element signature="e#12530#12893#0" expanded="false" />
-            <element signature="e#12530#12589#1" expanded="false" />
-            <element signature="e#12952#13701#0" expanded="false" />
-            <element signature="e#12952#13046#1" expanded="false" />
-            <element signature="e#13780#14724#0" expanded="false" />
-            <element signature="e#13780#13838#1" expanded="false" />
-            <element signature="e#13978#14109#0" expanded="false" />
-            <element signature="e#14205#14616#0" expanded="false" />
-            <element signature="e#14273#14409#0" expanded="false" />
-            <element signature="e#14771#15592#0" expanded="false" />
-            <element signature="e#14771#14899#1" expanded="false" />
-            <element signature="e#14928#15016#0" expanded="false" />
-            <element signature="e#15032#15317#0" expanded="false" />
-            <element signature="e#15598#15668#0" expanded="false" />
-            <element signature="e#15826#15993#1" expanded="false" />
-            <element signature="e#16410#16521#0" expanded="false" />
-            <element signature="e#16908#17216#0" expanded="false" />
-            <element signature="e#16908#16974#1" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/django/core/validators.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="602">
-          <caret line="92" column="13" selection-start-line="92" selection-start-column="13" selection-end-line="92" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/django/db/models/fields/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="2307" column="47" selection-start-line="2307" selection-start-column="47" selection-end-line="2307" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
@@ -1306,20 +1164,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/django/core/signing.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://D:/Python34/Lib/site-packages/django/contrib/auth/middleware.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="217">
           <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="10" selection-end-column="31" />
           <folding>
-            <element signature="e#0#31#0" expanded="true" />
+            <element signature="e#0#31#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1337,7 +1187,7 @@
         <state relative-caret-position="527">
           <caret line="17" column="66" selection-start-line="17" selection-start-column="66" selection-end-line="17" selection-end-column="66" />
           <folding>
-            <element signature="e#0#52#0" expanded="true" />
+            <element signature="e#0#52#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1347,6 +1197,16 @@
         <state relative-caret-position="403">
           <caret line="15" column="38" selection-start-line="15" selection-start-column="31" selection-end-line="15" selection-end-column="38" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/desTeset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="158">
+          <caret line="183" column="0" selection-start-line="183" selection-start-column="0" selection-end-line="183" selection-end-column="0" />
+          <folding>
+            <element signature="e#15#44#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1360,10 +1220,50 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/hotelBooking/helper/AppJsonResponse.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="651">
+          <caret line="28" column="65" selection-start-line="28" selection-start-column="65" selection-end-line="28" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Python34/Lib/base64.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-165">
+          <caret line="50" column="4" selection-start-line="50" selection-start-column="4" selection-end-line="50" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Python34/Lib/site-packages/django/core/signing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="236">
+          <caret line="74" column="29" selection-start-line="74" selection-start-column="29" selection-end-line="74" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Python34/Lib/site-packages/django/utils/crypto.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="424">
+          <caret line="43" column="44" selection-start-line="43" selection-start-column="44" selection-end-line="43" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/myappVirtual/Lib/hmac.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="114" column="16" selection-start-line="114" selection-start-column="16" selection-end-line="114" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/hotelBooking/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="615">
-          <caret line="234" column="80" selection-start-line="234" selection-start-column="80" selection-end-line="234" selection-end-column="80" />
+        <state relative-caret-position="398">
+          <caret line="216" column="0" selection-start-line="216" selection-start-column="0" selection-end-line="216" selection-end-column="0" />
           <folding>
             <element signature="e#1599#1747#0" expanded="false" />
             <element signature="e#4971#5026#0" expanded="false" />
@@ -1374,26 +1274,17 @@
             <element signature="e#7164#7889#0" expanded="false" />
             <element signature="e#7195#7791#0" expanded="false" />
             <element signature="e#7216#7529#0" expanded="false" />
-            <element signature="e#8690#8822#1" expanded="false" />
-            <element signature="e#9784#10618#0" expanded="false" />
-            <element signature="e#9909#10618#0" expanded="false" />
-            <element signature="e#10067#10163#0" expanded="false" />
-            <element signature="e#10329#10453#0" expanded="false" />
-            <element signature="e#10655#10901#0" expanded="false" />
-            <element signature="e#10687#10898#0" expanded="false" />
-            <element signature="e#11038#11750#0" expanded="false" />
-            <element signature="e#11133#11193#0" expanded="false" />
-            <element signature="e#11610#11708#0" expanded="false" />
-            <element signature="e#11792#11843#0" expanded="false" />
+            <element signature="e#9630#10464#0" expanded="false" />
+            <element signature="e#9755#10464#0" expanded="false" />
+            <element signature="e#9913#10009#0" expanded="false" />
+            <element signature="e#10175#10299#0" expanded="false" />
+            <element signature="e#10501#10747#0" expanded="false" />
+            <element signature="e#10533#10744#0" expanded="false" />
+            <element signature="e#10884#11596#0" expanded="false" />
+            <element signature="e#10979#11039#0" expanded="false" />
+            <element signature="e#11456#11554#0" expanded="false" />
+            <element signature="e#11638#11689#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hotelBooking/helper/AppJsonResponse.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="651">
-          <caret line="28" column="65" selection-start-line="28" selection-start-column="65" selection-end-line="28" selection-end-column="65" />
-          <folding />
         </state>
       </provider>
     </entry>
