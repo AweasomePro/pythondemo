@@ -10,5 +10,6 @@ urlpatterns = [
     # url(r'^provinces/$', views.provinces),
     url(r'provinces',views.ProvinceView.as_view()),
     url(r'^hotel$',views.HotelView.as_view()),
-    url(r'hotels$',views.HotelListView.as_view())
+    url(r'hotels$',views.HotelListView.as_view()),
+    url(r'^avatar/token$', views.get_uploadAvatarToken),
 ]

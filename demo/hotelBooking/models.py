@@ -28,15 +28,13 @@ class User(AbstractBaseUser):
     name = models.CharField(max_length=225,default="unknow name")
     email = models.EmailField(max_length=255)
     phone_is_verify = models.BooleanField(default=False)
-
+    avatar = models.URLField(blank=True)
     is_admin = models.BooleanField(default=False)
     is_active = models.BigIntegerField(default=True)
     create_at = models.DateTimeField(auto_now_add=True)
     groups = models.ManyToManyField(Group,blank=True)
     permissions = models.ManyToManyField(Permission,blank=True)
-
     objects = UserManager()
-
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = ['name',]
 
@@ -71,12 +69,11 @@ class User(AbstractBaseUser):
     def __unicode__(self):
         return self.phone_number
 
-# class Member(User):
-    # name = models.CharField(max_length=50)
-    # phoneNumber = models.BigIntegerField()
-    # phone_is_verify = models.BooleanField(default=False)
-    # objects = UserManager
+    def existUserId(self,userId):
+        self.objects.filter(userId == userId).exists()
 
+class Member(User):
+    pass
 
 class Installation(models.Model):
     badge = models.BigIntegerField(null=True,default=0,verbose_name='ios badge数')

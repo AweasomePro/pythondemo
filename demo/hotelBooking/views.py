@@ -29,11 +29,12 @@ from rest_framework.decorators import api_view, parser_classes,permission_classe
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 
-
 logger = logging.getLogger(__name__)
 
 APP_ID = "P0fN7ArvLMtcgsACRwhOupHj-gzGzoHsz"
 APP_KEY = "cWK8NHllNg7N6huHiKA1HeRG"
+
+callback_url = ''
 
 
 class AppConst:
@@ -139,6 +140,10 @@ def member_resiter_sms_send(request):
         response_dic = response.json()
         return JSONWrappedResponse(status=response_dic['code'], message=response_dic['error'])
 
+
+
+
+
 @never_cache
 @api_view(['POST',])
 @permission_classes((IsAuthenticated,))
@@ -176,6 +181,36 @@ def installationId_bind(request):
         elif deviceToken:
             return JSONWrappedResponse(status=113,message="ios还没写")
 
+access_key = 'u-ryAwaQeBx9BS5t8OMSPs6P1Ewoqiu6-ZbbMNYm'
+secret_key = 'hVXFHO8GusQduMqLeYXZx_C5_c7D-VSwz6AKhjZJ'
+from qiniu import Auth
+
+
+def get_uploadAvatarToken(request):
+    q = Auth(access_key,secret_key)
+    bucket_name = 'hotelbook'
+    key = 'test.png'
+
+    policy = {
+        'callbackUrl': '183.136.198.78/avatar/upload/callback',
+        'callbackBody': 'filename=$(fname)&filesize=$(fsize)'
+    }
+
+    token = q.upload_token(bucket_name, key, 3600,policy)
+    return JSONWrappedResponse(data ={'token':token})
+
+def update_user_avatar_callback(request):
+    """
+    采用 用户发起请求，获取ｔｏｋｅｎ，客户端得到token往　七牛云上传图片，七牛云回调我方接口的调用流程
+    这个接口是  在用户上传之后 ，七牛云回调的我方接口
+    :param request:
+    :return:
+    """
+    query_params =  request.query＿params
+    fname = query_params.get('filename')
+    userId = fname.split('-')[0]
+    if(User.existUserId(userId)):
+        userhelper.updateAvatar(userId,fname)
 
 
 #  ------------------------------Province--------------------------------------------
@@ -208,7 +243,6 @@ class HotelView(GenericAPIView):
         hotel_serializer =  HotelSerializer(hotel,many=False)
         return DefaultJsonResponse({'hotel':hotel_serializer.data})
 
-from time import time
 
 class HotelListView(ListAPIView):
     serializer_class = HotelSerializer
@@ -242,6 +276,7 @@ class ProvinceView(APIView):
         serializer_provinces = ProvinceSerializer(provinces, many=True)
         data = {'procinces': serializer_provinces.data,}
         return DefaultJsonResponse(data=data, )
+
 
 
 
