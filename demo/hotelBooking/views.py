@@ -190,7 +190,6 @@ def get_uploadAvatarToken(request):
     q = Auth(access_key,secret_key)
     bucket_name = 'hotelbook'
     key = 'test.png'
-
     policy = {
         'callbackUrl': '183.136.198.78/avatar/upload/callback',
         'callbackBody': 'filename=$(fname)&filesize=$(fsize)'
