@@ -176,7 +176,7 @@ def installationId_register(request, formate=None):
         print(serializer.errors)
         return DefaultJsonResponse(status=AppConst.STATUS_ERROR, message=str(serializer.errors))
 
-
+@api_view(['POST',])
 @csrf_exempt
 @authentication_classes((TokenAuthentication, BasicAuthentication))
 @permission_classes((IsAuthenticated,))
