@@ -23,6 +23,7 @@ class UserManager(BaseUserManager):
         user.save()
         return user
 
+
 class User(AbstractBaseUser):
     phone_number = models.CharField(max_length=15, unique=True)
     name = models.CharField(max_length=225,default="unknow name")

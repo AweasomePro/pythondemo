@@ -11,6 +11,6 @@ urlpatterns = [
     url(r'provinces',views.ProvinceView.as_view()),
     url(r'^hotel$',views.HotelView.as_view()),
     url(r'hotels$',views.HotelListView.as_view()),
-    url(r'^avatar/token$', views.get_uploadAvatarToken),
+    url(r'^avatar/token$', views.obtain_uploadAvatarToken),
     url(r'^avatar/upload/callback',views.update_user_avatar_callback),
 ]

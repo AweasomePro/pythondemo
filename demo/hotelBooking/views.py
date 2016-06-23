@@ -1,29 +1,28 @@
 #-*-coding:utf-8-*-
 import requests
 import json
-from .helper import modelKey
-from .helper.decorators import parameter_necessary
-from .helper.AppJsonResponse import JSONWrappedResponse,DefaultJsonResponse
+from hotelBooking.helper import modelKey
+from hotelBooking.helper.decorators import parameter_necessary
+from hotelBooking.helper.AppJsonResponse import JSONWrappedResponse,DefaultJsonResponse
 from .models import *
 from .serializers import *
 from .helper import userhelper
 import logging
 
-# from rest_framework.renderers import JSONRenderer
-
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_http_methods, require_POST
+
+from django.utils.decorators import method_decorator
 from django.contrib import auth
-from django.contrib.sessions.models import Session, SessionManager
-from django.contrib.sessions.backends.db import SessionStore
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from django.dispatch import receiver
 from django.core.paginator import Paginator,EmptyPage
-from django.conf import settings
 from django.db.models.signals import post_save
 
+from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView,ListAPIView
 from rest_framework import viewsets, status
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
@@ -31,15 +30,17 @@ from rest_framework.decorators import api_view, parser_classes,permission_classe
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import BasicAuthentication,TokenAuthentication
-
 from qiniu import Auth
+from rest_framework_jwt.settings import api_settings
+
+
+jwt_payload_handle = api_settings.JWT_PAYLOAD_HANDLER
+jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
 logger = logging.getLogger(__name__)
 
 APP_ID = "P0fN7ArvLMtcgsACRwhOupHj-gzGzoHsz"
 APP_KEY = "cWK8NHllNg7N6huHiKA1HeRG"
-
-callback_url = ''
 
 
 class AppConst:
@@ -49,8 +50,8 @@ class AppConst:
     STATUS_PHONE_EXISTED = '103'
     STATUS_PHONE_NOT_EXISTED = '104'
 
-
 @never_cache
+@api_view(['POST'])
 @parameter_necessary('phoneNumber', 'password', )
 def member_login(request):
     phoneNumber = request.POST.get(modelKey.KEY_PHONENUMBER)
@@ -62,22 +63,24 @@ def member_login(request):
             # auth.login(request,user)
             print('login user ' + str(user.phone_number))
             kwargs = {'UserEntity': UserSerializer(user, many=False).data}
-            response = JSONWrappedResponse(data=kwargs, status=AppConst.STATUS_SUCCESSS, message="登入成功")
-            print('settings session cookie name is :' + settings.SESSION_COOKIE_NAME)
+            payload = jwt_payload_handle(user)
+            token = jwt_encode_handler(payload)
+            print('token is ' + str(token))
+            response = DefaultJsonResponse(data=kwargs, status=AppConst.STATUS_SUCCESSS, message="登入成功")
+            response['token'] =token
             return response
         else:
-            return JSONWrappedResponse(status=AppConst.STATUS_PWD_ERROR, message="账号密码错误", )
+            return DefaultJsonResponse(status=AppConst.STATUS_PWD_ERROR, message="账号密码错误", )
     except User.DoesNotExist:
-        return JSONWrappedResponse(status=AppConst.STATUS_PHONE_NOT_EXISTED, message="不存在该账号")
+        return DefaultJsonResponse(status=AppConst.STATUS_PHONE_NOT_EXISTED, message="不存在该账号")
     except Exception as e:
         print('exception ' + e.__str__())
-        return JSONWrappedResponse(status=401, message="服务器内部请求错误")
+        return DefaultJsonResponse(status=401, message="服务器内部请求错误")
 
 
 @never_cache
-@csrf_exempt
 @api_view(['POST'])
-@parameter_necessary('phoneNumber', 'password', 'smsCode')
+@parameter_necessary('phoneNumber', 'password', 'smsCode',)
 def member_register(request):
     phone_number = request.POST.get('phoneNumber')
     password = request.POST.get('password')
@@ -94,31 +97,30 @@ def member_register(request):
                     user.set_password(password)
                     user.username = phone_number
                     print('user 的username =' + str(user.username))
-                    # token = Token.objects.create(user=user)
                     serailizer_member = UserSerializer(user, many=False)
                     # serailizer_member.data
                     kwargs = {'UserEntity': serailizer_member.data}
+                    payload = jwt_payload_handle(user)
+                    token = jwt_encode_handler(payload)
                     user.save()
-                    token = Token.objects.get(user_id=user.id)
-                    print('token is {}'.format_map(token.id))
-                    # response = {'token':token}
-                    # print(type(response))
-                    # return JSONWrappedResponse(response)
-                    # return Response({'token':str(token)})
                 except BaseException as e:
-                    raise e
+                    # raise e
                     return DefaultJsonResponse(data=kwargs, status=AppConst.STATUS_ERROR, message="内部错误")
                 else:
-                    return DefaultJsonResponse(data=kwargs, status=AppConst.STATUS_SUCCESSS, message="注册成功",token=token)
+                    response = DefaultJsonResponse(data=kwargs, status=AppConst.STATUS_SUCCESSS, message="注册成功")
+                    response['token'] = token
+                    return response
             else:
-                return JSONWrappedResponse(status=AppConst.STATUS_PWD_ERROR, message="注册失败，验证码错误")
-    else:
-        return JSONWrappedResponse(status=AppConst.STATUS_PHONE_EXISTED, message="手机号已经存在")
+                return DefaultJsonResponse(status=AppConst.STATUS_PWD_ERROR, message="注册失败，验证码错误")
 
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_auth_token(sender, instance=None, created=False, **kwargs):
-    if created:
-        Token.objects.create(user=instance)
+    else:
+        return DefaultJsonResponse(status=AppConst.STATUS_PHONE_EXISTED, message="手机号已经存在")
+
+
+# @receiver(post_save, sender=settings.AUTH_USER_MODEL)
+# def create_auth_token(sender, instance=None, created=False, **kwargs):
+#     if created:
+#         Token.objects.create(user=instance)
 
 def member_logout(request):
     request.session.get()
@@ -133,7 +135,7 @@ def member_resiter_sms_send(request):
     print('regist phone number %s'%phoneNumber)
     smsType = request.POST.get('smsType')
     if (userhelper.phoneNumberExist(phoneNumber)):
-        return JSONWrappedResponse(status=AppConst.STATUS_PHONE_EXISTED, message="手机号已经存在")
+        return DefaultJsonResponse(status=AppConst.STATUS_PHONE_EXISTED, message="手机号已经存在")
     url = 'https://api.leancloud.cn/1.1/requestSmsCode'
     values = {
         modelKey.KEY_LEAN_PHONENUMBER: str(phoneNumber),
@@ -151,14 +153,15 @@ def member_resiter_sms_send(request):
     # print(str(response.content))
     # print(response.request.body)
     if response.status_code == 200:
-        return JSONWrappedResponse(status=AppConst.STATUS_SUCCESSS, message='发送验证码成功')
+        return DefaultJsonResponse(status=AppConst.STATUS_SUCCESSS, message='发送验证码成功')
     else:
         response_dic = response.json()
-        return JSONWrappedResponse(status=response_dic['code'], message=response_dic['error'])
+        return DefaultJsonResponse(status=response_dic['code'], message=response_dic['error'])
 
 
 @never_cache
 @api_view(['POST',])
+@authentication_classes((TokenAuthentication, BasicAuthentication))
 @permission_classes((IsAuthenticated,))
 @parser_classes((JSONParser,))
 def installationId_register(request, formate=None):
@@ -168,16 +171,17 @@ def installationId_register(request, formate=None):
     if serializer.is_valid():
         print('valid'+serializer.__str__())
         serializer.save()
-        return JSONWrappedResponse(status=AppConst.STATUS_SUCCESSS, message="上传成功")
+        return DefaultJsonResponse(status=AppConst.STATUS_SUCCESSS, message="上传成功")
     else:
         print(serializer.errors)
-        return JSONWrappedResponse(status=AppConst.STATUS_ERROR, message=str(serializer.errors))
+        return DefaultJsonResponse(status=AppConst.STATUS_ERROR, message=str(serializer.errors))
 
 
 @csrf_exempt
-@parameter_necessary('phoneNumber')
+@authentication_classes((TokenAuthentication, BasicAuthentication))
+@permission_classes((IsAuthenticated,))
 def installationId_bind(request):
-    phoneNumber = request.POST.get(modelKey.KEY_PHONENUMBER)
+    phoneNumber = request.user.pk
     installationId = request.POST.get('installationId')
     deviceToken = request.POST.get('deviceToken')
     if phoneNumber:
@@ -187,13 +191,13 @@ def installationId_bind(request):
                 user = User.objects.get(phone_number=phoneNumber)
                 installDevice.member = user
                 installDevice.save()
-                return JSONWrappedResponse(status=AppConst.STATUS_SUCCESSS, message="success")
+                return DefaultJsonResponse(status=AppConst.STATUS_SUCCESSS, message="success")
             except Installation.DoesNotExist:
-                return JSONWrappedResponse(status=111,message="这个installationId尚未注册到服务端")
+                return DefaultJsonResponse(status=111,message="这个installationId尚未注册到服务端")
             except User.DoesNotExist:
-                return JSONWrappedResponse(status=112, message="这个phoneNumber尚未注册到服务端")
+                return DefaultJsonResponse(status=112, message="这个phoneNumber尚未注册到服务端")
         elif deviceToken:
-            return JSONWrappedResponse(status=113,message="ios还没写,哇咔咔")
+            return DefaultJsonResponse(status=113,message="ios还没写,哇咔咔")
 
 
 access_key = 'u-ryAwaQeBx9BS5t8OMSPs6P1Ewoqiu6-ZbbMNYm'
@@ -201,18 +205,17 @@ secret_key = 'hVXFHO8GusQduMqLeYXZx_C5_c7D-VSwz6AKhjZJ'
 
 
 @api_view(['GET'])
-@parameter_necessary('userId', )
-@authentication_classes((TokenAuthentication, BasicAuthentication))
-@permission_classes((IsAuthenticated,))
-def get_uploadAvatarToken(request):
+# @authentication_classes((TokenAuthentication, BasicAuthentication))
+# @permission_classes((IsAuthenticated,))
+def obtain_uploadAvatarToken(request):
     q = Auth(access_key,secret_key)
+    print('user id'+str(request.user.id))
     bucket_name = 'hotelbook'
     userId = parse_get_userId(request)
     imageName = 'avatar_'+userId+'.jpg'
     key = imageName
-
     token = q.upload_token(bucket_name, key, 3600)
-    return JSONWrappedResponse(data ={'token':token,'imageUrl':key})
+    return DefaultJsonResponse(data ={'token':token,'imageUrl':key})
 
 
 def update_user_avatar_callback(request):
@@ -229,9 +232,7 @@ def update_user_avatar_callback(request):
         userhelper.updateAvatar(userId,fname)
 
 # -------------------------基于类的视图----------------------------------------------#
-from  rest_framework.views import APIView
-from  rest_framework.generics import GenericAPIView,ListAPIView
-from django.utils.decorators import method_decorator
+
 
 
 class HotelView(GenericAPIView):
@@ -315,3 +316,22 @@ def phoneNumberExist(phoneNumber):
 def parse_get_userId(request):
     userId = request.REQUEST.get('userId')
     return userId
+
+from Crypto.Hash import SHA256
+from Crypto.PublicKey import RSA
+from Crypto.Cipher import PKCS1_OAEP
+def Decrypt(prikey, data):
+    try:
+        cipher = PKCS1_OAEP.new(prikey, hashAlgo=SHA256)
+        return cipher.decrypt(data)
+    except:
+
+        return None
+
+
+def Encrypt(pubkey, data):
+    try:
+        cipher = PKCS1_OAEP.new(pubkey, hashAlgo=SHA256)
+        return cipher.encrypt(data)
+    except:
+        return None

@@ -39,10 +39,12 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('name','phone_number','create_at','avatar')
 
+
 class InstallationSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = Installation
         # choices = {'badge','deviceProfile','installationId','timeZone'}
+
 
 class HotelImgSerializer(DynamicFieldsModelSerializer):
 
@@ -50,16 +52,19 @@ class HotelImgSerializer(DynamicFieldsModelSerializer):
         model = HotelLogoImg
         exclude =('id',)
 
+
 class HouseImgSerializer(DynamicFieldsModelSerializer):
 
     class Meta:
         model = HouseImg
         exclude=('id',)
 
+
 class HousePackageSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = HousePackage
         exclude=('id',)
+
 
 class HouseSerializer(DynamicFieldsModelSerializer):
     houseImgs = HouseImgSerializer(many=True)

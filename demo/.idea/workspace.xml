@@ -14,13 +14,20 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/demo$qiniuTest.coverage" NAME="qiniuTest Coverage Results" MODIFIED="1465959135996" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/demo$emsTest.coverage" NAME="emsTest Coverage Results" MODIFIED="1465711865789" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/demo$tests.coverage" NAME="tests Coverage Results" MODIFIED="1465212480363" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hotelBooking" />
     <SUITE FILE_PATH="coverage/demo$desTeset.coverage" NAME="desTeset Coverage Results" MODIFIED="1466592809883" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/demo$arraytest.coverage" NAME="arraytest Coverage Results" MODIFIED="1466151924754" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
+    <SUITE FILE_PATH="coverage/demo$test.coverage" NAME="test Coverage Results" MODIFIED="1466670381025" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hotelBooking" />
+    <SUITE FILE_PATH="coverage/demo$Mysettings.coverage" NAME="Mysettings Coverage Results" MODIFIED="1466673479288" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hotelBooking" />
+    <SUITE FILE_PATH="coverage/demo$crypt.coverage" NAME="crypt Coverage Results" MODIFIED="1466649180865" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hotelBooking/helper" />
+    <SUITE FILE_PATH="coverage/demo$Gl.coverage" NAME="Gl Coverage Results" MODIFIED="1466670948445" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hotelBooking/helper" />
+    <SUITE FILE_PATH="coverage/demo$Test__hotelBooking_tests.coverage" NAME="Test: hotelBooking.tests Coverage Results" MODIFIED="1466667750598" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/demo$qiniuTest.coverage" NAME="qiniuTest Coverage Results" MODIFIED="1465959135996" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
+    <SUITE FILE_PATH="coverage/demo$G1.coverage" NAME="G1 Coverage Results" MODIFIED="1466599002890" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hotelBooking/helper" />
+    <SUITE FILE_PATH="coverage/demo$views.coverage" NAME="views Coverage Results" MODIFIED="1466670236950" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hotelBooking" />
     <SUITE FILE_PATH="coverage/demo$pythonTest.coverage" NAME="pythonTest Coverage Results" MODIFIED="1466147359153" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
-    <SUITE FILE_PATH="coverage/demo$Test__hotelBooking_tests.coverage" NAME="Test: hotelBooking.tests Coverage Results" MODIFIED="1465371031831" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/demo$settings.coverage" NAME="settings Coverage Results" MODIFIED="1466668062754" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hotelBooking" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -44,69 +51,34 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/hotelBooking/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="398">
-              <caret line="216" column="0" selection-start-line="216" selection-start-column="0" selection-end-line="216" selection-end-column="0" />
+            <state relative-caret-position="-119">
+              <caret line="71" column="13" selection-start-line="71" selection-start-column="13" selection-end-line="71" selection-end-column="13" />
               <folding>
-                <element signature="e#1599#1747#0" expanded="false" />
-                <element signature="e#4971#5026#0" expanded="false" />
-                <element signature="e#5559#5655#0" expanded="false" />
-                <element signature="e#5927#5933#0" expanded="false" />
-                <element signature="e#6179#6304#0" expanded="false" />
-                <element signature="e#6973#7889#0" expanded="false" />
-                <element signature="e#7164#7889#0" expanded="false" />
-                <element signature="e#7195#7791#0" expanded="false" />
-                <element signature="e#7216#7529#0" expanded="false" />
-                <element signature="e#9630#10464#0" expanded="false" />
-                <element signature="e#9755#10464#0" expanded="false" />
-                <element signature="e#9913#10009#0" expanded="false" />
-                <element signature="e#10175#10299#0" expanded="false" />
-                <element signature="e#10501#10747#0" expanded="false" />
-                <element signature="e#10533#10744#0" expanded="false" />
-                <element signature="e#10884#11596#0" expanded="false" />
-                <element signature="e#10979#11039#0" expanded="false" />
-                <element signature="e#11456#11554#0" expanded="false" />
-                <element signature="e#11638#11689#0" expanded="false" />
+                <element signature="e#20#35#0" expanded="true" />
+                <element signature="e#3215#4851#0" expanded="false" />
+                <element signature="e#4851#4906#0" expanded="false" />
+                <element signature="e#5077#5107#0" expanded="false" />
+                <element signature="e#5217#6321#0" expanded="false" />
+                <element signature="e#6553#6968#0" expanded="false" />
+                <element signature="e#6683#6828#0" expanded="false" />
+                <element signature="e#6847#6968#0" expanded="false" />
+                <element signature="e#7130#8019#0" expanded="false" />
+                <element signature="e#8681#9010#0" expanded="false" />
+                <element signature="e#8681#8813#1" expanded="false" />
+                <element signature="e#9132#9576#0" expanded="false" />
+                <element signature="e#9214#9576#0" expanded="false" />
+                <element signature="e#9617#10451#0" expanded="false" />
+                <element signature="e#9742#10451#0" expanded="false" />
+                <element signature="e#9900#9996#0" expanded="false" />
+                <element signature="e#10162#10286#0" expanded="false" />
+                <element signature="e#10488#10734#0" expanded="false" />
+                <element signature="e#10520#10731#0" expanded="false" />
+                <element signature="e#10871#11583#0" expanded="false" />
+                <element signature="e#10966#11026#0" expanded="false" />
+                <element signature="e#11443#11541#0" expanded="false" />
+                <element signature="e#11625#11676#0" expanded="false" />
+                <element signature="e#11714#11770#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="signing.py" pinned="false" current-in-tab="false">
-        <entry file="file://D:/Python34/Lib/site-packages/django/core/signing.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="236">
-              <caret line="74" column="29" selection-start-line="74" selection-start-column="29" selection-end-line="74" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="crypto.py" pinned="false" current-in-tab="false">
-        <entry file="file://D:/Python34/Lib/site-packages/django/utils/crypto.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="424">
-              <caret line="43" column="44" selection-start-line="43" selection-start-column="44" selection-end-line="43" selection-end-column="44" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="hmac.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/myappVirtual/Lib/hmac.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="114" column="16" selection-start-line="114" selection-start-column="16" selection-end-line="114" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="base64.py" pinned="false" current-in-tab="false">
-        <entry file="file://D:/Python34/Lib/base64.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-165">
-              <caret line="50" column="4" selection-start-line="50" selection-start-column="4" selection-end-line="50" selection-end-column="4" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -114,33 +86,42 @@
       <file leaf-file-name="AppJsonResponse.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/hotelBooking/helper/AppJsonResponse.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="651">
-              <caret line="28" column="65" selection-start-line="28" selection-start-column="65" selection-end-line="28" selection-end-column="65" />
+            <state relative-caret-position="310">
+              <caret line="31" column="30" selection-start-line="31" selection-start-column="30" selection-end-line="31" selection-end-column="30" />
+              <folding>
+                <element signature="e#0#15#0" expanded="true" />
+                <element signature="e#352#897#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="response.py" pinned="false" current-in-tab="false">
+        <entry file="file://D:/Python34/Lib/site-packages/rest_framework/response.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="15" column="31" selection-start-line="15" selection-start-column="31" selection-end-line="15" selection-end-column="31" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="desTeset.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/desTeset.py">
+      <file leaf-file-name="response.py" pinned="false" current-in-tab="false">
+        <entry file="file://D:/Python34/Lib/site-packages/django/template/response.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="158">
-              <caret line="183" column="0" selection-start-line="183" selection-start-column="0" selection-end-line="183" selection-end-column="0" />
-              <folding>
-                <element signature="e#15#44#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="187">
+              <caret line="14" column="36" selection-start-line="14" selection-start-column="36" selection-end-line="14" selection-end-column="36" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/hotelBooking/urls.py">
+      <file leaf-file-name="response.py" pinned="false" current-in-tab="false">
+        <entry file="file://D:/Python34/Lib/site-packages/django/http/response.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="341">
-              <caret line="11" column="30" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
-              <folding>
-                <element signature="e#0#49#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="1">
+              <caret line="344" column="3" selection-start-line="344" selection-start-column="3" selection-end-line="344" selection-end-column="4" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -157,11 +138,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/hotelBooking/views/user.py" />
-        <option value="$PROJECT_DIR$/hotelBooking/helper/csrf.py" />
-        <option value="$PROJECT_DIR$/hotelBookingProject/functions.py" />
-        <option value="$PROJECT_DIR$/learn/Django库异常问题解决记录.md" />
-        <option value="$PROJECT_DIR$/hotelBooking/helper/JsonResponse.py" />
         <option value="$PROJECT_DIR$/doc/user_api.md" />
         <option value="$PROJECT_DIR$/hotelBooking/helper/modelKey.py" />
         <option value="$PROJECT_DIR$/learn/pip 使用代理.md" />
@@ -183,27 +159,35 @@
         <option value="$PROJECT_DIR$/myappVirtual/Lib/site-packages/django_admin_bootstrapped/static/admin/css/overrides.css" />
         <option value="$PROJECT_DIR$/django_qiniu/utils.py" />
         <option value="$PROJECT_DIR$/django_qiniu/__init__.py" />
-        <option value="$PROJECT_DIR$/hotelBooking/tests.py" />
         <option value="$PROJECT_DIR$/test/qiniuTest.py" />
         <option value="$PROJECT_DIR$/test/hotelspider.py" />
-        <option value="$PROJECT_DIR$/hotelBookingProject/urls.py" />
         <option value="$PROJECT_DIR$/test/pythonTest.py" />
         <option value="$PROJECT_DIR$/learn/python set 操作.md" />
         <option value="$PROJECT_DIR$/test/arraytest.py" />
-        <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/hotelBooking/push/utils.py" />
         <option value="$PROJECT_DIR$/hotelBooking/cattle/utils.py" />
         <option value="$PROJECT_DIR$/hotelBooking/cattle/token.py" />
         <option value="$PROJECT_DIR$/hotelBooking/helper/userhelper.py" />
-        <option value="$PROJECT_DIR$/hotelBooking/serializers.py" />
         <option value="$PROJECT_DIR$/hotelBooking/urls.py" />
         <option value="$PROJECT_DIR$/hotelBooking/admin.py" />
-        <option value="$PROJECT_DIR$/hotelBookingProject/settings.py" />
-        <option value="$PROJECT_DIR$/hotelBooking/models.py" />
-        <option value="$PROJECT_DIR$/hotelBooking/helper/decorators.py" />
         <option value="$PROJECT_DIR$/hotelBooking/middleware/TestMiddleware.py" />
-        <option value="$PROJECT_DIR$/hotelBooking/helper/AppJsonResponse.py" />
         <option value="$PROJECT_DIR$/test/desTeset.py" />
+        <option value="$PROJECT_DIR$/hotelBooking/__init__.py" />
+        <option value="$PROJECT_DIR$/hotelBooking/helper/G1.py" />
+        <option value="$PROJECT_DIR$/hotelBooking/helper/crypt.py" />
+        <option value="$PROJECT_DIR$/hotelBooking/helper/__init__.py" />
+        <option value="$PROJECT_DIR$/requirements.txt" />
+        <option value="$PROJECT_DIR$/hotelBookingProject/urls.py" />
+        <option value="$PROJECT_DIR$/hotelBooking/tests.py" />
+        <option value="$PROJECT_DIR$/hotelBooking/settings.py" />
+        <option value="$PROJECT_DIR$/hotelBooking/helper/Gl.py" />
+        <option value="$PROJECT_DIR$/hotelBooking/test.py" />
+        <option value="$PROJECT_DIR$/hotelBooking/serializers.py" />
+        <option value="$PROJECT_DIR$/hotelBooking/Mysettings.py" />
+        <option value="$PROJECT_DIR$/hotelBooking/models.py" />
+        <option value="$PROJECT_DIR$/hotelBookingProject/settings.py" />
+        <option value="$PROJECT_DIR$/hotelBooking/helper/decorators.py" />
+        <option value="$PROJECT_DIR$/hotelBooking/helper/AppJsonResponse.py" />
         <option value="$PROJECT_DIR$/hotelBooking/views.py" />
       </list>
     </option>
@@ -227,10 +211,13 @@
           <State>
             <id />
           </State>
+          <State>
+            <id>Python</id>
+          </State>
         </expanded-state>
         <selected-state>
           <State>
-            <id>AngularJS</id>
+            <id>PyCompatibilityInspection</id>
           </State>
         </selected-state>
       </profile-state>
@@ -261,6 +248,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -268,6 +256,68 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="demo" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 3.4.4 (D:\Python34\python.exe) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="site-packages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="demo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 3.4.4 (D:\Python34\python.exe) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="demo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 3.4.4 (D:\Python34\python.exe) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="demo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="&lt; Python 3.4.4 (D:\Python34\python.exe) &gt;" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Python34" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -280,114 +330,161 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="demo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="demo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hotelBookingProject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="demo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="demo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hotelBooking" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="demo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="demo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hotelBooking" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="helper" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="D:/MyGitProject/-/PythonProject/python_learn_project" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js-jscs-nodeInterpreter" value="D:\Program Files\nodejs\node.exe" />
-    <property name="SearchEverywhereHistoryKey" value="signing&#9;FILE&#9;file://D:/Python34/Lib/site-packages/django/core/signing.py&#10;PageNum&#9;null&#9;null&#10;LimitOffsetPagination&#9;null&#9;null&#10;pagination&#9;null&#9;null&#10;get_object_&#9;null&#9;null&#10;QueryD&#9;null&#9;null&#10;UserAd&#9;null&#9;null&#10;User&#9;null&#9;null&#10;UserDict&#9;null&#9;null&#10;views&#9;null&#9;null&#10;permission&#9;null&#9;null&#10;ListCreate&#9;null&#9;null&#10;Prepare&#9;null&#9;null&#10;request&#9;null&#9;null&#10;FieldWithDefault&#9;null&#9;null&#10;nametuple&#9;null&#9;null&#10;login_re&#9;null&#9;null" />
+    <property name="SearchEverywhereHistoryKey" value="request&#9;FILE&#9;file://D:/Python34/Lib/site-packages/rest_framework/request.py&#10;permission&#9;null&#9;null&#10;user_logged_in&#9;null&#9;null&#10;json&#9;FILE&#9;file://E:/hotelBookingProject/pythondemo/demo/myappVirtual/Lib/site-packages/django/core/serializers/json.py&#10;rest_framework_jwt&#9;null&#9;null&#10;jwt_en&#9;null&#9;null&#10;signing&#9;FILE&#9;file://D:/Python34/Lib/site-packages/django/core/signing.py&#10;PageNum&#9;null&#9;null&#10;LimitOffsetPagination&#9;null&#9;null&#10;pagination&#9;null&#9;null&#10;get_object_&#9;null&#9;null&#10;QueryD&#9;null&#9;null&#10;UserAd&#9;null&#9;null&#10;User&#9;null&#9;null&#10;UserDict&#9;null&#9;null&#10;views&#9;null&#9;null&#10;ListCreate&#9;null&#9;null&#10;Prepare&#9;null&#9;null&#10;FieldWithDefault&#9;null&#9;null&#10;nametuple&#9;null&#9;null&#10;login_re&#9;null&#9;null" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\hotelBookingProject\pythondemo\demo\hotelBooking\helper" />
       <recent name="E:\pythondemo\demo" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\hotelBookingProject\pythondemo\demo\hotelBooking" />
       <recent name="E:\pythondemo\demo\hotelBookingProject" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.desTeset">
-    <configuration default="false" name="emsTest" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Django server.demo">
+    <configuration default="false" name="settings" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/hotelBooking" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="demo" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test/emsTest.py" />
+      <option name="SCRIPT_NAME" value="E:\hotelBookingProject\pythondemo\demo\hotelBooking\Mysettings.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="qiniuTest" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration default="false" name="views" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/hotelBooking" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="demo" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test/qiniuTest.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/hotelBooking/views.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="arraytest" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration default="false" name="Mysettings" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/hotelBooking" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="demo" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test/arraytest.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/hotelBooking/Mysettings.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="pythonTest" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration default="false" name="Gl" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/hotelBooking/helper" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="demo" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test/pythonTest.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/hotelBooking/helper/Gl.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="desTeset" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration default="false" name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/hotelBooking" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="demo" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test/desTeset.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/hotelBooking/test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -649,19 +746,19 @@
     </configuration>
     <list size="6">
       <item index="0" class="java.lang.String" itemvalue="Django server.demo" />
-      <item index="1" class="java.lang.String" itemvalue="Python.emsTest" />
-      <item index="2" class="java.lang.String" itemvalue="Python.qiniuTest" />
-      <item index="3" class="java.lang.String" itemvalue="Python.arraytest" />
-      <item index="4" class="java.lang.String" itemvalue="Python.pythonTest" />
-      <item index="5" class="java.lang.String" itemvalue="Python.desTeset" />
+      <item index="1" class="java.lang.String" itemvalue="Python.settings" />
+      <item index="2" class="java.lang.String" itemvalue="Python.views" />
+      <item index="3" class="java.lang.String" itemvalue="Python.Mysettings" />
+      <item index="4" class="java.lang.String" itemvalue="Python.Gl" />
+      <item index="5" class="java.lang.String" itemvalue="Python.test" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.desTeset" />
-        <item index="1" class="java.lang.String" itemvalue="Python.arraytest" />
-        <item index="2" class="java.lang.String" itemvalue="Python.pythonTest" />
-        <item index="3" class="java.lang.String" itemvalue="Python.qiniuTest" />
-        <item index="4" class="java.lang.String" itemvalue="Python.emsTest" />
+        <item index="0" class="java.lang.String" itemvalue="Python.Mysettings" />
+        <item index="1" class="java.lang.String" itemvalue="Python.Gl" />
+        <item index="2" class="java.lang.String" itemvalue="Python.test" />
+        <item index="3" class="java.lang.String" itemvalue="Python.views" />
+        <item index="4" class="java.lang.String" itemvalue="Python.settings" />
       </list>
     </recent_temporary>
   </component>
@@ -685,6 +782,9 @@
     <history-entry file="Test__hotelBooking_tests - 2016.06.08 at 15h 30m 48s.xml">
       <configuration name="Test: hotelBooking.tests" configurationId="DjangoTestsConfigurationType" />
     </history-entry>
+    <history-entry file="Test__hotelBooking_tests - 2016.06.23 at 15h 42m 41s.xml">
+      <configuration name="Test: hotelBooking.tests" configurationId="DjangoTestsConfigurationType" />
+    </history-entry>
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -699,18 +799,17 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27452025" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28784648" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.283857" sideWeight="0.5021322" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.07877813" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32827735" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.283857" sideWeight="0.4978678" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2936078" sideWeight="0.49785638" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.283857" sideWeight="0.4978678" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30985916" sideWeight="0.49785638" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973205" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295711" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40195015" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36078006" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -718,6 +817,7 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="manage.py@demo" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295711" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32827735" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -764,13 +864,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/hotelBooking/views.py</url>
-          <line>268</line>
+          <line>269</line>
           <option name="timeStamp" value="56" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/hotelBooking/views.py</url>
-          <line>99</line>
-          <option name="timeStamp" value="59" />
+          <url>file://$PROJECT_DIR$/hotelBooking/helper/AppJsonResponse.py</url>
+          <line>28</line>
+          <option name="timeStamp" value="72" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
@@ -783,17 +883,16 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="60" />
+      <option name="time" value="77" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Python.DjangoServer">
-        <watch expression="city" language="Python" />
-        <watch expression="queryset.filter(city_id = 1)" language="Python" />
-        <watch expression="queryset.filter(city_id = 2)" language="Python" />
-        <watch expression="type(page)" language="Python" />
-        <watch expression="pageintor.page(3)" language="Python" />
-        <watch expression="request.POST" language="Python" />
+        <watch expression="response = DefaultJsonResponse(data=kwargs, status=AppConst.STATUS_SUCCESSS, message=&quot;注册成功&quot;)" language="Python" />
+        <watch expression="response['token'] =token" language="Python" />
         <watch expression="token" language="Python" />
+        <watch expression="response.setHeader('1','2')" language="Python" />
+        <watch expression="request.method" language="Python" />
+        <watch expression="response" language="Python" />
       </configuration>
       <configuration name="PythonConfigurationType">
         <watch expression="response.request.url" language="Python" />
@@ -802,488 +901,402 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/learn/customField.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hotelBooking/middleware/TestMiddleware.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="155">
+          <caret line="6" column="21" selection-start-line="6" selection-start-column="21" selection-end-line="6" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hotelBooking/helper/crypt.py" />
+    <entry file="file://$PROJECT_DIR$/hotelBooking/helper/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hotelBooking/helper/userhelper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hotelBooking/helper/rsa_private_key.pem" />
     <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="5" column="5" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
+        <state relative-caret-position="186">
+          <caret line="6" column="5" selection-start-line="6" selection-start-column="5" selection-end-line="6" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/myappVirtual/Lib/site-packages/django/http/multipartparser.py">
+    <entry file="file://D:/Python34/Lib/site-packages/rest_framework/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="931">
-          <caret line="452" column="71" selection-start-line="452" selection-start-column="71" selection-end-line="452" selection-end-column="71" />
-          <folding />
+        <state relative-caret-position="31">
+          <caret line="113" column="0" selection-start-line="113" selection-start-column="0" selection-end-line="114" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://D:/Python34/Lib/hashlib.py">
+    <entry file="file://$PROJECT_DIR$/myappVirtual/Lib/site-packages/django/contrib/auth/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="197">
+          <caret line="222" column="8" selection-start-line="222" selection-start-column="8" selection-end-line="222" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Python34/Lib/site-packages/django/core/handlers/wsgi.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="206">
+          <caret line="125" column="0" selection-start-line="125" selection-start-column="0" selection-end-line="125" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://D:/Python34/Lib/hmac.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="674">
-          <caret line="141" column="11" selection-start-line="141" selection-start-column="11" selection-end-line="141" selection-end-column="11" />
+        <state relative-caret-position="113">
+          <caret line="132" column="4" selection-start-line="132" selection-start-column="4" selection-end-line="132" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Python34/Lib/site-packages/qiniu/auth.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="61" column="23" selection-start-line="61" selection-start-column="23" selection-end-line="61" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Python34/Lib/site-packages/rest_framework/permissions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="206">
+          <caret line="39" column="6" selection-start-line="39" selection-start-column="6" selection-end-line="39" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Python34/Lib/site-packages/rest_framework/authentication.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="69" column="26" selection-start-line="69" selection-start-column="26" selection-end-line="69" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Python34/Lib/site-packages/rest_framework_jwt/settings.py" />
+    <entry file="file://D:/Python34/Lib/site-packages/rest_framework/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="31">
+          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Python34/Lib/site-packages/rest_framework_jwt/serializers.py" />
+    <entry file="file://D:/Python34/Lib/site-packages/rest_framework_jwt/compat.py" />
+    <entry file="file://D:/Python34/Lib/site-packages/rest_framework_jwt/views.py" />
+    <entry file="file://D:/Python34/Lib/site-packages/rest_framework_jwt/authentication.py" />
+    <entry file="file://D:/Python34/Lib/site-packages/jwt/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/hotelBooking/pkcs8_rsa_private_key.pem">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="62">
+          <caret line="2" column="28" selection-start-line="2" selection-start-column="28" selection-end-line="2" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Python34/Lib/site-packages/Crypto/Cipher/PKCS1_OAEP.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-228">
+          <caret line="192" column="24" selection-start-line="192" selection-start-column="24" selection-end-line="192" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hotelBooking/tests.py" />
+    <entry file="file://D:/Python34/Lib/site-packages/rest_framework/serializers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="206">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hotelBooking/rsa_public_key.pem">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hotelBooking/apps.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hotelBooking/rsa_private_key.pem">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hotelBooking/helper/Gl.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="93">
+          <caret line="3" column="6" selection-start-line="3" selection-start-column="6" selection-end-line="3" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hotelBooking/Permissions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hotelBooking/test.py" />
+    <entry file="file://$PROJECT_DIR$/hotelBooking/serializers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="651">
+          <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
           <folding>
-            <element signature="e#128#156#0" expanded="false" />
-            <element signature="e#789#3198#0" expanded="false" />
-            <element signature="e#3242#3274#0" expanded="false" />
-            <element signature="e#3311#3404#0" expanded="false" />
+            <element signature="e#40#84#0" expanded="false" />
+            <element signature="e#442#1254#0" expanded="false" />
+            <element signature="e#442#570#1" expanded="false" />
+            <element signature="e#618#1254#0" expanded="false" />
+            <element signature="e#878#1040#0" expanded="false" />
+            <element signature="e#1085#1254#0" expanded="false" />
+            <element signature="e#1313#1407#0" expanded="false" />
+            <element signature="e#1333#1407#0" expanded="false" />
+            <element signature="e#1474#1588#0" expanded="false" />
+            <element signature="e#1494#1588#0" expanded="false" />
+            <element signature="e#1652#1717#0" expanded="false" />
+            <element signature="e#1672#1717#0" expanded="false" />
+            <element signature="e#1781#1841#0" expanded="false" />
+            <element signature="e#1801#1841#0" expanded="false" />
+            <element signature="e#1908#1972#0" expanded="false" />
+            <element signature="e#1928#1972#0" expanded="false" />
+            <element signature="e#2032#2165#0" expanded="false" />
+            <element signature="e#2152#2165#0" expanded="false" />
+            <element signature="e#2225#2370#0" expanded="false" />
+            <element signature="e#2357#2370#0" expanded="false" />
+            <element signature="e#2429#2534#0" expanded="false" />
+            <element signature="e#2490#2534#0" expanded="false" />
+            <element signature="e#2597#2692#0" expanded="false" />
+            <element signature="e#2677#2692#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/qiniu/utils.py">
+    <entry file="file://$PROJECT_DIR$/hotelBooking/Mysettings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2917">
-          <caret line="24" column="27" selection-start-line="24" selection-start-column="27" selection-end-line="24" selection-end-column="27" />
-          <folding />
+        <state relative-caret-position="279">
+          <caret line="9" column="23" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
         </state>
       </provider>
     </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/qiniu/http.py">
+    <entry file="file://$PROJECT_DIR$/hotelBooking/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2242">
-          <caret line="24" column="34" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hotelBooking/cattle/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
-          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hotelBooking/cattle/token.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-838">
-          <caret line="15" column="20" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hotelBooking/cattle/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/qiniu/config.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-243">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/qiniu/compat.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/qiniu/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="17" column="144" selection-start-line="17" selection-start-column="144" selection-end-line="17" selection-end-column="144" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/qiniu/services/storage/uploader.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hotelBooking/helper/phoneUtil.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hotelBooking/helper/fiels.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="496">
+          <caret line="20" column="29" selection-start-line="20" selection-start-column="29" selection-end-line="20" selection-end-column="29" />
           <folding>
             <element signature="e#0#28#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hotelBooking/helper/userhelper.py">
+    <entry file="file://D:/Python34/Lib/site-packages/rest_framework_jwt/__init__.py" />
+    <entry file="file://D:/Python34/Lib/site-packages/rest_framework_jwt/utils.py" />
+    <entry file="file://$PROJECT_DIR$/myappVirtual/Lib/site-packages/django/core/serializers/json.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="11" column="36" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#25#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/django/db/models/query.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="586" column="39" selection-start-line="586" selection-start-column="39" selection-end-line="586" selection-end-column="39" />
+        <state relative-caret-position="-1488">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hotelBooking/admin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="112" column="43" selection-start-line="112" selection-start-column="43" selection-end-line="112" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/rest_framework/mixins.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="38" column="8" selection-start-line="38" selection-start-column="8" selection-end-line="38" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/django/core/paginator.py">
+    <entry file="file://$PROJECT_DIR$/myappVirtual/Lib/site-packages/django/contrib/auth/signals.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="93">
-          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+          <caret line="3" column="58" selection-start-line="3" selection-start-column="58" selection-end-line="3" selection-end-column="58" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hotelBookingProject/wsgi.py">
+    <entry file="file://D:/Python34/Lib/site-packages/django/contrib/auth/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="6" column="18" selection-start-line="6" selection-start-column="18" selection-end-line="6" selection-end-column="18" />
+        <state relative-caret-position="357">
+          <caret line="114" column="27" selection-start-line="114" selection-start-column="27" selection-end-line="114" selection-end-column="27" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hotelBooking/helper/modelKey.py">
+    <entry file="file://$PROJECT_DIR$/myappVirtual/Lib/site-packages/rest_framework/permissions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="30" selection-start-line="0" selection-start-column="19" selection-end-line="0" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/rest_framework/decorators.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="331">
-          <caret line="110" column="20" selection-start-line="110" selection-start-column="20" selection-end-line="110" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hotelBooking/serializers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-372">
-          <caret line="39" column="61" selection-start-line="39" selection-start-column="61" selection-end-line="39" selection-end-column="61" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/django/http/response.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="104" column="8" selection-start-line="104" selection-start-column="8" selection-end-line="104" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/rest_framework/response.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="24" column="11" selection-start-line="24" selection-start-column="11" selection-end-line="24" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/rest_framework/authtoken/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4">
-          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/rest_framework/permissions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="45" column="48" selection-start-line="45" selection-start-column="48" selection-end-line="45" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/myappVirtual/Lib/site-packages/django/contrib/auth/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="225" column="35" selection-start-line="225" selection-start-column="35" selection-end-line="225" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/rest_framework/authentication.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2108">
-          <caret line="76" column="12" selection-start-line="76" selection-start-column="12" selection-end-line="76" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hotelBookingProject/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="19" column="54" selection-start-line="19" selection-start-column="54" selection-end-line="19" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/django/contrib/sessions/apps.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="279">
+          <caret line="28" column="14" selection-start-line="28" selection-start-column="6" selection-end-line="28" selection-end-column="14" />
           <folding>
-            <element signature="e#0#33#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/django/contrib/sessions/exceptions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/django/contrib/sessions/backends/cache.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1919">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#32#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/qiniu/auth.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="124" column="8" selection-start-line="124" selection-start-column="8" selection-end-line="124" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/django/utils/decorators.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="19" column="32" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hotelBooking/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="74" column="0" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
-          <folding>
-            <element signature="e#264#839#0" expanded="false" />
-            <element signature="e#330#589#0" expanded="false" />
-            <element signature="e#661#839#0" expanded="false" />
-            <element signature="e#875#2307#0" expanded="false" />
-            <element signature="e#1543#1597#0" expanded="false" />
-            <element signature="e#1692#1708#0" expanded="false" />
-            <element signature="e#1758#1839#0" expanded="false" />
-            <element signature="e#1891#1990#0" expanded="false" />
-            <element signature="e#2038#2156#0" expanded="false" />
-            <element signature="e#2193#2217#0" expanded="false" />
-            <element signature="e#2334#2338#0" expanded="false" />
-            <element signature="e#2378#3217#0" expanded="false" />
-            <element signature="e#2977#3037#0" expanded="false" />
-            <element signature="e#3074#3129#0" expanded="false" />
-            <element signature="e#3162#3217#0" expanded="false" />
-            <element signature="e#3254#3590#0" expanded="false" />
-            <element signature="e#3434#3488#0" expanded="false" />
-            <element signature="e#3525#3541#0" expanded="false" />
-            <element signature="e#3574#3590#0" expanded="false" />
-            <element signature="e#3623#4229#0" expanded="false" />
-            <element signature="e#4324#4610#0" expanded="false" />
-            <element signature="e#4405#4549#0" expanded="false" />
-            <element signature="e#4592#4610#0" expanded="false" />
-            <element signature="e#4645#5263#0" expanded="false" />
-            <element signature="e#5198#5214#0" expanded="false" />
-            <element signature="e#5247#5263#0" expanded="false" />
-            <element signature="e#5304#5688#0" expanded="false" />
-            <element signature="e#5502#5564#0" expanded="false" />
-            <element signature="e#5601#5628#0" expanded="false" />
-            <element signature="e#5661#5688#0" expanded="false" />
-            <element signature="e#5722#6153#0" expanded="false" />
-            <element signature="e#6078#6099#0" expanded="false" />
-            <element signature="e#6132#6153#0" expanded="false" />
-            <element signature="e#6189#6516#0" expanded="false" />
-            <element signature="e#6557#7057#0" expanded="false" />
-            <element signature="e#7092#7096#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/django/utils/functional.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-656">
-          <caret line="229" column="25" selection-start-line="229" selection-start-column="25" selection-end-line="229" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/django/utils/encoding.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="166" column="27" selection-start-line="166" selection-start-column="27" selection-end-line="166" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/django/contrib/auth/middleware.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="10" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#31#0" expanded="false" />
+            <element signature="e#0#56#1" expanded="false" />
+            <element signature="e#209#613#0" expanded="false" />
+            <element signature="e#209#287#1" expanded="false" />
+            <element signature="e#342#444#0" expanded="false" />
+            <element signature="e#342#424#1" expanded="false" />
+            <element signature="e#511#613#0" expanded="false" />
+            <element signature="e#511#593#1" expanded="false" />
+            <element signature="e#652#908#0" expanded="false" />
+            <element signature="e#652#843#1" expanded="false" />
+            <element signature="e#897#908#0" expanded="false" />
+            <element signature="e#954#1122#0" expanded="false" />
+            <element signature="e#954#1012#1" expanded="false" />
+            <element signature="e#1067#1122#0" expanded="false" />
+            <element signature="e#1164#1314#0" expanded="false" />
+            <element signature="e#1164#1214#1" expanded="false" />
+            <element signature="e#1269#1314#0" expanded="false" />
+            <element signature="e#1370#1644#0" expanded="false" />
+            <element signature="e#1370#1452#1" expanded="false" />
+            <element signature="e#1507#1644#0" expanded="false" />
+            <element signature="e#1697#3881#0" expanded="false" />
+            <element signature="e#1697#2084#1" expanded="false" />
+            <element signature="e#2090#2135#0" expanded="false" />
+            <element signature="e#2277#2573#0" expanded="false" />
+            <element signature="e#2679#3015#0" expanded="false" />
+            <element signature="e#2679#2815#1" expanded="false" />
+            <element signature="e#2833#2949#0" expanded="false" />
+            <element signature="e#3070#3881#0" expanded="false" />
+            <element signature="e#3070#3131#0" expanded="false" />
+            <element signature="e#3478#3606#0" expanded="false" />
+            <element signature="e#3956#4105#0" expanded="false" />
+            <element signature="e#3956#4068#1" expanded="false" />
+            <element signature="e#4167#6373#0" expanded="false" />
+            <element signature="e#4167#4580#1" expanded="false" />
+            <element signature="e#4598#4894#0" expanded="false" />
+            <element signature="e#4970#5161#0" expanded="false" />
+            <element signature="e#4979#5095#0" expanded="false" />
+            <element signature="e#5228#6373#0" expanded="false" />
+            <element signature="e#5426#5555#0" expanded="false" />
+            <element signature="e#5767#6352#0" expanded="false" />
+            <element signature="e#5767#5830#0" expanded="false" />
+            <element signature="e#6001#6127#0" expanded="false" />
+            <element signature="e#6001#6055#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/hotelBookingProject/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="651">
-          <caret line="51" column="42" selection-start-line="51" selection-start-column="42" selection-end-line="51" selection-end-column="42" />
+        <state relative-caret-position="236">
+          <caret line="154" column="44" selection-start-line="154" selection-start-column="44" selection-end-line="154" selection-end-column="44" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hotelBooking/middleware/TestMiddleware.py">
+    <entry file="file://$PROJECT_DIR$/hotelBookingProject/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="17" column="66" selection-start-line="17" selection-start-column="66" selection-end-line="17" selection-end-column="66" />
-          <folding>
-            <element signature="e#0#52#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hotelBooking/helper/decorators.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="403">
-          <caret line="15" column="38" selection-start-line="15" selection-start-column="31" selection-end-line="15" selection-end-column="38" />
+        <state relative-caret-position="546">
+          <caret line="24" column="1" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/desTeset.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="158">
-          <caret line="183" column="0" selection-start-line="183" selection-start-column="0" selection-end-line="183" selection-end-column="0" />
-          <folding>
-            <element signature="e#15#44#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/hotelBooking/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="341">
-          <caret line="11" column="30" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#49#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="124">
+          <caret line="5" column="19" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Python34/Lib/site-packages/rest_framework/request.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4639">
+          <caret line="389" column="78" selection-start-line="389" selection-start-column="78" selection-end-line="389" selection-end-column="78" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hotelBooking/helper/decorators.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="339">
+          <caret line="17" column="21" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/hotelBooking/helper/AppJsonResponse.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="651">
-          <caret line="28" column="65" selection-start-line="28" selection-start-column="65" selection-end-line="28" selection-end-column="65" />
+        <state relative-caret-position="310">
+          <caret line="31" column="30" selection-start-line="31" selection-start-column="30" selection-end-line="31" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#352#897#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Python34/Lib/site-packages/rest_framework/response.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="15" column="31" selection-start-line="15" selection-start-column="31" selection-end-line="15" selection-end-column="31" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://D:/Python34/Lib/base64.py">
+    <entry file="file://D:/Python34/Lib/site-packages/django/template/response.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-165">
-          <caret line="50" column="4" selection-start-line="50" selection-start-column="4" selection-end-line="50" selection-end-column="4" />
+        <state relative-caret-position="187">
+          <caret line="14" column="36" selection-start-line="14" selection-start-column="36" selection-end-line="14" selection-end-column="36" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/django/core/signing.py">
+    <entry file="file://D:/Python34/Lib/site-packages/django/http/response.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="236">
-          <caret line="74" column="29" selection-start-line="74" selection-start-column="29" selection-end-line="74" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/django/utils/crypto.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="424">
-          <caret line="43" column="44" selection-start-line="43" selection-start-column="44" selection-end-line="43" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/myappVirtual/Lib/hmac.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="114" column="16" selection-start-line="114" selection-start-column="16" selection-end-line="114" selection-end-column="16" />
+        <state relative-caret-position="1">
+          <caret line="344" column="3" selection-start-line="344" selection-start-column="3" selection-end-line="344" selection-end-column="4" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/hotelBooking/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="398">
-          <caret line="216" column="0" selection-start-line="216" selection-start-column="0" selection-end-line="216" selection-end-column="0" />
+        <state relative-caret-position="-119">
+          <caret line="71" column="13" selection-start-line="71" selection-start-column="13" selection-end-line="71" selection-end-column="13" />
           <folding>
-            <element signature="e#1599#1747#0" expanded="false" />
-            <element signature="e#4971#5026#0" expanded="false" />
-            <element signature="e#5559#5655#0" expanded="false" />
-            <element signature="e#5927#5933#0" expanded="false" />
-            <element signature="e#6179#6304#0" expanded="false" />
-            <element signature="e#6973#7889#0" expanded="false" />
-            <element signature="e#7164#7889#0" expanded="false" />
-            <element signature="e#7195#7791#0" expanded="false" />
-            <element signature="e#7216#7529#0" expanded="false" />
-            <element signature="e#9630#10464#0" expanded="false" />
-            <element signature="e#9755#10464#0" expanded="false" />
-            <element signature="e#9913#10009#0" expanded="false" />
-            <element signature="e#10175#10299#0" expanded="false" />
-            <element signature="e#10501#10747#0" expanded="false" />
-            <element signature="e#10533#10744#0" expanded="false" />
-            <element signature="e#10884#11596#0" expanded="false" />
-            <element signature="e#10979#11039#0" expanded="false" />
-            <element signature="e#11456#11554#0" expanded="false" />
-            <element signature="e#11638#11689#0" expanded="false" />
+            <element signature="e#20#35#0" expanded="true" />
+            <element signature="e#3215#4851#0" expanded="false" />
+            <element signature="e#4851#4906#0" expanded="false" />
+            <element signature="e#5077#5107#0" expanded="false" />
+            <element signature="e#5217#6321#0" expanded="false" />
+            <element signature="e#6553#6968#0" expanded="false" />
+            <element signature="e#6683#6828#0" expanded="false" />
+            <element signature="e#6847#6968#0" expanded="false" />
+            <element signature="e#7130#8019#0" expanded="false" />
+            <element signature="e#8681#9010#0" expanded="false" />
+            <element signature="e#8681#8813#1" expanded="false" />
+            <element signature="e#9132#9576#0" expanded="false" />
+            <element signature="e#9214#9576#0" expanded="false" />
+            <element signature="e#9617#10451#0" expanded="false" />
+            <element signature="e#9742#10451#0" expanded="false" />
+            <element signature="e#9900#9996#0" expanded="false" />
+            <element signature="e#10162#10286#0" expanded="false" />
+            <element signature="e#10488#10734#0" expanded="false" />
+            <element signature="e#10520#10731#0" expanded="false" />
+            <element signature="e#10871#11583#0" expanded="false" />
+            <element signature="e#10966#11026#0" expanded="false" />
+            <element signature="e#11443#11541#0" expanded="false" />
+            <element signature="e#11625#11676#0" expanded="false" />
+            <element signature="e#11714#11770#0" expanded="false" />
           </folding>
         </state>
       </provider>
