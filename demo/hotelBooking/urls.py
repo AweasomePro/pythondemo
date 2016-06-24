@@ -13,7 +13,7 @@ urlpatterns = [
     # url(r'^register/$', views.member_register),
     url(r'^ems/member/regist/$', views.member_resiter_sms_send),
     url(r'^installation/$', views.installationId_register),
-    url(r'^installation/bind/$', views.installationId_bind),
+    # url(r'^installation/bind/$', views.installationId_bind),
     # url(r'^provinces/$', views.provinces),
     # url(r'provinces',views.ProvinceView.as_view()),
     url(r'^hotel$',views.HotelView.as_view()),

@@ -47,81 +47,11 @@ class AppConst:
     STATUS_PHONE_EXISTED = '103'
     STATUS_PHONE_NOT_EXISTED = '104'
 
-@never_cache
-@api_view(['POST'])
-@parameter_necessary('phoneNumber', 'password', )
-def member_login(request):
-    phoneNumber = request.POST.get(modelKey.KEY_PHONENUMBER)
-    password = request.POST.get('password')
-    try:
-        user = User.objects.get(phone_number=phoneNumber)
-        valid = user.check_password(password)
-        if valid and user.is_active:
-            # auth.login(request,user)
-            print('login user ' + str(user.phone_number))
-            kwargs = {'UserEntity': UserSerializer(user, many=False).data}
-            payload = jwt_payload_handle(user)
-            token = jwt_encode_handler(payload)
-            print('token is ' + str(token))
-            response = DefaultJsonResponse(data=kwargs, code=AppConst.STATUS_SUCCESSS, message="登入成功")
-            response['token'] =token
-            return response
-        else:
-            return DefaultJsonResponse(code=AppConst.STATUS_PWD_ERROR, message="账号密码错误", )
-    except User.DoesNotExist:
-        return DefaultJsonResponse(code=AppConst.STATUS_PHONE_NOT_EXISTED, message="不存在该账号")
-    except Exception as e:
-        print('exception ' + e.__str__())
-        return DefaultJsonResponse(code=401, message="服务器内部请求错误")
-
-
-@never_cache
-@api_view(['POST'])
-@parameter_necessary('phoneNumber', 'password', 'smsCode',)
-def member_register(request):
-    phone_number = request.POST.get('phoneNumber')
-    password = request.POST.get('password')
-    sms_code = request.POST.get('smsCode', None)
-    print(sms_code)
-    if (not userhelper.phoneNumberExist(phone_number)):
-        if sms_code != None:
-            # verifySuccess, message = verifySmsCode(phone_number, password)
-            if (True):
-                try:
-                    user = User()
-                    print('user 的phoneNumber' + str(user.phone_number))
-                    user.phone_number = phone_number
-                    user.set_password(password)
-                    user.username = phone_number
-                    print('user 的username =' + str(user.username))
-                    serailizer_member = UserSerializer(user, many=False)
-                    # serailizer_member.data
-                    kwargs = {'UserEntity': serailizer_member.data}
-                    payload = jwt_payload_handle(user)
-                    token = jwt_encode_handler(payload)
-                    user.save()
-                except BaseException as e:
-                    # raise e
-                    return DefaultJsonResponse(data=kwargs, code=AppConst.STATUS_ERROR, message="内部错误")
-                else:
-                    response = DefaultJsonResponse(data=kwargs, code=AppConst.STATUS_SUCCESSS, message="注册成功")
-                    response['token'] = token
-                    return response
-            else:
-                return DefaultJsonResponse(code=AppConst.STATUS_PWD_ERROR, message="注册失败，验证码错误")
-
-    else:
-        return DefaultJsonResponse(code=AppConst.STATUS_PHONE_EXISTED, message="手机号已经存在")
-
 
 # @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 # def create_auth_token(sender, instance=None, created=False, **kwargs):
 #     if created:
 #         Token.objects.create(user=instance)
-
-def member_logout(request):
-    request.session.get()
-    pass
 
 
 @parameter_necessary('phoneNumber', )
@@ -173,28 +103,7 @@ def installationId_register(request, formate=None):
         print(serializer.errors)
         return DefaultJsonResponse(code=AppConst.STATUS_ERROR, message=str(serializer.errors))
 
-@api_view(['POST',])
-@csrf_exempt
-@authentication_classes((TokenAuthentication, BasicAuthentication))
-@permission_classes((IsAuthenticated,))
-def installationId_bind(request):
-    phoneNumber = request.user.pk
-    installationId = request.POST.get('installationId')
-    deviceToken = request.POST.get('deviceToken')
-    if phoneNumber:
-        if installationId:
-            try:
-                installDevice = Installation.objects.get(installationId=installationId)
-                user = User.objects.get(phone_number=phoneNumber)
-                installDevice.member = user
-                installDevice.save()
-                return DefaultJsonResponse(code=AppConst.STATUS_SUCCESSS, message="success")
-            except Installation.DoesNotExist:
-                return DefaultJsonResponse(code=111, message="这个installationId尚未注册到服务端")
-            except User.DoesNotExist:
-                return DefaultJsonResponse(code=112, message="这个phoneNumber尚未注册到服务端")
-        elif deviceToken:
-            return DefaultJsonResponse(code=113, message="ios还没写,哇咔咔")
+
 
 
 access_key = 'u-ryAwaQeBx9BS5t8OMSPs6P1Ewoqiu6-ZbbMNYm'
@@ -280,6 +189,10 @@ class UserViewSet(viewsets.GenericViewSet):
         else:
             return DefaultJsonResponse(code=100,message="退出成功")
 
+    @method_route(methods=['POST'], )
+    def change_password(self,request):
+        pass
+
     @method_route(methods=['POST'], url_path='installation/bind')
     @method_decorator(is_authenticated())
     def bind_installationId(self,request):
@@ -336,7 +249,6 @@ class UserViewSet(viewsets.GenericViewSet):
         key = imageName
         token = q.upload_token(bucket_name, key, 3600)
         return DefaultJsonResponse(data={'upload_token': token, 'imageUrl': key})
-
 
 
 
@@ -404,16 +316,6 @@ class ProvinceView(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
-
-
-    @method_route(methods=['POST'],url_path = 'hello')
-    def hello(self,request):
-        print('hello')
-        print(type(request))
-        print(request.data)
-        print(request.POST)
-        return Response({'data':'hello'})
-
 
 
 # ----------------------------- NonView Method---------------------------------------

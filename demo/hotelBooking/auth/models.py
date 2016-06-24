@@ -49,7 +49,7 @@ class CustomTokenAuthenticationView(ObtainJSONWebToken):
             json_response = DefaultJsonResponse(data={'user':userdata}, code=200, message="验证并登入成功")
             json_response['token'] = token_data['token']
             return json_response
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return DefaultJsonResponse(code=-100, message="验证失败")
 
 
