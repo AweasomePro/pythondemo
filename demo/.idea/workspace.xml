@@ -48,61 +48,30 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/hotelBooking/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
-              <caret line="273" column="36" selection-start-line="273" selection-start-column="36" selection-end-line="273" selection-end-column="36" />
+            <state relative-caret-position="518">
+              <caret line="296" column="0" selection-start-line="296" selection-start-column="0" selection-end-line="296" selection-end-column="0" />
               <folding>
                 <element signature="e#20#35#0" expanded="true" />
-                <element signature="e#8197#8519#0" expanded="false" />
-                <element signature="e#8568#8897#0" expanded="false" />
-                <element signature="e#9256#11005#0" expanded="false" />
-                <element signature="e#9500#10896#0" expanded="false" />
-                <element signature="e#11142#12737#0" expanded="false" />
+                <element signature="e#8214#8536#0" expanded="false" />
+                <element signature="e#8585#8914#0" expanded="false" />
+                <element signature="e#9273#11022#0" expanded="false" />
+                <element signature="e#9517#10913#0" expanded="false" />
+                <element signature="e#14270#14714#0" expanded="false" />
+                <element signature="e#14755#15679#0" expanded="false" />
+                <element signature="e#16845#17557#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="viewsets.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/myappVirtual/Lib/site-packages/rest_framework/viewsets.py">
+      <file leaf-file-name="decorators.py" pinned="false" current-in-tab="false">
+        <entry file="file://D:/Python34/Lib/site-packages/django/utils/decorators.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="146" column="36" selection-start-line="146" selection-start-column="36" selection-end-line="146" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AppJsonResponse.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/hotelBooking/helper/AppJsonResponse.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="202">
-              <caret line="32" column="8" selection-start-line="32" selection-start-column="8" selection-end-line="32" selection-end-column="8" />
-              <folding>
-                <element signature="e#0#15#0" expanded="true" />
-                <element signature="e#352#897#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/hotelBooking/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="497">
-              <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/hotelBookingProject/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="236">
-              <caret line="17" column="41" selection-start-line="17" selection-start-column="41" selection-end-line="17" selection-end-column="41" />
+            <state relative-caret-position="166">
+              <caret line="26" column="44" selection-start-line="26" selection-start-column="44" selection-end-line="26" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -118,22 +87,124 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="viewsets.py" pinned="false" current-in-tab="false">
-        <entry file="file://D:/Python34/Lib/site-packages/rest_framework/viewsets.py">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file://D:/Python34/Lib/site-packages/django/contrib/auth/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="202">
-              <caret line="144" column="6" selection-start-line="144" selection-start-column="6" selection-end-line="144" selection-end-column="6" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mixins.py" pinned="false" current-in-tab="true">
-        <entry file="file://D:/Python34/Lib/site-packages/rest_framework/mixins.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="419">
-              <caret line="73" column="25" selection-start-line="73" selection-start-column="25" selection-end-line="73" selection-end-column="25" />
-              <folding />
+            <state relative-caret-position="1607">
+              <caret line="447" column="6" selection-start-line="447" selection-start-column="6" selection-end-line="447" selection-end-column="6" />
+              <folding>
+                <element signature="e#1031#1287#0" expanded="false" />
+                <element signature="e#1127#1287#0" expanded="false" />
+                <element signature="e#1355#3234#0" expanded="false" />
+                <element signature="e#1355#2417#1" expanded="false" />
+                <element signature="e#2645#2882#0" expanded="false" />
+                <element signature="e#2801#2881#0" expanded="false" />
+                <element signature="e#2915#3080#0" expanded="false" />
+                <element signature="e#2953#3079#0" expanded="false" />
+                <element signature="e#3117#3174#0" expanded="false" />
+                <element signature="e#3277#3437#0" expanded="false" />
+                <element signature="e#3277#3332#1" expanded="false" />
+                <element signature="e#3411#3437#0" expanded="false" />
+                <element signature="e#3500#4680#0" expanded="false" />
+                <element signature="e#3500#4281#1" expanded="false" />
+                <element signature="e#4508#4575#0" expanded="false" />
+                <element signature="e#4608#4624#0" expanded="false" />
+                <element signature="e#4661#4680#0" expanded="false" />
+                <element signature="e#4727#5819#0" expanded="false" />
+                <element signature="e#4785#5142#0" expanded="false" />
+                <element signature="e#4785#4891#1" expanded="false" />
+                <element signature="e#5233#5382#0" expanded="false" />
+                <element signature="e#5393#5709#0" expanded="false" />
+                <element signature="e#5393#5653#1" expanded="false" />
+                <element signature="e#5763#5819#0" expanded="false" />
+                <element signature="e#5862#6988#0" expanded="false" />
+                <element signature="e#6012#6587#0" expanded="false" />
+                <element signature="e#6012#6105#1" expanded="false" />
+                <element signature="e#6677#6791#0" expanded="false" />
+                <element signature="e#6876#6988#0" expanded="false" />
+                <element signature="e#7062#9140#0" expanded="false" />
+                <element signature="e#7272#7287#0" expanded="false" />
+                <element signature="e#7325#7422#0" expanded="false" />
+                <element signature="e#7455#7481#0" expanded="false" />
+                <element signature="e#7518#7547#0" expanded="false" />
+                <element signature="e#7585#7719#0" expanded="false" />
+                <element signature="e#7585#7698#1" expanded="false" />
+                <element signature="e#7761#7903#0" expanded="false" />
+                <element signature="e#7761#7883#1" expanded="false" />
+                <element signature="e#7955#7998#0" expanded="false" />
+                <element signature="e#8052#8380#0" expanded="false" />
+                <element signature="e#8052#8185#1" expanded="false" />
+                <element signature="e#8232#8313#0" expanded="false" />
+                <element signature="e#8427#8517#0" expanded="false" />
+                <element signature="e#8562#8602#0" expanded="false" />
+                <element signature="e#8641#8738#0" expanded="false" />
+                <element signature="e#8778#8877#0" expanded="false" />
+                <element signature="e#8924#9137#0" expanded="false" />
+                <element signature="e#8924#8986#1" expanded="false" />
+                <element signature="e#9260#9465#0" expanded="false" />
+                <element signature="e#9328#9442#0" expanded="false" />
+                <element signature="e#9509#9873#0" expanded="false" />
+                <element signature="e#9509#9601#1" expanded="false" />
+                <element signature="e#9650#9856#0" expanded="false" />
+                <element signature="e#9733#9798#0" expanded="false" />
+                <element signature="e#9925#10305#0" expanded="false" />
+                <element signature="e#9925#10017#1" expanded="false" />
+                <element signature="e#10066#10288#0" expanded="false" />
+                <element signature="e#10157#10230#0" expanded="false" />
+                <element signature="e#10350#13357#0" expanded="false" />
+                <element signature="e#10350#10497#1" expanded="false" />
+                <element signature="e#10595#10700#0" expanded="false" />
+                <element signature="e#10804#10973#0" expanded="false" />
+                <element signature="e#11295#11310#0" expanded="false" />
+                <element signature="e#11367#11846#0" expanded="false" />
+                <element signature="e#11367#11612#1" expanded="false" />
+                <element signature="e#11697#11819#0" expanded="false" />
+                <element signature="e#11901#11944#0" expanded="false" />
+                <element signature="e#11994#12606#0" expanded="false" />
+                <element signature="e#11994#12383#1" expanded="false" />
+                <element signature="e#12662#12973#0" expanded="false" />
+                <element signature="e#12662#12848#1" expanded="false" />
+                <element signature="e#12892#12953#0" expanded="false" />
+                <element signature="e#13026#13357#0" expanded="false" />
+                <element signature="e#13026#13178#1" expanded="false" />
+                <element signature="e#13420#15664#0" expanded="false" />
+                <element signature="e#13420#13612#1" expanded="false" />
+                <element signature="e#13708#13802#0" expanded="false" />
+                <element signature="e#13824#14126#0" expanded="false" />
+                <element signature="e#13920#14102#0" expanded="false" />
+                <element signature="e#14151#14232#0" expanded="false" />
+                <element signature="e#14539#14621#0" expanded="false" />
+                <element signature="e#14707#14833#0" expanded="false" />
+                <element signature="e#15034#15123#0" expanded="false" />
+                <element signature="e#15162#15350#0" expanded="false" />
+                <element signature="e#15162#15253#1" expanded="false" />
+                <element signature="e#15390#15459#0" expanded="false" />
+                <element signature="e#15540#15664#0" expanded="false" />
+                <element signature="e#15540#15592#1" expanded="false" />
+                <element signature="e#15697#15941#0" expanded="false" />
+                <element signature="e#15697#15868#1" expanded="false" />
+                <element signature="e#15912#15941#0" expanded="false" />
+                <element signature="e#16232#16236#0" expanded="false" />
+                <element signature="e#16269#16291#0" expanded="false" />
+                <element signature="e#16330#16370#0" expanded="false" />
+                <element signature="e#16409#16438#0" expanded="false" />
+                <element signature="e#16472#16527#0" expanded="false" />
+                <element signature="e#16557#16647#0" expanded="false" />
+                <element signature="e#16679#16769#0" expanded="false" />
+                <element signature="e#16821#16911#0" expanded="false" />
+                <element signature="e#16965#17055#0" expanded="false" />
+                <element signature="e#17092#17111#0" expanded="false" />
+                <element signature="e#17193#17222#0" expanded="false" />
+                <element signature="e#17334#17346#0" expanded="false" />
+                <element signature="e#17401#17448#0" expanded="false" />
+                <element signature="e#17498#17540#0" expanded="false" />
+                <element signature="e#17596#17712#0" expanded="false" />
+                <element signature="e#17631#17692#0" expanded="false" />
+                <element signature="e#17762#17805#0" expanded="false" />
+                <element signature="e#17843#17854#0" expanded="false" />
+                <element signature="e#17896#17908#0" expanded="false" />
+                <element signature="e#17946#17966#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -141,9 +212,57 @@
       <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/hotelBookingProject/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="434">
-              <caret line="192" column="63" selection-start-line="192" selection-start-column="63" selection-end-line="192" selection-end-column="63" />
+            <state relative-caret-position="184">
+              <caret line="187" column="67" selection-start-line="187" selection-start-column="67" selection-end-line="187" selection-end-column="67" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="decorators.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/hotelBooking/helper/decorators.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="193">
+              <caret line="35" column="41" selection-start-line="35" selection-start-column="41" selection-end-line="35" selection-end-column="41" />
+              <folding>
+                <element signature="e#53#101#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/hotelBooking/auth/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="251">
+              <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#56#0" expanded="true" />
+                <element signature="e#1292#2167#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="request.py" pinned="false" current-in-tab="false">
+        <entry file="file://D:/Python34/Lib/site-packages/rest_framework/request.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="295">
+              <caret line="356" column="0" selection-start-line="356" selection-start-column="0" selection-end-line="356" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="wsgi.py" pinned="false" current-in-tab="false">
+        <entry file="file://D:/Python34/Lib/site-packages/django/core/handlers/wsgi.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="202">
+              <caret line="125" column="0" selection-start-line="125" selection-start-column="0" selection-end-line="125" selection-end-column="0" />
+              <folding>
+                <element signature="e#2633#4281#0" expanded="false" />
+                <element signature="e#5587#7364#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -203,12 +322,12 @@
         <option value="$PROJECT_DIR$/hotelBookingProject/urls.py" />
         <option value="$PROJECT_DIR$/hotelBooking/auth/backends.py" />
         <option value="$PROJECT_DIR$/hotelBooking/helper/AppJsonResponse.py" />
-        <option value="$PROJECT_DIR$/hotelBooking/helper/decorators.py" />
         <option value="$PROJECT_DIR$/hotelBooking/serializers.py" />
         <option value="$PROJECT_DIR$/hotelBooking/models.py" />
         <option value="$PROJECT_DIR$/hotelBooking/middleware/FiledMiddleware.py" />
         <option value="$PROJECT_DIR$/hotelBooking/auth/models.py" />
         <option value="$PROJECT_DIR$/hotelBooking/urls.py" />
+        <option value="$PROJECT_DIR$/hotelBooking/helper/decorators.py" />
         <option value="$PROJECT_DIR$/hotelBookingProject/settings.py" />
         <option value="$PROJECT_DIR$/hotelBooking/views.py" />
       </list>
@@ -967,7 +1086,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24946696" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295711" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4539545" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.44637054" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -979,26 +1098,26 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295711" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.283857" sideWeight="0.5021322" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="91" y="91" width="1738" height="848" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32844242" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33295712" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.283857" sideWeight="0.4978678" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30985916" sideWeight="0.49785638" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295711" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="manage.py@demo" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295711" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24812433" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28784648" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.07877813" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295711" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973205" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32827735" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24946696" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43905193" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4539545" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -1022,7 +1141,7 @@
         </line-breakpoint>
         <line-breakpoint type="python-line">
           <url>file://$PROJECT_DIR$/hotelBooking/views.py</url>
-          <line>347</line>
+          <line>377</line>
           <option name="timeStamp" value="56" />
         </line-breakpoint>
         <line-breakpoint type="python-line">
@@ -1046,18 +1165,23 @@
         </line-breakpoint>
         <line-breakpoint type="python-line">
           <url>file://$PROJECT_DIR$/hotelBooking/views.py</url>
-          <line>382</line>
+          <line>412</line>
           <option name="timeStamp" value="98" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/hotelBooking/auth/models.py</url>
-          <line>24</line>
-          <option name="timeStamp" value="101" />
+        <line-breakpoint type="python-line">
+          <url>file://$PROJECT_DIR$/hotelBooking/views.py</url>
+          <line>331</line>
+          <option name="timeStamp" value="103" />
+        </line-breakpoint>
+        <line-breakpoint type="python-line">
+          <url>file://$PROJECT_DIR$/hotelBooking/helper/decorators.py</url>
+          <line>51</line>
+          <option name="timeStamp" value="104" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/hotelBooking/views.py</url>
-          <line>277</line>
-          <option name="timeStamp" value="102" />
+          <line>285</line>
+          <option name="timeStamp" value="105" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
@@ -1070,7 +1194,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="103" />
+      <option name="time" value="106" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Python.DjangoServer">
@@ -1092,14 +1216,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://D:/Python34/Lib/site-packages/django/contrib/sessions/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="31">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://D:/Python34/Lib/site-packages/rest_framework_jwt/authentication.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-62">
@@ -1181,17 +1297,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/django/core/handlers/wsgi.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="415">
-          <caret line="157" column="36" selection-start-line="157" selection-start-column="36" selection-end-line="157" selection-end-column="36" />
-          <folding>
-            <element signature="e#2633#4281#0" expanded="false" />
-            <element signature="e#5587#7364#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://D:/Python34/Lib/site-packages/django/core/servers/basehttp.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="62">
@@ -1199,14 +1304,6 @@
           <folding>
             <element signature="e#3750#4943#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/rest_framework/request.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="158">
-          <caret line="368" column="19" selection-start-line="368" selection-start-column="19" selection-end-line="368" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1562,10 +1659,77 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/hotelBooking/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="185">
+          <caret line="34" column="50" selection-start-line="34" selection-start-column="50" selection-end-line="34" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Python34/Lib/site-packages/rest_framework/decorators.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="295">
+          <caret line="106" column="4" selection-start-line="106" selection-start-column="4" selection-end-line="106" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Python34/Lib/site-packages/rest_framework/viewsets.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="144" column="6" selection-start-line="144" selection-start-column="6" selection-end-line="144" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hotelBooking/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="497">
+          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hotelBookingProject/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="236">
+          <caret line="17" column="41" selection-start-line="17" selection-start-column="41" selection-end-line="17" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hotelBooking/helper/AppJsonResponse.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="32" column="8" selection-start-line="32" selection-start-column="8" selection-end-line="32" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#352#897#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Python34/Lib/site-packages/rest_framework/mixins.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="295">
+          <caret line="78" column="0" selection-start-line="78" selection-start-column="0" selection-end-line="78" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/myappVirtual/Lib/site-packages/rest_framework/viewsets.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="146" column="36" selection-start-line="146" selection-start-column="36" selection-end-line="146" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://D:/Python34/Lib/site-packages/django/contrib/auth/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="26" column="41" selection-start-line="26" selection-start-column="41" selection-end-line="26" selection-end-column="41" />
+        <state relative-caret-position="1607">
+          <caret line="447" column="6" selection-start-line="447" selection-start-column="6" selection-end-line="447" selection-end-column="6" />
           <folding>
             <element signature="e#1031#1287#0" expanded="false" />
             <element signature="e#1127#1287#0" expanded="false" />
@@ -1658,7 +1822,6 @@
             <element signature="e#15697#15941#0" expanded="false" />
             <element signature="e#15697#15868#1" expanded="false" />
             <element signature="e#15912#15941#0" expanded="false" />
-            <element signature="e#16006#17966#0" expanded="false" />
             <element signature="e#16232#16236#0" expanded="false" />
             <element signature="e#16269#16291#0" expanded="false" />
             <element signature="e#16330#16370#0" expanded="false" />
@@ -1683,18 +1846,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hotelBooking/models.py">
+    <entry file="file://D:/Python34/Lib/site-packages/django/core/handlers/wsgi.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="34" column="50" selection-start-line="34" selection-start-column="50" selection-end-line="34" selection-end-column="50" />
+        <state relative-caret-position="202">
+          <caret line="125" column="0" selection-start-line="125" selection-start-column="0" selection-end-line="125" selection-end-column="0" />
+          <folding>
+            <element signature="e#2633#4281#0" expanded="false" />
+            <element signature="e#5587#7364#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Python34/Lib/site-packages/rest_framework/request.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="295">
+          <caret line="356" column="0" selection-start-line="356" selection-start-column="0" selection-end-line="356" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/hotelBooking/auth/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="301">
-          <caret line="36" column="28" selection-start-line="36" selection-start-column="28" selection-end-line="36" selection-end-column="28" />
+        <state relative-caret-position="251">
+          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
           <folding>
             <element signature="e#0#56#0" expanded="true" />
             <element signature="e#1292#2167#0" expanded="false" />
@@ -1702,27 +1876,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/rest_framework/decorators.py">
+    <entry file="file://$PROJECT_DIR$/hotelBookingProject/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="295">
-          <caret line="106" column="4" selection-start-line="106" selection-start-column="4" selection-end-line="106" selection-end-column="4" />
+        <state relative-caret-position="184">
+          <caret line="187" column="67" selection-start-line="187" selection-start-column="67" selection-end-line="187" selection-end-column="67" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/hotelBooking/helper/decorators.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="10" column="4" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/rest_framework/viewsets.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="144" column="6" selection-start-line="144" selection-start-column="6" selection-end-line="144" selection-end-column="6" />
-          <folding />
+        <state relative-caret-position="193">
+          <caret line="35" column="41" selection-start-line="35" selection-start-column="41" selection-end-line="35" selection-end-column="41" />
+          <folding>
+            <element signature="e#53#101#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1734,69 +1902,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hotelBooking/urls.py">
+    <entry file="file://D:/Python34/Lib/site-packages/django/utils/decorators.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="497">
-          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+        <state relative-caret-position="166">
+          <caret line="26" column="44" selection-start-line="26" selection-start-column="44" selection-end-line="26" selection-end-column="44" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hotelBookingProject/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="236">
-          <caret line="17" column="41" selection-start-line="17" selection-start-column="41" selection-end-line="17" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hotelBookingProject/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="434">
-          <caret line="192" column="63" selection-start-line="192" selection-start-column="63" selection-end-line="192" selection-end-column="63" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hotelBooking/helper/AppJsonResponse.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="32" column="8" selection-start-line="32" selection-start-column="8" selection-end-line="32" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-            <element signature="e#352#897#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/hotelBooking/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="273" column="36" selection-start-line="273" selection-start-column="36" selection-end-line="273" selection-end-column="36" />
+        <state relative-caret-position="518">
+          <caret line="296" column="0" selection-start-line="296" selection-start-column="0" selection-end-line="296" selection-end-column="0" />
           <folding>
             <element signature="e#20#35#0" expanded="true" />
-            <element signature="e#8197#8519#0" expanded="false" />
-            <element signature="e#8568#8897#0" expanded="false" />
-            <element signature="e#9256#11005#0" expanded="false" />
-            <element signature="e#9500#10896#0" expanded="false" />
-            <element signature="e#11142#12737#0" expanded="false" />
+            <element signature="e#8214#8536#0" expanded="false" />
+            <element signature="e#8585#8914#0" expanded="false" />
+            <element signature="e#9273#11022#0" expanded="false" />
+            <element signature="e#9517#10913#0" expanded="false" />
+            <element signature="e#14270#14714#0" expanded="false" />
+            <element signature="e#14755#15679#0" expanded="false" />
+            <element signature="e#16845#17557#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/myappVirtual/Lib/site-packages/rest_framework/viewsets.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="146" column="36" selection-start-line="146" selection-start-column="36" selection-end-line="146" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/rest_framework/mixins.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="419">
-          <caret line="73" column="25" selection-start-line="73" selection-start-column="25" selection-end-line="73" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>

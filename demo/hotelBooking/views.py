@@ -2,7 +2,7 @@
 import requests
 import json
 from hotelBooking.helper import modelKey
-from hotelBooking.helper.decorators import parameter_necessary,method_route
+from hotelBooking.helper.decorators import parameter_necessary,method_route,is_authenticated
 from hotelBooking.helper.AppJsonResponse import JSONWrappedResponse,DefaultJsonResponse
 from .models import *
 from .serializers import *
@@ -272,7 +272,7 @@ class UserViewSet(viewsets.GenericViewSet):
             return DefaultJsonResponse(code=AppConst.STATUS_PHONE_EXISTED, message="手机号已经存在")
 
     @method_route(methods=['POST'],)
-    @method_decorator(permission_classes(IsAuthenticated,))
+    @method_decorator(is_authenticated())
     def logout(self,request):
         print(request.user)
         if(isinstance(request.user,AnonymousUser)):
@@ -280,6 +280,25 @@ class UserViewSet(viewsets.GenericViewSet):
         else:
             return DefaultJsonResponse(code=100,message="退出成功")
 
+    @method_route(methods=['POST'], url_path='installation/bind')
+    @method_decorator(is_authenticated())
+    def bind_installationId(self,request):
+        phoneNumber = request.user.pk
+        installationId = request.POST.get('installationId')
+        deviceToken = request.POST.get('deviceToken')
+        if installationId:
+            try:
+                installDevice = Installation.objects.get(installationId=installationId)
+                user = User.objects.get(phone_number=phoneNumber)
+                installDevice.member = user
+                installDevice.save()
+                return DefaultJsonResponse(code=AppConst.STATUS_SUCCESSS, message="success")
+            except Installation.DoesNotExist:
+                return DefaultJsonResponse(code=111, message="这个installationId尚未注册到服务端")
+            except User.DoesNotExist:
+                return DefaultJsonResponse(code=112, message="这个phoneNumber尚未注册到服务端")
+        elif deviceToken:
+            return DefaultJsonResponse(code=113, message="ios还没写,哇咔咔")
     # @method_route(methods=['POST'], )
     # @method_decorator(parameter_necessary('phoneNumber', 'password',))
     # def login(self,request):
@@ -306,6 +325,17 @@ class UserViewSet(viewsets.GenericViewSet):
     #     except Exception as e:
     #         print('exception ' + e.__str__())
     #         return DefaultJsonResponse(code=401, message="服务器内部请求错误")
+
+    @method_route(methods=['GET'],url_path='avatar/token')
+    @method_decorator(is_authenticated())
+    def avatar_token(self,request):
+        q = Auth(access_key, secret_key)
+        bucket_name = 'hotelbook'
+        userId = request.user.id
+        imageName = 'avatar_' + str(userId) + '.jpg'
+        key = imageName
+        token = q.upload_token(bucket_name, key, 3600)
+        return DefaultJsonResponse(data={'upload_token': token, 'imageUrl': key})
 
 
 

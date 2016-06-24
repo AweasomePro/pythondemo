@@ -3,7 +3,7 @@ Decorators for views based on HTTP headers.
 """
 
 from .AppJsonResponse import JSONWrappedResponse
-
+from django.contrib.auth.models import AnonymousUser
 import logging
 logger = logging.getLogger('zxw.request')
 
@@ -46,3 +46,12 @@ def method_route(methods=None, **kwargs):
         return func
     return decorator
 
+def is_authenticated():
+    def decorator(func):
+        def wrapper(request, *args, **kw):
+            if(isinstance(request.user,AnonymousUser)):
+                print('草 没有通过验证啊')
+                return JSONWrappedResponse(status=-1, message='未通过token验证')
+            return func(request,*args,**kw)
+        return wrapper
+    return decorator
