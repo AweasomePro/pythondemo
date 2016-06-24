@@ -49,6 +49,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     # 'django.middleware.csrf.CsrfViewMiddleware',
+    'hotelBooking.middleware.FiledMiddleware.UserFiledMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',#它向每个接受到的HttpRequeset对象添加user属性，表示当前登入的用户
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -189,7 +190,7 @@ JWT_AUTH = {
     'JWT_ISSUER': None,
 
     'JWT_ALLOW_REFRESH': False,
-    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=365),
 
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
 }

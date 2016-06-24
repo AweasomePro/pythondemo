@@ -16,11 +16,11 @@ Including another URLconf
 from django.conf.urls import url,include,patterns
 from django.contrib import admin
 from hotelBooking import urls as hotel_uls
-from rest_framework_jwt.views import obtain_jwt_token
 urlpatterns = [
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^', include('hotelBooking.urls')),
-    url(r'^api-token-auth/', obtain_jwt_token),
+
 ]
+
 

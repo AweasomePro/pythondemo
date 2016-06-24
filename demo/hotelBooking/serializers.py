@@ -38,6 +38,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('name','phone_number','create_at','avatar')
+        write_only_fields = ('password',)
 
 
 class InstallationSerializer(DynamicFieldsModelSerializer):

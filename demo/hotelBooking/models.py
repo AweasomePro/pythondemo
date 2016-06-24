@@ -32,6 +32,7 @@ class User(AbstractBaseUser):
     avatar = models.URLField(blank=True)
     is_admin = models.BooleanField(default=False)
     is_active = models.BigIntegerField(default=True)
+    is_loggin = models.BooleanField(default=False)
     create_at = models.DateTimeField(auto_now_add=True)
     groups = models.ManyToManyField(Group,blank=True)
     permissions = models.ManyToManyField(Permission,blank=True)
