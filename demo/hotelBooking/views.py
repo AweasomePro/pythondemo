@@ -209,7 +209,7 @@ class UserViewSet(viewsets.GenericViewSet):
         return DefaultJsonResponse(code=appcodes.CODE_OBTAIN_AVATAR_TOKEN_SUCCESS,data={'upload_token': token, 'imageUrl': key})
 
 
-class HotelView(viewsets.GenericViewSet):
+class HotelView(APIView):
     serializer_class = HotelSerializer
     queryset = Hotel.objects.all()
 
@@ -255,7 +255,7 @@ class HotelListView(ListAPIView):
         return DefaultJsonResponse({'hotels':serializers.data})
 
 
-class ProvinceView(viewsets.ModelViewSet):
+class ProvinceView(ListAPIView):
     serializer_class = ProvinceSerializer
     queryset= Province.objects.all()
 

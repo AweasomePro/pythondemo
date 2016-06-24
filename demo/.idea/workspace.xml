@@ -48,45 +48,70 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/hotelBooking/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="566">
-              <caret line="60" column="37" selection-start-line="60" selection-start-column="37" selection-end-line="60" selection-end-column="37" />
+            <state relative-caret-position="219">
+              <caret line="257" column="6" selection-start-line="257" selection-start-column="6" selection-end-line="257" selection-end-column="6" />
               <folding>
-                <element signature="e#20#35#0" expanded="true" />
                 <element signature="e#1664#1812#0" expanded="false" />
                 <element signature="e#1815#1870#0" expanded="false" />
                 <element signature="e#2117#3212#0" expanded="false" />
+                <element signature="e#2475#2571#0" expanded="false" />
+                <element signature="e#2843#2849#0" expanded="false" />
+                <element signature="e#3089#3212#0" expanded="false" />
                 <element signature="e#3444#3873#0" expanded="false" />
+                <element signature="e#3574#3735#0" expanded="false" />
+                <element signature="e#3754#3873#0" expanded="false" />
                 <element signature="e#4036#4365#0" expanded="false" />
-                <element signature="e#4495#8400#0" expanded="false" />
-                <element signature="e#8449#8968#0" expanded="false" />
-                <element signature="e#9009#9933#0" expanded="false" />
-                <element signature="e#9983#10725#0" expanded="false" />
-                <element signature="e#10862#11574#0" expanded="false" />
-                <element signature="e#11705#11761#0" expanded="false" />
+                <element signature="e#4036#4168#1" expanded="false" />
+                <element signature="e#4724#6484#0" expanded="false" />
+                <element signature="e#4968#6374#0" expanded="false" />
+                <element signature="e#5005#6374#0" expanded="false" />
+                <element signature="e#5117#6253#0" expanded="false" />
+                <element signature="e#5146#5821#0" expanded="false" />
+                <element signature="e#5893#6016#0" expanded="false" />
+                <element signature="e#6067#6253#0" expanded="false" />
+                <element signature="e#6603#6794#0" expanded="false" />
+                <element signature="e#6881#6885#0" expanded="false" />
+                <element signature="e#7229#7759#0" expanded="false" />
+                <element signature="e#7250#7576#0" expanded="false" />
+                <element signature="e#8040#8400#0" expanded="false" />
+                <element signature="e#8590#8952#0" expanded="false" />
+                <element signature="e#9118#9917#0" expanded="false" />
+                <element signature="e#9367#9463#0" expanded="false" />
+                <element signature="e#9629#9753#0" expanded="false" />
+                <element signature="e#10069#10280#0" expanded="false" />
+                <element signature="e#10336#10696#0" expanded="false" />
+                <element signature="e#10479#10592#0" expanded="false" />
+                <element signature="e#10836#11548#0" expanded="false" />
+                <element signature="e#10931#10991#0" expanded="false" />
+                <element signature="e#11408#11506#0" expanded="false" />
+                <element signature="e#11590#11641#0" expanded="false" />
+                <element signature="e#11679#11735#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="appcodes.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/hotelBooking/appcodes.py">
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/hotelBooking/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="310">
-              <caret line="10" column="38" selection-start-line="10" selection-start-column="38" selection-end-line="10" selection-end-column="38" />
+            <state relative-caret-position="155">
+              <caret line="9" column="42" selection-start-line="9" selection-start-column="42" selection-end-line="9" selection-end-column="42" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/hotelBooking/urls.py">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/hotelBooking/auth/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="155">
-              <caret line="9" column="25" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
-              <folding />
+            <state relative-caret-position="219">
+              <caret line="32" column="6" selection-start-line="32" selection-start-column="6" selection-end-line="32" selection-end-column="6" />
+              <folding>
+                <element signature="e#0#56#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -170,10 +195,10 @@
         <option value="$PROJECT_DIR$/hotelBooking/helper/decorators.py" />
         <option value="$PROJECT_DIR$/hotelBookingProject/settings.py" />
         <option value="$PROJECT_DIR$/hotelBooking/auth/models.py" />
-        <option value="$PROJECT_DIR$/hotelBooking/urls.py" />
         <option value="$PROJECT_DIR$/hotelBooking/codes.py" />
-        <option value="$PROJECT_DIR$/hotelBooking/views.py" />
         <option value="$PROJECT_DIR$/hotelBooking/appcodes.py" />
+        <option value="$PROJECT_DIR$/hotelBooking/views.py" />
+        <option value="$PROJECT_DIR$/hotelBooking/urls.py" />
       </list>
     </option>
   </component>
@@ -958,11 +983,6 @@
           <line>51</line>
           <option name="timeStamp" value="104" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/hotelBooking/views.py</url>
-          <line>183</line>
-          <option name="timeStamp" value="105" />
-        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
@@ -1624,32 +1644,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hotelBooking/auth/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="439">
-          <caret line="52" column="63" selection-start-line="52" selection-start-column="63" selection-end-line="52" selection-end-column="63" />
-          <folding>
-            <element signature="e#0#56#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/rest_framework/viewsets.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1066">
-          <caret line="126" column="53" selection-start-line="126" selection-start-column="53" selection-end-line="126" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Python34/Lib/site-packages/rest_framework/generics.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3212">
-          <caret line="24" column="6" selection-start-line="24" selection-start-column="6" selection-end-line="24" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/myappVirtual/Lib/site-packages/rest_framework/status.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="93">
@@ -1672,40 +1666,89 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hotelBooking/urls.py">
+    <entry file="file://$PROJECT_DIR$/hotelBooking/appcodes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="155">
-          <caret line="9" column="25" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
+        <state relative-caret-position="132">
+          <caret line="52" column="38" selection-start-line="52" selection-start-column="38" selection-end-line="52" selection-end-column="38" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hotelBooking/appcodes.py">
+    <entry file="file://D:/Python34/Lib/site-packages/rest_framework/viewsets.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="10" column="38" selection-start-line="10" selection-start-column="38" selection-end-line="10" selection-end-column="38" />
+        <state relative-caret-position="1066">
+          <caret line="126" column="53" selection-start-line="126" selection-start-column="53" selection-end-line="126" selection-end-column="53" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Python34/Lib/site-packages/rest_framework/generics.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3212">
+          <caret line="24" column="6" selection-start-line="24" selection-start-column="6" selection-end-line="24" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hotelBooking/auth/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="219">
+          <caret line="32" column="6" selection-start-line="32" selection-start-column="6" selection-end-line="32" selection-end-column="6" />
+          <folding>
+            <element signature="e#0#56#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/hotelBooking/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="566">
-          <caret line="60" column="37" selection-start-line="60" selection-start-column="37" selection-end-line="60" selection-end-column="37" />
+        <state relative-caret-position="219">
+          <caret line="257" column="6" selection-start-line="257" selection-start-column="6" selection-end-line="257" selection-end-column="6" />
           <folding>
-            <element signature="e#20#35#0" expanded="true" />
             <element signature="e#1664#1812#0" expanded="false" />
             <element signature="e#1815#1870#0" expanded="false" />
             <element signature="e#2117#3212#0" expanded="false" />
+            <element signature="e#2475#2571#0" expanded="false" />
+            <element signature="e#2843#2849#0" expanded="false" />
+            <element signature="e#3089#3212#0" expanded="false" />
             <element signature="e#3444#3873#0" expanded="false" />
+            <element signature="e#3574#3735#0" expanded="false" />
+            <element signature="e#3754#3873#0" expanded="false" />
             <element signature="e#4036#4365#0" expanded="false" />
-            <element signature="e#4495#8400#0" expanded="false" />
-            <element signature="e#8449#8968#0" expanded="false" />
-            <element signature="e#9009#9933#0" expanded="false" />
-            <element signature="e#9983#10725#0" expanded="false" />
-            <element signature="e#10862#11574#0" expanded="false" />
-            <element signature="e#11705#11761#0" expanded="false" />
+            <element signature="e#4036#4168#1" expanded="false" />
+            <element signature="e#4724#6484#0" expanded="false" />
+            <element signature="e#4968#6374#0" expanded="false" />
+            <element signature="e#5005#6374#0" expanded="false" />
+            <element signature="e#5117#6253#0" expanded="false" />
+            <element signature="e#5146#5821#0" expanded="false" />
+            <element signature="e#5893#6016#0" expanded="false" />
+            <element signature="e#6067#6253#0" expanded="false" />
+            <element signature="e#6603#6794#0" expanded="false" />
+            <element signature="e#6881#6885#0" expanded="false" />
+            <element signature="e#7229#7759#0" expanded="false" />
+            <element signature="e#7250#7576#0" expanded="false" />
+            <element signature="e#8040#8400#0" expanded="false" />
+            <element signature="e#8590#8952#0" expanded="false" />
+            <element signature="e#9118#9917#0" expanded="false" />
+            <element signature="e#9367#9463#0" expanded="false" />
+            <element signature="e#9629#9753#0" expanded="false" />
+            <element signature="e#10069#10280#0" expanded="false" />
+            <element signature="e#10336#10696#0" expanded="false" />
+            <element signature="e#10479#10592#0" expanded="false" />
+            <element signature="e#10836#11548#0" expanded="false" />
+            <element signature="e#10931#10991#0" expanded="false" />
+            <element signature="e#11408#11506#0" expanded="false" />
+            <element signature="e#11590#11641#0" expanded="false" />
+            <element signature="e#11679#11735#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hotelBooking/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="155">
+          <caret line="9" column="42" selection-start-line="9" selection-start-column="42" selection-end-line="9" selection-end-column="42" />
+          <folding />
         </state>
       </provider>
     </entry>
