@@ -7,6 +7,7 @@ from .auth.models import CustomTokenAuthenticationView
 
 router = routers.SimpleRouter()
 router.register(r'provinces',views.ProvinceView)
+router.register(r'hotels')
 router.register(r'user',views.UserViewSet)
 urlpatterns = [
     # url(r'^login/$', views.member_login),

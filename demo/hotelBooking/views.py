@@ -8,6 +8,7 @@ from .models import *
 from .serializers import *
 from .helper import userhelper
 import logging
+from . import appcodes
 
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
@@ -62,7 +63,7 @@ def member_resiter_sms_send(request):
     print('regist phone number %s'%phoneNumber)
     smsType = request.POST.get('smsType')
     if (userhelper.phoneNumberExist(phoneNumber)):
-        return DefaultJsonResponse(code=AppConst.STATUS_PHONE_EXISTED, message="手机号已经存在")
+        return DefaultJsonResponse(code=appcodes.CODE_PHONE_IS_EXISTED, message="手机号已经存在")
     url = 'https://api.leancloud.cn/1.1/requestSmsCode'
     values = {
         modelKey.KEY_LEAN_PHONENUMBER: str(phoneNumber),
@@ -80,7 +81,7 @@ def member_resiter_sms_send(request):
     # print(str(response.content))
     # print(response.request.body)
     if response.status_code == 200:
-        return DefaultJsonResponse(code=AppConst.STATUS_SUCCESSS, message='发送验证码成功')
+        return DefaultJsonResponse(code=appcodes.CODE_100_OK, message='发送验证码成功')
     else:
         response_dic = response.json()
         return DefaultJsonResponse(code=response_dic['code'], message=response_dic['error'])
@@ -98,30 +99,14 @@ def installationId_register(request, formate=None):
     if serializer.is_valid():
         print('valid'+serializer.__str__())
         serializer.save()
-        return DefaultJsonResponse(code=AppConst.STATUS_SUCCESSS, message="上传成功")
+        return DefaultJsonResponse(code=appcodes .CODE_UPLOAD_INSTALLATION_SUCCESS, message="上传成功")
     else:
         print(serializer.errors)
         return DefaultJsonResponse(code=AppConst.STATUS_ERROR, message=str(serializer.errors))
 
 
-
-
 access_key = 'u-ryAwaQeBx9BS5t8OMSPs6P1Ewoqiu6-ZbbMNYm'
 secret_key = 'hVXFHO8GusQduMqLeYXZx_C5_c7D-VSwz6AKhjZJ'
-
-
-@api_view(['GET'])
-@authentication_classes((TokenAuthentication, BasicAuthentication))
-@permission_classes((IsAuthenticated,))
-def obtain_uploadAvatarToken(request):
-    q = Auth(access_key,secret_key)
-    print('user id'+str(request.user.id))
-    bucket_name = 'hotelbook'
-    userId = parse_get_userId(request)
-    imageName = 'avatar_'+userId+'.jpg'
-    key = imageName
-    token = q.upload_token(bucket_name, key, 3600)
-    return DefaultJsonResponse(data ={'token':token,'imageUrl':key})
 
 
 def update_user_avatar_callback(request):
@@ -169,16 +154,16 @@ class UserViewSet(viewsets.GenericViewSet):
                         user.save()
                     except BaseException as e:
                         # raise e
-                        return DefaultJsonResponse(data=kwargs, code=AppConst.STATUS_ERROR, message="内部错误")
+                        return DefaultJsonResponse(data=kwargs, code=appcodes.CODE_100_APP_ERROR, message="内部错误")
                     else:
-                        response = DefaultJsonResponse(data=kwargs, code=AppConst.STATUS_SUCCESSS, message="注册成功")
+                        response = DefaultJsonResponse(data=kwargs, code=appcodes.CODE_REGISTER_SUCCESS, message="注册成功")
                         response['token'] = token
                         return response
                 else:
-                    return DefaultJsonResponse(code=AppConst.STATUS_PWD_ERROR, message="注册失败，验证码错误")
+                    return DefaultJsonResponse(code=appcodes.CODE_SMS_ERROR, message="注册失败，验证码错误")
 
         else:
-            return DefaultJsonResponse(code=AppConst.STATUS_PHONE_EXISTED, message="手机号已经存在")
+            return DefaultJsonResponse(code=appcodes.CODE_PHONE_IS_EXISTED, message="手机号已经存在")
 
     @method_route(methods=['POST'],)
     @method_decorator(is_authenticated())
@@ -205,39 +190,12 @@ class UserViewSet(viewsets.GenericViewSet):
                 user = User.objects.get(phone_number=phoneNumber)
                 installDevice.member = user
                 installDevice.save()
-                return DefaultJsonResponse(code=AppConst.STATUS_SUCCESSS, message="success")
+                return DefaultJsonResponse(code=appcodes.CODE_INSTALLATION_BIND_SUCCESS, message="success")
             except Installation.DoesNotExist:
-                return DefaultJsonResponse(code=111, message="这个installationId尚未注册到服务端")
-            except User.DoesNotExist:
-                return DefaultJsonResponse(code=112, message="这个phoneNumber尚未注册到服务端")
+                return DefaultJsonResponse(code=appcodes.CODE_INSTALLATION_BIND＿FAILED_NOT_UPLOADED, message="这个installationId尚未注册到服务端")
         elif deviceToken:
-            return DefaultJsonResponse(code=113, message="ios还没写,哇咔咔")
-    # @method_route(methods=['POST'], )
-    # @method_decorator(parameter_necessary('phoneNumber', 'password',))
-    # def login(self,request):
-    #     phoneNumber = request.POST.get(modelKey.KEY_PHONENUMBER)
-    #     password = request.POST.get('password')
-    #     try:
-    #         user = User.objects.get(phone_number=phoneNumber)
-    #         authenticate()
-    #         valid = user.check_password(password)
-    #         if valid and user.is_active:
-    #             # auth.login(request,user)
-    #             print('login user ' + str(user.phone_number))
-    #             kwargs = {'UserEntity': UserSerializer(user, many=False).data}
-    #             payload = jwt_payload_handle(user)
-    #             token = jwt_encode_handler(payload)
-    #             print('token is ' + str(token))
-    #             response = DefaultJsonResponse(data=kwargs, code=AppConst.STATUS_SUCCESSS, message="登入成功")
-    #             response['token'] = token
-    #             return response
-    #         else:
-    #             return DefaultJsonResponse(code=AppConst.STATUS_PWD_ERROR, message="账号密码错误", )
-    #     except User.DoesNotExist:
-    #         return DefaultJsonResponse(code=AppConst.STATUS_PHONE_NOT_EXISTED, message="不存在该账号")
-    #     except Exception as e:
-    #         print('exception ' + e.__str__())
-    #         return DefaultJsonResponse(code=401, message="服务器内部请求错误")
+            return DefaultJsonResponse(code=appcodes.CODE_INSTALLATION_BIND_SUCCESS, message="ios还没写,哇咔咔")
+
 
     @method_route(methods=['GET'],url_path='avatar/token')
     @method_decorator(is_authenticated())
@@ -248,11 +206,12 @@ class UserViewSet(viewsets.GenericViewSet):
         imageName = 'avatar_' + str(userId) + '.jpg'
         key = imageName
         token = q.upload_token(bucket_name, key, 3600)
-        return DefaultJsonResponse(data={'upload_token': token, 'imageUrl': key})
+        return DefaultJsonResponse(code=appcodes.CODE_OBTAIN_AVATAR_TOKEN_SUCCESS,data={'upload_token': token, 'imageUrl': key})
 
 
-
-class HotelView(GenericAPIView):
+class HotelView(viewsets.GenericViewSet):
+    serializer_class = HotelSerializer
+    queryset = Hotel.objects.all()
 
     @method_decorator(parameter_necessary('id', ))
     def get(self,request):
