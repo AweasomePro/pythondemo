@@ -20,6 +20,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.db.models.signals import post_save
 
 from rest_framework.views import APIView
+from rest_framework.mixins import UpdateModelMixin
 from rest_framework.generics import GenericAPIView,ListAPIView
 from rest_framework import viewsets, status
 from rest_framework.parsers import JSONParser
@@ -99,7 +100,7 @@ def installationId_register(request, formate=None):
     if serializer.is_valid():
         print('valid'+serializer.__str__())
         serializer.save()
-        return DefaultJsonResponse(code=appcodes .CODE_UPLOAD_INSTALLATION_SUCCESS, message="上传成功")
+        return DefaultJsonResponse(code=appcodes .CODE_100_OK, message="上传成功")
     else:
         print(serializer.errors)
         return DefaultJsonResponse(code=AppConst.STATUS_ERROR, message=str(serializer.errors))
@@ -124,7 +125,7 @@ def update_user_avatar_callback(request):
 
 # -------------------------基于类的视图----------------------------------------------#
 
-class UserViewSet(viewsets.GenericViewSet):
+class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
@@ -146,17 +147,17 @@ class UserViewSet(viewsets.GenericViewSet):
                         user.set_password(password)
                         user.username = phone_number
                         print('user 的username =' + str(user.username))
-                        serailizer_member = UserSerializer(user, many=False)
-                        # serailizer_member.data
-                        kwargs = {'UserEntity': serailizer_member.data}
+                        serializer_member = UserSerializer(user, many=False)
+                        # serializer_member.data
+                        kwargs = {'UserEntity': serializer_member.data}
                         payload = jwt_payload_handle(user)
                         token = jwt_encode_handler(payload)
                         user.save()
                     except BaseException as e:
                         # raise e
-                        return DefaultJsonResponse(data=kwargs, code=appcodes.CODE_100_APP_ERROR, message="内部错误")
+                        return DefaultJsonResponse(res_data= kwargs, code=appcodes.CODE_100_APP_ERROR, message="内部错误")
                     else:
-                        response = DefaultJsonResponse(data=kwargs, code=appcodes.CODE_REGISTER_SUCCESS, message="注册成功")
+                        response = DefaultJsonResponse(res_data= kwargs, code=appcodes.CODE_100_OK, message="注册成功")
                         response['token'] = token
                         return response
                 else:
@@ -174,9 +175,13 @@ class UserViewSet(viewsets.GenericViewSet):
         else:
             return DefaultJsonResponse(code=100,message="退出成功")
 
-    @method_route(methods=['POST'], )
+    @method_route(methods=['PUT'], url_path='password')
+    @method_decorator(parameter_necessary('phoneNumber', 'password', ))
     def change_password(self,request):
-        pass
+        phoneNumber = request.POST['phoneNumber']
+        password = request.POST['password']
+        print('phoneNumber is {0} and password is {1}'.format(phoneNumber,password))
+        return DefaultJsonResponse(res_data='修改失败')
 
     @method_route(methods=['POST'], url_path='installation/bind')
     @method_decorator(is_authenticated())
@@ -190,12 +195,11 @@ class UserViewSet(viewsets.GenericViewSet):
                 user = User.objects.get(phone_number=phoneNumber)
                 installDevice.member = user
                 installDevice.save()
-                return DefaultJsonResponse(code=appcodes.CODE_INSTALLATION_BIND_SUCCESS, message="success")
+                return DefaultJsonResponse(code=appcodes.CODE_100_OK, message="success")
             except Installation.DoesNotExist:
                 return DefaultJsonResponse(code=appcodes.CODE_INSTALLATION_BIND＿FAILED_NOT_UPLOADED, message="这个installationId尚未注册到服务端")
         elif deviceToken:
-            return DefaultJsonResponse(code=appcodes.CODE_INSTALLATION_BIND_SUCCESS, message="ios还没写,哇咔咔")
-
+            return DefaultJsonResponse(code=appcodes.CODE_100_OK, message="ios还没写,哇咔咔")
 
     @method_route(methods=['GET'],url_path='avatar/token')
     @method_decorator(is_authenticated())
@@ -206,7 +210,10 @@ class UserViewSet(viewsets.GenericViewSet):
         imageName = 'avatar_' + str(userId) + '.jpg'
         key = imageName
         token = q.upload_token(bucket_name, key, 3600)
-        return DefaultJsonResponse(code=appcodes.CODE_OBTAIN_AVATAR_TOKEN_SUCCESS,data={'upload_token': token, 'imageUrl': key})
+        return DefaultJsonResponse(code=appcodes.CODE_100_OK,
+                                   res_data={'upload_token': token, 'imageUrl': key})
+
+
 
 
 class HotelViewSet(viewsets.GenericViewSet):
@@ -218,10 +225,10 @@ class HotelViewSet(viewsets.GenericViewSet):
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
-            return DefaultJsonResponse(code=appcodes.CODE_100_OK, data=serializer.data)
+            return DefaultJsonResponse(code=appcodes.CODE_100_OK, res_data=serializer.data)
         serializer = self.get_serializer(queryset, many=True)
         print('is list')
-        return DefaultJsonResponse(code=appcodes.CODE_100_OK, data=serializer.data)
+        return DefaultJsonResponse(code=appcodes.CODE_100_OK, res_data=serializer.data)
 
 
 
@@ -244,14 +251,14 @@ class HotelListView(ListAPIView):
             print('catch error'+e.__str__())
 
         print(hotels)
-        pageintor = Paginator(hotels,1)
+        paginator = Paginator(hotels,1)
         try:
-            backHotels = pageintor.page(page)
+            backHotels = paginator.page(page)
             serializers = self.serializer_class(backHotels,many=True,excludes=('houses',))
         except EmptyPage as e:
             return DefaultJsonResponse(code=-100, message='没有更多数据')
 
-        return DefaultJsonResponse({'hotels':serializers.data})
+        return DefaultJsonResponse({'hotels': serializers.data})
 
 
 class ProvinceView(ListAPIView):
@@ -262,7 +269,7 @@ class ProvinceView(ListAPIView):
         provinces = Province.objects.all()
         serializer_provinces = ProvinceSerializer(provinces, many=True)
         data = {'procinces': serializer_provinces.data,}
-        return DefaultJsonResponse(data=data, )
+        return DefaultJsonResponse(res_data=data, )
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())

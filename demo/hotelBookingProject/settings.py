@@ -161,7 +161,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PAGINATION_CLASS': 'hotelBooking.pagination.StandardResultsSetPagination',
     'PAGE_SIZE': 1,
-    'EXCEPTION_HANDLER' : 'hotelBooking.helper.utils.custom_exception_handle'
+    'EXCEPTION_HANDLER' : 'hotelBooking.helper.utils.exception_handler'
 }
 
 import datetime

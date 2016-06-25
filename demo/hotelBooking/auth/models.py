@@ -7,6 +7,7 @@ from rest_framework import status
 from ..helper.AppJsonResponse import DefaultJsonResponse
 from ..serializers import UserSerializer
 from ..helper.decorators import parameter_necessary
+from .. import appcodes
 from django.contrib.auth.models import update_last_login
 from django.utils.decorators import method_decorator
 jwt_decode_handler = api_settings.JWT_DECODE_HANDLER
@@ -46,8 +47,10 @@ class CustomTokenAuthenticationView(ObtainJSONWebToken):
             token = serializer.object.get('token')
             token_data = jwt_response_payload_handler(token, user, request)
             userdata = UserSerializer(user, many=False).data
-            json_response = DefaultJsonResponse(data={'user':userdata}, code=200, message="验证并登入成功")
+            json_response = DefaultJsonResponse(res_data={'user':userdata}, code=appcodes.CODE_100_OK, message="验证并登入成功")
             json_response['token'] = token_data['token']
+            print('token is')
+            print(json_response['token'])
             return json_response
         else:
             return DefaultJsonResponse(code=-100, message="验证失败")
