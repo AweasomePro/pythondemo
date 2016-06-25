@@ -159,9 +159,11 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
     ),
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE':1,
+    'DEFAULT_PAGINATION_CLASS': 'hotelBooking.pagination.StandardResultsSetPagination',
+    'PAGE_SIZE': 1,
+    'EXCEPTION_HANDLER' : 'hotelBooking.helper.utils.custom_exception_handle'
 }
+
 import datetime
 
 JWT_AUTH = {
@@ -191,7 +193,6 @@ JWT_AUTH = {
 
     'JWT_ALLOW_REFRESH': False,
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
-
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
 }
 

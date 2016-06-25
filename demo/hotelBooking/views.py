@@ -209,21 +209,20 @@ class UserViewSet(viewsets.GenericViewSet):
         return DefaultJsonResponse(code=appcodes.CODE_OBTAIN_AVATAR_TOKEN_SUCCESS,data={'upload_token': token, 'imageUrl': key})
 
 
-class HotelView(APIView):
+class HotelViewSet(viewsets.GenericViewSet):
     serializer_class = HotelSerializer
     queryset = Hotel.objects.all()
 
-    @method_decorator(parameter_necessary('id', ))
-    def get(self,request):
-        print('process hotel')
-        query_params = request.query_params
-        id = query_params.get('id')
-        excludes_str = query_params.get('excludes')
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return DefaultJsonResponse(code=appcodes.CODE_100_OK, data=serializer.data)
+        serializer = self.get_serializer(queryset, many=True)
+        print('is list')
+        return DefaultJsonResponse(code=appcodes.CODE_100_OK, data=serializer.data)
 
-        print('id is{}'.format(id))
-        hotel = Hotel.objects.get(id=id)
-        hotel_serializer =  HotelSerializer(hotel,many=False)
-        return DefaultJsonResponse({'hotel':hotel_serializer.data})
 
 
 class HotelListView(ListAPIView):
@@ -308,3 +307,6 @@ def phoneNumberExist(phoneNumber):
 def parse_get_userId(request):
     userId = request.REQUEST.get('userId')
     return userId
+
+from rest_framework.views import exception_handler
+
