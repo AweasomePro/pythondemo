@@ -119,17 +119,20 @@ def update_user_avatar_callback(request):
     :param request:
     :return:
     """
-    # query_params =  request.query＿params
-    # fname = query_params.get('filename')
-    # phone_number = re.match('^avatar_(?P<id>\d+).png',fname).group('id')
-    # if(User.existUser(phone_number= phone_number)):
-    #     userhelper.updateAvatar(phone_number,fname)
-    #     print('update avatar success')
-    # else:
-    #     print('update avatar error')
-    print(request.data)
-    print(request.method)
-    print(request.body)
+    post_data =  request.POST
+    f_name = post_data.get('filename')
+    f_size = post_data.get('filesize')
+    print(type(re.match('^avatar_(?P<id>\d+).*', f_name)))
+    try:
+        phone_number = re.match('^avatar_(?P<id>\d+).*',f_name).group('id')
+        if(phone_number and User.existUser(phone_number= phone_number)):
+            userhelper.updateAvatar(phone_number,f_name)
+            print('update avatar success')
+        else:
+            print('update avatar error')
+    except BaseException as e:
+        print('发生异常了')
+        print(e.__traceback__)
     return Response('OK')
 
 
