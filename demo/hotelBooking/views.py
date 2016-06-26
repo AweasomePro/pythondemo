@@ -235,8 +235,8 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     def avatar_token(self,request):
         q = Auth(access_key, secret_key)
         bucket_name = 'hotelbook'
-        userId = request.user.id
-        imageName = 'avatar_' + str(userId) + '.jpg'
+        phone_number = request.user.phone_number
+        imageName = '/avatar/avatar_' + str(phone_number) + '.jpg'
         key = imageName
         policy = {
             'callbackUrl':'agesd.com/avatar/upload/callback',
