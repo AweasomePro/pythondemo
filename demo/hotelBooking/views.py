@@ -229,7 +229,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         imageName = 'avatar_' + str(userId) + '.jpg'
         key = imageName
         policy = {
-            'callbackUrl':'avatar/upload/callback',
+            'callbackUrl':'www.agesd.com/avatar/upload/callback',
             'callbackBody':'filename=$(fname)&filesize=$(fsize)'
         }
         token = q.upload_token(bucket_name, key, 3600,policy)
