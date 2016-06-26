@@ -119,15 +119,16 @@ def update_user_avatar_callback(request):
     :param request:
     :return:
     """
-    query_params =  request.query＿params
-    fname = query_params.get('filename')
-    phone_number = re.match('^avatar_(?P<id>\d+).png',fname).group('id')
-    if(User.existUser(phone_number= phone_number)):
-        userhelper.updateAvatar(phone_number,fname)
-        print('update avatar success')
-    else:
-        print('update avatar error')
-
+    # query_params =  request.query＿params
+    # fname = query_params.get('filename')
+    # phone_number = re.match('^avatar_(?P<id>\d+).png',fname).group('id')
+    # if(User.existUser(phone_number= phone_number)):
+    #     userhelper.updateAvatar(phone_number,fname)
+    #     print('update avatar success')
+    # else:
+    #     print('update avatar error')
+    # print(request.data)
+    print(request.method)
     return Response('OK')
 
 
@@ -225,7 +226,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         elif deviceToken:
             return DefaultJsonResponse(code=appcodes.CODE_100_OK, message="ios还没写,哇咔咔")
 
-    @method_route(methods=['GET'],url_path='avatar/token')
+    @method_route(methods=['GET',],url_path='avatar/token')
     @method_decorator(is_authenticated())
     def avatar_token(self,request):
         q = Auth(access_key, secret_key)
@@ -234,7 +235,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         imageName = 'avatar_' + str(userId) + '.jpg'
         key = imageName
         policy = {
-            'callbackUrl':'www.agesd.com/avatar/upload/callback',
+            'callbackUrl':'183.136.198.78:8000/avatar/upload/callback',
             'callbackBody':'filename=$(fname)&filesize=$(fsize)'
         }
         token = q.upload_token(bucket_name, key, 3600,policy)
