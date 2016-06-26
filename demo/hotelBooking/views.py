@@ -129,6 +129,7 @@ def update_user_avatar_callback(request):
     #     print('update avatar error')
     print(request.data)
     print(request.method)
+    print(request.body)
     return Response('OK')
 
 
