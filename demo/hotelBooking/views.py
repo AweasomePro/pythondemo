@@ -110,6 +110,7 @@ access_key = 'u-ryAwaQeBx9BS5t8OMSPs6P1Ewoqiu6-ZbbMNYm'
 secret_key = 'hVXFHO8GusQduMqLeYXZx_C5_c7D-VSwz6AKhjZJ'
 
 
+@api_view(['GET','POST',])
 def update_user_avatar_callback(request):
     """
     采用 用户发起请求，获取ｔｏｋｅｎ，客户端得到token往　七牛云上传图片，七牛云回调我方接口的调用流程
@@ -117,17 +118,20 @@ def update_user_avatar_callback(request):
     :param request:
     :return:
     """
-    query_params =  request.query＿params
-    fname = query_params.get('filename')
-    userId = fname.split('-')[0]
-    if(User.existUserId(userId)):
-        userhelper.updateAvatar(userId,fname)
+    # query_params =  request.query＿params
+    # fname = query_params.get('filename')
+    # userId = fname.split('-')[0]
+    print('haha')
+    return Response('OK')
+    # if(User.existUserId(userId)):
+    #     userhelper.updateAvatar(userId,fname)
 
 # -------------------------基于类的视图----------------------------------------------#
 
 class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
+
 
     @method_route(methods=['POST'],)
     @method_decorator(parameter_necessary('phoneNumber', 'password', 'smsCode',))
@@ -180,8 +184,23 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     def change_password(self,request):
         phoneNumber = request.POST['phoneNumber']
         password = request.POST['password']
+
         print('phoneNumber is {0} and password is {1}'.format(phoneNumber,password))
         return DefaultJsonResponse(res_data='修改失败')
+
+    @method_route(methods=['PUT'],url_path='profile')
+    @method_decorator(is_authenticated())
+    def update_profile(self,request):
+        print(request.user)
+        s = UpdateUserSerializer(data=request.data)
+        s.is_valid()
+        print(s.errors)
+        if(s.is_valid()):
+            s.update(request.user,s.validated_data)
+            return DefaultJsonResponse(message='修改用户资料成功')
+        else:
+            return DefaultJsonResponse(message='修改失败{0}'.format(s.errors.values),code='-100')
+
 
     @method_route(methods=['POST'], url_path='installation/bind')
     @method_decorator(is_authenticated())
@@ -209,7 +228,11 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         userId = request.user.id
         imageName = 'avatar_' + str(userId) + '.jpg'
         key = imageName
-        token = q.upload_token(bucket_name, key, 3600)
+        policy = {
+            'callbackUrl':'avatar/upload/callback',
+            'callbackBody':'filename=$(fname)&filesize=$(fsize)'
+        }
+        token = q.upload_token(bucket_name, key, 3600,policy)
         return DefaultJsonResponse(code=appcodes.CODE_100_OK,
                                    res_data={'upload_token': token, 'imageUrl': key})
 

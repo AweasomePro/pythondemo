@@ -5,7 +5,7 @@ from rest_framework_jwt.views import obtain_jwt_token
 from .auth.models import CustomTokenAuthenticationView
 
 
-router = routers.SimpleRouter(trailing_slash=False)
+router = routers.SimpleRouter(trailing_slash=True)
 router.register(r'hotel',views.HotelViewSet)
 router.register(r'user',views.UserViewSet)
 urlpatterns = [

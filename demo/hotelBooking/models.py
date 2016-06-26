@@ -25,16 +25,16 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
-    phone_number = models.CharField(max_length=15, unique=True)
+    phone_number = models.CharField(max_length=15, unique=True,)
     name = models.CharField(max_length=225,default="unknow name")
-    email = models.EmailField(max_length=255)
+    email = models.EmailField(max_length=255,blank=True)
     phone_is_verify = models.BooleanField(default=False)
     avatar = models.URLField(blank=True)
     is_admin = models.BooleanField(default=False)
-    is_active = models.BigIntegerField(default=True)
+    is_active = models.BooleanField(default=True)
     is_loggin = models.BooleanField(default=False)
     create_at = models.DateTimeField(auto_now_add=True)
-    groups = models.ManyToManyField(Group,blank=True)
+    groups = models.ManyToManyField(Group,blank=True,default=None)
     permissions = models.ManyToManyField(Permission,blank=True)
     objects = UserManager()
     USERNAME_FIELD = 'phone_number'
