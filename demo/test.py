@@ -1,3 +1,4 @@
-def application(env, start_response):
-    start_response('200 ok',[('Content-Type','text/html')])
-    return [b"Hello Python"]
+import re
+str = 'avatar_1000.png'
+res =re.match('^avatar_(?P<id>\d+).png',str)
+print(res.group('id'))

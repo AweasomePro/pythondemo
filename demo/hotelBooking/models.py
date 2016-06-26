@@ -25,7 +25,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
-    phone_number = models.CharField(max_length=15, unique=True,)
+    phone_number = models.CharField(max_length=15, unique=True)
     name = models.CharField(max_length=225,default="unknow name")
     email = models.EmailField(max_length=255,blank=True)
     phone_is_verify = models.BooleanField(default=False)
@@ -71,8 +71,9 @@ class User(AbstractBaseUser):
     def __unicode__(self):
         return self.phone_number
 
-    def existUserId(self,userId):
-        self.objects.filter(userId == userId).exists()
+    @staticmethod
+    def existUser(phone_number = None):
+        return User.objects.filter(phone_number = phone_number).exists()
 
 
 class Member(User):

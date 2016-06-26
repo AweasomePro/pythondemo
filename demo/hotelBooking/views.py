@@ -1,6 +1,7 @@
 #-*-coding:utf-8-*-
 import requests
 import json
+import re
 from hotelBooking.helper import modelKey
 from hotelBooking.helper.decorators import parameter_necessary,method_route,is_authenticated
 from hotelBooking.helper.AppJsonResponse import JSONWrappedResponse,DefaultJsonResponse
@@ -120,10 +121,13 @@ def update_user_avatar_callback(request):
     """
     query_params =  request.query＿params
     fname = query_params.get('filename')
-    userId = fname.split('-')[0]
-    print('haha')
-    if(User.existUserId(userId)):
-        userhelper.updateAvatar(userId,fname)
+    phone_number = re.match('^avatar_(?P<id>\d+).png',fname).group('id')
+    if(User.existUser(phone_number= phone_number)):
+        userhelper.updateAvatar(phone_number,fname)
+        print('update avatar success')
+    else:
+        print('update avatar error')
+
     return Response('OK')
 
 

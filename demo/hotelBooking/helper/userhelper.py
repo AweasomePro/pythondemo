@@ -9,7 +9,7 @@ def phoneNumberExist(phoneNumber):
     except ObjectDoesNotExist:
         return False
 
-def updateAvatar(userId,avatar_url):
-    User.objects.all().filter(id=userId).update(avatar =avatar_url)
+def updateAvatar(phone_number,avatar_url):
+    User.objects.all().filter(phone_number=phone_number).update(avatar =avatar_url)
 
 
