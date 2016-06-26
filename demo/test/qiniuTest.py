@@ -13,7 +13,7 @@ q = Auth(QINIU_ACCESS_KEY, QINIU_SECRET_KEY)
 bucket_name = 'hotelbook'
 
 #上传到七牛后保存的文件名
-key = 'my-python-logo.png';
+key = 'avatar_1000.png';
 
 policy = {
     'callbackUrl': 'agesd.com/avatar/upload/callback',
@@ -23,7 +23,7 @@ policy = {
 token = q.upload_token(bucket_name, key, 3600,policy)
 
 #要上传文件的本地路径
-localfile = 'shanghai.jpg'
+localfile = 'avatar_10000.jpg'
 
 ret, info = put_file(token, key, localfile)
 print(ret)
