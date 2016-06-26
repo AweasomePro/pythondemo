@@ -118,13 +118,14 @@ def update_user_avatar_callback(request):
     :param request:
     :return:
     """
-    # query_params =  request.query＿params
-    # fname = query_params.get('filename')
-    # userId = fname.split('-')[0]
+    query_params =  request.query＿params
+    fname = query_params.get('filename')
+    userId = fname.split('-')[0]
     print('haha')
+    if(User.existUserId(userId)):
+        userhelper.updateAvatar(userId,fname)
     return Response('OK')
-    # if(User.existUserId(userId)):
-    #     userhelper.updateAvatar(userId,fname)
+
 
 # -------------------------基于类的视图----------------------------------------------#
 
