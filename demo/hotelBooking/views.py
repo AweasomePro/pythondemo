@@ -92,7 +92,6 @@ def member_resiter_sms_send(request):
 @never_cache
 @api_view(['POST',])
 @authentication_classes((TokenAuthentication, BasicAuthentication))
-@permission_classes((IsAuthenticated,))
 @parser_classes((JSONParser,))
 def installationId_register(request, formate=None):
     json = request.data
@@ -247,8 +246,6 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
                                    res_data={'upload_token': token, 'imageUrl': key})
 
 
-
-
 class HotelViewSet(viewsets.GenericViewSet):
     serializer_class = HotelSerializer
     queryset = Hotel.objects.all()
@@ -262,7 +259,6 @@ class HotelViewSet(viewsets.GenericViewSet):
         serializer = self.get_serializer(queryset, many=True)
         print('is list')
         return DefaultJsonResponse(code=appcodes.CODE_100_OK, res_data=serializer.data)
-
 
 
 class HotelListView(ListAPIView):
