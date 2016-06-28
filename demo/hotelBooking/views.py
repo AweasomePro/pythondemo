@@ -251,27 +251,15 @@ class HotelViewSet(viewsets.GenericViewSet):
     queryset = Hotel.objects.all()
 
     def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return DefaultJsonResponse(code=appcodes.CODE_100_OK, res_data=serializer.data)
-        serializer = self.get_serializer(queryset, many=True)
-        print('is list')
-        return DefaultJsonResponse(code=appcodes.CODE_100_OK, res_data=serializer.data)
-
-
-class HotelListView(ListAPIView):
-    serializer_class = HotelSerializer
-    queryset = Hotel.objects.all()
-
-    def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         print(request.POST)
         print(request.GET)
         print(request.query_params)
+
         city_id = request.query_params.get('cityId')
-        hotels =queryset.filter(city_id=city_id)
+        hotels = queryset.all()
+        if city_id is not  None:
+            hotels =hotels.filter(city_id=city_id).all()
         try:
             page = request.query_params.get('page',1)
             if int(page) < 1 :
@@ -286,9 +274,34 @@ class HotelListView(ListAPIView):
             serializers = self.serializer_class(backHotels,many=True,excludes=('houses',))
         except EmptyPage as e:
             return DefaultJsonResponse(code=-100, message='没有更多数据')
+        return DefaultJsonResponse(res_data={'hotels': serializers.data})
 
-        return DefaultJsonResponse({'hotels': serializers.data})
-
+# class HotelListView(ListAPIView):
+#     serializer_class = HotelSerializer
+#     queryset = Hotel.objects.all()
+#
+    # def list(self, request, *args, **kwargs):
+    #     queryset = self.get_queryset()
+    #     print(request.POST)
+    #     print(request.GET)
+    #     print(request.query_params)
+    #     city_id = request.query_params.get('cityId')
+    #     hotels =queryset.filter(city_id=city_id)
+    #     try:
+    #         page = request.query_params.get('page',1)
+    #         if int(page) < 1 :
+    #             page =1
+    #     except ValueError as e:
+    #         print('catch error'+e.__str__())
+    #
+    #     print(hotels)
+    #     paginator = Paginator(hotels,1)
+    #     try:
+    #         backHotels = paginator.page(page)
+    #         serializers = self.serializer_class(backHotels,many=True,excludes=('houses',))
+    #     except EmptyPage as e:
+    #         return DefaultJsonResponse(code=-100, message='没有更多数据')
+    #     return DefaultJsonResponse(res_data={'hotels': serializers.data})
 
 class ProvinceView(ListAPIView):
     serializer_class = ProvinceSerializer
