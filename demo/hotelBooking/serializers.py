@@ -5,7 +5,7 @@ from rest_framework import serializers
 # phoneNumber = models.IntegerField(max_length=15)
 # register_time = models.DateTimeField(auto_created=True)
 
-from .models import  User,Installation, Province, City, Hotel,House,HotelLogoImg,HouseImg,HousePackage
+from .models import  User,Member,Installation, Province, City, Hotel,House,HotelLogoImg,HouseImg,HousePackage
 
 
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
@@ -32,15 +32,16 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
                 self.fields.pop(field_name)
 
 
-class UserSerializer(DynamicFieldsModelSerializer):
-    name =  serializers.CharField(read_only=False, required=False, allow_null=True,)
+class MemberSerializer(DynamicFieldsModelSerializer):
+    id = serializers.IntegerField(read_only=True,required=False)
+    name = serializers.CharField(read_only=False, required=False, allow_null=True,)
     phone_number = serializers.CharField(read_only=True,required=False)
     password = serializers.CharField(write_only=True,required=False)
     create_at= serializers.DateTimeField(read_only=True,required=False)
     avatar = serializers.URLField(required=False)
 
     class Meta:
-        model = User
+        model = Member
         # write_only_fields = ('password',)
 
     def update(self, instance, validated_data):
@@ -49,7 +50,7 @@ class UserSerializer(DynamicFieldsModelSerializer):
         return instance
 
 
-class UpdateUserSerializer(UserSerializer):
+class UpdateUserSerializer(MemberSerializer):
     exclude = ('password','groups',"is_admin","is_active")
 
 

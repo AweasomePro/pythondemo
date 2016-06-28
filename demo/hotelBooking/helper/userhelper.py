@@ -1,4 +1,4 @@
-from ..models import User
+from ..models import User,Member
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -10,6 +10,6 @@ def phoneNumberExist(phoneNumber):
         return False
 
 def updateAvatar(phone_number,avatar_url):
-    User.objects.all().filter(phone_number=phone_number).update(avatar =avatar_url)
+    Member.objects.all().filter(phone_number=phone_number).update(avatar =avatar_url)
 
 

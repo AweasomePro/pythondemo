@@ -138,7 +138,7 @@ def update_user_avatar_callback(request):
 # -------------------------基于类的视图----------------------------------------------#
 
 class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
-    serializer_class = UserSerializer
+    serializer_class = MemberSerializer
     queryset = User.objects.all()
 
 
@@ -160,7 +160,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
                         user.set_password(password)
                         user.username = phone_number
                         print('user 的username =' + str(user.username))
-                        serializer_member = UserSerializer(user, many=False)
+                        serializer_member = MemberSerializer(user, many=False)
                         # serializer_member.data
                         kwargs = {'UserEntity': serializer_member.data}
                         payload = jwt_payload_handle(user)
