@@ -83,10 +83,10 @@ WSGI_APPLICATION = 'hotelBookingProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'qdm158190418_db',    #你的数据库名称
-        'USER': 'qdm158190418',   #你的数据库用户名
-        'PASSWORD': 'zhuo8995588', #你的数据库密码
-        'HOST': 'qdm158190418.my3w.com', #你的数据库主机，留空默认为localhost
+        'NAME': 'hotel_book',    #你的数据库名称
+        'USER': 'zhuoxiuwu',   #你的数据库用户名
+        'PASSWORD': 'Zhuo8995588', #你的数据库密码
+        'HOST': 'rm-bp13c9g5jzm1vpg51o.mysql.rds.aliyuncs.com', #你的数据库主机，留空默认为localhost
         'PORT': '3306', #你的数据库端口
     }
 }
@@ -161,7 +161,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PAGINATION_CLASS': 'hotelBooking.pagination.StandardResultsSetPagination',
     'PAGE_SIZE': 1,
-    'EXCEPTION_HANDLER' : 'hotelBooking.helper.utils.exception_handler'
+    'EXCEPTION_HANDLER' : 'hotelBooking.utils.exceptionhandler.exception_handler'
 }
 
 import datetime

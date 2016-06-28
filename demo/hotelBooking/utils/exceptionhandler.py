@@ -1,5 +1,5 @@
 from rest_framework.views import exception_handler
-from ..helper.AppJsonResponse import DefaultJsonResponse
+from ..utils.AppJsonResponse import DefaultJsonResponse
 """
 Provides an APIView class that is the base of all views in REST framework.
 """

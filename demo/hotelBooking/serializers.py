@@ -5,7 +5,8 @@ from rest_framework import serializers
 # phoneNumber = models.IntegerField(max_length=15)
 # register_time = models.DateTimeField(auto_created=True)
 
-from .models import  User,Member,Installation, Province, City, Hotel,House,HotelLogoImg,HouseImg,HousePackage
+from .models import  User
+from . import Installation, Province, City, Hotel,House,HotelImg,HouseImg,HousePackage,CustomerMember
 
 
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
@@ -32,7 +33,7 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
                 self.fields.pop(field_name)
 
 
-class MemberSerializer(DynamicFieldsModelSerializer):
+class CustomerMemberSerializer(DynamicFieldsModelSerializer):
     id = serializers.IntegerField(read_only=True,required=False)
     name = serializers.CharField(read_only=False, required=False, allow_null=True,)
     phone_number = serializers.CharField(read_only=True,required=False)
@@ -41,7 +42,7 @@ class MemberSerializer(DynamicFieldsModelSerializer):
     avatar = serializers.URLField(required=False)
 
     class Meta:
-        model = Member
+        model = CustomerMember
         # write_only_fields = ('password',)
 
     def update(self, instance, validated_data):
@@ -50,7 +51,7 @@ class MemberSerializer(DynamicFieldsModelSerializer):
         return instance
 
 
-class UpdateUserSerializer(MemberSerializer):
+class UpdateCustomerMemberSerializer(CustomerMemberSerializer):
     exclude = ('password','groups',"is_admin","is_active")
 
 
@@ -63,7 +64,7 @@ class InstallationSerializer(DynamicFieldsModelSerializer):
 class HotelImgSerializer(DynamicFieldsModelSerializer):
 
     class Meta:
-        model = HotelLogoImg
+        model = HotelImg
         exclude =('id',)
 
 

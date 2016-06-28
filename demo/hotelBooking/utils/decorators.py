@@ -11,9 +11,7 @@ logger = logging.getLogger('zxw.request')
 def parameter_necessary(*necessary_key):
     def decorator(func):
         def wrapper(request,*args,**kw):
-            print(*necessary_key)
             print(request.method)
-
             if request.method == 'POST':
                 params = request.POST
             elif request.method == 'GET':

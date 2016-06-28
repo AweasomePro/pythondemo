@@ -26,4 +26,6 @@ class ListField(models.TextField):
         return self.get_db_prep_value(value)
 
 class ListModel(models.Model):
+    class Meta:
+        app_label = 'hotelBooking'
     test_list = ListField()

@@ -2,12 +2,12 @@
 import requests
 import json
 import re
-from hotelBooking.helper import modelKey
-from hotelBooking.helper.decorators import parameter_necessary,method_route,is_authenticated
-from hotelBooking.helper.AppJsonResponse import JSONWrappedResponse,DefaultJsonResponse
-from .models import *
+from hotelBooking.utils import modelKey
+from hotelBooking.utils.decorators import parameter_necessary,method_route,is_authenticated
+from hotelBooking.utils.AppJsonResponse import JSONWrappedResponse,DefaultJsonResponse
+from . import User,CustomerMember
 from .serializers import *
-from .helper import userhelper
+from .utils import userhelper
 import logging
 from . import appcodes
 
@@ -134,11 +134,10 @@ def update_user_avatar_callback(request):
         print(e.__traceback__)
     return Response('OK')
 
-
 # -------------------------基于类的视图----------------------------------------------#
 
 class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
-    serializer_class = MemberSerializer
+    serializer_class = CustomerMemberSerializer
     queryset = User.objects.all()
 
 
@@ -154,18 +153,18 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
                 # verifySuccess, message = verifySmsCode(phone_number, password)
                 if (True):
                     try:
-                        user = User()
-                        print('user 的phoneNumber' + str(user.phone_number))
-                        user.phone_number = phone_number
-                        user.set_password(password)
-                        user.username = phone_number
-                        print('user 的username =' + str(user.username))
-                        serializer_member = MemberSerializer(user, many=False)
+                        member = CustomerMember()
+                        print('member 的phoneNumber' + str(member.phone_number))
+                        member.phone_number = phone_number
+                        member.set_password(password)
+                        member.username = phone_number
+                        print('member 的username =' + str(member.username))
+                        serializer_member = CustomerMemberSerializer(member, many=False)
                         # serializer_member.data
                         kwargs = {'UserEntity': serializer_member.data}
-                        payload = jwt_payload_handle(user)
+                        payload = jwt_payload_handle(member)
                         token = jwt_encode_handler(payload)
-                        user.save()
+                        member.save()
                     except BaseException as e:
                         # raise e
                         return DefaultJsonResponse(res_data= kwargs, code=appcodes.CODE_100_APP_ERROR, message="内部错误")
@@ -201,7 +200,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     @method_decorator(is_authenticated())
     def update_profile(self,request):
         print(request.user)
-        s = UpdateUserSerializer(data=request.data)
+        s = UpdateCustomerMemberSerializer(data=request.data)
         s.is_valid()
         print(s.errors)
         if(s.is_valid()):
@@ -244,7 +243,6 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         token = q.upload_token(bucket_name, key, 3600,policy)
         return DefaultJsonResponse(code=appcodes.CODE_100_OK,
                                    res_data={'upload_token': token, 'imageUrl': key})
-
 
 class HotelViewSet(viewsets.GenericViewSet):
     serializer_class = HotelSerializer
@@ -323,7 +321,6 @@ class ProvinceView(ListAPIView):
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
-
 
 # ----------------------------- NonView Method---------------------------------------
 def verifySmsCode(mobilePhoneNumber, smscode):

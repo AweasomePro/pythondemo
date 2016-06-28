@@ -4,8 +4,8 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.admin.options import ModelAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-
-from .models import *
+from . import User,Hotel,House,HouseImg,HotelImg,Province,City,HousePackage,Installation
+from .models import User
 class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
@@ -88,7 +88,7 @@ class HotelInline(admin.TabularInline):
     model = Hotel
 
 class HotelLogoInline(admin.TabularInline):
-    model = HotelLogoImg
+    model = HotelImg
 
 class HouseInline(admin.StackedInline):
     show_change_link = True
@@ -118,7 +118,6 @@ class InstallationAdmin(ModelAdmin):
 
 
 
-
 class HotelAdmin(ModelAdmin):
     inlines = [HotelLogoInline,HouseInline]
 
@@ -126,11 +125,9 @@ class HotelLogoImgAdmin(ModelAdmin):
     pass
 
 
-
 class HouseAdmin(ModelAdmin):
-    inlines = [HousePackageInline,]
+    # inlines = [HousePackageInline,]
     pass
-
 
 
 
@@ -141,7 +138,7 @@ admin.site.register(Province, ProvinceAdmin)
 admin.site.register(City, CityAdmin)
 admin.site.register(Installation,InstallationAdmin)
 admin.site.register(Hotel,HotelAdmin)
-admin.site.register(HotelLogoImg,HotelLogoImgAdmin)
+# admin.site.register(HotelLogoImg,HotelLogoImgAdmin)
 admin.site.register(House,HouseAdmin)
 
 # ... and, since we're not using Django's built-in permissions,

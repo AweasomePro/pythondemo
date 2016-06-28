@@ -4,9 +4,9 @@ from rest_framework_jwt.settings import api_settings
 from rest_framework.response import Response
 from rest_framework import status
 
-from ..helper.AppJsonResponse import DefaultJsonResponse
-from ..serializers import MemberSerializer
-from ..helper.decorators import parameter_necessary
+from ..utils.AppJsonResponse import DefaultJsonResponse
+from ..serializers import CustomerMemberSerializer
+from ..utils.decorators import parameter_necessary
 from .. import appcodes
 from django.contrib.auth.models import update_last_login
 from django.utils.decorators import method_decorator
@@ -46,7 +46,7 @@ class CustomTokenAuthenticationView(ObtainJSONWebToken):
             update_last_login(None,user)
             token = serializer.object.get('token')
             token_data = jwt_response_payload_handler(token, user, request)
-            userdata = MemberSerializer(user, many=False).data
+            userdata = CustomerMemberSerializer(user, many=False).data
             json_response = DefaultJsonResponse(res_data={'user':userdata}, code=appcodes.CODE_100_OK, message="验证并登入成功")
             json_response['token'] = token_data['token']
             print('token is')
