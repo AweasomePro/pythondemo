@@ -18,7 +18,6 @@ class HotelViewSet(RetrieveModelMixin,viewsets.GenericViewSet):
         print(request.POST)
         print(request.GET)
         print(request.query_params)
-
         city_id = request.query_params.get('cityId')
         hotels = queryset.all()
         if city_id is not  None:
@@ -68,13 +67,21 @@ class HotelViewSet(RetrieveModelMixin,viewsets.GenericViewSet):
     #         return DefaultJsonResponse(code=-100, message='没有更多数据')
     #     return DefaultJsonResponse(res_data={'hotels': serializers.data})
 
-class HouseViewSet(RetrieveModelMixin,viewsets.GenericViewSet):
+class HouseViewSet(viewsets.GenericViewSet):
 
     serializer_class = HouseSerializer
     queryset = House.objects.all()
-    lookup_url_kwarg =  ['fuck',]
 
-    def list (self, request, *args, **kwargs):
-        print(args)
-        print(kwargs)
-        return Response('fuck you')
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return DefaultJsonResponse(res_data={'house':serializer.data})
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            data =  self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(queryset, many=True)
+        return DefaultJsonResponse(res_data=serializer.data)

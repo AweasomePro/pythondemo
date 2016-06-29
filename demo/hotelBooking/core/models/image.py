@@ -10,7 +10,8 @@ class ImageModel(models.Model):
         abstract = True
 
 class HouseImg(ImageModel):
-    house = models.ForeignKey(House,verbose_name='房型',related_name='house_Imgs')
+    relation_name = 'house_imgs'
+    house = models.ForeignKey(House,verbose_name='房型',related_name=relation_name)
 
     def __unicode__(self):
         return self.house.name + ':' + self.img_url
@@ -20,7 +21,8 @@ class HouseImg(ImageModel):
 
 @python_2_unicode_compatible
 class HotelImg(ImageModel):
-    hotel = models.ForeignKey(Hotel,verbose_name='房型',related_name='house_Imgs')
+    relation_name = 'house_imgs'
+    hotel = models.ForeignKey(Hotel,verbose_name='房型',related_name=relation_name)
 
     def __str__(self):
         return self.house.name + ':' + self.img_url

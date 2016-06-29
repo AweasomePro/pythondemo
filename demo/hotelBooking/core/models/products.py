@@ -50,8 +50,8 @@ class ProductType(BaseModel):
 
     class Meta:
         app_label = 'hotelBooking'
-        verbose_name = _('product type')
-        verbose_name_plural = _('product types')
+        verbose_name = _('产品类型')
+        verbose_name_plural = _('产品类型')
 
 
     def __str__(self):
@@ -65,7 +65,7 @@ class Product(BaseModel):
     created_on = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('create on'))
     modified_on = models.DateTimeField(auto_now=True, editable=False, verbose_name=_('modified on'))
     deleted = models.BooleanField(default=False, editable=False, db_index=True, verbose_name=_('deleted'))
-    type = models.ForeignKey(ProductType,editable=False,verbose_name=_('product type'))
+    type = models.ForeignKey(ProductType,verbose_name=_('product type'))
     #relation
     owner = models.ForeignKey('FranchiseeMember',)
 
@@ -79,8 +79,8 @@ class Product(BaseModel):
     class Meta:
         app_label = 'hotelBooking'
         ordering = ('-id',)
-        verbose_name = _('product')
-        verbose_name_plural = _('products')
+        verbose_name = _('产品（数据库基类）')
+        verbose_name_plural = _('产品（数据库基类）')
 
 class HousePackage(BaseModel):
     HOUSE_STATE_CHOICES = (
