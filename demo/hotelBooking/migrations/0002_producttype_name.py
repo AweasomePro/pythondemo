@@ -11,9 +11,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='product',
-            name='id',
-            field=models.AutoField(serialize=False, primary_key=True),
+        migrations.AddField(
+            model_name='producttype',
+            name='name',
+            field=models.CharField(verbose_name='name', max_length=64, default=1),
+            preserve_default=False,
         ),
     ]

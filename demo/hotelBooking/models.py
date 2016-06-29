@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import  BaseUserManager,AbstractBaseUser
 from django.contrib.auth.models import Group,Permission
 
+from hotelBooking.core.fields.pointField import PointField
 from .utils.fiels import ListField
 # Create your models here.
 
@@ -33,6 +34,7 @@ class User(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_loggin = models.BooleanField(default=False)
     create_at = models.DateTimeField(auto_now_add=True)
+    point = PointField(default=0,editable=False,verbose_name='积分')
     groups = models.ManyToManyField(Group,blank=True,default=None)
     permissions = models.ManyToManyField(Permission,blank=True)
     objects = UserManager()
@@ -72,7 +74,7 @@ class User(AbstractBaseUser):
         return self.phone_number
 
     @staticmethod
-    def existUser(phone_number = None):
+    def existPhoneNumber(phone_number = None):
         return User.objects.filter(phone_number = phone_number).exists()
 
 

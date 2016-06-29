@@ -28,3 +28,9 @@
 #         return None
 
 # print(Decrypt(key,'hahahadf'))
+
+access_key = 'u-ryAwaQeBx9BS5t8OMSPs6P1Ewoqiu6-ZbbMNYm'
+secret_key = 'hVXFHO8GusQduMqLeYXZx_C5_c7D-VSwz6AKhjZJ'
+
+APP_ID = "P0fN7ArvLMtcgsACRwhOupHj-gzGzoHsz"
+APP_KEY = "cWK8NHllNg7N6huHiKA1HeRG"

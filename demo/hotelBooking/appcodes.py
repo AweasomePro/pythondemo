@@ -27,7 +27,7 @@ def is_server_error(code):
     return code >= 500 and code <= 599
 
 # 程序应用错误
-CODE_100_APP_ERROR = 1
+CODE_NEGATIVE_100_APP_ERROR = 1
 # 正常
 CODE_100_OK = 100
 

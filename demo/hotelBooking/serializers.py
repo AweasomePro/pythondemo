@@ -89,9 +89,9 @@ class HouseSerializer(DynamicFieldsModelSerializer):
 
 
 class HotelSerializer(DynamicFieldsModelSerializer):
-    hotelLogoImgs = HotelImgSerializer(many=True)
+    house_Imgs = HotelImgSerializer(many=True)
+    hotel_houses = HouseSerializer(many=True, excludes=('hotel',))
 
-    houses = HouseSerializer(many=True, excludes=('hotel',))
     class Meta:
         model = Hotel
 

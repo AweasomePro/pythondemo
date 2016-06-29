@@ -13,7 +13,7 @@ class ProductMemberType(Enum):
 class CustomerMember(models.Model):
     avatar = models.URLField(blank=True)
     user = models.OneToOneField(User)
-
+    
     class Meta:
         app_label = 'hotelBooking'
         verbose_name = '会员'

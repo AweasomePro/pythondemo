@@ -46,19 +46,16 @@ class ProductVerificationMode(Enum):
 @python_2_unicode_compatible
 class ProductType(BaseModel):
     identifier = InternalIdentifierField(unique=True)
-    name=models.CharField(max_length=64, verbose_name=_('name')),
-
-    # attributes = models.ManyToManyField(
-    #     "Attribute", blank=True, related_name='product_types',
-    #     verbose_name=_('attributes'))
+    name = models.CharField(max_length=64, verbose_name=_('name'))
 
     class Meta:
         app_label = 'hotelBooking'
         verbose_name = _('product type')
         verbose_name_plural = _('product types')
 
+
     def __str__(self):
-        return (self.safe_translation_getter("name") or self.identifier)
+        return self.name
 
 class ProductQuerySet(QuerySet):
     pass
@@ -76,6 +73,7 @@ class Product(BaseModel):
     #Behavior
     # 这个产品是否需要 shipping(在这里，我表示需要代理商的人工处理验证)
     shipping_mode = EnumIntegerField(ShippingMode, default=ShippingMode.NOT_SHIPPED, verbose_name=_('shipping mode'))
+
 
 
     class Meta:
