@@ -1,3 +1,5 @@
+import uuid
+
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.conf import settings
@@ -16,6 +18,9 @@ from . import BaseModel
 import datetime
 
 from hotelBooking.core.fields import (InternalIdentifierField,)
+
+def get_unique_id_str():
+    return str(uuid.uuid4())
 
 class PaymentStatus(Enum):
     """
@@ -141,6 +146,8 @@ class Order(models.Model):
     # The key shouldn't be possible to deduce (i.e. it should be random), but it is
     # not a secret. (It could, however, be used as key material for an actual secret.)
     key = models.CharField(max_length=32, unique=True, blank=False, verbose_name=_('key'))
+    uuid = models.CharField(max_length=50, editable=False, unique=True, default=get_unique_id_str)
+
     reference_number = models.CharField(
         max_length=64, db_index=True, unique=True, blank=True, null=True,
         verbose_name=_('reference number'))

@@ -10,10 +10,30 @@ class ProductMemberType(Enum):
     class Labels:
         HotelAgent = _('酒店代理')
 
+
+class MemberManager(models.Manager):
+
+    def create(self,phoneNumber,password):
+        user = User()
+        user.phone_number = phoneNumber
+        user.password = password
+        user.save()
+        member = CustomerMember()
+        member.user = user
+        member.save()
+        return member
+
+
+
 class CustomerMember(models.Model):
     avatar = models.URLField(blank=True)
     user = models.OneToOneField(User)
-    
+
+    objects = MemberManager()
+
+    def __init__(self,*args,**kwargs):
+        super(CustomerMember,self).__init__(*args,**kwargs)
+
     class Meta:
         app_label = 'hotelBooking'
         verbose_name = '会员'

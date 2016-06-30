@@ -27,6 +27,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
     phone_number = models.CharField(max_length=15, unique=True)
+
     name = models.CharField(max_length=225,default="unknow name")
     email = models.EmailField(max_length=255,blank=True)
     phone_is_verify = models.BooleanField(default=False)
@@ -50,6 +51,9 @@ class User(AbstractBaseUser):
         return self.name
 
     def get_short_name(self):
+        return self.name
+
+    def get_username(self):
         return self.name
 
     def has_perm(self, perm, obj=None):

@@ -1,2 +1,5 @@
+import uuid
 from uuid import uuid5
-print(uuid5('zxw'))
+from uuid import uuid4
+print(uuid5(uuid.NAMESPACE_DNS, 'testme'))
+print(uuid4())

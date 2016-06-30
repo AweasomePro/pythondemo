@@ -46,7 +46,6 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     serializer_class = CustomerMemberSerializer
     queryset = User.objects.all()
 
-
     @method_route(methods=['POST'],url_path='register')
     @method_decorator(parameter_necessary('phoneNumber', 'password', 'smsCode',))
     def register(self, request):
@@ -59,21 +58,17 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
                 # verifySuccess, message = verifySmsCode(phone_number, password)
                 if (True):
                     try:
-                        member = CustomerMember()
-                        print('member 的phoneNumber' + str(member.phone_number))
-                        member.phone_number = phone_number
-                        member.set_password(password)
-                        member.username = phone_number
-                        print('member 的username =' + str(member.username))
-                        serializer_member = CustomerMemberSerializer(member, many=False)
+                        member = CustomerMember.objects.create(phone_number,password)
+                        print('member 的phoneNumber' + str(member.user.phone_number))
+                        print('member name =' + str(member.user.name))
+                        serializer_member = CustomerMemberSerializer(member)
                         # serializer_member.data
                         kwargs = {'UserEntity': serializer_member.data}
-                        payload = jwt_payload_handle(member)
+                        payload = jwt_payload_handle(member.user)
                         token = jwt_encode_handler(payload)
-                        member.save()
                     except BaseException as e:
                         # raise e
-                        return DefaultJsonResponse(res_data= kwargs, code=appcodes.CODE_NEGATIVE_100_APP_ERROR, message="内部错误")
+                        raise e
                     else:
                         response = DefaultJsonResponse(res_data= kwargs, code=appcodes.CODE_100_OK, message="注册成功")
                         response['token'] = token
