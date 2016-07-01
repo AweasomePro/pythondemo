@@ -6,14 +6,15 @@ from ...utils.fiels import ListField
 from hotelBooking.models import User
 
 class Installation(BaseModel):
-    badge = models.BigIntegerField(default=0,verbose_name='ios badge数')
+    valid = models.BooleanField(default=True)
+    timeZone = models.CharField(max_length=200,default=timezone.now)
     channels = ListField(default=[],verbose_name='订阅渠道')
-    deviceProfile = models.CharField(max_length=200,default="")
     deviceToken = models.CharField(max_length=200,null=True)
     deviceType = models.CharField(max_length=200,default="android")
-    installationId = models.CharField(max_length=200,unique=True,null=True,verbose_name='设备id')
-    timeZone = models.CharField(max_length=200,default=timezone.now)
-    user = models.ForeignKey(User,null=False,default=-1,verbose_name='绑定用户')
+    installationId = models.CharField(max_length=200,null=True,verbose_name='设备id')
+    badge = models.BigIntegerField(default=0,verbose_name='ios badge数')
+    deviceProfile = models.CharField(max_length=200,default="")
+    user = models.ForeignKey(User,null=True,verbose_name='绑定用户')
 
     class Meta:
         app_label = 'hotelBooking'
