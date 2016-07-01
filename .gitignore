@@ -82,8 +82,7 @@ downloads
 eggs
 parts
 src/*.egg-info
-lib
-lib64
+
 __pycache__/
 
 
