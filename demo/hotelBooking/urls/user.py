@@ -7,5 +7,5 @@ from hotelBooking.views import user as user_view
 router = routers.SimpleRouter(trailing_slash=True)
 router.register(r'user', user_view.UserViewSet)
 urlpatterns = [
-    url(r'^user/login$', CustomTokenAuthenticationView.as_view()),]
+    url(r'^user/login', CustomTokenAuthenticationView.as_view()),]
 urlpatterns += router.urls

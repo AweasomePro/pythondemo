@@ -1,3 +1,4 @@
+from hotelBooking.core.viewsets import GenericJsonViewSet
 from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
 from rest_framework.mixins import RetrieveModelMixin
@@ -8,7 +9,7 @@ from hotelBooking.serializers import ProvinceSerializer
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 
 
-class ProvinceViewSet(RetrieveModelMixin, viewsets.GenericViewSet):
+class ProvinceViewSet(RetrieveModelMixin, GenericJsonViewSet):
     serializer_class = ProvinceSerializer
     queryset= Province.objects.all()
 
@@ -18,7 +19,7 @@ class ProvinceViewSet(RetrieveModelMixin, viewsets.GenericViewSet):
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
+            return self.get_paginated_json_response(key='provinces',data=serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)

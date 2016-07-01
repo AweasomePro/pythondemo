@@ -12,7 +12,7 @@ def parameter_necessary(*necessary_key):
     def decorator(func):
         def wrapper(request,*args,**kw):
             print(request.method)
-            if request.method == 'POST':
+            if request.method == 'POST' or 'PUT':
                 params = request.POST
             elif request.method == 'GET':
                 params = request.GET

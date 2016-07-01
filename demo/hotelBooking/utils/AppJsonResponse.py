@@ -18,7 +18,7 @@ class JSONWrappedResponse(JsonResponse):
         res = {"status": status, "message": message, "timeStamp": int(timezone.now().timestamp()),}
         if not data is None:
             print('data is not null')
-            res['res'] = data
+            res['result'] = data
             print(res)
 
 
@@ -35,7 +35,7 @@ class DefaultJsonResponse(Response):
         res = {"code": code, "message": message, "timeStamp": int(timezone.now().timestamp()),}
 
         if not res_data is None:
-            res['res'] = res_data
+            res['result'] = res_data
             print(res)
         else:
             print('data is null')
