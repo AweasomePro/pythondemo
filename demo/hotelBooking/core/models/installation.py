@@ -9,11 +9,11 @@ class Installation(BaseModel):
     badge = models.BigIntegerField(default=0,verbose_name='ios badge数')
     channels = ListField(default=[],verbose_name='订阅渠道')
     deviceProfile = models.CharField(max_length=200,default="")
-    deviceToken = models.CharField(max_length=200,unique=True,null=True)
+    deviceToken = models.CharField(max_length=200,null=True)
     deviceType = models.CharField(max_length=200,default="android")
     installationId = models.CharField(max_length=200,unique=True,null=True,verbose_name='设备id')
-    timeZone = models.CharField(max_length=200,null=True,default=timezone.now)
-    user = models.ForeignKey(User,null=True,default=-1,verbose_name='绑定用户')
+    timeZone = models.CharField(max_length=200,default=timezone.now)
+    user = models.ForeignKey(User,null=False,default=-1,verbose_name='绑定用户')
 
     class Meta:
         app_label = 'hotelBooking'

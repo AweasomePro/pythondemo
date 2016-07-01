@@ -72,6 +72,7 @@ class UpdateCustomerMemberSerializer(CustomerMemberSerializer):
 
 
 class InstallationSerializer(DynamicFieldsModelSerializer):
+
     class Meta:
         model = Installation
         # choices = {'badge','deviceProfile','installationId','timeZone'}
@@ -105,7 +106,7 @@ class HouseSerializer(DynamicFieldsModelSerializer):
 
 
 class HotelSerializer(DynamicFieldsModelSerializer):
-    house_Imgs = HotelImgSerializer(many=True)
+    house_imgs = HotelImgSerializer(many=True)
     hotel_houses = HouseSerializer(many=True, excludes=('hotel',))
 
     class Meta:

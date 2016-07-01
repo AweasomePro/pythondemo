@@ -5,8 +5,6 @@ from qiniu import Auth
 from rest_framework.mixins import UpdateModelMixin
 from rest_framework import viewsets
 from rest_framework.response import Response
-from rest_framework_jwt.settings import api_settings
-
 from hotelBooking.Mysettings import APP_ID, APP_KEY
 from hotelBooking.serializers import CustomerMemberSerializer, UpdateCustomerMemberSerializer, InstallationSerializer
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
@@ -14,12 +12,19 @@ from hotelBooking.utils.decorators import method_route, parameter_necessary, is_
 from hotelBooking import User
 import re
 from . import appcodes,Installation,CustomerMember
+from rest_framework_jwt.settings import api_settings
 
-jwt_payload_handle = api_settings.JWT_PAYLOAD_HANDLER
+jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+
+
+
+
+
 
 access_key = 'u-ryAwaQeBx9BS5t8OMSPs6P1Ewoqiu6-ZbbMNYm'
 secret_key = 'hVXFHO8GusQduMqLeYXZx_C5_c7D-VSwz6AKhjZJ'
+
 
 def verifySmsCode(mobilePhoneNumber, smscode):
     url = 'https://api.leancloud.cn/1.1/verifySmsCode/' + str(smscode)
@@ -63,10 +68,10 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
                         print('member 的phoneNumber' + str(member.user.phone_number))
                         print('member name =' + str(member.user.name))
                         serializer_member = CustomerMemberSerializer(member)
+                        payload = jwt_payload_handler(member.user)
+                        token = jwt_encode_handler(payload)
                         # serializer_member.data
                         kwargs = {'UserEntity': serializer_member.data}
-                        payload = jwt_payload_handle(member.user)
-                        token = jwt_encode_handler(payload)
                     except BaseException as e:
                         # raise e
                         raise e
@@ -79,6 +84,19 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
 
         else:
             return DefaultJsonResponse(code=appcodes.CODE_PHONE_IS_EXISTED, message="手机号已经存在")
+
+    @method_route(methods=['POST'], url_path='login')
+    @method_decorator(parameter_necessary('phoneNumber', 'password', ))
+    def login(self, request):
+        phone_number = request.POST.get('phoneNumber')
+        password = request.POST.get('password')
+        user = User.objects.get(phone_number=phone_number)
+        if (user is not None and user.check_password(password)):
+            payload = jwt_payload_handler(user)
+            token = jwt_encode_handler(payload)
+            response = DefaultJsonResponse(res_data={'user':CustomerMemberSerializer(user.customermember).data})
+            response['token'] = token
+            return response
 
     @method_route(methods=['POST'],)
     @method_decorator(is_authenticated())

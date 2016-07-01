@@ -16,7 +16,7 @@ class MemberManager(models.Manager):
     def create(self,phoneNumber,password):
         user = User()
         user.phone_number = phoneNumber
-        user.password = password
+        user.set_password(password)
         user.save()
         member = CustomerMember()
         member.user = user

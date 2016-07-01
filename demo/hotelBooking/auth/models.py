@@ -17,16 +17,7 @@ from rest_framework import serializers
 from rest_framework_jwt.utils import jwt_payload_handler
 from hotelBookingProject import settings
 import jwt
-def create_token(user):
-    payload = jwt_payload_handler(user)
-    token = jwt.encode(payload, settings.SECRET_KEY)
-    return token.decode('unicode_escape')
 
-jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
-jwt_decode_handler = api_settings.JWT_DECODE_HANDLER
-jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
-jwt_get_username_from_payload = api_settings.JWT_PAYLOAD_GET_USERNAME_HANDLER
-jwt_response_payload_handler = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER
 
 
 def supportHumpField(data):
@@ -44,23 +35,3 @@ def supportHumpField(data):
         print(copy_data)
         return copy_data
 
-class CustomTokenAuthenticationView(ObtainJSONWebToken):
-    """Implementation of ObtainAuthToken with last_login update"""
-    # serializer_class = LoginAuthenSeraializer
-    # serializer_class = LoginAuthenSeraializer
-
-    @method_decorator(parameter_necessary('password','phoneNumber'))
-    def post(self, request, *args, **kwargs):
-        data = supportHumpField(request.data)
-        serializer = self.get_serializer(data=data)
-        if serializer.is_valid():
-            user = serializer.object.get('user') or request.user
-            token = serializer.object.get('token')
-            response_data = jwt_response_payload_handler(token, user, request)
-            update_last_login(None,user)
-            member = CustomerMemberSerializer(user.customermember)
-            response = DefaultJsonResponse(res_data={'member':member.data})
-            response['token'] = token
-            return response
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
