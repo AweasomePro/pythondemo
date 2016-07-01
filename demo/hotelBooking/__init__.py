@@ -1,4 +1,4 @@
-from .models import User
+from hotelBooking.models import User
 from .core.models.city import City
 from .core.models.province import Province
 from .core.models.hotel import Hotel,House

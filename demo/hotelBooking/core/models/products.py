@@ -75,7 +75,6 @@ class Product(BaseModel):
     shipping_mode = EnumIntegerField(ShippingMode, default=ShippingMode.NOT_SHIPPED, verbose_name=_('shipping mode'))
 
 
-
     class Meta:
         app_label = 'hotelBooking'
         ordering = ('-id',)
