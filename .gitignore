@@ -84,5 +84,6 @@ parts
 src/*.egg-info
 
 __pycache__/
+!/demo/virutal-py3.4/
 
 
