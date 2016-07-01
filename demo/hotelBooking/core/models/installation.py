@@ -8,7 +8,7 @@ from hotelBooking.models import User
 class Installation(BaseModel):
     valid = models.BooleanField(default=True)
     timeZone = models.CharField(max_length=200,default=timezone.now)
-    channels = ListField(default=[],verbose_name='订阅渠道')
+    channels = ListField(default=["public", "private"],verbose_name='订阅渠道',null=True)
     deviceToken = models.CharField(max_length=200,null=True)
     deviceType = models.CharField(max_length=200,default="android")
     installationId = models.CharField(max_length=200,null=True,verbose_name='设备id')
