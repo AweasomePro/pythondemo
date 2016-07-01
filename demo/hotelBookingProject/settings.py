@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
     'rest_framework',
-    'rest_framework.authtoken',
+    # 'rest_framework.authtoken',
     'hotelBooking',
 ]
 
@@ -139,7 +139,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 # 是否最后可以 不加 splash
-APPEND_SLASH=True
+APPEND_SLASH = True
 
 AUTH_USER_MODEL = 'hotelBooking.User'
 
@@ -168,20 +168,21 @@ import datetime
 
 JWT_AUTH = {
     'JWT_ENCODE_HANDLER':
-    'rest_framework_jwt.utils.jwt_encode_handler',
+    'hotelBooking.jwt.utils.jwt_encode_handler',
 
     'JWT_DECODE_HANDLER':
-    'rest_framework_jwt.utils.jwt_decode_handler',
+    'hotelBooking.jwt.utils.jwt_decode_handler',
 
     'JWT_PAYLOAD_HANDLER':
-    'rest_framework_jwt.utils.jwt_payload_handler',
+    'hotelBooking.jwt.utils.jwt_payload_handler',
 
     'JWT_PAYLOAD_GET_USER_ID_HANDLER':
-    'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
+    'hotelBooking.jwt.utils.jwt_get_user_id_from_payload_handler',
 
     'JWT_RESPONSE_PAYLOAD_HANDLER':
-    'rest_framework_jwt.utils.jwt_response_payload_handler',
-
+    'hotelBooking.jwt.utils.jwt_response_payload_handler',
+    'JWT_PAYLOAD_GET_USERNAME_HANDLER':
+    'hotelBooking.jwt.utils.jwt_get_username_from_payload_handler',
     'JWT_SECRET_KEY': SECRET_KEY,
     'JWT_ALGORITHM': 'HS256',
     'JWT_VERIFY': True,

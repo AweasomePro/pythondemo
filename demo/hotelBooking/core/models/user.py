@@ -39,6 +39,11 @@ class CustomerMember(models.Model):
         verbose_name = '会员'
         verbose_name_plural = '会员'
 
+    @staticmethod
+    def update_user_avatar(phone_number,avatar_url):
+        member = CustomerMember.objects.get(user__phone_number='phone_number')
+        member.avatar = avatar_url
+        member.save()
 
 class FranchiseeMember(models.Model):
     user = models.OneToOneField(User)

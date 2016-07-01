@@ -12,6 +12,7 @@ from hotelBooking.serializers import CustomerMemberSerializer, UpdateCustomerMem
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 from hotelBooking.utils.decorators import method_route, parameter_necessary, is_authenticated
 from hotelBooking import User
+import re
 from . import appcodes,Installation,CustomerMember
 
 jwt_payload_handle = api_settings.JWT_PAYLOAD_HANDLER
@@ -156,7 +157,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         try:
             phone_number = re.match('^avatar_(?P<id>\d+).*', f_name).group('id')
             if (phone_number and User.existPhoneNumber(phone_number=phone_number)):
-                userhelper.updateAvatar(phone_number, f_name)
+                CustomerMember.update_user_avatar(phone_number,f_name)
                 print('update avatar success')
             else:
                 print('update avatar error')

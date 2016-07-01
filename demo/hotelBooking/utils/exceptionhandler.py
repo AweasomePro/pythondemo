@@ -1,4 +1,6 @@
 from rest_framework.views import exception_handler
+
+from hotelBooking.core.exceptions import ConditionDenied
 from ..utils.AppJsonResponse import DefaultJsonResponse
 """
 Provides an APIView class that is the base of all views in REST framework.
@@ -55,6 +57,12 @@ def exception_handler(exc, context):
         return DefaultJsonResponse(message=data, status=status.HTTP_403_FORBIDDEN)
 
     # Note: Unhandled exceptions will raise a 500 error.
+    elif isinstance(exc, ConditionDenied):
+        if isinstance(exc.detail, (list, dict)):
+            data = exc.detail
+        else:
+            data = {'detail': exc.detail}
+        return DefaultJsonResponse(message=data, code=-100, status=status.HTTP_403_FORBIDDEN,)
     return None
 
 

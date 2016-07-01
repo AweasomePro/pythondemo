@@ -27,7 +27,6 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
     phone_number = models.CharField(max_length=15, unique=True)
-
     name = models.CharField(max_length=225,default="unknow name")
     email = models.EmailField(max_length=255,blank=True)
     phone_is_verify = models.BooleanField(default=False)
@@ -54,7 +53,7 @@ class User(AbstractBaseUser):
         return self.name
 
     def get_username(self):
-        return self.name
+        return self.phone_number
 
     def has_perm(self, perm, obj=None):
         if self.is_active:
@@ -73,6 +72,8 @@ class User(AbstractBaseUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+
+
 
     def __unicode__(self):
         return self.phone_number

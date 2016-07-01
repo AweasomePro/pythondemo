@@ -19,8 +19,8 @@ import datetime
 
 from hotelBooking.core.fields import (InternalIdentifierField,)
 
-def get_unique_id_str():
-    return str(uuid.uuid4())
+# def get_unique_id_str():
+#     return str(uuid.uuid4())
 
 class PaymentStatus(Enum):
     """
@@ -137,6 +137,12 @@ class OrderQuerySet(models.QuerySet):
 
 @python_2_unicode_compatible
 class Order(models.Model):
+    """
+    当交易发生时 生成一个订单
+    number
+        一个用了表示订单的唯一键，customer可以用来查询
+
+    """
 
     created_on = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('created on'))
     modified_on = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('modified on'))
@@ -146,7 +152,10 @@ class Order(models.Model):
     # The key shouldn't be possible to deduce (i.e. it should be random), but it is
     # not a secret. (It could, however, be used as key material for an actual secret.)
     key = models.CharField(max_length=32, unique=True, blank=False, verbose_name=_('key'))
-    uuid = models.CharField(max_length=50, editable=False, unique=True, default=get_unique_id_str)
+
+    number = models.CharField(max_length=30, db_index=True, unique=True, blank=True, null=True,)
+
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     reference_number = models.CharField(
         max_length=64, db_index=True, unique=True, blank=True, null=True,
@@ -173,10 +182,17 @@ class Order(models.Model):
 
     class Meta:
         app_label = 'hotelBooking'
-        ordering = ("-id",)
+        ordering = ("created_on",)
         verbose_name = _('order')
         verbose_name_plural = _('orders')
 
     def __str__(self):  # pragma: no cover
         return "去重载这个方法吧"
+
+class HotelPackgeOrderSnapShot(models.Model):
+    pass
+
+class HotelPackageOrder(Order):
+    order = models.OneToOneField(Order)
+    snapshot = models.ForeignKey(HotelPackgeOrderSnapShot,blank=True)
 
