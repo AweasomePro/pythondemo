@@ -74,7 +74,10 @@ class User(AbstractBaseUser):
         # Simplest possible answer: All admins are staff
         return self.is_admin
 
-
+    @property
+    def is_customer_member(self):
+        # todo  使用数据库 字段 来优化
+        return self.customermember is not None
 
     def __unicode__(self):
         return self.phone_number

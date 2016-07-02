@@ -39,6 +39,7 @@ class DefaultJsonResponse(Response):
             print(res)
         else:
             print('data is null')
-        for key in kwargs:
-            res[key] = kwargs[key]
+        # for key in kwargs:
+        #     if key == ''
+        #     res[key] = kwargs[key]
         super(DefaultJsonResponse, self).__init__(data=res,**kwargs)

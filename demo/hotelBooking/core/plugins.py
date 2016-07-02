@@ -28,6 +28,20 @@ class OrderNumberGenerator(models.Model):
         """
         return ("id",)
 
+    def get_next(self, formatted=True):
+        """
+        Returns the next order number as string. Derived classes must implement
+        this method.
+
+        **Parameters:**
+
+        formatted
+            If True the number will be returned within the stored format, which
+            is based on Python default string formatting operators, e.g.
+            ``%04d``.
+        """
+        raise NotImplementedError
+
     def get_form(self, **kwargs):
         """
         Returns the form which is used within the shop preferences management
@@ -46,3 +60,7 @@ class OrderNumberGenerator(models.Model):
 class HotelOrderNumberGenerator(OrderNumberGenerator):
     last_number  = models.IntegerField(default=0)
     last_day = models.DateTimeField(default=None)
+
+    def get_next(self, formatted=True):
+        str = datetime.datetime.now().strftime('%Y%m%d%H')[2:]
+        pass

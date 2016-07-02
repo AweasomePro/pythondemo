@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.sites import requests
+from django.db.models import Model
 from django.utils.decorators import method_decorator
 from qiniu import Auth
 from rest_framework.mixins import UpdateModelMixin
@@ -90,13 +91,18 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     def login(self, request):
         phone_number = request.POST.get('phoneNumber')
         password = request.POST.get('password')
-        user = User.objects.get(phone_number=phone_number)
-        if (user is not None and user.check_password(password)):
-            payload = jwt_payload_handler(user)
-            token = jwt_encode_handler(payload)
-            response = DefaultJsonResponse(res_data={'user':CustomerMemberSerializer(user.customermember).data})
-            response['token'] = token
-            return response
+        try:
+            user = User.objects.get(phone_number=phone_number)
+            if (user is not None and user.check_password(password)):
+                payload = jwt_payload_handler(user)
+                token = jwt_encode_handler(payload)
+                response = DefaultJsonResponse(res_data={'user':CustomerMemberSerializer(user.customermember).data})
+                response['token'] = token
+                return response
+            else:
+                return DefaultJsonResponse(message='验证失败',code=-100)
+        except User.DoesNotExist:
+            return DefaultJsonResponse(message='验证失败,不存在该账号', code=-100)
 
     @method_route(methods=['POST'],)
     @method_decorator(is_authenticated())

@@ -11,12 +11,13 @@ from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 from enumfields import Enum, EnumIntegerField
 from django.db.models.query import QuerySet
+from hotelBooking import CustomerMember
 from . import BaseModel
 
 # from parler.managers import TranslatableQuerySet
 # from parler.models import TranslatableModel, TranslatedFields
 import datetime
-
+from hotelBooking.core.models.products import Product
 from hotelBooking.core.fields import (InternalIdentifierField,)
 
 # def get_unique_id_str():
@@ -64,56 +65,55 @@ class OrderStatusRole(Enum):
         COMPLETE = _('complete')
         CANCELED = _('canceled')
 
+# class OrderStatusQuerySet(QuerySet):
+#     def _default_for_role(self, role):
+#         """
+#         Get the default order status for the given role.
+#
+#         :param role: The role to look for.
+#         :type role: OrderStatusRole
+#         :return: The OrderStatus
+#         :rtype: OrderStatus
+#         """
+#         try:
+#             return self.get(default=True, role=role)
+#         except ObjectDoesNotExist:
+#             raise ObjectDoesNotExist("No default %s OrderStatus exists." % getattr(role, "label", role))
+#
+#     def get_default_initial(self):
+#         return self._default_for_role(OrderStatusRole.INITIAL)
+#
+#     def get_default_canceled(self):
+#         return self._default_for_role(OrderStatusRole.CANCELED)
+#
+#     def get_default_complete(self):
+#         return self._default_for_role(OrderStatusRole.COMPLETE)
 
-class OrderStatusQuerySet(QuerySet):
-    def _default_for_role(self, role):
-        """
-        Get the default order status for the given role.
-
-        :param role: The role to look for.
-        :type role: OrderStatusRole
-        :return: The OrderStatus
-        :rtype: OrderStatus
-        """
-        try:
-            return self.get(default=True, role=role)
-        except ObjectDoesNotExist:
-            raise ObjectDoesNotExist("No default %s OrderStatus exists." % getattr(role, "label", role))
-
-    def get_default_initial(self):
-        return self._default_for_role(OrderStatusRole.INITIAL)
-
-    def get_default_canceled(self):
-        return self._default_for_role(OrderStatusRole.CANCELED)
-
-    def get_default_complete(self):
-        return self._default_for_role(OrderStatusRole.COMPLETE)
-
-@python_2_unicode_compatible
-class OrderStatus(BaseModel):
-    identifier = InternalIdentifierField(db_index=True,blank=False,unique=True)
-    ordering = models.IntegerField(db_index=True,default=0,verbose_name=_('ordering'))
-    # order 的状态
-    role = EnumIntegerField(OrderStatusRole,db_index=True, default=OrderStatusRole.NONE, verbose_name=_('role'))
-    # i dont know
-    default = models.BooleanField(default=False,db_index=True,verbose_name=_('default'))
-
-    objects = OrderStatusQuerySet.as_manager()
-
-    name = models.CharField(verbose_name=_('name'), max_length=64)
-
-    class Meta:
-        app_label = 'hotelBooking'
-
-    def __str__(self):
-        return self.safe_translation_getter("name",default=self.identifier)
-
-    def save(self, *args, **kwargs):
-        super(OrderStatus,self).save(*args,**kwargs)
-        if self.default and self.role != OrderStatusRole.NONE:
-            # If this status is the default ,make the other for this role non-default
-            OrderStatus.objects.filter(role=self.role).exclude(pk = self.pk).update(default = False)
-
+# @python_2_unicode_compatible
+# class OrderStatus(BaseModel):
+#     identifier = InternalIdentifierField(db_index=True,blank=False,unique=True)
+#     ordering = models.IntegerField(db_index=True,default=0,verbose_name=_('ordering'))
+#     # order 的状态
+#     role = EnumIntegerField(OrderStatusRole,db_index=True, default=OrderStatusRole.NONE, verbose_name=_('role'))
+#     # i dont know
+#     default = models.BooleanField(default=False,db_index=True,verbose_name=_('default'))
+#
+#     objects = OrderStatusQuerySet.as_manager()
+#
+#     name = models.CharField(verbose_name=_('name'), max_length=64)
+#
+#     class Meta:
+#         app_label = 'hotelBooking'
+#
+#     def __str__(self):
+#         return self.safe_translation_getter("name",default=self.identifier)
+#
+#     def save(self, *args, **kwargs):
+#         super(OrderStatus,self).save(*args,**kwargs)
+#         if self.default and self.role != OrderStatusRole.NONE:
+#             # If this status is the default ,make the other for this role non-default
+#             OrderStatus.objects.filter(role=self.role).exclude(pk = self.pk).update(default = False)
+#
 class OrderQuerySet(models.QuerySet):
     def paid(self):
         return self.filter(payment_status=PaymentStatus.FULLY_PAID)
@@ -143,37 +143,37 @@ class Order(models.Model):
         一个用了表示订单的唯一键，customer可以用来查询
 
     """
+    id = models.AutoField(primary_key=True,auto_created=True)
+    customer = models.ForeignKey(CustomerMember, related_name='customer_orders', blank=True, null=True,
+                                 on_delete=models.PROTECT, verbose_name=_('customer'))
+
+    product = models.ForeignKey(Product, related_name='product_orders', blank=True, null=True,
+                                on_delete=models.PROTECT,
+                                verbose_name=_('product'))
 
     created_on = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('created on'))
     modified_on = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('modified on'))
     identifier = InternalIdentifierField(unique=True, db_index=True, verbose_name=_('order identifier'))
     # TODO: label is actually a choice field, need to check migrations/choice deconstruction
     label = models.CharField(max_length=32, db_index=True, verbose_name=_('label'))
-    # The key shouldn't be possible to deduce (i.e. it should be random), but it is
+    # The uuid shouldn't be possible to deduce (i.e. it should be random), but it is
     # not a secret. (It could, however, be used as key material for an actual secret.)
-    key = models.CharField(max_length=32, unique=True, blank=False, verbose_name=_('key'))
+    uuid = models.UUIDField(max_length=50, default=uuid.uuid4, editable=False)
 
     number = models.CharField(max_length=30, db_index=True, unique=True, blank=True, null=True,)
-
-    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     reference_number = models.CharField(
         max_length=64, db_index=True, unique=True, blank=True, null=True,
         verbose_name=_('reference number'))
 
     # Contact information
-    customer = models.ForeignKey("CustomerMember",related_name='customer_orders',blank=True,null=True,
-                                  on_delete=models.PROTECT,verbose_name=_('customer'))
-    product = models.ForeignKey("Product",related_name='product_orders',blank=True,null=True,
-                                on_delete=models.PROTECT,
-                                verbose_name=_('product'))
 
     # Status
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='orders_modified', blank=True, null=True,
                                     on_delete=models.PROTECT, verbose_name=_('modifier user'))
     deleted = models.BooleanField(db_index=True, default=False, verbose_name=_('deleted'))
-    status = models.ForeignKey("OrderStatus", verbose_name=_('status'), on_delete=models.PROTECT)
-    payment_status = EnumIntegerField(PaymentStatus, db_index=True, default=PaymentStatus.NOT_PAID,
+    # status = models.ForeignKey("OrderStatus", verbose_name=_('status'), on_delete=models.PROTECT)
+    payment_status = EnumIntegerField(PaymentStatus, db_index=True, default=PaymentStatus.PARTIALLY_PAID,
                                       verbose_name=_('payment status'))
     shipping_status = EnumIntegerField(ShippingStatus, db_index=True, default=ShippingStatus.NOT_SHIPPED,
                                        verbose_name=_('shipping status'))
@@ -190,9 +190,13 @@ class Order(models.Model):
         return "去重载这个方法吧"
 
 class HotelPackgeOrderSnapShot(models.Model):
-    pass
 
-class HotelPackageOrder(Order):
+    class Meta:
+        app_label = 'hotelBooking'
+
+class HotelPackageOrder(models.Model):
     order = models.OneToOneField(Order)
     snapshot = models.ForeignKey(HotelPackgeOrderSnapShot,blank=True)
+    class Meta:
+        app_label = 'hotelBooking'
 

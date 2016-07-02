@@ -1,6 +1,7 @@
 from __future__ import unicode_literals, with_statement
 
 from django.db import models
+from hotelBooking import FranchiseeMember
 from . import BaseModel
 from ..fields import InternalIdentifierField
 
@@ -43,19 +44,26 @@ class ProductVerificationMode(Enum):
         ADMIN_VERIFICATION_REQUIRED = _('admin verification required')
         THIRD_PARTY_VERIFICATION_REQUIRED = _('third party verification required')
 
-@python_2_unicode_compatible
-class ProductType(BaseModel):
-    identifier = InternalIdentifierField(unique=True)
-    name = models.CharField(max_length=64, verbose_name=_('name'))
+class ProductTypeEnum(Enum):
+    HOTEL_HOUSE_PACKAGE = 0
 
-    class Meta:
-        app_label = 'hotelBooking'
-        verbose_name = _('产品类型')
-        verbose_name_plural = _('产品类型')
+    class Labels:
+        HOTEL_HOUSE_PACKAGE = _('hotel house package')
 
-
-    def __str__(self):
-        return self.name
+# @python_2_unicode_compatible
+# class ProductType(BaseModel):
+#
+#     identifier = models.IntegerField(unique=True)
+#     name = models.CharField(max_length=64, verbose_name=_('name'))
+#
+#     class Meta:
+#         app_label = 'hotelBooking'
+#         verbose_name = _('产品类型')
+#         verbose_name_plural = _('产品类型')
+#
+#
+#     def __str__(self):
+#         return self.name
 
 class ProductQuerySet(QuerySet):
     pass
@@ -65,10 +73,9 @@ class Product(BaseModel):
     created_on = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('create on'))
     modified_on = models.DateTimeField(auto_now=True, editable=False, verbose_name=_('modified on'))
     deleted = models.BooleanField(default=False, editable=False, db_index=True, verbose_name=_('deleted'))
-    type = models.ForeignKey(ProductType,verbose_name=_('product type'))
+    type = EnumIntegerField(ProductTypeEnum, default = ProductTypeEnum.HOTEL_HOUSE_PACKAGE, verbose_name=_('product type'))
     #relation
-    owner = models.ForeignKey('FranchiseeMember',)
-
+    owner = models.ForeignKey(FranchiseeMember,)
 
     #Behavior
     # 这个产品是否需要 shipping(在这里，我表示需要代理商的人工处理验证)

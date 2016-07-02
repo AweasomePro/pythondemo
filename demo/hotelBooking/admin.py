@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.admin.options import ModelAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-from . import Province,City,Hotel,House,HouseImg, HotelImg,HousePackage,User,CustomerMember,FranchiseeMember,Installation,ProductType,Product
+from . import Province,City,Hotel,House,HouseImg, HotelImg,HousePackage,User,CustomerMember,FranchiseeMember,Installation,Product
 from .models import User
 from .adminprovider.modules.user import UserAdmin, UserChangeForm, UserCreationForm, MyUserAdmin
 from .adminprovider.modules.province import ProvinceAdmin
@@ -25,7 +25,6 @@ admin.site.register(HotelImg, HotelImgAdmin)
 admin.site.register(House,HouseAdmin)
 
 admin.site.register(HousePackage,ModelAdmin)
-admin.site.register(ProductType,ModelAdmin)
 admin.site.register(Product,ModelAdmin)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.

@@ -6,7 +6,7 @@ from .core.models.image import HotelImg,HouseImg
 from .core.models.installation import Installation
 from .core.models.user import CustomerMember,FranchiseeMember
 from .core.models.orders import Order
-from .core.models.products import Product,HousePackage,ProductType
+from .core.models.products import Product,HousePackage
 import signal
 
 
@@ -23,7 +23,6 @@ __all__ = [
     "Installation",
     "Order",
     "Product",
-    "ProductType",
     "HousePackage",
 
 ]
