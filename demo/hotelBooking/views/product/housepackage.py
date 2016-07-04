@@ -53,6 +53,6 @@ class CustomerHotelBookOrderList(ReadOnlyModelViewSet):
         queryset = self.queryset
         user = self.request.user
         state = self.request.GET.get('state')
-        return queryset.filter(order__customer=user.customermember)
+        return queryset.filter(order__customer=user.customermember.id)
 
 

@@ -27,8 +27,8 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
-    male = 'M'
-    female = 'F'
+    male = 1
+    female = 0
     SEX = (
         (male,'male'),
         (female,'female'),
@@ -37,7 +37,7 @@ class User(AbstractBaseUser):
     phone_number = models.CharField(max_length=15, unique=True)
     name = models.CharField(max_length=225,default="unknow name")
     email = models.EmailField(max_length=255,blank=True)
-    sex = models.CharField(default=male,choices=SEX,max_length=10)
+    sex = models.IntegerField(default=male,choices=SEX)
     phone_is_verify = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)

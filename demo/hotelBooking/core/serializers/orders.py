@@ -18,6 +18,6 @@ class OrderSerializer(DynamicFieldsModelSerializer):
 
 class CustomerOrderSerializer(serializers.Serializer):
     order = OrderSerializer()
-    snapshot = HotelPackgeOrderSnapShotSerialier()
+    hotelOrder_snapshot = HotelPackgeOrderSnapShotSerialier()
     class Meta:
         model = HotelPackageOrder

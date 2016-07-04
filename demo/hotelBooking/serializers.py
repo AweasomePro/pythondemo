@@ -100,6 +100,7 @@ class HousePackageSerializer(DynamicFieldsModelSerializer):
 class HouseSerializer(DynamicFieldsModelSerializer):
     house_imgs = HouseImgSerializer(many=True,excludes=('id',))
     housePackages = HousePackageSerializer(many=True,excludes=('house','product'))
+
     class Meta:
         model = House
 

@@ -45,6 +45,9 @@ class CustomerMember(models.Model):
         member.avatar = avatar_url
         member.save()
 
+    def __str__(self):
+        return self.user.name+'-'+str(self.user.phone_number)
+
 class FranchiseeMember(models.Model):
     user = models.OneToOneField(User)
     type = EnumIntegerField(ProductMemberType, default = ProductMemberType.HotelAgent,verbose_name = _('加盟商类型'))
@@ -54,3 +57,5 @@ class FranchiseeMember(models.Model):
         verbose_name = '加盟会员'
         verbose_name_plural = '加盟会员'
 
+    def __str__(self):
+        return self.user.name+'-'+ str(self.user.phone_number)

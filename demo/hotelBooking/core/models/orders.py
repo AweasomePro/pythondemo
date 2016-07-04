@@ -212,26 +212,6 @@ class Order(models.Model):
     def __str__(self):  # pragma: no cover
         return "去重载这个方法吧"
 
-class HotelPackageOrderSnapShot(models.Model):
-    hotel_id = models.IntegerField()
-    house_id = models.IntegerField()
-    hotel_name = models.CharField(max_length=255)
-    house_name = models.CharField(max_length=255)
-    front_price =models.IntegerField()
-    need_point = models.IntegerField()
-
-    def create_from_source(self,house_package):
-        house = house_package.house
-        hotel = house_package.house.hotel
-        self.hotel_id = hotel.id
-        self.house_id = house.id
-        self.need_point = house_package.need_point
-        self.front_price = house_package.front_price
-        self.hotel_name = hotel.name
-        self.house_name = house.name
-
-    class Meta:
-        app_label = 'hotelBooking'
 
 class HotelPackageOrder(models.Model):
     CUSTOMER_REQUIRE = 0x01
@@ -256,12 +236,33 @@ class HotelPackageOrder(models.Model):
 
     process_state = models.IntegerField(choices=STATES,default=CUSTOMER_REQUIRE,help_text='订单进行的状态')
 
-    # checkinTime checkoutTime
-    snapshot = models.ForeignKey(HotelPackageOrderSnapShot, blank=True)
+
     # 客户添加的额外信息
     require_notes = models.TextField(null=True,blank=True)
     comment = models.TextField(null=True,blank=True)
 
     class Meta:
         app_label = 'hotelBooking'
+class HotelPackageOrderSnapShot(models.Model):
+    hotel_id = models.IntegerField()
+    house_id = models.IntegerField()
+    hotel_name = models.CharField(max_length=255)
+    house_name = models.CharField(max_length=255)
+    front_price = models.IntegerField()
+    need_point = models.IntegerField()
+    house_package_order = models.OneToOneField(HotelPackageOrder)
+
+    def create_from_source(self,house_package):
+        house = house_package.house
+        hotel = house_package.house.hotel
+        self.hotel_id = hotel.id
+        self.house_id = house.id
+        self.need_point = house_package.need_point
+        self.front_price = house_package.front_price
+        self.hotel_name = hotel.name
+        self.house_name = house.name
+
+    class Meta:
+        app_label = 'hotelBooking'
+
 
