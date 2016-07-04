@@ -25,4 +25,4 @@ class HotelImg(ImageModel):
     hotel = models.ForeignKey(Hotel,verbose_name='房型',related_name=relation_name)
 
     def __str__(self):
-        return self.house.name + ':' + self.img_url
+        return self.hotel.name + ':' + self.img_url
