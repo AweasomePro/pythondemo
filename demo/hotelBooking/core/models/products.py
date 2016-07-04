@@ -81,12 +81,14 @@ class Product(BaseModel):
     # 这个产品是否需要 shipping(在这里，我表示需要代理商的人工处理验证)
     shipping_mode = EnumIntegerField(ShippingMode, default=ShippingMode.NOT_SHIPPED, verbose_name=_('shipping mode'))
 
-
     class Meta:
         app_label = 'hotelBooking'
         ordering = ('-id',)
         verbose_name = _('产品（数据库基类）')
         verbose_name_plural = _('产品（数据库基类）')
+
+    def __str__(self):
+        return '{0}的酒店房间资源'.format(self.owner.user.name)
 
 class HousePackage(BaseModel):
     HOUSE_STATE_CHOICES = (

@@ -17,7 +17,8 @@ class HousePackageInline(admin.StackedInline):
     extra = 0
     verbose_name = '套餐'
     verbose_name_plural = '套餐'
-    fields = ('package_name','need_point','package_state','detail')
+
+    fields = ('need_point','front_price','room_avaliable','product')
 
 class HotelAdmin(ModelAdmin):
     inlines = [HotelLogoInline,HouseInline]
@@ -26,5 +27,5 @@ class HotelImgAdmin(ModelAdmin):
     pass
 
 class HouseAdmin(ModelAdmin):
-    # inlines = [HousePackageInline,]
+    inlines = [HousePackageInline,]
     pass

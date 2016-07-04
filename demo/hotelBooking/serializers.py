@@ -66,7 +66,7 @@ class CustomerMemberSerializer(DynamicFieldsModelSerializer):
 
 
 class UpdateCustomerMemberSerializer(CustomerMemberSerializer):
-    fields = ('')
+
     exclude = ('password','groups',"is_admin","is_active")
 
 
@@ -105,7 +105,7 @@ class HouseSerializer(DynamicFieldsModelSerializer):
 
 
 class HotelSerializer(DynamicFieldsModelSerializer):
-    house_imgs = HotelImgSerializer(many=True)
+    hotel_imgs = HotelImgSerializer(many=True)
     hotel_houses = HouseSerializer(many=True, excludes=('hotel',))
 
     class Meta:
