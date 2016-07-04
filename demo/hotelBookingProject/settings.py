@@ -146,7 +146,6 @@ AUTH_USER_MODEL = 'hotelBooking.User'
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 # session setting
 SESSION_COOKIE_AGE = 365*24*60*60
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
          'rest_framework.permissions.IsAuthenticated',

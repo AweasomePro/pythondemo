@@ -66,6 +66,7 @@ class CustomerMemberSerializer(DynamicFieldsModelSerializer):
 
 
 class UpdateCustomerMemberSerializer(CustomerMemberSerializer):
+    fields = ('')
     exclude = ('password','groups',"is_admin","is_active")
 
 

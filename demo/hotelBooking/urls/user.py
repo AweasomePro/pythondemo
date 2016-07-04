@@ -5,7 +5,7 @@ from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework_jwt.views import JSONWebTokenAPIView
 from hotelBooking.views import user as user_view
 router = routers.SimpleRouter(trailing_slash=True)
-router.register(r'user', user_view.UserViewSet)
+router.register(r'user', user_view.UserViewSet,)
 urlpatterns = [
     url(r'^api-token-auth/', obtain_jwt_token),
 ]

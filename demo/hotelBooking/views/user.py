@@ -82,7 +82,6 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
                         return response
                 else:
                     return DefaultJsonResponse(code=appcodes.CODE_SMS_ERROR, message="注册失败，验证码错误")
-
         else:
             return DefaultJsonResponse(code=appcodes.CODE_PHONE_IS_EXISTED, message="手机号已经存在")
 
@@ -118,9 +117,17 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     def change_password(self,request):
         phoneNumber = request.POST['phoneNumber']
         password = request.POST['password']
-
-        print('phoneNumber is {0} and password is {1}'.format(phoneNumber,password))
-        return DefaultJsonResponse(res_data='修改失败')
+        new_password = request.POST['newPassword']
+        try:
+            user = User.objects.get(phone_number=phoneNumber)
+            if (user.check_password(password)):
+                user.set_password(new_password)
+                user.save()
+                return DefaultJsonResponse(message='修改成功')
+            else:
+                return DefaultJsonResponse(message='修改失败,密码错误')
+        except User.DoesNotExist:
+            return DefaultJsonResponse(message='用户不存在，修改失败')
 
     @method_route(methods=['PUT'],url_path='profile')
     @method_decorator(is_authenticated())
