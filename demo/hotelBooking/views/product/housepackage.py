@@ -47,7 +47,7 @@ class CustomerHotelBookOrderList(ReadOnlyModelViewSet):
     serializer_class = CustomerOrderSerializer
 
     def list(self, request, *args, **kwargs):
-        return DefaultJsonResponse(res_data={'orders':CustomerOrderSerializer(self.get_queryset(),many=True).data})
+        return DefaultJsonResponse(res_data={'orders':[{'all' : CustomerOrderSerializer(self.get_queryset(),many=True).data}]})
 
     def get_queryset(self):
         queryset = self.queryset

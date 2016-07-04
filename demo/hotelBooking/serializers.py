@@ -46,7 +46,7 @@ class CustomerMemberSerializer(DynamicFieldsModelSerializer):
 
     class Meta:
         model = CustomerMember
-        excludes=('id','is_admin','is_active','is_loggin',)
+        excludes=('is_admin','is_active','is_loggin',)
         # write_only_fields = ('password',)
 
     def update(self, instance, validated_data):
