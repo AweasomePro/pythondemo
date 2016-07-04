@@ -1,9 +1,12 @@
 from django.contrib.auth.decorators import login_required
+from django.views.generic import ListView
 from hotelBooking.core.order_creator.utils import add_hotel_order
+from hotelBooking.core.serializers.orders import CustomerOrderSerializer
 from rest_framework import viewsets
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
+from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from hotelBooking.core.models.products import Product
@@ -11,7 +14,7 @@ from hotelBooking import HousePackage
 from hotelBooking.auth.decorators import login_required_and_is_member
 from hotelBooking.serializers import HousePackageSerializer
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
-
+from hotelBooking.core.models.orders import HotelPackageOrder,HotelPackageOrderSnapShot
 
 class HousePackageViewSet(viewsets.GenericViewSet):
     serializer_class = HousePackageSerializer
@@ -27,21 +30,6 @@ class HousePackageBookAPIView(APIView):
     permission_classes = (IsAuthenticated,)
     def post(self, request, *args, **kwargs):
         return add_hotel_order(request)
-        # print('print user')
-        # self.is_member(request)
-        # productId = request.POST.get('productId')
-        # try:
-        #     product = Product.objects.get(productId=productId)
-        # except Product.DoesNotExist:
-        #     return DefaultJsonResponse(res_data='不存在该商品',code=403)
-        # # todo 判断是该类型的商品
-        # is_hotel_package(product)
-        # try:
-        #     house_package = product.housepackage
-        # except HousePackage.DoesNotExist:
-        #     return DefaultJsonResponse(res_data='不存在该商品',code=403)
-        # print('product id is {}'.format(productId))
-        # return DefaultJsonResponse(res_data='订购成功')
 
     def is_member(self,request):
         if not request.user.is_customer_member:
@@ -50,5 +38,21 @@ class HousePackageBookAPIView(APIView):
     def point_is_match(self,user):
         if (user.point < 10):
             pass
+
+class CustomerHotelBookOrderList(ReadOnlyModelViewSet):
+    authentication_classes = (JSONWebTokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    queryset = HotelPackageOrder.objects.all()
+    serializer_class = CustomerOrderSerializer
+
+    def list(self, request, *args, **kwargs):
+        return DefaultJsonResponse(res_data={'orders':CustomerOrderSerializer(self.get_queryset(),many=True).data})
+
+    def get_queryset(self):
+        queryset = self.queryset
+        user = self.request.user
+        state = self.request.GET.get('state')
+        return queryset.filter(order__customer=user.customermember)
 
 

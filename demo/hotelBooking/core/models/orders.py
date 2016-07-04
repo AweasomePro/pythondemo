@@ -40,6 +40,7 @@ class PaymentStatus(Enum):
         CANCELED = _('canceled')
         DEFERRED = _('deferred')
 
+
 class ShippingStatus(Enum):
     # 资源还没有准备好
     NOT_SHIPPED = 0
@@ -143,6 +144,35 @@ class Order(models.Model):
         一个用了表示订单的唯一键，customer可以用来查询
 
     """
+    NOT_PAID = 0
+    PARTIALLY_PAID = 1
+    FULLY_PAID = 2
+    CANCELED = 3
+    DEFERRED = 4
+    PAID_STATES = (
+        (NOT_PAID,'not paid'),
+        (PARTIALLY_PAID, 'partially paid'),
+        (FULLY_PAID, 'fully paid'),
+        (CANCELED, 'canceled '),
+        (DEFERRED, 'deferred'),
+    )
+
+    # 资源还没有准备好
+    NOT_SHIPPED = 0
+    # 资源提供了，但是交易还没完成
+    PARTIALLY_SHIPPED = 1
+    # 交易完成订单处理完
+    FULLY_SHIPPED = 2
+
+    SHIPPED_STATES = (
+        (NOT_SHIPPED, 'not shipped'),
+        (PARTIALLY_SHIPPED, 'not shipped'),
+        (FULLY_SHIPPED, 'fully shipped'),
+    )
+
+
+
+
     id = models.AutoField(primary_key=True,auto_created=True)
     customer = models.ForeignKey(CustomerMember, related_name='customer_orders', blank=True, null=True,
                                  on_delete=models.PROTECT, verbose_name=_('customer'))
@@ -150,21 +180,14 @@ class Order(models.Model):
     product = models.ForeignKey(Product, related_name='product_orders', blank=True, null=True,
                                 on_delete=models.PROTECT,
                                 verbose_name=_('product'))
-
     created_on = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('created on'))
     modified_on = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('modified on'))
-    identifier = InternalIdentifierField(unique=True, db_index=True, verbose_name=_('order identifier'))
     # TODO: label is actually a choice field, need to check migrations/choice deconstruction
     label = models.CharField(max_length=32, db_index=True, verbose_name=_('label'))
     # The uuid shouldn't be possible to deduce (i.e. it should be random), but it is
     # not a secret. (It could, however, be used as key material for an actual secret.)
     uuid = models.UUIDField(max_length=50, default=uuid.uuid4, editable=False)
-
     number = models.CharField(max_length=30, db_index=True, unique=True, blank=True, null=True,)
-
-    reference_number = models.CharField(
-        max_length=64, db_index=True, unique=True, blank=True, null=True,
-        verbose_name=_('reference number'))
 
     # Contact information
 
@@ -173,11 +196,10 @@ class Order(models.Model):
                                     on_delete=models.PROTECT, verbose_name=_('modifier user'))
     deleted = models.BooleanField(db_index=True, default=False, verbose_name=_('deleted'))
     # status = models.ForeignKey("OrderStatus", verbose_name=_('status'), on_delete=models.PROTECT)
-    payment_status = EnumIntegerField(PaymentStatus, db_index=True, default=PaymentStatus.PARTIALLY_PAID,
+    payment_status = models.IntegerField(choices = PAID_STATES,db_index=True, default=PARTIALLY_PAID,
                                       verbose_name=_('payment status'))
-    shipping_status = EnumIntegerField(ShippingStatus, db_index=True, default=ShippingStatus.NOT_SHIPPED,
+    shipping_status = models.IntegerField(choices=SHIPPED_STATES,db_index=True, default=NOT_SHIPPED,
                                        verbose_name=_('shipping status'))
-
     objects = OrderQuerySet.as_manager()
 
     class Meta:
@@ -189,14 +211,38 @@ class Order(models.Model):
     def __str__(self):  # pragma: no cover
         return "去重载这个方法吧"
 
-class HotelPackgeOrderSnapShot(models.Model):
+class HotelPackageOrderSnapShot(models.Model):
 
     class Meta:
         app_label = 'hotelBooking'
 
 class HotelPackageOrder(models.Model):
+    CUSTOMER_REQUIRE = 0x01
+    CUSTOMER_CANCEL = 0x02
+    CUSTOMER_BACKEND = 0x03
+
+    FRANCHISES_ACCEPT = 0x10
+    FRANCHISES_REFUSED = 0x20
+    FRANCHISES_BACKED = 0x30
+    STATES = (
+        (CUSTOMER_REQUIRE, '客户已经发起请求'),
+        (CUSTOMER_CANCEL, '客户取消了入住'),
+        (CUSTOMER_BACKEND, '客户反悔'),
+        (FRANCHISES_ACCEPT, '代理接收了订单'),
+        (FRANCHISES_REFUSED, '代理拒绝了订单'),
+        (FRANCHISES_BACKED, '代理单方面取消了订单'),
+    )
+    check_in_time = models.DateField(verbose_name='入住时间')
+    check_out_time = models.DateField(verbose_name='离店时间')
+
+    process_state = models.IntegerField(choices=STATES,default=CUSTOMER_REQUIRE,help_text='订单进行的状态')
+
     order = models.OneToOneField(Order)
-    snapshot = models.ForeignKey(HotelPackgeOrderSnapShot,blank=True)
+    # checkinTime checkoutTime
+    snapshot = models.ForeignKey(HotelPackageOrderSnapShot, blank=True)
+    # 客户添加的额外信息
+    extra_message = models.TextField()
+
     class Meta:
         app_label = 'hotelBooking'
 

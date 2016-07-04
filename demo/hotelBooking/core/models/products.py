@@ -93,12 +93,14 @@ class HousePackage(BaseModel):
         ('1', '充沛'),
         ('2', '满房')
     )
+
     product = models.OneToOneField(Product,)
     # detail product attribute
     house = models.ForeignKey(House, verbose_name='房型', related_name='housePackages')
     need_point = models.IntegerField(verbose_name='所需积分',default=0)
     front_price = models.IntegerField(verbose_name='前台现付价格')
     package_state = models.CharField(max_length=255, choices=HOUSE_STATE_CHOICES, default=HOUSE_STATE_CHOICES[0][1])
+    room_avaliable = models.BigIntegerField(verbose_name='房态',default=0)
     detail = models.TextField()
     class Meta:
         app_label = 'hotelBooking'

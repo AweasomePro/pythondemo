@@ -44,8 +44,6 @@ class CustomerMemberSerializer(DynamicFieldsModelSerializer):
     user = UserSerializer()
     avatar = serializers.URLField(read_only=False,required=False)
 
-
-
     class Meta:
         model = CustomerMember
         excludes=('id','is_admin','is_active','is_loggin',)

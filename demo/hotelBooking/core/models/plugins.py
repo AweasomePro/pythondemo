@@ -2,6 +2,9 @@ import math
 from django import forms
 from django.db import models
 from datetime import datetime
+
+from hotelBooking.core.models import BaseModel
+
 productTypeMap = {
     "hotelPackage":"01"
 }
@@ -10,10 +13,11 @@ productTypeMap = {
 订单号规则:
 年后2位+月份+日期+当天订单数量+商品类型+随机数
 """
-class OrderNumberGenerator(models.Model):
+class OrderNumberGenerator(BaseModel):
     id = models.CharField(primary_key=True,max_length=20)
 
     class Meta:
+        app_label = 'hotelBooking'
         abstract = True
 
     def init(self,request,order):
@@ -59,8 +63,19 @@ class OrderNumberGenerator(models.Model):
 
 class HotelOrderNumberGenerator(OrderNumberGenerator):
     last_number  = models.IntegerField(default=0)
-    last_day = models.DateTimeField(default=None)
 
     def get_next(self, formatted=True):
-        str = datetime.datetime.now().strftime('%Y%m%d%H')[2:]
-        pass
+        str = datetime.now().strftime('%Y%m%d%H')[2:]
+        self.last_number+=1
+        number = self.last_number
+        self.save()
+        orderNumber ='{0}{1}{2}'.format(1002,str,number)
+        return int(orderNumber)
+
+    class Meta:
+        app_label = 'hotelBooking'
+
+class test(BaseModel):
+    pass
+
+

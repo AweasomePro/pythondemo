@@ -116,7 +116,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='HotelPackgeOrderSnapShot',
+            name='HotelPackageOrderSnapShot',
             fields=[
                 ('id', models.AutoField(serialize=False, auto_created=True, primary_key=True, verbose_name='ID')),
             ],
@@ -271,7 +271,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='hotelpackageorder',
             name='snapshot',
-            field=models.ForeignKey(to='hotelBooking.HotelPackgeOrderSnapShot', blank=True),
+            field=models.ForeignKey(to='hotelBooking.HotelPackageOrderSnapShot', blank=True),
         ),
         migrations.AddField(
             model_name='city',

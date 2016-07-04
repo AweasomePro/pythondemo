@@ -1,9 +1,12 @@
 from hotelBooking import Product
 from hotelBooking.core.exceptions import PointNotEnough
-from hotelBooking.core.plugins import HotelOrderNumberGenerator
-from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
+from hotelBooking.core.models.orders import Order,HotelPackageOrder,HotelPackageOrderSnapShot
+from hotelBooking.core.models.plugins import HotelOrderNumberGenerator
 from hotelBooking.core.models.products import HousePackage
-from hotelBooking.core.models.orders import Order,HotelPackageOrder,HotelPackgeOrderSnapShot
+from hotelBooking.core.serializers.orders import CustomerOrderSerializer
+from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
+
+
 def get_customermember(request):
     try:
         return request.user.customermember
@@ -47,7 +50,7 @@ def generateHotelPackageProductOrder(request):
     print('product id is {}'.format(productId))
     hotel_package_order = None
     order = None
-    snapshot = HotelPackgeOrderSnapShot.objects.create()
+    snapshot = HotelPackageOrderSnapShot.objects.create()
     snapshot.save()
     order = Order.objects.create(
         customer = member_user.customermember,
@@ -58,6 +61,7 @@ def generateHotelPackageProductOrder(request):
         order = order,
         snapshot =  snapshot
     )
+
     try:
         order_numbers = HotelOrderNumberGenerator.objects.get(id="order_number")
     except HotelOrderNumberGenerator.DoesNotExist:
@@ -69,6 +73,7 @@ def generateHotelPackageProductOrder(request):
         pass
     order.number = order_numbers.get_next()
     order.save()
+    hotel_package_order.save()
     return hotel_package_order
 
 
@@ -88,5 +93,7 @@ def add_hotel_order(request):
         return DefaultJsonResponse(res_data='不存在该商品', code=403)
     print('product id is {}'.format(productId))
     hotelPackageOrder = generateHotelPackageProductOrder(request)
-    return DefaultJsonResponse(res_data='订购成功,id 是'.format(hotelPackageOrder.order.number))
+    # return DefaultJsonResponse(res_data='订购成功,id 是{0}'.format(hotelPackageOrder.order.number))
+    serializer = CustomerOrderSerializer(hotelPackageOrder)
+    return DefaultJsonResponse(res_data=serializer.data)
 
