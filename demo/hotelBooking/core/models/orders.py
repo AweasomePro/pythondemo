@@ -16,10 +16,10 @@ from . import BaseModel
 
 # from parler.managers import TranslatableQuerySet
 # from parler.models import TranslatableModel, TranslatedFields
-import datetime
 from hotelBooking.core.models.products import Product
 from hotelBooking.core.fields import (InternalIdentifierField,)
 from hotelBooking.models import User
+from django.utils.timezone import datetime
 # def get_unique_id_str():
 #     return str(uuid.uuid4())
 
@@ -170,14 +170,11 @@ class Order(models.Model):
         (FULLY_SHIPPED, 'fully shipped'),
     )
 
-
-
-
     id = models.AutoField(primary_key=True,auto_created=True)
-    customer = models.ForeignKey(User, related_name='customer_orders', blank=True, null=True,
+    customer = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='customer_orders', blank=True,
                                  on_delete=models.PROTECT, verbose_name=_('customer'))
-    franchisee = models.ForeignKey(User, related_name='franchisee_orders',blank=True)
-    product = models.ForeignKey(Product, related_name='product_orders', blank=True, null=True,
+    franchisee = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='franchisee_orders',blank=True)
+    product = models.ForeignKey(Product, related_name='product_orders', blank=True,
                                 on_delete=models.PROTECT,
                                 verbose_name=_('product'))
     created_on = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('created on'))
@@ -187,7 +184,7 @@ class Order(models.Model):
     # The uuid shouldn't be possible to deduce (i.e. it should be random), but it is
     # not a secret. (It could, however, be used as key material for an actual secret.)
     uuid = models.UUIDField(max_length=50, default=uuid.uuid4, editable=False)
-    number = models.CharField(max_length=30, db_index=True, unique=True, blank=True, null=True,)
+    number = models.CharField(max_length=30, db_index=True, unique=True, blank=True,)
 
     # Contact information
 
@@ -231,8 +228,8 @@ class HotelPackageOrder(models.Model):
     )
     order = models.OneToOneField(Order)
 
-    check_in_time = models.DateField(verbose_name='入住时间')
-    check_out_time = models.DateField(verbose_name='离店时间')
+    check_in_time = models.DateField(verbose_name='入住时间',default=datetime.now().replace(day=datetime.now().day).strftime('%Y-%m-%d'))
+    check_out_time = models.DateField(verbose_name='离店时间',default=datetime.now().replace(day=datetime.now().day+1).strftime('%Y-%m-%d'))
 
     process_state = models.IntegerField(choices=STATES,default=CUSTOMER_REQUIRE,help_text='订单进行的状态')
 
@@ -250,8 +247,7 @@ class HotelPackageOrderSnapShot(models.Model):
     house_name = models.CharField(max_length=255)
     front_price = models.IntegerField()
     need_point = models.IntegerField()
-    house_package_order = models.OneToOneField(HotelPackageOrder)
-
+    hotel_package_order = models.OneToOneField(HotelPackageOrder)
     def create_from_source(self,house_package):
         house = house_package.house
         hotel = house_package.house.hotel

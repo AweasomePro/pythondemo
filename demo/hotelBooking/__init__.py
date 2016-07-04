@@ -25,5 +25,5 @@ __all__ = [
     "Order",
     "Product",
     "HousePackage",
-
+    "HotelPackageOrderSnapShot",
 ]

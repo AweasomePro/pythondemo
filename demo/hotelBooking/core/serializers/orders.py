@@ -2,9 +2,15 @@ from hotelBooking.core.models.orders import HotelPackageOrder, Order,HotelPackag
 from hotelBooking.core.serializers.support import DynamicFieldsModelSerializer
 from rest_framework import serializers
 from rest_framework import models
-class HotelPackgeOrderSnapShotSerialier(serializers.Serializer):
+
+class HotelPackgeOrderSnapShotSerialier(DynamicFieldsModelSerializer):
+    # hotel_name = serializers.CharField()
+
     class Meta:
         model = HotelPackageOrderSnapShot
+        exclude=('id','hotel_package_order')
+        # fields =('hotel_name','house_name',)
+
 
 class OrderSerializer(DynamicFieldsModelSerializer):
     # number = serializers.IntegerField()
@@ -18,6 +24,7 @@ class OrderSerializer(DynamicFieldsModelSerializer):
 
 class CustomerOrderSerializer(serializers.Serializer):
     order = OrderSerializer()
-    hotelOrder_snapshot = HotelPackgeOrderSnapShotSerialier()
+    hotelpackageordersnapshot = HotelPackgeOrderSnapShotSerialier()
     class Meta:
         model = HotelPackageOrder
+        exclude = ('id','uuid','franchisee','customer')

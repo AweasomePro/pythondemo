@@ -115,12 +115,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(serialize=False, auto_created=True, primary_key=True, verbose_name='ID')),
             ],
         ),
-        migrations.CreateModel(
-            name='HotelPackageOrderSnapShot',
-            fields=[
-                ('id', models.AutoField(serialize=False, auto_created=True, primary_key=True, verbose_name='ID')),
-            ],
-        ),
+
         migrations.CreateModel(
             name='House',
             fields=[
@@ -268,11 +263,11 @@ class Migration(migrations.Migration):
             name='order',
             field=models.OneToOneField(to='hotelBooking.Order'),
         ),
-        migrations.AddField(
-            model_name='hotelpackageorder',
-            name='snapshot',
-            field=models.ForeignKey(to='hotelBooking.HotelPackageOrderSnapShot', blank=True),
-        ),
+        # migrations.AddField(
+        #     model_name='hotelpackageorder',
+        #     name='snapshot',
+        #     field=models.ForeignKey(to='hotelBooking.HotelPackageOrderSnapShot', blank=True),
+        # ),
         migrations.AddField(
             model_name='city',
             name='province',

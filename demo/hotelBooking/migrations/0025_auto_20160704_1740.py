@@ -2,18 +2,19 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
+from django.conf import settings
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('hotelBooking', '0015_auto_20160704_1448'),
+        ('hotelBooking', '0024_auto_20160704_1739'),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='user',
-            name='sex',
-            field=models.IntegerField(choices=[(1, 'male'), (0, 'female')], default=1, max_length=1),
+            model_name='product',
+            name='owner',
+            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
         ),
     ]

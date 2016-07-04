@@ -25,7 +25,6 @@ class UserManager(BaseUserManager):
         return user
 
 
-
 class User(AbstractBaseUser):
     male = 1
     female = 0

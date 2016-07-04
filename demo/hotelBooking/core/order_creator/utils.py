@@ -51,21 +51,16 @@ def generateHotelPackageProductOrder(request):
     print('product id is {}'.format(productId))
     hotel_package_order = None
     order = None
-
-    snapshot = HotelPackageOrderSnapShot.objects.create()
-    snapshot.create_from_source(house_package)
-    snapshot.save()
     order = Order.objects.create(
-        customer = member_user.customermember,
+        customer = member_user,
         franchisee = product.owner,
         product = product,
     )
-    order.save()
     hotel_package_order = HotelPackageOrder.objects.create(
         order = order,
-        snapshot =  snapshot,
         require_notes =require_notes
     )
+    hotel_package_order.save()
 
     try:
         order_numbers = HotelOrderNumberGenerator.objects.get(id="order_number")
@@ -79,6 +74,10 @@ def generateHotelPackageProductOrder(request):
     order.number = order_numbers.get_next()
     order.save()
     hotel_package_order.save()
+    snapshot = HotelPackageOrderSnapShot()
+    snapshot.hotel_package_order = hotel_package_order
+    snapshot.create_from_source(house_package)
+    snapshot.save()
     return hotel_package_order
 
 

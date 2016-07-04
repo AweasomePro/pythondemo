@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('hotelBooking', '0019_remove_hotelpackageorder_snapshot'),
+        ('hotelBooking', '0018_auto_20160704_1559'),
     ]
 
     operations = [

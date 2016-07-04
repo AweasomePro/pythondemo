@@ -27,42 +27,7 @@ class Migration(migrations.Migration):
             name='require_notes',
             field=models.TextField(null=True, blank=True),
         ),
-        migrations.AddField(
-            model_name='hotelpackageordersnapshot',
-            name='front_price',
-            field=models.IntegerField(default=20),
-            preserve_default=False,
-        ),
-        migrations.AddField(
-            model_name='hotelpackageordersnapshot',
-            name='hotel_id',
-            field=models.IntegerField(default=1),
-            preserve_default=False,
-        ),
-        migrations.AddField(
-            model_name='hotelpackageordersnapshot',
-            name='hotel_name',
-            field=models.CharField(default='testname', max_length=255),
-            preserve_default=False,
-        ),
-        migrations.AddField(
-            model_name='hotelpackageordersnapshot',
-            name='house_id',
-            field=models.IntegerField(default=1),
-            preserve_default=False,
-        ),
-        migrations.AddField(
-            model_name='hotelpackageordersnapshot',
-            name='house_name',
-            field=models.CharField(default='tetsname', max_length=255),
-            preserve_default=False,
-        ),
-        migrations.AddField(
-            model_name='hotelpackageordersnapshot',
-            name='need_point',
-            field=models.IntegerField(default=20),
-            preserve_default=False,
-        ),
+
         migrations.AddField(
             model_name='order',
             name='franchisee',

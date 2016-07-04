@@ -2,6 +2,7 @@ from __future__ import unicode_literals, with_statement
 
 from django.db import models
 from hotelBooking import FranchiseeMember
+from hotelBookingProject import settings
 from . import BaseModel
 from ..fields import InternalIdentifierField
 
@@ -75,7 +76,7 @@ class Product(BaseModel):
     deleted = models.BooleanField(default=False, editable=False, db_index=True, verbose_name=_('deleted'))
     type = EnumIntegerField(ProductTypeEnum, default = ProductTypeEnum.HOTEL_HOUSE_PACKAGE, verbose_name=_('product type'))
     #relation
-    owner = models.ForeignKey(FranchiseeMember,)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     #Behavior
     # 这个产品是否需要 shipping(在这里，我表示需要代理商的人工处理验证)

@@ -8,7 +8,7 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
     def __init__(self,*args,**kwargs):
         #Don't pass the 'fiels' arg up tp the superclass
         fields = kwargs.pop('fields',None)
-        exclude = kwargs.pop('excludes', None)
+        excludes = kwargs.pop('excludes', None)
 
         super(DynamicFieldsModelSerializer, self).__init__(*args,**kwargs)
 
@@ -17,8 +17,8 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
             existing = set(self.fields.keys())
             for field_name in existing - allowed:
                 self.fields.pop(field_name)
-        if exclude is not None:
+        if excludes is not None:
             existing = set(self.fields.keys())
-            disallowed = set(exclude)
+            disallowed = set(excludes)
             for field_name in existing & disallowed:
                 self.fields.pop(field_name)

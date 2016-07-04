@@ -7,15 +7,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('hotelBooking', '0015_auto_20160704_1448'),
+        ('hotelBooking', '0026_auto_20160704_1810'),
     ]
 
     operations = [
-
-        migrations.AddField(
+        migrations.RenameField(
             model_name='hotelpackageordersnapshot',
-            name='house_package_order',
-            field=models.OneToOneField(default=1, to='hotelBooking.HotelPackageOrder'),
-            preserve_default=False,
+            old_name='hotell_package_order',
+            new_name='hotel_package_order',
         ),
     ]
