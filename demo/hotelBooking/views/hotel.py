@@ -31,8 +31,10 @@ class HotelViewSet(RetrieveModelMixin,viewsets.GenericViewSet):
 
         print(hotels)
         paginator = Paginator(hotels,1)
+
         try:
             backHotels = paginator.page(page)
+
             serializers = self.serializer_class(backHotels,many=True,excludes=('houses',))
         except EmptyPage as e:
             return DefaultJsonResponse(code=-100, message='没有更多数据')

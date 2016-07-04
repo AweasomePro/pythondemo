@@ -21,7 +21,7 @@ class HouseImg(ImageModel):
 
 @python_2_unicode_compatible
 class HotelImg(ImageModel):
-    relation_name = 'house_imgs'
+    relation_name = 'hotel_imgs'
     hotel = models.ForeignKey(Hotel,verbose_name='房型',related_name=relation_name)
 
     def __str__(self):

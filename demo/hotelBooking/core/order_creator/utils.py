@@ -37,6 +37,7 @@ def is_hotel_package(product):
 def generateHotelPackageProductOrder(request):
     member_user = get_customer_member_object(request)
     productId = request.POST.get('productId')
+    require_notes = request.POST.get('require_notes',default=None)
     try:
         product = Product.objects.get(id=productId)
     except Product.DoesNotExist:
@@ -50,16 +51,20 @@ def generateHotelPackageProductOrder(request):
     print('product id is {}'.format(productId))
     hotel_package_order = None
     order = None
+
     snapshot = HotelPackageOrderSnapShot.objects.create()
+    snapshot.create_from_source(house_package)
     snapshot.save()
     order = Order.objects.create(
         customer = member_user.customermember,
+        franchisee = product.owner,
         product = product,
     )
     order.save()
     hotel_package_order = HotelPackageOrder.objects.create(
         order = order,
-        snapshot =  snapshot
+        snapshot =  snapshot,
+        require_notes =require_notes
     )
 
     try:
@@ -95,5 +100,6 @@ def add_hotel_order(request):
     hotelPackageOrder = generateHotelPackageProductOrder(request)
     # return DefaultJsonResponse(res_data='订购成功,id 是{0}'.format(hotelPackageOrder.order.number))
     serializer = CustomerOrderSerializer(hotelPackageOrder)
+
     return DefaultJsonResponse(res_data=serializer.data)
 

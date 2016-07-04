@@ -19,7 +19,7 @@ from . import BaseModel
 import datetime
 from hotelBooking.core.models.products import Product
 from hotelBooking.core.fields import (InternalIdentifierField,)
-
+from hotelBooking.models import User
 # def get_unique_id_str():
 #     return str(uuid.uuid4())
 
@@ -174,9 +174,9 @@ class Order(models.Model):
 
 
     id = models.AutoField(primary_key=True,auto_created=True)
-    customer = models.ForeignKey(CustomerMember, related_name='customer_orders', blank=True, null=True,
+    customer = models.ForeignKey(User, related_name='customer_orders', blank=True, null=True,
                                  on_delete=models.PROTECT, verbose_name=_('customer'))
-
+    franchisee = models.ForeignKey(User, related_name='franchisee_orders',blank=True)
     product = models.ForeignKey(Product, related_name='product_orders', blank=True, null=True,
                                 on_delete=models.PROTECT,
                                 verbose_name=_('product'))
@@ -192,6 +192,7 @@ class Order(models.Model):
     # Contact information
 
     # Status
+
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='orders_modified', blank=True, null=True,
                                     on_delete=models.PROTECT, verbose_name=_('modifier user'))
     deleted = models.BooleanField(db_index=True, default=False, verbose_name=_('deleted'))
@@ -212,6 +213,22 @@ class Order(models.Model):
         return "去重载这个方法吧"
 
 class HotelPackageOrderSnapShot(models.Model):
+    hotel_id = models.IntegerField()
+    house_id = models.IntegerField()
+    hotel_name = models.CharField(max_length=255)
+    house_name = models.CharField(max_length=255)
+    front_price =models.IntegerField()
+    need_point = models.IntegerField()
+
+    def create_from_source(self,house_package):
+        house = house_package.house
+        hotel = house_package.house.hotel
+        self.hotel_id = hotel.id
+        self.house_id = house.id
+        self.need_point = house_package.need_point
+        self.front_price = house_package.front_price
+        self.hotel_name = hotel.name
+        self.house_name = house.name
 
     class Meta:
         app_label = 'hotelBooking'
@@ -227,21 +244,23 @@ class HotelPackageOrder(models.Model):
     STATES = (
         (CUSTOMER_REQUIRE, '客户已经发起请求'),
         (CUSTOMER_CANCEL, '客户取消了入住'),
-        (CUSTOMER_BACKEND, '客户反悔'),
+        (CUSTOMER_BACKEND, '客户暂未入住，提前表示不能入住'),
         (FRANCHISES_ACCEPT, '代理接收了订单'),
         (FRANCHISES_REFUSED, '代理拒绝了订单'),
-        (FRANCHISES_BACKED, '代理单方面取消了订单'),
+        (FRANCHISES_BACKED, '代理提前表示某些原因导致不能入住了'),
     )
+    order = models.OneToOneField(Order)
+
     check_in_time = models.DateField(verbose_name='入住时间')
     check_out_time = models.DateField(verbose_name='离店时间')
 
     process_state = models.IntegerField(choices=STATES,default=CUSTOMER_REQUIRE,help_text='订单进行的状态')
 
-    order = models.OneToOneField(Order)
     # checkinTime checkoutTime
     snapshot = models.ForeignKey(HotelPackageOrderSnapShot, blank=True)
     # 客户添加的额外信息
-    extra_message = models.TextField()
+    require_notes = models.TextField(null=True,blank=True)
+    comment = models.TextField(null=True,blank=True)
 
     class Meta:
         app_label = 'hotelBooking'
