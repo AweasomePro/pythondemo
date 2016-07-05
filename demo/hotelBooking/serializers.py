@@ -34,9 +34,11 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
                 self.fields.pop(field_name)
 
 class UserSerializer(DynamicFieldsModelSerializer):
+
     class Meta:
         model = User
         excludes=('',)
+        readonly = ()
 
 
 class CustomerMemberSerializer(DynamicFieldsModelSerializer):

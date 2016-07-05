@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
     'rest_framework',
+    'dynamic_rest',
     # 'rest_framework.authtoken',
     'hotelBooking',
 ]

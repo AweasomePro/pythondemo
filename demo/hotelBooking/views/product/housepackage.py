@@ -47,7 +47,15 @@ class CustomerHotelBookOrderList(ReadOnlyModelViewSet):
     serializer_class = CustomerOrderSerializer
 
     def list(self, request, *args, **kwargs):
-        return DefaultJsonResponse(res_data={'orders':[{'all' : CustomerOrderSerializer(self.get_queryset(),many=True).data}]})
+        serlaizer_datas = CustomerOrderSerializer(self.get_queryset().all(), many=True).data
+        new_data = []
+        for data in serlaizer_datas:
+            snapshopt = data.pop('hotelpackageordersnapshot')
+            type(data['order'])
+            data['order']['snapshot'] = snapshopt
+
+            new_data.append(data['order'])
+        return DefaultJsonResponse(res_data={'orders':[{'all' : serlaizer_datas}]})
 
     def get_queryset(self):
         queryset = self.queryset

@@ -207,7 +207,7 @@ class Order(models.Model):
         verbose_name_plural = _('orders')
 
     def __str__(self):  # pragma: no cover
-        return "去重载这个方法吧"
+        return self.customer.name+'的订单'+self.number
 
 
 class HotelPackageOrder(models.Model):

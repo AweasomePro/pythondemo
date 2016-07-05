@@ -2,16 +2,19 @@ from django.contrib.auth.models import AnonymousUser
 from django.contrib.sites import requests
 from django.db.models import Model
 from django.utils.decorators import method_decorator
+from hotelBooking.core.serializers.user import UserSerializer, UpdateMemberSerializer
 from qiniu import Auth
+from rest_framework.authentication import BasicAuthentication
 from rest_framework.mixins import UpdateModelMixin
 from rest_framework import viewsets
 from rest_framework.response import Response
 from hotelBooking.Mysettings import APP_ID, APP_KEY
-from hotelBooking.serializers import CustomerMemberSerializer, UpdateCustomerMemberSerializer, InstallationSerializer
+from hotelBooking.serializers import  UpdateCustomerMemberSerializer, InstallationSerializer
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 from hotelBooking.utils.decorators import method_route, parameter_necessary, is_authenticated
 from hotelBooking import User
 import re
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from . import appcodes,Installation,CustomerMember
 from rest_framework_jwt.settings import api_settings
 
@@ -50,7 +53,9 @@ def verifySmsCode(mobilePhoneNumber, smscode):
         return False, "尚未处理的错误"
 
 class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
-    serializer_class = CustomerMemberSerializer
+    authentication_classes = (JSONWebTokenAuthentication, BasicAuthentication)
+
+    serializer_class = UserSerializer
     queryset = User.objects.all()
 
     @method_route(methods=['POST'],url_path='register')
@@ -95,7 +100,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
             if (user is not None and user.check_password(password)):
                 payload = jwt_payload_handler(user)
                 token = jwt_encode_handler(payload)
-                response = DefaultJsonResponse(res_data={'user':CustomerMemberSerializer(user.customermember).data})
+                response = DefaultJsonResponse(res_data={'user':UserSerializer(user).data})
                 response['token'] = token
                 return response
             else:
@@ -133,14 +138,17 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     @method_decorator(is_authenticated())
     def update_profile(self,request):
         print(request.user)
-        s = UpdateCustomerMemberSerializer(data=request.data)
+        print(request.data)
+        s = UpdateMemberSerializer(data=request.data)
         s.is_valid()
         print(s.errors)
         if(s.is_valid()):
-            s.update(request.user,s.validated_data)
-            return DefaultJsonResponse(message='修改用户资料成功')
+            instance = s.update(request.user,s.validated_data,)
+            return DefaultJsonResponse(message='修改用户资料成功',res_data={'user':UserSerializer(instance).data})
         else:
             return DefaultJsonResponse(message='修改失败{0}'.format(s.errors.values),code='-100')
+
+
 
     @method_route(methods=['POST'], url_path='installation')
     def installationId_register(self,request, formate=None):
