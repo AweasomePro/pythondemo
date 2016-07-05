@@ -55,7 +55,12 @@ class CustomerHotelBookOrderList(ReadOnlyModelViewSet):
             data['order']['snapshot'] = snapshopt
 
             new_data.append(data['order'])
-        return DefaultJsonResponse(res_data={'orders':[{'all' : serlaizer_datas}]})
+        return DefaultJsonResponse(res_data={
+            'orders':
+                {
+                    'inprocess' : serlaizer_datas,
+                    'finished':[],
+                }})
 
     def get_queryset(self):
         queryset = self.queryset
