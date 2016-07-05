@@ -53,12 +53,12 @@ class CustomerHotelBookOrderList(ReadOnlyModelViewSet):
             snapshopt = data.pop('hotelpackageordersnapshot')
             type(data['order'])
             data['order']['snapshot'] = snapshopt
-
+            print(data['order'])
             new_data.append(data['order'])
         return DefaultJsonResponse(res_data={
             'orders':
                 {
-                    'inprocess' : serlaizer_datas,
+                    'inprocess' : new_data,
                     'finished':[],
                 }})
 

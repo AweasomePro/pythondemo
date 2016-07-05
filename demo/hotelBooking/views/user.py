@@ -1,7 +1,8 @@
 from django.contrib.auth.models import AnonymousUser
-from django.contrib.sites import requests
 from django.db.models import Model
+import requests
 from django.utils.decorators import method_decorator
+from hotelBooking.core.exceptions import  UserCheck
 from hotelBooking.core.serializers.user import UserSerializer, UpdateMemberSerializer
 from qiniu import Auth
 from rest_framework.authentication import BasicAuthentication
@@ -66,6 +67,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         sms_code = request.POST.get('smsCode', None)
         print(sms_code)
         if (not User.existPhoneNumber(phone_number=phone_number)):
+            UserCheck.validate_pwd(password)
             if sms_code != None:
                 # verifySuccess, message = verifySmsCode(phone_number, password)
                 if (True):
@@ -73,10 +75,9 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
                         member = CustomerMember.objects.create(phone_number,password)
                         print('member 的phoneNumber' + str(member.user.phone_number))
                         print('member name =' + str(member.user.name))
-                        serializer_member = CustomerMemberSerializer(member)
+                        serializer_member = UserSerializer(member.user,exclude_fields=('password',))
                         payload = jwt_payload_handler(member.user)
                         token = jwt_encode_handler(payload)
-                        # serializer_member.data
                         kwargs = {'UserEntity': serializer_member.data}
                     except BaseException as e:
                         # raise e
@@ -123,6 +124,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         phoneNumber = request.POST['phoneNumber']
         password = request.POST['password']
         new_password = request.POST['newPassword']
+        UserCheck.validate_pwd(password)
         try:
             user = User.objects.get(phone_number=phoneNumber)
             if (user.check_password(password)):
@@ -220,3 +222,4 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         token = q.upload_token(bucket_name, key, 3600,policy)
         return DefaultJsonResponse(code=appcodes.CODE_100_OK,
                                    res_data={'upload_token': token, 'imageUrl': key})
+

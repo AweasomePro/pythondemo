@@ -35,5 +35,5 @@ class UserSerializer(DynamicModelSerializer):
         return user.customermember.avatar
     class Meta:
         model = User
-        fields = ('id','name','phone_number','point','sex','avatar')
+        fields = ('id','name','phone_number','point','sex','avatar','password')
 
