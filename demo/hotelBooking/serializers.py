@@ -1,3 +1,5 @@
+from dynamic_rest.fields import DynamicRelationField
+from dynamic_rest.serializers import DynamicModelSerializer
 from rest_framework import serializers
 # username = models.CharField(max_length=50)
 # password = models.CharField(max_length=30)
@@ -79,11 +81,12 @@ class InstallationSerializer(DynamicFieldsModelSerializer):
         # choices = {'badge','deviceProfile','installationId','timeZone'}
 
 
-class HotelImgSerializer(DynamicFieldsModelSerializer):
+class HotelImgSerializer(DynamicModelSerializer):
 
     class Meta:
         model = HotelImg
-        exclude =('id',)
+        name = 'hotel_img'
+        exclude =()
 
 
 class HouseImgSerializer(DynamicFieldsModelSerializer):
@@ -99,20 +102,24 @@ class HousePackageSerializer(DynamicFieldsModelSerializer):
         exclude=('id',)
 
 
-class HouseSerializer(DynamicFieldsModelSerializer):
-    house_imgs = HouseImgSerializer(many=True,excludes=('id',))
+class HouseSerializer(DynamicModelSerializer):
+    house_imgs = HouseImgSerializer(many=True)
     housePackages = HousePackageSerializer(many=True,excludes=('house','product'))
-
     class Meta:
         model = House
 
 
-class HotelSerializer(DynamicFieldsModelSerializer):
-    hotel_imgs = HotelImgSerializer(many=True)
-    hotel_houses = HouseSerializer(many=True, excludes=('hotel',))
-
+class HotelSerializer(DynamicModelSerializer):
+    # hotel_imgs = HotelImgSerializer(many=True)
+    # hotel_houses = HouseSerializer(many=True)
+    hotel_imgs = HotelImgSerializer(embed=True,many=True,exclude_fields=('id','hotel'))
+    hotel_houses = HouseSerializer(many=True,embed=True,only_fields=('id',))
     class Meta:
         model = Hotel
+        name = 'hotel'
+
+    # def to_representation(self, instance):
+    #     return instance
 
 
 class CitySerializer(DynamicFieldsModelSerializer):

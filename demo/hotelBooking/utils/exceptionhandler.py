@@ -15,8 +15,6 @@ from rest_framework import exceptions, status
 from rest_framework.compat import set_rollback
 from rest_framework.response import Response
 
-
-
 def exception_handler(exc, context):
     """
     Returns the response that should be used for any given exception.

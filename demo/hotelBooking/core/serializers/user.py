@@ -24,7 +24,8 @@ class UpdateMemberSerializer(DynamicModelSerializer):
 
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name', instance.name)
-        instance.customermember.avatar = validated_data.get('avatar', instance.avatar)
+        instance.sex = validated_data.get('sex',instance.sex)
+        # instance.customermember.avatar = validated_data.get('avatar', instance.avatar)
         return instance
 
 class UserSerializer(DynamicModelSerializer):
@@ -35,5 +36,6 @@ class UserSerializer(DynamicModelSerializer):
         return user.customermember.avatar
     class Meta:
         model = User
+        name = 'user'
         fields = ('id','name','phone_number','point','sex','avatar','password')
 

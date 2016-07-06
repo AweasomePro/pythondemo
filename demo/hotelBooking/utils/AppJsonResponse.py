@@ -36,7 +36,6 @@ class DefaultJsonResponse(Response):
 
         if not res_data is None:
             res['result'] = res_data
-            print(res)
         else:
             print('data is null')
         # for key in kwargs:

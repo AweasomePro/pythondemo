@@ -61,7 +61,6 @@ def generateHotelPackageProductOrder(request):
         require_notes =require_notes
     )
     hotel_package_order.save()
-
     try:
         order_numbers = HotelOrderNumberGenerator.objects.get(id="order_number")
     except HotelOrderNumberGenerator.DoesNotExist:

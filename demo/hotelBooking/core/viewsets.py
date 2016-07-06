@@ -1,6 +1,18 @@
 from rest_framework import generics
 from rest_framework.viewsets import ViewSetMixin
 
+class WithCustomJsonViewSetMixin(object):
+    def get_page_meta_data(self):
+        return super(WithCustomJsonViewSetMixin,self).get_page_meta_data()
+
+    def get_paginated_data(self, data):
+        meta = super(WithCustomJsonViewSetMixin,self).get_page_metadata()
+        if 'meta' in data:
+            data['meta'].update(meta)
+        else:
+            data['meta'] = meta
+        return data
+
 
 class GenericJsonViewSet(ViewSetMixin, generics.GenericAPIView):
     """

@@ -23,6 +23,11 @@ class Hotel(models.Model):
         return self.name
 
 
+# class RoomType(models.Model):
+#     hotel = models.ForeignKey(Hotel,related_name='room_types')
+#     type_name = models.CharField(blank=False)
+#     can_book =models.BooleanField(default=True)
+
 class House(BaseModel):
     """
     这个类表示发布的房源信息
