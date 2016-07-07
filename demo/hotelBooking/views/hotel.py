@@ -8,11 +8,12 @@ from rest_framework.response import Response
 from rest_framework.utils.serializer_helpers import ReturnDict
 
 from hotelBooking import Hotel
+from hotelBooking.core.serializers.hotels import HouseSerializer, HotelSerializer
 from hotelBooking.core.utils.serializer_helpers import wrapper_dict
 from hotelBooking.core.viewsets import WithCustomJsonViewSetMixin
-from hotelBooking.serializers import HotelSerializer, HouseSerializer
 
-from . import DefaultJsonResponse,House
+from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
+from hotelBooking.core.models.houses import House
 
 class HotelViewSet(DynamicModelViewSet):
     serializer_class = HotelSerializer
@@ -20,6 +21,7 @@ class HotelViewSet(DynamicModelViewSet):
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
+
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
@@ -33,7 +35,7 @@ class HotelViewSet(DynamicModelViewSet):
         return Response(wrapper_dict(serializer.data))
 
 
-class HouseViewSet(viewsets.GenericViewSet):
+class HouseViewSet(DynamicModelViewSet):
 
     serializer_class = HouseSerializer
     queryset = House.objects.all()
@@ -41,7 +43,7 @@ class HouseViewSet(viewsets.GenericViewSet):
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
-        return DefaultJsonResponse(res_data={'house':serializer.data})
+        return DefaultJsonResponse(res_data=serializer.data)
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())

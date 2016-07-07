@@ -72,7 +72,7 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='FranchiseeMember',
+            name='PartnerMember',
             fields=[
                 ('id', models.AutoField(serialize=False, auto_created=True, primary_key=True, verbose_name='ID')),
                 ('type', enumfields.fields.EnumIntegerField(verbose_name='加盟商类型', default=1, enum=hotelBooking.core.models.user.ProductMemberType)),
@@ -211,7 +211,7 @@ class Migration(migrations.Migration):
                 ('modified_on', models.DateTimeField(verbose_name='modified on', auto_now=True)),
                 ('deleted', models.BooleanField(verbose_name='deleted', default=False, editable=False, db_index=True)),
                 ('shipping_mode', enumfields.fields.EnumIntegerField(verbose_name='shipping mode', default=0, enum=hotelBooking.core.models.products.ShippingMode)),
-                ('owner', models.ForeignKey(to='hotelBooking.FranchiseeMember')),
+                ('owner', models.ForeignKey(to='hotelBooking.PartnerMember')),
             ],
             options={
                 'verbose_name': '产品（数据库基类）',

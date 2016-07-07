@@ -23,7 +23,6 @@ class OrderSerializer(DynamicFieldsModelSerializer):
 
 
 
-
 class CustomerOrderSerializer(DynamicEphemeralSerializer):
     order = OrderSerializer()
     hotelpackageordersnapshot = HotelPackgeOrderSnapShotSerialier()

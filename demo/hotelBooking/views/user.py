@@ -78,7 +78,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
                         serializer_member = UserSerializer(member.user,exclude_fields=('password',))
                         payload = jwt_payload_handler(member.user)
                         token = jwt_encode_handler(payload)
-                        kwargs = {'UserEntity': serializer_member.data}
+                        kwargs = {'user': serializer_member.data}
                     except BaseException as e:
                         # raise e
                         raise e

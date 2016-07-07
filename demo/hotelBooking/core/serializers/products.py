@@ -1,13 +1,16 @@
+from dynamic_rest.serializers import DynamicModelSerializer
+
 from hotelBooking import HousePackage
-from hotelBooking.core.serializers.support import DynamicFieldsModelSerializer
 
 
-class HousePackageSerializer(DynamicFieldsModelSerializer):
+# class
+
+class HousePackageSerializer(DynamicModelSerializer):
+
     class Meta:
         model = HousePackage
-        exclude=('id',)
+        exclude_fields=()
 
-class HotelPackageBookSerializer(DynamicFieldsModelSerializer):
-
+class HotelPackageBookSerializer(DynamicModelSerializer):
     class Meta:
         pass

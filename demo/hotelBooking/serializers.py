@@ -89,22 +89,23 @@ class HotelImgSerializer(DynamicModelSerializer):
         exclude =()
 
 
-class HouseImgSerializer(DynamicFieldsModelSerializer):
+class HouseImgSerializer(DynamicModelSerializer):
 
     class Meta:
         model = HouseImg
-        exclude=('id',)
+        exclude_fields=('id',)
 
 
-class HousePackageSerializer(DynamicFieldsModelSerializer):
+class HousePackageSerializer(DynamicModelSerializer):
+
     class Meta:
         model = HousePackage
-        exclude=('id',)
+        exclude_fields=()
 
 
 class HouseSerializer(DynamicModelSerializer):
-    house_imgs = HouseImgSerializer(many=True)
-    housePackages = HousePackageSerializer(many=True,excludes=('house','product'))
+    house_imgs = HouseImgSerializer(many=True,embed=True)
+    housePackages = HousePackageSerializer(many=True,exclude_fields=('house','product'),embed=True)
     class Meta:
         model = House
 

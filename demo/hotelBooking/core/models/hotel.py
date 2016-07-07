@@ -28,6 +28,7 @@ class Hotel(models.Model):
 #     type_name = models.CharField(blank=False)
 #     can_book =models.BooleanField(default=True)
 
+
 class House(BaseModel):
     """
     这个类表示发布的房源信息

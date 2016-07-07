@@ -84,6 +84,7 @@ def add_hotel_order(request):
     print('print user')
     user = get_customer_member_object(request)
     productId = request.POST.get('productId')
+
     try:
         product = Product.objects.get(id=productId)
     except Product.DoesNotExist:

@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.admin.options import ModelAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-from . import Province,City,Hotel,House,HouseImg, HotelImg,HousePackage,User,CustomerMember,FranchiseeMember,Installation,Product
+from . import Province,City,Hotel,House,HouseImg, HotelImg,HousePackage,User,CustomerMember,PartnerMember,Installation,Product
 from .models import User
 from .adminprovider.modules.user import UserAdmin, UserChangeForm, UserCreationForm, MyUserAdmin
 from .adminprovider.modules.province import ProvinceAdmin
@@ -16,7 +16,7 @@ from .adminprovider.modules.hotels import *
 # Now register the new UserAdmin...
 admin.site.register(User, MyUserAdmin)
 admin.site.register(CustomerMember,ModelAdmin)
-admin.site.register(FranchiseeMember,ModelAdmin)
+admin.site.register(PartnerMember, ModelAdmin)
 admin.site.register(Province, ProvinceAdmin)
 admin.site.register(City, CityAdmin)
 admin.site.register(Installation,InstallationAdmin)

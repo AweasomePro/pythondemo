@@ -210,6 +210,8 @@ class Order(models.Model):
         return self.customer.name+'的订单'+self.number
 
 
+
+
 class HotelPackageOrder(models.Model):
     CUSTOMER_REQUIRE = 0x01
     CUSTOMER_CANCEL = 0x02

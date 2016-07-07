@@ -48,7 +48,7 @@ class CustomerMember(models.Model):
     def __str__(self):
         return self.user.name+'-'+str(self.user.phone_number)
 
-class FranchiseeMember(models.Model):
+class PartnerMember(models.Model):
     user = models.OneToOneField(User)
     type = EnumIntegerField(ProductMemberType, default = ProductMemberType.HotelAgent,verbose_name = _('加盟商类型'))
 

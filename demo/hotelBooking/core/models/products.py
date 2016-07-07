@@ -1,7 +1,8 @@
 from __future__ import unicode_literals, with_statement
 
 from django.db import models
-from hotelBooking import FranchiseeMember
+from django.utils.timezone import datetime
+from django.utils.timezone import timedelta
 from hotelBookingProject import settings
 from . import BaseModel
 from ..fields import InternalIdentifierField
@@ -15,6 +16,8 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from enumfields import Enum, EnumIntegerField
 from hotelBooking.core.models.hotel import House
+
+
 
 class ProductVisibility(Enum):
     VISIBLE_TO_ALL = 1
@@ -91,26 +94,55 @@ class Product(BaseModel):
     def __str__(self):
         return '{0}的酒店房间资源'.format(self.owner.user.name)
 
+
+class HousePackageManager(models.Manager):
+    pass
+
 class HousePackage(BaseModel):
     HOUSE_STATE_CHOICES = (
         ('1', '充沛'),
         ('2', '满房')
     )
-
     product = models.OneToOneField(Product,)
     # detail product attribute
     house = models.ForeignKey(House, verbose_name='房型', related_name='housePackages')
+    # agent = models.ForeignKey(settings.AUTH_USER_MODEL)
     need_point = models.IntegerField(verbose_name='所需积分',default=0)
     front_price = models.IntegerField(verbose_name='前台现付价格')
-    package_state = models.CharField(max_length=255, choices=HOUSE_STATE_CHOICES, default=HOUSE_STATE_CHOICES[0][1])
-    room_available = models.BigIntegerField(verbose_name='房态',default=0)
     detail = models.TextField()
+
+    objects = HousePackageManager()
+
     class Meta:
         app_label = 'hotelBooking'
         verbose_name = "套餐"
         verbose_name_plural = "套餐"
 
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        print('调用一次')
+        super(HousePackage,self).save(force_insert=force_insert,force_update=force_update,using=using,
+                                      update_fields=update_fields)
 
 
+class AgentRoomTypeState(models.Model):
 
+    ROOM_STATE_ENOUGH = 1
+    ROOM_STATE_FEW = 2
+    ROOM_STATE_NO_EMPTY = 3
 
+    ROOM_STATES = (
+        (ROOM_STATE_ENOUGH,'room is enough'),
+        (ROOM_STATE_FEW,'room is few'),
+        (ROOM_STATE_NO_EMPTY,'room has no empty')
+    )
+    agent = models.ForeignKey(settings.AUTH_USER_MODEL)
+    housePackage = models.ForeignKey(HousePackage)
+    house_type = models.ForeignKey(House)
+    date = models.DateField()
+    state = models.IntegerField(choices=ROOM_STATES,default=ROOM_STATE_ENOUGH)
+
+    class Meta:
+        app_label = 'hotelBooking'
+        verbose_name = "房间类型状态"
+        verbose_name_plural = "房间类型状态"
