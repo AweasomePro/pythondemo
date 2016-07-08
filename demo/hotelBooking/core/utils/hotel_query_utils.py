@@ -8,7 +8,7 @@ from hotelBooking.core.models.products import AgentRoomTypeState
 
 
 def query(queryset,cityId,checkinTime,checkoutTime):
-        # in_str = '2016-07-07'
+    # in_str = '2016-07-07'
     # in_str = '2016-07-08'
     cityId = int(cityId)
     checkin_time = datetime.datetime.strptime(checkinTime, '%Y-%m-%d').date()

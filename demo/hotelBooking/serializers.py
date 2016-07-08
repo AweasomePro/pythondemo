@@ -7,10 +7,10 @@ from rest_framework import serializers
 # phoneNumber = models.IntegerField(max_length=15)
 # register_time = models.DateTimeField(auto_created=True)
 from rest_framework.utils.serializer_helpers import ReturnDict
+from rest_framework.validators import UniqueValidator
 
 from .models import  User
 from . import Installation, Province, City, Hotel,House,HotelImg,HouseImg,HousePackage,CustomerMember
-
 
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
     """
@@ -67,8 +67,6 @@ class CustomerMemberSerializer(DynamicFieldsModelSerializer):
             ret.pop(field_name)
         return ReturnDict(ret, serializer=self)
 
-
-
 class UpdateCustomerMemberSerializer(CustomerMemberSerializer):
 
     exclude = ('password','groups',"is_admin","is_active")
@@ -78,6 +76,11 @@ class InstallationSerializer(DynamicFieldsModelSerializer):
 
     class Meta:
         model = Installation
+        validators = [
+            UniqueValidator(
+                queryset=Installation.objects.all()
+            )
+        ]
         # choices = {'badge','deviceProfile','installationId','timeZone'}
 
 

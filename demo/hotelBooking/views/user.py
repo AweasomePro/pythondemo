@@ -22,11 +22,6 @@ from rest_framework_jwt.settings import api_settings
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
-
-
-
-
-
 access_key = 'u-ryAwaQeBx9BS5t8OMSPs6P1Ewoqiu6-ZbbMNYm'
 secret_key = 'hVXFHO8GusQduMqLeYXZx_C5_c7D-VSwz6AKhjZJ'
 
@@ -59,7 +54,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
-    @method_route(methods=['POST'],url_path='register')
+    @method_route(methods=['POST',],url_path='register')
     @method_decorator(parameter_necessary('phoneNumber', 'password', 'smsCode',))
     def register(self, request):
         phone_number = request.POST.get('phoneNumber')
@@ -91,11 +86,12 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         else:
             return DefaultJsonResponse(code=appcodes.CODE_PHONE_IS_EXISTED, message="手机号已经存在")
 
-    @method_route(methods=['POST'], url_path='login')
+    @method_route(methods=['POST',], url_path='login')
     @method_decorator(parameter_necessary('phoneNumber', 'password', ))
     def login(self, request):
         phone_number = request.POST.get('phoneNumber')
         password = request.POST.get('password')
+        print('phone is {}'.format(phone_number))
         try:
             user = User.objects.get(phone_number=phone_number)
             if (user is not None and user.check_password(password)):
@@ -118,12 +114,12 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         else:
             return DefaultJsonResponse(code=100,message="退出成功")
 
-    @method_route(methods=['PUT',], url_path='password')
-    @method_decorator(parameter_necessary('phoneNumber', 'password', ))
+    @method_route(methods=['POST',], url_path='password')
+    @method_decorator(parameter_necessary('phoneNumber', 'password', 'newPassword'))
     def change_password(self,request):
-        phoneNumber = request.PUT['phoneNumber']
-        password = request.PUT['password']
-        new_password = request.PUT['newPassword']
+        phoneNumber = request.POST['phoneNumber']
+        password = request.POST['password']
+        new_password = request.POST['newPassword']
         UserCheck.validate_pwd(password)
         try:
             user = User.objects.get(phone_number=phoneNumber)
@@ -157,6 +153,8 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         json = request.data
         print(str(json))
         serializer = InstallationSerializer(data=json)
+        # androidDevice = Installation.objects.get(installationId=installationId)
+        # iosDevice = Installation.objects.get(deviceToken=installationId)
         if serializer.is_valid():
             print('valid' + serializer.__str__())
             serializer.save()
@@ -168,21 +166,25 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     @method_route(methods=['POST'], url_path='installation/bind')
     @method_decorator(is_authenticated())
     def bind_installationId(self,request):
-        phoneNumber = request.user.pk
+        phoneNumber = request.user.phone_number
         installationId = request.POST.get('installationId')
         deviceToken = request.POST.get('deviceToken')
+        user = None
         if installationId:
             try:
                 installDevice = Installation.objects.get(installationId=installationId)
-                user = User.objects.get(phone_number=phoneNumber)
-                installDevice.member = user
-                installDevice.save()
-                return DefaultJsonResponse(code=appcodes.CODE_100_OK, message="success")
             except Installation.DoesNotExist:
-                return DefaultJsonResponse(code=appcodes.CODE_INSTALLATION_BIND＿FAILED_NOT_UPLOADED, message="这个installationId尚未注册到服务端")
+                return DefaultJsonResponse(code=appcodes.CODE_INSTALLATION_BIND＿FAILED_NOT_UPLOADED, message="installationId尚未注册到服务端")
         elif deviceToken:
-            return DefaultJsonResponse(code=appcodes.CODE_100_OK, message="ios还没写,哇咔咔")
-
+            try:
+                installDevice = Installation.objects.get(deviceToken=deviceToken)
+            except Installation.DoesNotExist:
+                return DefaultJsonResponse(code=appcodes.CODE_INSTALLATION_BIND＿FAILED_NOT_UPLOADED,
+                                           message="installationId尚未注册到服务端")
+        user = User.objects.get(phone_number=phoneNumber)
+        installDevice.user = user
+        installDevice.save()
+        return DefaultJsonResponse(code=appcodes.CODE_100_OK, message="success")
     @method_route(methods=['POST'], url_path='avatar/update_callback')
     def update_user_avatar_callback(self,request):
         """

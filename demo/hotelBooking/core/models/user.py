@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import  BaseUserManager,AbstractBaseUser
 from django.contrib.auth.models import Group,Permission
-from . import User
+from hotelBooking.models import User
 from enumfields import Enum, EnumIntegerField
 from django.utils.translation import ugettext_lazy as _
 class ProductMemberType(Enum):
@@ -14,10 +14,7 @@ class ProductMemberType(Enum):
 class MemberManager(models.Manager):
 
     def create(self,phoneNumber,password):
-        user = User()
-        user.phone_number = phoneNumber
-        user.set_password(password)
-        user.save()
+        user = User.objects.create_user(phoneNumber,password)
         member = CustomerMember()
         member.user = user
         member.save()

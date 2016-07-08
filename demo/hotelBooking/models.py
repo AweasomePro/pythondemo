@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import  BaseUserManager,AbstractBaseUser
 from django.contrib.auth.models import Group,Permission
 
+from hotelBooking.core.exceptions import UserCheck
 from hotelBooking.core.fields.pointField import PointField
 from .utils.fiels import ListField
 # Create your models here.
@@ -11,11 +12,14 @@ class UserManager(BaseUserManager):
     def create_user(self, phone_number, name, password=None):
         if not phone_number:
             raise ValueError('User must have an phone')
+        UserCheck.validate_phoneNumber(phone_number)
+        UserCheck.validate_phoneNumber(password)
         user = self.model(phone_number = phone_number)
         user.set_password(raw_password=password)
         user.name = name
         user.save(using=self._db)
         return user
+
 
     def create_superuser(self, phone_number, name, password):
         user = self.create_user(phone_number=phone_number,name=name, password=password)
@@ -23,6 +27,8 @@ class UserManager(BaseUserManager):
         user.is_admin = True
         user.save()
         return user
+
+
 
 
 class User(AbstractBaseUser):
@@ -92,7 +98,6 @@ class User(AbstractBaseUser):
     @staticmethod
     def existPhoneNumber(phone_number = None):
         return User.objects.filter(phone_number = phone_number).exists()
-
 
 
 
