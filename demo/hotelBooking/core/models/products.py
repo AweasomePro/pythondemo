@@ -3,6 +3,8 @@ from __future__ import unicode_literals, with_statement
 from django.db import models
 from django.utils.timezone import datetime
 from django.utils.timezone import timedelta
+
+from hotelBooking import City
 from hotelBookingProject import settings
 from . import BaseModel
 from ..fields import InternalIdentifierField
@@ -15,9 +17,7 @@ from django.db.models.query import QuerySet
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from enumfields import Enum, EnumIntegerField
-from hotelBooking.core.models.hotel import House
-
-
+from hotelBooking.core.models.hotel import House, Hotel
 
 class ProductVisibility(Enum):
     VISIBLE_TO_ALL = 1
@@ -28,7 +28,6 @@ class ProductVisibility(Enum):
         VISIBLE_TO_ALL = _('visible to all')
         VISIBLE_TO_LOGGED_IN = _('visible to logged in')
         VISIBLE_TO_GROUPS = _('visible to groups')
-
 
 class ShippingMode(Enum):
     NOT_SHIPPED = 0
@@ -68,7 +67,7 @@ class ProductTypeEnum(Enum):
 #
 #     def __str__(self):
 #         return self.name
-
+from model_utils.managers import InheritanceManager
 class ProductQuerySet(QuerySet):
     pass
 
@@ -95,8 +94,13 @@ class Product(BaseModel):
         return '{0}的酒店房间资源'.format(self.owner.user.name)
 
 
-class HousePackageManager(models.Manager):
+class HousePackageQuerySet(models.query.QuerySet):
     pass
+
+class HousePackageManager(models.Manager):
+    def get_query_set(self):
+        return HousePackageQuerySet(self.model,using=self._db)
+
 
 class HousePackage(BaseModel):
     HOUSE_STATE_CHOICES = (
@@ -118,11 +122,15 @@ class HousePackage(BaseModel):
         verbose_name = "套餐"
         verbose_name_plural = "套餐"
 
+    def __str__(self):
+        return '{}-{}-{}-{}'.format(self.house.hotel.city.name,self.house.hotel.name,self.house.name,self.id)
+
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         print('调用一次')
         super(HousePackage,self).save(force_insert=force_insert,force_update=force_update,using=using,
                                       update_fields=update_fields)
+
 
 
 class AgentRoomTypeState(models.Model):
@@ -137,7 +145,9 @@ class AgentRoomTypeState(models.Model):
         (ROOM_STATE_NO_EMPTY,'room has no empty')
     )
     agent = models.ForeignKey(settings.AUTH_USER_MODEL)
-    housePackage = models.ForeignKey(HousePackage)
+    hotel = models.ForeignKey(Hotel,related_name='hotel_roomstates')
+    city = models.ForeignKey(City,related_name='city_roomstates')
+    housePackage = models.ForeignKey(HousePackage,related_name='housepackage_roomstates')
     house_type = models.ForeignKey(House)
     date = models.DateField()
     state = models.IntegerField(choices=ROOM_STATES,default=ROOM_STATE_ENOUGH)

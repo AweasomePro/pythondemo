@@ -118,12 +118,12 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         else:
             return DefaultJsonResponse(code=100,message="退出成功")
 
-    @method_route(methods=['PUT'], url_path='password')
+    @method_route(methods=['PUT',], url_path='password')
     @method_decorator(parameter_necessary('phoneNumber', 'password', ))
     def change_password(self,request):
-        phoneNumber = request.POST['phoneNumber']
-        password = request.POST['password']
-        new_password = request.POST['newPassword']
+        phoneNumber = request.PUT['phoneNumber']
+        password = request.PUT['password']
+        new_password = request.PUT['newPassword']
         UserCheck.validate_pwd(password)
         try:
             user = User.objects.get(phone_number=phoneNumber)

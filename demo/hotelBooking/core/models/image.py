@@ -10,8 +10,8 @@ class ImageModel(models.Model):
         abstract = True
 
 class HouseImg(ImageModel):
-    relation_name = 'house_imgs'
-    house = models.ForeignKey(House,verbose_name='房型',related_name=relation_name)
+    related_name = 'house_imgs'
+    house = models.ForeignKey(House, verbose_name='房型', related_name=related_name)
 
     def __unicode__(self):
         return self.house.name + ':' + self.img_url

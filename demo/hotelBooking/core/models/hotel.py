@@ -1,4 +1,6 @@
 from django.db import models
+
+from hotelBooking import User
 from ..models.city import  City
 from . import BaseModel
 class Hotel(models.Model):
@@ -10,6 +12,7 @@ class Hotel(models.Model):
     address = models.CharField(max_length=255,null=False,verbose_name='地址')
     introduce = models.TextField(max_length=255,verbose_name='介绍')
     contact_phone = models.CharField(max_length=255,verbose_name='联系电话')
+    agent = models.ManyToManyField(User)
 
     class Meta:
         app_label = 'hotelBooking'
@@ -22,11 +25,6 @@ class Hotel(models.Model):
     def __str__(self):
         return self.name
 
-
-# class RoomType(models.Model):
-#     hotel = models.ForeignKey(Hotel,related_name='room_types')
-#     type_name = models.CharField(blank=False)
-#     can_book =models.BooleanField(default=True)
 
 
 class House(BaseModel):
@@ -48,18 +46,3 @@ class House(BaseModel):
     def __str__(self):
         return self.name + ''
 
-# class HousePackage(Product):
-#     class Meta:
-#         app_label = 'hotelBooking'
-#         verbose_name = "套餐"
-#         verbose_name_plural = "套餐"
-#
-#     HOUSE_STATE_CHOICES = (
-#         ('1','充沛'),
-#         ('2','满房')
-#     )
-#     house = models.ForeignKey(House,verbose_name='房型',related_name='housePackages')
-#     package_name = models.CharField(max_length=255,default='套餐名',blank=False,verbose_name='套餐名')
-#     need_point = models.IntegerField(verbose_name='所需积分')
-#     package_state = models.CharField(max_length=255, choices=HOUSE_STATE_CHOICES, default=HOUSE_STATE_CHOICES[0][1])
-#     detail = models.TextField()

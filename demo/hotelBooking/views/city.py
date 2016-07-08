@@ -4,7 +4,7 @@ from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.response import Response
 
 from hotelBooking import City
-from hotelBooking.serializers import CitySerializer
+from hotelBooking.core.serializers.city import CitySerializer
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 
 

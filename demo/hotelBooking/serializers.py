@@ -81,61 +81,61 @@ class InstallationSerializer(DynamicFieldsModelSerializer):
         # choices = {'badge','deviceProfile','installationId','timeZone'}
 
 
-class HotelImgSerializer(DynamicModelSerializer):
+# class HotelImgSerializer(DynamicModelSerializer):
+#
+#     class Meta:
+#         model = HotelImg
+#         name = 'hotel_img'
+#         exclude =()
+#
+#
+# class HouseImgSerializer(DynamicModelSerializer):
+#
+#     class Meta:
+#         model = HouseImg
+#         exclude_fields=('id',)
+#
+#
+# class HousePackageSerializer(DynamicModelSerializer):
+#
+#     class Meta:
+#         model = HousePackage
+#         exclude_fields=()
+#
+#
+# class HouseSerializer(DynamicModelSerializer):
+#     house_imgs = HouseImgSerializer(many=True,embed=True)
+#     housePackages = HousePackageSerializer(many=True,exclude_fields=('house','product'),embed=True)
+#     class Meta:
+#         model = House
+#
+#
+# class HotelSerializer(DynamicModelSerializer):
+#     # hotel_imgs = HotelImgSerializer(many=True)
+#     # hotel_houses = HouseSerializer(many=True)
+#     hotel_imgs = HotelImgSerializer(embed=True,many=True,exclude_fields=('id','hotel'))
+#     hotel_houses = HouseSerializer(many=True,embed=True,only_fields=('id',))
+#     class Meta:
+#         model = Hotel
+#         name = 'hotel'
+#
+#     # def to_representation(self, instance):
+#     #     return instance
 
-    class Meta:
-        model = HotelImg
-        name = 'hotel_img'
-        exclude =()
-
-
-class HouseImgSerializer(DynamicModelSerializer):
-
-    class Meta:
-        model = HouseImg
-        exclude_fields=('id',)
-
-
-class HousePackageSerializer(DynamicModelSerializer):
-
-    class Meta:
-        model = HousePackage
-        exclude_fields=()
-
-
-class HouseSerializer(DynamicModelSerializer):
-    house_imgs = HouseImgSerializer(many=True,embed=True)
-    housePackages = HousePackageSerializer(many=True,exclude_fields=('house','product'),embed=True)
-    class Meta:
-        model = House
-
-
-class HotelSerializer(DynamicModelSerializer):
-    # hotel_imgs = HotelImgSerializer(many=True)
-    # hotel_houses = HouseSerializer(many=True)
-    hotel_imgs = HotelImgSerializer(embed=True,many=True,exclude_fields=('id','hotel'))
-    hotel_houses = HouseSerializer(many=True,embed=True,only_fields=('id',))
-    class Meta:
-        model = Hotel
-        name = 'hotel'
-
-    # def to_representation(self, instance):
-    #     return instance
-
-
-class CitySerializer(DynamicFieldsModelSerializer):
-    hotels = HotelSerializer(many=True)
-
-    class Meta:
-        model = City
-        exclude = ('province',)
-
-
-class ProvinceSerializer(DynamicFieldsModelSerializer):
-    citys = CitySerializer(many=True,excludes=('hotels',))
-
-    class Meta:
-        model= Province
+#
+# class CitySerializer(DynamicFieldsModelSerializer):
+#     hotels = HotelSerializer(many=True)
+#
+#     class Meta:
+#         model = City
+#         exclude = ('province',)
+#
+#
+# class ProvinceSerializer(DynamicFieldsModelSerializer):
+#     citys = CitySerializer(many=True,excludes=('hotels',))
+#
+#     class Meta:
+#         model= Province
 
 
 
