@@ -13,7 +13,6 @@ class UserManager(BaseUserManager):
         if not phone_number:
             raise ValueError('User must have an phone')
         UserCheck.validate_phoneNumber(phone_number)
-        UserCheck.validate_phoneNumber(password)
         user = self.model(phone_number = phone_number)
         user.set_password(raw_password=password)
         user.name = name

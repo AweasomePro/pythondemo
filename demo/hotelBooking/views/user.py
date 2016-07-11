@@ -73,7 +73,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
                         member = CustomerMember.objects.create(phone_number,password)
                         print('member 的phoneNumber' + str(member.user.phone_number))
                         print('member name =' + str(member.user.name))
-                        serializer_member = CustomerUserSerializer(member.user, exclude_fields=('password',))
+                        serializer_member = CustomerUserSerializer(member.user, )
                         payload = jwt_payload_handler(member.user)
                         token = jwt_encode_handler(payload)
                         kwargs = {'user': serializer_member.data}
@@ -226,6 +226,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
             'callbackUrl':'agesd.com/avatar/update_callback',
             'callbackBody':'filename=$(fname)&filesize=$(fsize)'
         }
+
         token = q.upload_token(bucket_name, key, 3600,policy)
         return DefaultJsonResponse(code=appcodes.CODE_100_OK,
                                    res_data={'upload_token': token, 'imageUrl': key})

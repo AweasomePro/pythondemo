@@ -91,7 +91,6 @@ class HousePackageBookAPIView(APIView):
         # 2. 用户积分是否够
         # 3. 扣除积分，通知代理商
         productId = request.get('productId')
-
         return add_hotel_order(request)
 
     def is_member(self,request):
