@@ -203,16 +203,12 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         f_name = post_data.get('filename')
         f_size = post_data.get('filesize')
         print(type(re.match('^avatar_(?P<id>\d+).*', f_name)))
-        try:
-            phone_number = re.match('^avatar_(?P<id>\d+).*', f_name).group('id')
-            if (phone_number and User.existPhoneNumber(phone_number=phone_number)):
-                CustomerMember.update_user_avatar(phone_number,f_name)
-                print('update avatar success')
-            else:
-                print('update avatar error')
-        except BaseException as e:
-            print('发生异常了')
-            print(e.__traceback__)
+        phone_number = re.match('^avatar_(?P<id>\d+).*', f_name).group('id')
+        if (phone_number and User.existPhoneNumber(phone_number=phone_number)):
+            CustomerMember.update_user_avatar(phone_number,f_name)
+            print('update avatar success')
+        else:
+            print('update avatar error,error phonenumber')
         return Response('OK')
 
     @method_route(methods=['GET',],url_path='avatar/token')
