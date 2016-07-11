@@ -41,8 +41,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'dynamic_rest',
     # 'rest_framework.authtoken',
+    'debug_toolbar',
+    'guardian',
     'hotelBooking',
-    'debug_toolbar'
+
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -109,6 +111,12 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend', # default
+    'guardian.backends.ObjectPermissionBackend',
+)
 
 
 # Internationalization

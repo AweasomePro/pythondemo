@@ -1,3 +1,5 @@
+from django.utils.decorators import method_decorator
+from guardian.decorators import permission_required
 from rest_framework.decorators import api_view, throttle_classes, authentication_classes, permission_classes
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -12,7 +14,8 @@ from hotelBooking.core.serializers.orders import CustomerOrderSerializer
 from hotelBooking.permissions.orderpermissions import IsOrderCustomer
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 from hotelBooking import wrapper_response_dict
-
+from hotelBooking.models import User
+from hotelBooking.core.models.products import HousePackage,Product
 class CustomerHotelBookOrderList(ReadOnlyModelViewSet):
     authentication_classes = (JSONWebTokenAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -58,6 +61,8 @@ class CustomerOrderActionAPIView(APIView):
 
     ACTION_CANCEL = 'cancel'
 
+    @method_decorator(permission_required('hotelpackageorder.change_process_state',
+                                          (HotelPackageOrder,'id','pk'),accept_global_perms=True))
     def post(self,request):
         action = request.POST.get('action',None)
         if action == CustomerOrderActionAPIView.ACTION_CANCEL:
@@ -76,14 +81,6 @@ class CustomerOrderActionAPIView(APIView):
         order = HotelPackageOrder.objects.get(number=number)
         order.cancelBook(request.user)
 
-
-@api_view(['GET',])
-@authentication_classes([JSONWebTokenAuthentication,])
-@permission_classes(IsAuthenticated,)
-def book_room(request):
-    pass
-
-
 class HousePackageBookAPIView(APIView):
     """
     用户 订购 酒店
@@ -92,15 +89,36 @@ class HousePackageBookAPIView(APIView):
     authentication_classes = (JSONWebTokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-
     def post(self, request, *args, **kwargs):
         # 1 .商品是否存在
         # 2. 用户积分是否够
+        # 3. 是否在区间存在已购订单
         # 3. 扣除积分，通知代理商
-        productId = request.get('productId')
-        return add_hotel_order(request)
+        user = request.user
+
+        productId = request.POST.get('productId')
+        try:
+            house_package = HousePackage.objects.get(id=productId)
+        except Product.DoesNotExist:
+            return DefaultJsonResponse(message='不存在该商品', code=403)
+
+        checkinTime= request.POST.get('checkinTime')
+        checkoutTime= request.POST.get('checkoutTime')
+
+        check_validate_checkTime(house_package,checkinTime,checkoutTime)
+
+        return add_hotel_order(request,user,house_package,require_notes='需要双早')
 
     def is_member(self,request):
         if not request.user.is_customer_member:
             return DefaultJsonResponse(res_data='你还不是会员',code=-100)
 
+def check_point_enough_book(user,house_package):
+    if user.point >= house_package:
+        return True
+    else:
+        return False
+
+
+def check_validate_checkTime(product,checkinTime,checkoutTime):
+    pass

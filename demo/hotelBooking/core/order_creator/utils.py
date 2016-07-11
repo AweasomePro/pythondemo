@@ -1,3 +1,5 @@
+from guardian.shortcuts import assign_perm
+
 from hotelBooking import Product
 from hotelBooking.core.exceptions import PointNotEnough
 from hotelBooking.core.models.orders import Order,HotelPackageOrder,HotelPackageOrderSnapShot
@@ -5,17 +7,6 @@ from hotelBooking.core.models.plugins import HotelOrderNumberGenerator
 from hotelBooking.core.models.products import HousePackage
 from hotelBooking.core.serializers.orders import CustomerOrderSerializer
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
-
-
-def get_customermember(request):
-    try:
-        return request.user.customermember
-    except AttributeError:
-        return None
-
-
-def get_hotelPackageProduct(request):
-    pass
 
 
 def verifyPointEnough(customer, hotelPackageProduct):
@@ -34,29 +25,16 @@ def is_hotel_package(product):
     return True
 
 
-def generateHotelPackageProductOrder(request):
-    member_user = get_customer_member_object(request)
-    productId = request.POST.get('productId')
-    require_notes = request.POST.get('require_notes',default=None)
-    try:
-        product = Product.objects.get(id=productId)
-    except Product.DoesNotExist:
-        return DefaultJsonResponse(res_data='不存在该商品', code=403)
-    # todo 判断是该类型的商品
-    is_hotel_package(product)
-    try:
-        house_package = product.housepackage
-    except HousePackage.DoesNotExist:
-        return DefaultJsonResponse(res_data='不存在该商品', code=403)
-    print('product id is {}'.format(productId))
+def generateHotelPackageProductOrder(request,member_user,product,require_notes,):
 
     hotel_package_order = HotelPackageOrder.objects.create(
         require_notes =require_notes,
         customer=member_user,
-        franchisee=product.owner,
+        seller=product.owner,
         product=product,
     )
     hotel_package_order.save()
+
     try:
         order_numbers = HotelOrderNumberGenerator.objects.get(id="order_number")
     except HotelOrderNumberGenerator.DoesNotExist:
@@ -67,47 +45,25 @@ def generateHotelPackageProductOrder(request):
     except AttributeError:
         pass
     hotel_package_order.number = order_numbers.get_next()
+
     hotel_package_order.save()
     snapshot = HotelPackageOrderSnapShot()
     snapshot.hotel_package_order = hotel_package_order
-    snapshot.create_from_source(house_package)
+    snapshot.create_from_source(product)
     snapshot.save()
+
+    # 配置权限
+    assign_perm('change_process_state',member_user,hotel_package_order,)
     return hotel_package_order
 
+def add_hotel_order(request,member_user,product,require_notes):
 
-def add_hotel_order(request,user):
-    productId = request.POST.get('productId')
-    try:
-        house_package = HousePackage.objects.get(id=productId)
-    except Product.DoesNotExist:
-        return DefaultJsonResponse(res_data='不存在该商品', code=403)
-    # todo 判断是该类型的商品
-    print('product id is {}'.format(productId))
-
-    hotelPackageOrder = generateHotelPackageProductOrder(request)
+    hotelPackageOrder = generateHotelPackageProductOrder(request,member_user,product,require_notes,)
     # return DefaultJsonResponse(res_data='订购成功,id 是{0}'.format(hotelPackageOrder.order.number))
     serializer = CustomerOrderSerializer(hotelPackageOrder)
 
     return DefaultJsonResponse(res_data=serializer.data)
 
-def check_point_enough_book(user,house_package):
 
-    if user.point >= house_package:
-        return True
-    else:
-        return False
-    member_user = get_customer_member_object(request)
-    productId = request.POST.get('productId')
-    require_notes = request.POST.get('require_notes',default=None)
-    try:
-        product = Product.objects.get(id=productId)
-    except Product.DoesNotExist:
-        return DefaultJsonResponse(res_data='不存在该商品', code=403)
-    # todo 判断是该类型的商品
-    is_hotel_package(product)
-    try:
-        house_package = product.housepackage
-    except HousePackage.DoesNotExist:
-        return DefaultJsonResponse(res_data='不存在该商品', code=403)
-    print('product id is {}'.format(productId))
+
 

@@ -26,6 +26,7 @@ class HousePackageViewSet(viewsets.GenericViewSet):
     serializer_class = HousePackageSerializer
     queryset = HousePackage.objects.all()
 
+
 class AddHousePackageView(APIView):
 
     def post(self, request, *args, **kwargs):
@@ -44,10 +45,6 @@ def create_new_hotelpackage(request):
     hp = HousePackage(front_price=300, need_point=10, house=House.objects.first(), product=p)
     hp.save()
     return Response(wrapper_response_dict(message='创建成功'))
-
-
-def is_hotel_package(product):
-    return product.name == '酒店套餐'
 
 
 class HousePackageStateView(DynamicModelViewSet):
@@ -70,40 +67,25 @@ class HousePackageView(DynamicModelViewSet):
         # serializer = self.get_serializer(instance)
         # return Response(wrapper_dict(serializer.data))
         return Response('success')
+
 class HousePackageBookAPIView(APIView):
     authentication_classes = (JSONWebTokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     ACTION_BOOK = 'book'
-    ACTION_CANCEL = 'cancel'
-    ACTION_REFUSE= 'refuse'
 
     def post(self, request, *args, **kwargs):
         print(args)
         print(kwargs)
-        action = request.POST.get('action',None)
 
-        if action == HousePackageBookAPIView.ACTION_BOOK:
-            return Response('book')
-        elif action == HousePackageBookAPIView.ACTION_CANCEL:
-            self.cancelBookOrder(request)
-        elif action == HousePackageBookAPIView.ACTION_REFUSE:
-            self.refuseBookOrder(request)
-        else:
-            return Response(data='未知操作')
-    def customer_book(self,request,user):
+        return self.customer_book(request=request)
+
+
+    def customer_book(self,request):
+        user = request.user
+        customeruser = user.customermember
+        product_id = request.POST.get('productId',None)
         return add_hotel_order(request,user)
 
-    def cancelBookOrder(self,request,):
-        number = request.POST.get('number',None)
-        order = HotelPackageOrder.objects.get(number=number)
-        order.cancelBook(request.user)
-
-
-
-    def refuseBookOrder(self,request):
-        number = request.POST.get('number', None)
-        order = HotelPackageOrder.objects.get(number=number)
-        order.refused_order(request.user)
 
 
 

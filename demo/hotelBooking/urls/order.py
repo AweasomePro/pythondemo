@@ -1,8 +1,8 @@
 from django.conf.urls import patterns, url
 
-from hotelBooking.views.order.customerorder import CustomerOrderActionAPIView, CustomerHotelBookOrderList
+from hotelBooking.views.order.customerorder import (CustomerOrderActionAPIView, CustomerHotelBookOrderList,
+    HousePackageBookAPIView)
 from hotelBooking.views.order.util import DeleteAllOrderView
-from hotelBooking.views.product.housepackage import HousePackageBookAPIView
 from rest_framework import routers
 
 from hotelBooking.views.product import housepackage

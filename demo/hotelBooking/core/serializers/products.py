@@ -20,11 +20,12 @@ class RoomTypeStateSerializer(DynamicModelSerializer):
 class HousePackageSerializer(EnumFieldSerializerMixin ,DynamicModelSerializer):
 
 
-    # states = DynamicMethodField(
-    #     requires=[
-    #         'house_roomstate'
-    #     ]
-    # )
+    states = DynamicMethodField(
+        requires=[
+            'house_roomstate'
+        ]
+    )
+
     def get_states(self,housepackage):
         states = housepackage.housepackage_roomstates.filter(date__gte =datetime.datetime.today().date()).values_list('state',flat=True).order_by('date')
         # hotel_query_utils.query(0,0,1)

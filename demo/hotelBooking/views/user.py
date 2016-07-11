@@ -190,7 +190,8 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         installDevice.user = user
         installDevice.save()
         return DefaultJsonResponse(code=appcodes.CODE_100_OK, message="success")
-    @method_route(methods=['POST'], url_path='avatar/update_callback')
+
+    @method_route(methods=['POST',], url_path='avatar/update_callback')
     def update_user_avatar_callback(self,request):
         """
         采用 用户发起请求，获取ｔｏｋｅｎ，客户端得到token往　七牛云上传图片，七牛云回调我方接口的调用流程
@@ -223,10 +224,9 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         imageName = '/avatar/avatar_' + str(phone_number) + '.jpg'
         key = imageName
         policy = {
-            'callbackUrl':'agesd.com/avatar/update_callback',
+            'callbackUrl':'agesd.com/user/avatar/update_callback',
             'callbackBody':'filename=$(fname)&filesize=$(fsize)'
         }
-
         token = q.upload_token(bucket_name, key, 3600,policy)
         return DefaultJsonResponse(code=appcodes.CODE_100_OK,
                                    res_data={'upload_token': token, 'imageUrl': key})

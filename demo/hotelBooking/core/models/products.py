@@ -64,7 +64,7 @@ class Product(BaseModel):
     created_on = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('create on'))
     modified_on = models.DateTimeField(auto_now=True, editable=False, verbose_name=_('modified on'))
     deleted = models.BooleanField(default=False, editable=False, db_index=True, verbose_name=_('deleted'))
-    type = models.IntegerField(choices=Product_Types, default= Product_Types[0][0],max_length=255,verbose_name=_('product type'))
+    type = models.IntegerField(choices=Product_Types, default= Product_Types[0][0],verbose_name=_('product type'))
     #relation
     owner = models.ForeignKey(settings.AUTH_USER_MODEL)
 
@@ -121,6 +121,9 @@ class HousePackage(Product):
         super(HousePackage,self).save(force_insert=force_insert,force_update=force_update,using=using,
                                       update_fields=update_fields)
 
+    def can_be_book(self,checkinTime,checkoutTime):
+        exists_full_day = self.housepackage_roomstates.filter(date__gte=checkinTime,date__lte=checkoutTime,state=0).exists()
+        return (not exists_full_day) and self.deleted == False
 
 
 class AgentRoomTypeState(models.Model):

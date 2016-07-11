@@ -235,6 +235,10 @@ class HotelPackageOrder(Order):
 
     class Meta:
         app_label = 'hotelBooking'
+        permissions = (
+            ("change_process_state","能够操作改变订单过程状态"),
+        )
+
 
     def cancelBook(self,user):
         if(user != self.customer and user!= self.seller):
