@@ -16,6 +16,9 @@ from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 from hotelBooking import wrapper_response_dict
 from hotelBooking.models import User
 from hotelBooking.core.models.products import HousePackage,Product
+from hotelBooking.utils.decorators import parameter_necessary
+
+
 class CustomerHotelBookOrderList(ReadOnlyModelViewSet):
     authentication_classes = (JSONWebTokenAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -89,6 +92,7 @@ class HousePackageBookAPIView(APIView):
     authentication_classes = (JSONWebTokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
+    @method_decorator(parameter_necessary('productId','checkinTime','checkoutTime'))
     def post(self, request, *args, **kwargs):
         # 1 .商品是否存在
         # 2. 用户积分是否够
