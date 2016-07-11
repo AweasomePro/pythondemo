@@ -214,6 +214,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
             return Response('doestnot exist user')
         return Response('OK')
 
+
     @method_route(methods=['GET',],url_path='avatar/token')
     @method_decorator(is_authenticated())
     def avatar_token(self,request):
@@ -223,7 +224,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         imageName = 'avatar/avatar_' + str(phone_number) + '.jpg'
         key = imageName
         policy = {
-            # 'callbackUrl':'agesd.com/user/avatar/update_callback/',
+            'callbackUrl':'agesd.com/user/avatar/update_callback/',
             'callbackBody':'filename=$(fname)&filesize=$(fsize)'
         }
 
