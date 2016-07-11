@@ -55,9 +55,4 @@ def post(url,params,headers=None):
     print(response.content)
     print(response.status_code)
     print(type(response.json()))
-    if response.status_code == 200:
-        return Response('发送成功')
-    elif response.json().get('code', 0) == 603:
-        return Response('发送失败')
-    else:
-        return Response(data=response.content)
+    return response

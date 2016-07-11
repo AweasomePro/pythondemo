@@ -22,17 +22,17 @@ class CustomerHotelBookOrderList(ReadOnlyModelViewSet):
 
     def list(self, request, *args, **kwargs):
         serlaizer_datas = CustomerOrderSerializer(self.get_queryset().all(), many=True).data
-        new_data = []
-        for data in serlaizer_datas:
-            snapshopt = data.pop('hotelpackageordersnapshot')
-            type(data['order'])
-            data['order']['snapshot'] = snapshopt
-            print(data['order'])
-            new_data.append(data['order'])
+        # new_data = []
+        # for data in serlaizer_datas:
+        #     snapshopt = data.pop('hotelpackageordersnapshot')
+        #     type(data['order'])
+        #     data['order']['snapshot'] = snapshopt
+        #     print(data['order'])
+        #     new_data.append(data['order'])
         return DefaultJsonResponse(res_data={
             'orders':
                 {
-                    'inprocess' : new_data,
+                    'inprocess' : serlaizer_datas,
                     'finished':[],
                 }})
 
@@ -40,7 +40,7 @@ class CustomerHotelBookOrderList(ReadOnlyModelViewSet):
         queryset = self.queryset
         user = self.request.user
         state = self.request.GET.get('state')
-        return queryset.filter(order__customer=user.customermember.id)
+        return queryset.filter(customer=user)
 
 
 class CustomerOrderActionAPIView(APIView):

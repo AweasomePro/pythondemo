@@ -14,31 +14,12 @@ from hotelBooking import Hotel,House,HousePackage
 from hotelBooking.core.models.products import Product,AgentRoomTypeState
 from hotelBooking import Province,City,Hotel,House,User
 from hotelBooking.core.models.user import CustomerMember,PartnerMember
-from hotelBooking.module import sms
+from hotelBooking.module import sms,push
 @api_view(['POST',])
 def test(request,):
     print(request.POST)
-    createHousePackage()
-    # in_str = '2016-07-07'
-    # out_str = '2016-07-08'
-    # checkin_time =     datetime.datetime.strptime(in_str,'%Y-%m-%d').date()
-    # checkout_time = datetime.datetime.strptime(out_str,'%Y-%m-%d').date()
-    # check_days = (checkout_time-checkin_time).days
-    # print(checkin_time)
-    # print(checkout_time)
-    # states = AgentRoomTypeState.objects.filter(city_id=1).values('housePackage_id','hotel__id')\
-    # .filter(date__gte=checkin_time, date__lte=checkout_time,
-    #         state=1) \
-    #     .annotate(
-    #     consecutive_days=Count('state')
-    # ).filter(consecutive_days=(check_days+1)).distinct().order_by('hotel')
-    # print(type(states))
-    # s = set()
-    # for i in states:
-    #     s.add(i['hotel__id'])
-    # print(s)
-    # hotels = Hotel.objects.filter(id__in=s)
-    # print(hotels)
+    pushMessage()
+    return Response('success')
 
 @api_view(['POST',])
 def testsms(request):
@@ -76,6 +57,9 @@ def createHousePackage():
             day += timedelta(days=1)
         AgentRoomTypeState.objects.bulk_create(roomstates)
     return Response('success')
+
+def pushMessage():
+    push.send(data={'alert':'diu 你老母'})
 
 def initData():
     try:

@@ -29,3 +29,16 @@ def request_sms_code(phone_number, idd='+86', sms_type = 'sms',template = None,p
         data.update(params)
 
     return leancloud_client.post('/requestSmsCode',params=data)
+
+def verify_sms_code(phone_number,code):
+    """
+    在获取到手机验证码后，验证验证码是否正确，如果验证失败，则
+    :param phone_number: 需要验证的手机号码
+    :param code: 接收到的验证
+    :return: None
+    """
+    params = {
+        'mobilePhoneNumber': phone_number,
+    }
+    response = leancloud_client.post('/verifySmsCode/{0}'.format(code), params=params)
+    return response
