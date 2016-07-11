@@ -202,8 +202,9 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         post_data = request.POST
         f_name = post_data.get('filename')
         f_size = post_data.get('filesize')
-        print(type(re.match('^avatar/avatar_(?P<id>\d+).*', f_name)))
-        phone_number = re.match('^avatar_(?P<id>\d+).*', f_name).group('id')
+        print('callback avatar name is {}'.format(f_name))
+        print('callback avatar f_size is {}'.format(f_size))
+        phone_number = re.match('avatar/avatar_(?P<id>\d+).*', f_name).group('id')
         if (phone_number and User.existPhoneNumber(phone_number=phone_number)):
             CustomerMember.update_user_avatar(phone_number,f_name)
             print('update avatar success')

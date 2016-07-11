@@ -97,6 +97,7 @@ class HousePackageBookAPIView(APIView):
         user = request.user
 
         productId = request.POST.get('productId')
+        print(productId)
         try:
             house_package = HousePackage.objects.get(id=productId)
         except Product.DoesNotExist:
