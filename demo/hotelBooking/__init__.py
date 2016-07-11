@@ -1,3 +1,4 @@
+from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
 from hotelBooking.models import User
 from .core.models.city import City
 from .core.models.province import Province
@@ -25,4 +26,5 @@ __all__ = [
     "Product",
     "HousePackage",
     "HotelPackageOrderSnapShot",
+    "wrapper_response_dict",
 ]

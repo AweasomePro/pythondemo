@@ -15,11 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url,include,patterns
 from django.contrib import admin
+from django.conf import settings
 urlpatterns = [
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^', include('hotelBooking.urls')),
-
 ]
-
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += patterns('',
+                            url(r'^__debug__/',include(debug_toolbar.urls)))
 

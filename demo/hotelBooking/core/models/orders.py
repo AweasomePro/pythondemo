@@ -11,6 +11,8 @@ from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 from enumfields import Enum, EnumIntegerField
 from django.db.models.query import QuerySet
+from rest_framework.exceptions import APIException, PermissionDenied
+
 from hotelBooking import CustomerMember
 from . import BaseModel
 
@@ -171,9 +173,11 @@ class Order(models.Model):
     )
 
     id = models.AutoField(primary_key=True,auto_created=True)
+    uuid = models.UUIDField(max_length=50, default=uuid.uuid4, editable=False)
+    number = models.CharField(max_length=30, db_index=True, unique=True, blank=True,)
     customer = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='customer_orders', blank=True,
                                  on_delete=models.PROTECT, verbose_name=_('customer'))
-    franchisee = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='franchisee_orders',blank=True)
+    seller = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='seller_orders',blank=True)
     product = models.ForeignKey(Product, related_name='product_orders', blank=True,
                                 on_delete=models.PROTECT,
                                 verbose_name=_('product'))
@@ -181,14 +185,6 @@ class Order(models.Model):
     modified_on = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('modified on'))
     # TODO: label is actually a choice field, need to check migrations/choice deconstruction
     label = models.CharField(max_length=32, db_index=True, verbose_name=_('label'))
-    # The uuid shouldn't be possible to deduce (i.e. it should be random), but it is
-    # not a secret. (It could, however, be used as key material for an actual secret.)
-    uuid = models.UUIDField(max_length=50, default=uuid.uuid4, editable=False)
-    number = models.CharField(max_length=30, db_index=True, unique=True, blank=True,)
-
-    # Contact information
-
-    # Status
 
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='orders_modified', blank=True, null=True,
                                     on_delete=models.PROTECT, verbose_name=_('modifier user'))
@@ -196,8 +192,10 @@ class Order(models.Model):
     # status = models.ForeignKey("OrderStatus", verbose_name=_('status'), on_delete=models.PROTECT)
     payment_status = models.IntegerField(choices = PAID_STATES,db_index=True, default=PARTIALLY_PAID,
                                       verbose_name=_('payment status'))
+
     shipping_status = models.IntegerField(choices=SHIPPED_STATES,db_index=True, default=NOT_SHIPPED,
                                        verbose_name=_('shipping status'))
+
     objects = OrderQuerySet.as_manager()
 
     class Meta:
@@ -209,14 +207,10 @@ class Order(models.Model):
     def __str__(self):  # pragma: no cover
         return self.customer.name+'的订单'+self.number
 
-
-
-
-class HotelPackageOrder(models.Model):
+class HotelPackageOrder(Order):
     CUSTOMER_REQUIRE = 0x01
     CUSTOMER_CANCEL = 0x02
     CUSTOMER_BACKEND = 0x03
-
     FRANCHISES_ACCEPT = 0x10
     FRANCHISES_REFUSED = 0x20
     FRANCHISES_BACKED = 0x30
@@ -228,20 +222,68 @@ class HotelPackageOrder(models.Model):
         (FRANCHISES_REFUSED, '代理拒绝了订单'),
         (FRANCHISES_BACKED, '代理提前表示某些原因导致不能入住了'),
     )
-    order = models.OneToOneField(Order)
+    # order = models.OneToOneField(Order)
 
-    check_in_time = models.DateField(verbose_name='入住时间',default=datetime.now().replace(day=datetime.now().day).strftime('%Y-%m-%d'))
-    check_out_time = models.DateField(verbose_name='离店时间',default=datetime.now().replace(day=datetime.now().day+1).strftime('%Y-%m-%d'))
+    check_in_time = models.DateField(verbose_name='入住时间')
+    check_out_time = models.DateField(verbose_name='离店时间')
 
     process_state = models.IntegerField(choices=STATES,default=CUSTOMER_REQUIRE,help_text='订单进行的状态')
-
-
     # 客户添加的额外信息
     require_notes = models.TextField(null=True,blank=True)
+    closed = models.BooleanField(default=False)
     comment = models.TextField(null=True,blank=True)
 
     class Meta:
         app_label = 'hotelBooking'
+
+    def cancelBook(self,user):
+        if(user != self.customer and user!= self.seller):
+            raise PermissionDenied(detail='你无权进行此操作')
+        """
+        取消预定
+        :param user: 操作者 分为消费者 和加盟商
+        :return:
+        """
+        if self.closed == True:
+            raise PermissionDenied(detail='订单已关闭,无法进行该项操作')
+        if(user == self.customer):
+            # 计算 时间是否超期
+            self.customer_cancel_order(user=user)
+        elif(user == self.seller):
+            self.partner_cancel_order(user)
+
+    def customer_cancel_order(self,user):
+        process_state = self.process_state
+        if (process_state == self.CUSTOMER_REQUIRE):
+                # 用户取消订单
+                # todo 在有效时间内可以进行返回积分
+                self.process_state = self.CUSTOMER_CANCEL
+                self.closed = True
+        elif( hex(process_state)[-1] == self.FRANCHISES_ACCEPT):
+            self.process_state = self.CUSTOMER_BACKEND
+            self.closed = True
+        else:
+            raise APIException(detail='非法操作')
+        self.save(update_fields=('process_state','closed'))
+            #todo 对用户的积分不返回
+
+    def partner_cancel_order(self,user):
+        process_state = self.process_state
+        if (process_state == self.FRANCHISES_ACCEPT):
+            self.process_state = self.FRANCHISES_BACKED
+            self.closed = True
+
+    def refused_order(self,user):
+        if user == self.seller:
+            self.process_state = self.FRANCHISES_REFUSED
+            self.closed = True
+            pass
+        else:
+            raise  PermissionDenied(detail='你无权进行此操作，因为你不是该订单的所有者')
+
+
+
+
 class HotelPackageOrderSnapShot(models.Model):
     hotel_id = models.IntegerField()
     house_id = models.IntegerField()
@@ -259,7 +301,6 @@ class HotelPackageOrderSnapShot(models.Model):
         self.front_price = house_package.front_price
         self.hotel_name = hotel.name
         self.house_name = house.name
-
     class Meta:
         app_label = 'hotelBooking'
 

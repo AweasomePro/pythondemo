@@ -21,7 +21,7 @@ class HouseImgSerializer(DynamicModelSerializer):
 
 class HouseSerializer(DynamicModelSerializer):
     house_imgs = HouseImgSerializer(many=True,embed=True)
-    housePackages = HousePackageSerializer(many=True,exclude_fields=('house','product'),embed=True)
+    housePackages = HousePackageSerializer(many=True,exclude_fields=('house',),embed=True)
     class Meta:
         model = House
 
@@ -34,3 +34,4 @@ class HotelSerializer(DynamicModelSerializer):
     class Meta:
         model = Hotel
         name = 'hotel'
+        exclude =('agent',)

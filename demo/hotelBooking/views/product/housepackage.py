@@ -17,13 +17,33 @@ from hotelBooking import HousePackage
 from hotelBooking.auth.decorators import login_required_and_is_member
 from hotelBooking.core.serializers.products import RoomTypeStateSerializer, HousePackageSerializer
 from hotelBooking.core.utils import hotel_query_utils
-from hotelBooking.core.utils.serializer_helpers import wrapper_dict
+from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 from hotelBooking.core.models.orders import HotelPackageOrder,HotelPackageOrderSnapShot
-
+from hotelBooking.models import User
+from hotelBooking.core.models.houses import House
 class HousePackageViewSet(viewsets.GenericViewSet):
     serializer_class = HousePackageSerializer
     queryset = HousePackage.objects.all()
+
+class AddHousePackageView(APIView):
+
+    def post(self, request, *args, **kwargs):
+        user = User.objects.get(phone_number=15726814574)
+        p = Product(owner=user)
+        p.save()
+        hp = HousePackage(front_price=300,need_point=10,house=House.objects.first(),product=p)
+        hp.save()
+        return Response(wrapper_response_dict(message='创建成功'))
+
+@api_view(['POST',])
+def create_new_hotelpackage(request):
+    user = User.objects.get(phone_number=15726814574)
+    p = Product(owner=user)
+    p.save()
+    hp = HousePackage(front_price=300, need_point=10, house=House.objects.first(), product=p)
+    hp.save()
+    return Response(wrapper_response_dict(message='创建成功'))
 
 
 def is_hotel_package(product):
@@ -37,7 +57,7 @@ class HousePackageStateView(DynamicModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
-        return Response(wrapper_dict(serializer.data))
+        return Response(wrapper_response_dict(serializer.data))
 
 class HousePackageView(DynamicModelViewSet):
     serializer_class = HousePackageSerializer
@@ -46,7 +66,6 @@ class HousePackageView(DynamicModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         print('do retreieve')
         hotel_query_utils.query(1,0,0)
-
         # instance = self.get_object()
         # serializer = self.get_serializer(instance)
         # return Response(wrapper_dict(serializer.data))
@@ -54,44 +73,38 @@ class HousePackageView(DynamicModelViewSet):
 class HousePackageBookAPIView(APIView):
     authentication_classes = (JSONWebTokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+    ACTION_BOOK = 'book'
+    ACTION_CANCEL = 'cancel'
+    ACTION_REFUSE= 'refuse'
+
     def post(self, request, *args, **kwargs):
-        return add_hotel_order(request)
+        print(args)
+        print(kwargs)
+        action = request.POST.get('action',None)
 
-    def is_member(self,request):
-        if not request.user.is_customer_member:
-            return DefaultJsonResponse(res_data='你还不是会员',code=-100)
+        if action == HousePackageBookAPIView.ACTION_BOOK:
+            return Response('book')
+        elif action == HousePackageBookAPIView.ACTION_CANCEL:
+            self.cancelBookOrder(request)
+        elif action == HousePackageBookAPIView.ACTION_REFUSE:
+            self.refuseBookOrder(request)
+        else:
+            return Response(data='未知操作')
+    def customer_book(self,request,user):
+        return add_hotel_order(request,user)
 
-    def point_is_match(self,user):
-        if (user.point < 10):
-            pass
+    def cancelBookOrder(self,request,):
+        number = request.POST.get('number',None)
+        order = HotelPackageOrder.objects.get(number=number)
+        order.cancelBook(request.user)
 
-class CustomerHotelBookOrderList(ReadOnlyModelViewSet):
-    authentication_classes = (JSONWebTokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
 
-    queryset = HotelPackageOrder.objects.all()
-    serializer_class = CustomerOrderSerializer
 
-    def list(self, request, *args, **kwargs):
-        serlaizer_datas = CustomerOrderSerializer(self.get_queryset().all(), many=True).data
-        new_data = []
-        for data in serlaizer_datas:
-            snapshopt = data.pop('hotelpackageordersnapshot')
-            type(data['order'])
-            data['order']['snapshot'] = snapshopt
-            print(data['order'])
-            new_data.append(data['order'])
-        return DefaultJsonResponse(res_data={
-            'orders':
-                {
-                    'inprocess' : new_data,
-                    'finished':[],
-                }})
+    def refuseBookOrder(self,request):
+        number = request.POST.get('number', None)
+        order = HotelPackageOrder.objects.get(number=number)
+        order.refused_order(request.user)
 
-    def get_queryset(self):
-        queryset = self.queryset
-        user = self.request.user
-        state = self.request.GET.get('state')
-        return queryset.filter(order__customer=user.customermember.id)
+
 
 

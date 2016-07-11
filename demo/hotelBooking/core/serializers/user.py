@@ -28,7 +28,7 @@ class UpdateMemberSerializer(DynamicModelSerializer):
         # instance.customermember.avatar = validated_data.get('avatar', instance.avatar)
         return instance
 
-class UserSerializer(DynamicModelSerializer):
+class CustomerUserSerializer(DynamicModelSerializer):
     avatar = DynamicMethodField(
         requires = ['customermember.avatar',]
     )
@@ -37,5 +37,5 @@ class UserSerializer(DynamicModelSerializer):
     class Meta:
         model = User
         name = 'user'
-        fields = ('id','name','phone_number','point','sex','avatar','password')
+        fields = ('id','name','phone_number','point','sex','avatar',)
 

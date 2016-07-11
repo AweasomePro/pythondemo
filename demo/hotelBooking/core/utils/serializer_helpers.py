@@ -6,5 +6,8 @@ class Custom_ReturnDict(ReturnDict):
         self.message = kwargs.pop('message')
         super(ReturnDict, self).__init__(*args, **kwargs)
 
-def wrapper_dict(data,code=100,message='success'):
-    return {'code':code,'message':message,'result':data}
+def wrapper_response_dict(data=None, code=100, message='success'):
+    if(data == None):
+        return {'code':code,'message':message}
+    else:
+        return {'code':code,'message':message,'result':data}

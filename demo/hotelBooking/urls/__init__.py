@@ -16,7 +16,8 @@ urlpatterns = [
     url(r'',include(product)),
     url(r'^api-token-auth/', obtain_jwt_token),
     url(r'^api-token-verify/', verify_jwt_token),
-    url(r'test',test.test)
+    url(r'^test$',test.test),
+    url(r'^test/sms$',test.testsms)
 ]
 urlpatterns += router.urls
 

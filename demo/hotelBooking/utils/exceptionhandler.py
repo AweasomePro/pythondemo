@@ -35,7 +35,8 @@ def exception_handler(exc, context):
         if isinstance(exc.detail, (list, dict)):
             data = exc.detail
         else:
-            data = {'detail': exc.detail}
+            # data = {'detail': exc.detail}
+            data = exc.detail
 
         set_rollback()
         return DefaultJsonResponse(message=data,code=-100, status=exc.status_code, headers=headers)

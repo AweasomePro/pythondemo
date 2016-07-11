@@ -49,16 +49,12 @@ def generateHotelPackageProductOrder(request):
     except HousePackage.DoesNotExist:
         return DefaultJsonResponse(res_data='不存在该商品', code=403)
     print('product id is {}'.format(productId))
-    hotel_package_order = None
-    order = None
-    order = Order.objects.create(
-        customer = member_user,
-        franchisee = product.owner,
-        product = product,
-    )
+
     hotel_package_order = HotelPackageOrder.objects.create(
-        order = order,
-        require_notes =require_notes
+        require_notes =require_notes,
+        customer=member_user,
+        franchisee=product.owner,
+        product=product,
     )
     hotel_package_order.save()
     try:
@@ -67,11 +63,10 @@ def generateHotelPackageProductOrder(request):
         order_numbers = HotelOrderNumberGenerator.objects.create(id="order_number")
     # new Order
     try:
-        order_numbers.init(request,order)
+        order_numbers.init(request,hotel_package_order)
     except AttributeError:
         pass
-    order.number = order_numbers.get_next()
-    order.save()
+    hotel_package_order.number = order_numbers.get_next()
     hotel_package_order.save()
     snapshot = HotelPackageOrderSnapShot()
     snapshot.hotel_package_order = hotel_package_order
@@ -80,11 +75,30 @@ def generateHotelPackageProductOrder(request):
     return hotel_package_order
 
 
-def add_hotel_order(request):
-    print('print user')
-    user = get_customer_member_object(request)
+def add_hotel_order(request,user):
     productId = request.POST.get('productId')
+    try:
+        house_package = HousePackage.objects.get(id=productId)
+    except Product.DoesNotExist:
+        return DefaultJsonResponse(res_data='不存在该商品', code=403)
+    # todo 判断是该类型的商品
+    print('product id is {}'.format(productId))
 
+    hotelPackageOrder = generateHotelPackageProductOrder(request)
+    # return DefaultJsonResponse(res_data='订购成功,id 是{0}'.format(hotelPackageOrder.order.number))
+    serializer = CustomerOrderSerializer(hotelPackageOrder)
+
+    return DefaultJsonResponse(res_data=serializer.data)
+
+def check_point_enough_book(user,house_package):
+
+    if user.point >= house_package:
+        return True
+    else:
+        return False
+    member_user = get_customer_member_object(request)
+    productId = request.POST.get('productId')
+    require_notes = request.POST.get('require_notes',default=None)
     try:
         product = Product.objects.get(id=productId)
     except Product.DoesNotExist:
@@ -96,9 +110,4 @@ def add_hotel_order(request):
     except HousePackage.DoesNotExist:
         return DefaultJsonResponse(res_data='不存在该商品', code=403)
     print('product id is {}'.format(productId))
-    hotelPackageOrder = generateHotelPackageProductOrder(request)
-    # return DefaultJsonResponse(res_data='订购成功,id 是{0}'.format(hotelPackageOrder.order.number))
-    serializer = CustomerOrderSerializer(hotelPackageOrder)
-
-    return DefaultJsonResponse(res_data=serializer.data)
 

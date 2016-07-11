@@ -1,10 +1,10 @@
 import datetime
+
+from drf_enum_field.serializers import EnumFieldSerializerMixin
 from dynamic_rest.fields import DynamicMethodField
 from dynamic_rest.serializers import DynamicModelSerializer
 from dynamic_rest.serializers import DynamicRelationField
 from hotelBooking import HousePackage
-
-
 # class
 from hotelBooking.core.models.products import AgentRoomTypeState
 from hotelBooking.core.utils import hotel_query_utils
@@ -17,9 +17,8 @@ class RoomTypeStateSerializer(DynamicModelSerializer):
 
 
 
-class HousePackageSerializer(DynamicModelSerializer):
+class HousePackageSerializer(EnumFieldSerializerMixin ,DynamicModelSerializer):
 
-    # housepackage_roomstates = RoomTypeStateSerializer(many=True,embed=True)
 
     # states = DynamicMethodField(
     #     requires=[

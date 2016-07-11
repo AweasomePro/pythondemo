@@ -34,3 +34,4 @@ secret_key = 'hVXFHO8GusQduMqLeYXZx_C5_c7D-VSwz6AKhjZJ'
 
 APP_ID = "P0fN7ArvLMtcgsACRwhOupHj-gzGzoHsz"
 APP_KEY = "cWK8NHllNg7N6huHiKA1HeRG"
+MASTER_KEY = 'PHSNQeOVCrwopeplLdgnQHMn'

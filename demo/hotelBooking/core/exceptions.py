@@ -6,7 +6,7 @@ from hotelBooking.utils.phoneUtil import phone_is_legal
 
 class ConditionDenied(Exception):
     default_detail = '不满足验证条件'
-    def __init__(self, detail):
+    def __init__(self, detail=None):
         if detail is not None:
             self.detail = force_text(detail)
         else:

@@ -1,15 +1,17 @@
 from django.contrib.auth.models import AnonymousUser
+from django.db import transaction
 from django.db.models import Model
 import requests
 from django.utils.decorators import method_decorator
 from hotelBooking.core.exceptions import  UserCheck
-from hotelBooking.core.serializers.user import UserSerializer, UpdateMemberSerializer
+from hotelBooking.core.serializers.user import CustomerUserSerializer, UpdateMemberSerializer
 from qiniu import Auth
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.mixins import UpdateModelMixin
 from rest_framework import viewsets
 from rest_framework.response import Response
 from hotelBooking.Mysettings import APP_ID, APP_KEY
+from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
 from hotelBooking.serializers import  UpdateCustomerMemberSerializer, InstallationSerializer
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 from hotelBooking.utils.decorators import method_route, parameter_necessary, is_authenticated
@@ -51,10 +53,11 @@ def verifySmsCode(mobilePhoneNumber, smscode):
 class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     authentication_classes = (JSONWebTokenAuthentication, BasicAuthentication)
 
-    serializer_class = UserSerializer
+    serializer_class = CustomerUserSerializer
     queryset = User.objects.all()
 
     @method_route(methods=['POST',],url_path='register')
+    @transaction.atomic()
     @method_decorator(parameter_necessary('phoneNumber', 'password', 'smsCode',))
     def register(self, request):
         phone_number = request.POST.get('phoneNumber')
@@ -70,7 +73,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
                         member = CustomerMember.objects.create(phone_number,password)
                         print('member 的phoneNumber' + str(member.user.phone_number))
                         print('member name =' + str(member.user.name))
-                        serializer_member = UserSerializer(member.user,exclude_fields=('password',))
+                        serializer_member = CustomerUserSerializer(member.user, exclude_fields=('password',))
                         payload = jwt_payload_handler(member.user)
                         token = jwt_encode_handler(payload)
                         kwargs = {'user': serializer_member.data}
@@ -97,7 +100,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
             if (user is not None and user.check_password(password)):
                 payload = jwt_payload_handler(user)
                 token = jwt_encode_handler(payload)
-                response = DefaultJsonResponse(res_data={'user':UserSerializer(user).data})
+                response = DefaultJsonResponse(res_data={'user':CustomerUserSerializer(user).data})
                 response['token'] = token
                 return response
             else:
@@ -142,11 +145,9 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         print(s.errors)
         if(s.is_valid()):
             instance = s.update(request.user,s.validated_data,)
-            return DefaultJsonResponse(message='修改用户资料成功',res_data={'user':UserSerializer(instance).data})
+            return DefaultJsonResponse(message='修改用户资料成功', res_data={'user':CustomerUserSerializer(instance).data})
         else:
             return DefaultJsonResponse(message='修改失败{0}'.format(s.errors.values),code='-100')
-
-
 
     @method_route(methods=['POST'], url_path='installation')
     def installationId_register(self,request, formate=None):
@@ -156,7 +157,11 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         # androidDevice = Installation.objects.get(installationId=installationId)
         # iosDevice = Installation.objects.get(deviceToken=installationId)
         if serializer.is_valid():
-            print('valid' + serializer.__str__())
+            deviceType  = serializer.initial_data.get('deviceType')
+            is_uploaded = False
+            if (deviceType == 'android' and Installation.objects.filter(installationId=serializer.initial_data.get('installationId',None)).exists())\
+                or (deviceType =='ios') and Installation.objects.filter(deviceToken=serializer.initial_data.get('deviceToken',None)).exists():
+                return Response(wrapper_response_dict(message='已经上传过了'))
             serializer.save()
             return DefaultJsonResponse(code=appcodes.CODE_100_OK, message="上传成功")
         else:

@@ -1,8 +1,9 @@
-from hotelBooking import Hotel
-import django.utils.datetime_safe
 # import datetime
 import datetime
+import django.utils.datetime_safe
 from django.db.models import Q,F, Count
+from hotelBooking import Hotel
+
 
 from hotelBooking.core.models.products import AgentRoomTypeState
 

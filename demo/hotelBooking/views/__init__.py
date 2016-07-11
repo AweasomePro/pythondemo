@@ -10,7 +10,6 @@ from ..core.models.installation import Installation
 from ..core.models.user import CustomerMember,PartnerMember
 from ..core.models.orders import Order
 from ..core.models.products import Product,HousePackage
-
 from hotelBooking import appcodes
 
 

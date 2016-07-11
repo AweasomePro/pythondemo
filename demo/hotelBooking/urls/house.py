@@ -7,6 +7,5 @@ from hotelBooking.views.hotel import HouseViewSet
 
 house_simple_router = SimpleRouter(trailing_slash=False,)
 house_simple_router.register('house', HouseViewSet)
-
 urlpatterns = []
 urlpatterns += house_simple_router.urls

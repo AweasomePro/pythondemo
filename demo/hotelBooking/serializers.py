@@ -76,12 +76,10 @@ class InstallationSerializer(DynamicFieldsModelSerializer):
 
     class Meta:
         model = Installation
-        validators = [
-            UniqueValidator(
-                queryset=Installation.objects.all()
-            )
-        ]
+
+
         # choices = {'badge','deviceProfile','installationId','timeZone'}
+
 
 
 # class HotelImgSerializer(DynamicModelSerializer):

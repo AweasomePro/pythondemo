@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'dynamic_rest',
     # 'rest_framework.authtoken',
     'hotelBooking',
+    'debug_toolbar'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -53,6 +54,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'hotelBookingProject.urls'
@@ -121,6 +123,7 @@ USE_I18N = True
 
 USE_L10N = True
 
+INTERNAL_IPS = ('127.0.0.1',)
 
 
 # Static files (CSS, JavaScript, Images)
