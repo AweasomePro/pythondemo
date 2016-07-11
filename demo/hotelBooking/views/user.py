@@ -205,11 +205,13 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         print('callback avatar name is {}'.format(f_name))
         print('callback avatar f_size is {}'.format(f_size))
         phone_number = re.match('avatar/avatar_(?P<id>\d+).*', f_name).group('id')
-        if (phone_number and User.existPhoneNumber(phone_number=phone_number)):
-            CustomerMember.update_user_avatar(phone_number,f_name)
+        print(phone_number)
+        try:
+            user = User.objects.get(phone_number = phone_number)
+            user.customermember.update_avatar_url(f_name)
             print('update avatar success')
-        else:
-            print('update avatar error,error phonenumber')
+        except User.DoesNotExist:
+            return Response('doestnot exist user')
         return Response('OK')
 
     @method_route(methods=['GET',],url_path='avatar/token')
@@ -224,6 +226,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
             'callbackUrl':'agesd.com/user/avatar/update_callback/',
             'callbackBody':'filename=$(fname)&filesize=$(fsize)'
         }
+
         token = q.upload_token(bucket_name, key, 3600,policy)
         return DefaultJsonResponse(code=appcodes.CODE_100_OK,
                                    res_data={'upload_token': token, 'imageUrl': key})

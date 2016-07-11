@@ -40,11 +40,16 @@ class CustomerMember(models.Model):
         verbose_name = '会员'
         verbose_name_plural = '会员'
 
-    @staticmethod
-    def update_user_avatar(phone_number,avatar_url):
-        member = CustomerMember.objects.get(user__phone_number='phone_number')
-        member.avatar = avatar_url
-        member.save()
+
+    def update_avatar_url(self,url):
+        self.avatar = url
+        self.save(update_fields=('avatar',))
+    # @staticmethod
+    # def update_user_avatar(phone_number,avatar_url):
+    #     User.objects.get(phone_number= phone_number)
+    #     member = CustomerMember.objects.get='phone_number')
+    #     member.avatar = avatar_url
+    #     member.save()
 
     def __str__(self):
         return self.user.name+'-'+str(self.user.phone_number)

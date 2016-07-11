@@ -104,6 +104,7 @@ class HousePackageBookAPIView(APIView):
             return DefaultJsonResponse(message='不存在该商品', code=403)
 
         checkinTime= request.POST.get('checkinTime')
+
         checkoutTime= request.POST.get('checkoutTime')
 
         check_validate_checkTime(house_package,checkinTime,checkoutTime)

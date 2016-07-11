@@ -96,7 +96,7 @@ class User(AbstractBaseUser):
 
     @staticmethod
     def existPhoneNumber(phone_number = None):
-        return User.objects.filter(phone_number = phone_number).exists()
+        return User.objects.get(phone_number = phone_number).exists()
 
 
 
