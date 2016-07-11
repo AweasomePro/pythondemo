@@ -221,7 +221,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         q = Auth(access_key, secret_key)
         bucket_name = 'hotelbook'
         phone_number = request.user.phone_number
-        imageName = '/avatar/avatar_' + str(phone_number) + '.jpg'
+        imageName = 'avatar/avatar_' + str(phone_number) + '.jpg'
         key = imageName
         policy = {
             'callbackUrl':'agesd.com/user/avatar/update_callback/',
