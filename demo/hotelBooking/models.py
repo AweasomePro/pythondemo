@@ -9,7 +9,7 @@ from .utils.fiels import ListField
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, phone_number, name, password=None):
+    def create_user(self, phone_number, name = 'AnymousName', password=None):
         if not phone_number:
             raise ValueError('User must have an phone')
         UserCheck.validate_phoneNumber(phone_number)

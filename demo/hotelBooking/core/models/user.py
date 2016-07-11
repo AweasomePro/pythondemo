@@ -14,10 +14,14 @@ class ProductMemberType(Enum):
 class MemberManager(models.Manager):
 
     def create(self,phoneNumber,password):
-        user = User.objects.create_user(phoneNumber,password)
+        user = User.objects.create_user(phoneNumber,password=password)
         member = CustomerMember()
         member.user = user
         member.save()
+        if (user.check_password(raw_password=password)):
+            print('验证成功')
+        else:
+            print('验证失败')
         return member
 
 

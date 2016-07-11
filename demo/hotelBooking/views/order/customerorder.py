@@ -29,11 +29,13 @@ class CustomerHotelBookOrderList(ReadOnlyModelViewSet):
         #     data['order']['snapshot'] = snapshopt
         #     print(data['order'])
         #     new_data.append(data['order'])
+        inprocess_set = self.get_inproccess_querset()
+        finished_set = self.get_finished_queryset()
         return DefaultJsonResponse(res_data={
             'orders':
                 {
-                    'inprocess' : serlaizer_datas,
-                    'finished':[],
+                    'inprocess' : CustomerOrderSerializer(inprocess_set.all(),many=True).data,
+                    'finished':CustomerOrderSerializer(finished_set.all(),many=True).data,
                 }})
 
     def get_queryset(self):
@@ -42,6 +44,11 @@ class CustomerHotelBookOrderList(ReadOnlyModelViewSet):
         state = self.request.GET.get('state')
         return queryset.filter(customer=user)
 
+    def get_finished_queryset(self):
+        return self.queryset.filter(customer=self.request.user,closed=True)
+
+    def get_inproccess_querset(self):
+        return self.queryset.filter(customer=self.request.user,closed=False)
 
 class CustomerOrderActionAPIView(APIView):
     serializer_class = CustomerOrderSerializer
