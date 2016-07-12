@@ -1,9 +1,9 @@
+# encoding:utf-8
 from celery.task import task
 import time
 
 @task
-def add(a,b):
-    print('start')
-    time.sleep(5)
-    print('success')
-    return a+b
+def _do_kground_work (name ):
+    for i in range(1, 10):
+        print('hello:%s %s' % (name, i))
+        time.sleep(1)
