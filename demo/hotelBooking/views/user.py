@@ -20,7 +20,6 @@ import re
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from . import appcodes,Installation,CustomerMember
 from rest_framework_jwt.settings import api_settings
-
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
@@ -90,6 +89,8 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     @method_route(methods=['POST',], url_path='login')
     @method_decorator(parameter_necessary('phoneNumber', 'password', ))
     def login(self, request, *args, **kwargs):
+        from hotelBooking.tasks import add
+        add.delay(2,2)
         phone_number = request.POST.get('phoneNumber')
         password = request.POST.get('password')
         print('phone is {}'.format(phone_number))

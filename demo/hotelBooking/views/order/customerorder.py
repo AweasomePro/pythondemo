@@ -111,6 +111,7 @@ class HousePackageBookAPIView(APIView):
 
     @transaction.atomic()
     @method_decorator(parameter_necessary('productId','checkinTime','checkoutTime'))
+    
     def post(self, request, *args, **kwargs):
         # 1 .商品是否存在
         # 2. 用户积分是否够

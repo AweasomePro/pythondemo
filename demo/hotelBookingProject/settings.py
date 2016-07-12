@@ -26,6 +26,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+# support celery
+import djcelery
+djcelery.setup_loader()
+BROKER_URL = 'django://'
 
 # Application definition
 
@@ -44,7 +48,8 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'guardian',
     'hotelBooking',
-
+    'djcelery',
+    'kombu.transport.django',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -227,7 +232,6 @@ LOGGING = {
 }
 
 
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
          'rest_framework.permissions.IsAuthenticated',
@@ -274,7 +278,6 @@ JWT_AUTH = {
 
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
 }
-import datetime
 
 
 

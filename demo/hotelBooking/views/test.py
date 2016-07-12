@@ -59,6 +59,11 @@ def createHousePackage():
         AgentRoomTypeState.objects.bulk_create(roomstates)
     return Response('success')
 
+
+
+
+
+
 def pushMessage():
     push.send(data={'alert':'diu 你老母'})
 
