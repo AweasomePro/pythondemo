@@ -27,7 +27,6 @@ jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 access_key = 'u-ryAwaQeBx9BS5t8OMSPs6P1Ewoqiu6-ZbbMNYm'
 secret_key = 'hVXFHO8GusQduMqLeYXZx_C5_c7D-VSwz6AKhjZJ'
 
-
 def verifySmsCode(mobilePhoneNumber, smscode):
     url = 'https://api.leancloud.cn/1.1/verifySmsCode/' + str(smscode)
     print(url)
@@ -213,7 +212,6 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         except User.DoesNotExist:
             return Response('doestnot exist user')
         return Response('OK')
-
 
     @method_route(methods=['GET',],url_path='avatar/token')
     @method_decorator(is_authenticated())

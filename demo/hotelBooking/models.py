@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import  BaseUserManager,AbstractBaseUser
+from django.contrib.auth.models import  BaseUserManager,AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.models import Group,Permission
 
 from hotelBooking.core.exceptions import UserCheck
@@ -30,7 +30,7 @@ class UserManager(BaseUserManager):
 
 
 
-class User(AbstractBaseUser):
+class User(PermissionsMixin,AbstractBaseUser):
     male = 1
     female = 0
     SEX = (
@@ -48,8 +48,6 @@ class User(AbstractBaseUser):
     is_loggin = models.BooleanField(default=False)
     create_at = models.DateTimeField(auto_now_add=True)
     point = PointField(default=0,editable=False,verbose_name='积分')
-    groups = models.ManyToManyField(Group,blank=True,default=None)
-    permissions = models.ManyToManyField(Permission,blank=True)
     objects = UserManager()
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = ['name',]

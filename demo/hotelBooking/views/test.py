@@ -18,7 +18,8 @@ from hotelBooking.module import sms,push
 @api_view(['POST',])
 def test(request,):
     print(request.POST)
-    pushMessage()
+    initData()
+    createHousePackage()
     return Response('success')
 
 @api_view(['POST',])

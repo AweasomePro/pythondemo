@@ -155,6 +155,79 @@ AUTH_USER_MODEL = 'hotelBooking.User'
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 # session setting
 SESSION_COOKIE_AGE = 365*24*60*60
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': True,
+#     'formatters': {
+#         'standard': {
+#             'format': '%(asctime)s [%(threadName)s:%(thread)d] [%(name)s:%(lineno)d] [%(levelname)s]- %(message)s'
+#         },
+#     },
+#     'filters': {
+#     },
+#     'handlers': {
+#         'mail_admins': {
+#             'level': 'ERROR',
+#             'class': 'django.utils.log.AdminEmailHandler',
+#             'include_html': True,
+#         },
+#         'default': {
+#             'level':'DEBUG',
+#             'class':'logging.handlers.RotatingFileHandler',
+#             'filename': os.path.join(STATIC_ROOT+'/logs/','all.log'), #或者直接写路径：'c:\logs\all.log',
+#             'maxBytes': 1024*1024*5, # 5 MB
+#             'backupCount': 5,
+#             'formatter':'standard',
+#         },
+#         'console':{
+#             'level': 'DEBUG',
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'standard'
+#         },
+#         'request_handler': {
+#             'level':'DEBUG',
+#             'class':'logging.handlers.RotatingFileHandler',
+#             'filename': os.path.join(STATIC_ROOT+'/logs/','script.log'), #或者直接写路径：'filename':'c:\logs\request.log''
+#             'maxBytes': 1024*1024*5, # 5 MB
+#             'backupCount': 5,
+#             'formatter':'standard',
+#         },
+#         'scprits_handler': {
+#             'level':'DEBUG',
+#             'class':'logging.handlers.RotatingFileHandler',
+#             'filename': os.path.join(STATIC_ROOT+'/logs/','script.log'), #或者直接写路径：'filename':'c:\logs\script.log'
+#             'maxBytes': 1024*1024*5, # 5 MB
+#             'backupCount': 5,
+#             'formatter':'standard',
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['default','console'],
+#             'level': 'DEBUG',
+#             'propagate': False
+#         },
+#         'XieYin.app':{
+#             'handlers': ['default','console'],
+#             'level': 'DEBUG',
+#             'propagate': True
+#         },
+#         'django.request': {
+#             'handlers': ['request_handler'],
+#             'level': 'DEBUG',
+#             'propagate': False
+#         },
+#         'scripts': { # 脚本专用日志
+#             'handlers': ['scprits_handler'],
+#             'level': 'INFO',
+#             'propagate': False
+#         },
+#     }
+# }
+
+
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
          'rest_framework.permissions.IsAuthenticated',

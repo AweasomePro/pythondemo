@@ -1,4 +1,5 @@
 from django.utils.decorators import method_decorator
+from guardian.core import ObjectPermissionChecker
 from guardian.decorators import permission_required
 from rest_framework.decorators import api_view, throttle_classes, authentication_classes, permission_classes
 from rest_framework.generics import GenericAPIView
@@ -56,18 +57,33 @@ class CustomerHotelBookOrderList(ReadOnlyModelViewSet):
     def get_inproccess_querset(self):
         return self.queryset.filter(customer=self.request.user,closed=False)
 
+
+# url is  order/customer
 class CustomerOrderActionAPIView(APIView):
     serializer_class = CustomerOrderSerializer
     queryset = HotelPackageOrder.objects.all()
+
     authentication_classes = (JSONWebTokenAuthentication,)
-    permission_classes = (IsAuthenticated,IsOrderCustomer)
+    permission_classes = (IsAuthenticated,)
 
     ACTION_CANCEL = 'cancel'
 
-    @method_decorator(permission_required('hotelpackageorder.change_process_state',
-                                          (HotelPackageOrder,'id','pk'),accept_global_perms=True))
+
     def post(self,request):
         action = request.POST.get('action',None)
+        number = request.POST.get('number', None)
+        if number:
+            request.number = number
+            try:
+                order = HotelPackageOrder.objects.get(number=number)
+                request.order = order
+                print('request user is {}'.format(request.user.name))
+                print('order customer is {}'.format(request.order.customer))
+            except HotelPackageOrder.DoesNotExist:
+                return Response('error number')
+
+        checker = ObjectPermissionChecker(request.user)
+        print(checker.has_perm('hotelpackageorder.change_process_state', order))
         if action == CustomerOrderActionAPIView.ACTION_CANCEL:
             #  用户取消订单
             hotelpackageorder = request.order
@@ -113,7 +129,7 @@ class HousePackageBookAPIView(APIView):
 
         check_validate_checkTime(house_package,checkinTime,checkoutTime)
 
-        return add_hotel_order(request,user,house_package,require_notes='需要双早')
+        return add_hotel_order(request,user,house_package,require_notes='需要双早',checkinTime =checkinTime,checkoutTime =checkoutTime)
 
     def is_member(self,request):
         if not request.user.is_customer_member:
