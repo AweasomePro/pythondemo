@@ -11,7 +11,7 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from hotelBooking import HotelPackageOrder
-from hotelBooking.core.order_creator.utils import add_hotel_order
+from hotelBooking.core.order_creator.utils import add_hotel_order, generateHotelPackageProductOrder
 from hotelBooking.core.serializers.orders import CustomerOrderSerializer
 from hotelBooking.permissions.orderpermissions import IsOrderCustomer
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
@@ -120,29 +120,41 @@ class HousePackageBookAPIView(APIView):
         productId = kwargs.get('productId')
         checkinTime = kwargs.get('checkinTime')
         checkoutTime = kwargs.get('checkoutTime')
+
+        # check id 是否真实
         try:
             house_package = HousePackage.objects.get(id=productId)
         except Product.DoesNotExist:
             return DefaultJsonResponse(message='不存在该商品', code=403)
+
+        # check 在区间是否存在订单
         exist = HotelPackageOrder.objects.filter(customer=user,checkin_time__lte=checkinTime,checkout_time__gte=checkinTime).exists()
         if exist:
             return Response(wrapper_response_dict(code=-100,message='存在订单,请先取消'))
-        # checkinTime= request.POST.get('checkinTime')
-        #
-        # checkoutTime= request.POST.get('checkoutTime')
-        check_validate_checkTime(house_package,checkinTime,checkoutTime)
-        return add_hotel_order(request,user,house_package,request_notes='需要双早',checkinTime =checkinTime,checkoutTime =checkoutTime)
 
-    def is_member(self,request):
-        if not request.user.is_customer_member:
-            return DefaultJsonResponse(res_data='你还不是会员',code=-100)
+        # check 预订时间是否准确
+        check_validate_checkTime(house_package,checkinTime,checkoutTime)
+
+        # check 积分是否够
+        if(user.point< house_package.need_point):
+            return Response(wrapper_response_dict(code=-100,message='积分不够,充值去 - -'))
+
+        # check point 是否足够
+        request_notes = '需要wifi'
+
+        hotelPackageOrder = generateHotelPackageProductOrder(request, user, house_package, request_notes, checkinTime,
+                                                             checkoutTime)
+        serializer = CustomerOrderSerializer(hotelPackageOrder)
+
+        return DefaultJsonResponse(res_data=serializer.data,message='预订成功')
+
+
 
 def check_point_enough_book(user,house_package):
     if user.point >= house_package:
         return True
     else:
         return False
-
 
 def check_validate_checkTime(product,checkinTime,checkoutTime):
     pass
