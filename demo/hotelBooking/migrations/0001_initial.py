@@ -16,7 +16,6 @@ import enumfields.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('auth', '0007_auto_20160712_1347'),
     ]
 
     operations = [
