@@ -25,10 +25,10 @@ def is_hotel_package(product):
     return True
 
 
-def generateHotelPackageProductOrder(request,member_user,product,require_notes,checkinTime,checkoutTime):
+def generateHotelPackageProductOrder(request,member_user,product,request_notes,checkinTime,checkoutTime):
 
     hotel_package_order = HotelPackageOrder.objects.create(
-        require_notes =require_notes,
+        request_notes =request_notes,
         customer=member_user,
         seller=product.owner,
         product=product,
@@ -57,9 +57,9 @@ def generateHotelPackageProductOrder(request,member_user,product,require_notes,c
     assign_perm('change_process_state',member_user,hotel_package_order,)
     return hotel_package_order
 
-def add_hotel_order(request,member_user,product,require_notes,checkinTime,checkoutTime):
+def add_hotel_order(request,member_user,product,request_notes,checkinTime,checkoutTime):
 
-    hotelPackageOrder = generateHotelPackageProductOrder(request,member_user,product,require_notes,checkinTime,checkoutTime)
+    hotelPackageOrder = generateHotelPackageProductOrder(request,member_user,product,request_notes,checkinTime,checkoutTime)
     # return DefaultJsonResponse(res_data='订购成功,id 是{0}'.format(hotelPackageOrder.order.number))
     serializer = CustomerOrderSerializer(hotelPackageOrder)
 

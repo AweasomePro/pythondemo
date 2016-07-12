@@ -120,7 +120,6 @@ class HousePackageBookAPIView(APIView):
         productId = kwargs.get('productId')
         checkinTime = kwargs.get('checkinTime')
         checkoutTime = kwargs.get('checkoutTime')
-
         try:
             house_package = HousePackage.objects.get(id=productId)
         except Product.DoesNotExist:
@@ -132,7 +131,7 @@ class HousePackageBookAPIView(APIView):
         #
         # checkoutTime= request.POST.get('checkoutTime')
         check_validate_checkTime(house_package,checkinTime,checkoutTime)
-        return add_hotel_order(request,user,house_package,require_notes='需要双早',checkinTime =checkinTime,checkoutTime =checkoutTime)
+        return add_hotel_order(request,user,house_package,request_notes='需要双早',checkinTime =checkinTime,checkoutTime =checkoutTime)
 
     def is_member(self,request):
         if not request.user.is_customer_member:
