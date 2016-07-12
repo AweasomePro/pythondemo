@@ -1,4 +1,5 @@
 from django.core.paginator import Paginator, EmptyPage
+from django.utils.decorators import method_decorator
 from dynamic_rest.serializers import DynamicModelSerializer
 from dynamic_rest.viewsets import DynamicModelViewSet, WithDynamicViewSetMixin
 from rest_framework import viewsets
@@ -13,6 +14,7 @@ from hotelBooking.core.serializers.hotels import HouseSerializer, HotelSerialize
 from hotelBooking.core.utils import hotel_query_utils
 from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
 from hotelBooking.core.viewsets import WithCustomJsonViewSetMixin
+from hotelBooking.test.performance import fn_time
 
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 from hotelBooking.core.models.houses import House
@@ -24,11 +26,6 @@ class HotelViewSet(WithDynamicViewSetMixin,ReadOnlyModelViewSet):
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         print(self.filter_backends)
-        print(queryset)
-        print(args)
-        print(kwargs)
-        checkinTime = request.GET.get('checkinTime')
-        checkoutTime = request.GET.get('checkoutTime')
         queryset.filter()
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -46,8 +43,6 @@ class HotelViewSet(WithDynamicViewSetMixin,ReadOnlyModelViewSet):
             queryset = self.queryset
         checkinTime = self.request.query_params.get('checkinTime',None)
         checkoutTime = self.request.query_params.get('checkoutTime',None)
-        print(checkinTime)
-        print(checkoutTime)
         cityId = self.request.query_params.get('cityId',None)
         if (checkinTime and checkoutTime and cityId):
             return hotel_query_utils.query(queryset, cityId, checkinTime, checkoutTime)

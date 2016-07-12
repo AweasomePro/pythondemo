@@ -32,8 +32,8 @@ def generateHotelPackageProductOrder(request,member_user,product,require_notes,c
         customer=member_user,
         seller=product.owner,
         product=product,
-        check_in_time = checkinTime,
-        check_out_time= checkoutTime
+        checkin_time = checkinTime,
+        checkout_time= checkoutTime
     )
     hotel_package_order.save()
 
@@ -42,10 +42,8 @@ def generateHotelPackageProductOrder(request,member_user,product,require_notes,c
     except HotelOrderNumberGenerator.DoesNotExist:
         order_numbers = HotelOrderNumberGenerator.objects.create(id="order_number")
     # new Order
-    try:
-        order_numbers.init(request,hotel_package_order)
-    except AttributeError:
-        pass
+    order_numbers.init(request,hotel_package_order)
+
     hotel_package_order.number = order_numbers.get_next()
 
     hotel_package_order.save()
@@ -53,7 +51,8 @@ def generateHotelPackageProductOrder(request,member_user,product,require_notes,c
     snapshot.hotel_package_order = hotel_package_order
     snapshot.create_from_source(product)
     snapshot.save()
-
+    member_user.deductPoint(product.need_point)
+    member_user.save()
     # 配置权限
     assign_perm('change_process_state',member_user,hotel_package_order,)
     return hotel_package_order

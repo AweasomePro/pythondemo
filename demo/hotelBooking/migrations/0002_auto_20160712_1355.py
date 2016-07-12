@@ -11,8 +11,9 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterModelOptions(
-            name='hotelpackageorder',
-            options={'permissions': (('change_process_state', '能够操作改变订单过程状态'),)},
+        migrations.AlterField(
+            model_name='housepackage',
+            name='breakfast',
+            field=models.IntegerField(verbose_name='早餐类型', choices=[(1, '无早'), (2, '单早'), (3, '双早')], default=1),
         ),
     ]

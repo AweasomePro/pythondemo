@@ -18,6 +18,7 @@ from hotelBooking.auth.decorators import login_required_and_is_member
 from hotelBooking.core.serializers.products import RoomTypeStateSerializer, HousePackageSerializer
 from hotelBooking.core.utils import hotel_query_utils
 from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
+from hotelBooking.test.performance import fn_time
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 from hotelBooking.core.models.orders import HotelPackageOrder,HotelPackageOrderSnapShot
 from hotelBooking.models import User
@@ -50,7 +51,6 @@ def create_new_hotelpackage(request):
 class HousePackageStateView(DynamicModelViewSet):
     serializer_class = RoomTypeStateSerializer
     queryset = AgentRoomTypeState.objects.all()
-
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)

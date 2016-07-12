@@ -28,9 +28,12 @@ class UserManager(BaseUserManager):
         return user
 
 
+class PointMixin():
 
+    def deductPoint(self,point):
+        self.point -= point
 
-class User(PermissionsMixin,AbstractBaseUser):
+class User(PointMixin,PermissionsMixin,AbstractBaseUser):
     male = 1
     female = 0
     SEX = (
@@ -94,7 +97,11 @@ class User(PermissionsMixin,AbstractBaseUser):
 
     @staticmethod
     def existPhoneNumber(phone_number = None):
-        return User.objects.get(phone_number = phone_number).exists()
+        try:
+            User.objects.get(phone_number=phone_number)
+            return True
+        except User.DoesNotExist:
+            return False
 
 
 

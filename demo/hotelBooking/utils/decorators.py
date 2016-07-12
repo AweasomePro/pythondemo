@@ -17,17 +17,19 @@ def parameter_necessary(*necessary_key):
                 params = request.POST
             elif request.method == 'PUT':
                 params = request.data
-            elif request.method == 'GET':
-                params = request.GET
             else:
+                # 如果 不是 'POST' 'GET',不做处理
                 return func(request, *args, **kw)
+            dict = {}
             for i in necessary_key:
                 if i in params:
                     print('{0}在{1}中'.format(i, params))
+                    dict[i]= request.POST.get(i) or request.GET.get(i)
                     pass
                 else:
                     print('{0}不在{1}中'.format(i, params))
                     return JSONWrappedResponse(status=-1, message="缺少必要的参数" + str(i))
+            kw.update(dict)
             return func(request, *args, **kw)
         return wrapper
     return decorator
@@ -55,3 +57,5 @@ def is_authenticated():
             return func(request,*args,**kw)
         return wrapper
     return decorator
+
+# _____________________________________________________order ___________________________________________________________

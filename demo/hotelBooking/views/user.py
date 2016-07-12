@@ -58,39 +58,38 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     @method_route(methods=['POST',],url_path='register')
     @transaction.atomic()
     @method_decorator(parameter_necessary('phoneNumber', 'password', 'smsCode',))
-    def register(self, request):
+    def register(self, request, *args, **kwargs):
         phone_number = request.POST.get('phoneNumber')
         password = request.POST.get('password')
         sms_code = request.POST.get('smsCode', None)
         print(sms_code)
-        if (not User.existPhoneNumber(phone_number=phone_number)):
-            UserCheck.validate_pwd(password)
-            if sms_code != None:
-                # verifySuccess, message = verifySmsCode(phone_number, password)
-                if (True):
-                    try:
-                        member = CustomerMember.objects.create(phone_number,password)
-                        print('member 的phoneNumber' + str(member.user.phone_number))
-                        print('member name =' + str(member.user.name))
-                        serializer_member = CustomerUserSerializer(member.user, )
-                        payload = jwt_payload_handler(member.user)
-                        token = jwt_encode_handler(payload)
-                        kwargs = {'user': serializer_member.data}
-                    except BaseException as e:
-                        # raise e
-                        raise e
-                    else:
-                        response = DefaultJsonResponse(res_data= kwargs, code=appcodes.CODE_100_OK, message="注册成功")
-                        response['token'] = token
-                        return response
-                else:
-                    return DefaultJsonResponse(code=appcodes.CODE_SMS_ERROR, message="注册失败，验证码错误")
+
+        if User.existPhoneNumber(phone_number):
+            return DefaultJsonResponse(code=appcodes.CODE_SMS_ERROR, message="手机号已存在")
+        UserCheck.validate_pwd(password)
+        if (True):
+            try:
+                member = CustomerMember.objects.create(phone_number,password)
+                print('member 的phoneNumber' + str(member.user.phone_number))
+                print('member name =' + str(member.user.name))
+                serializer_member = CustomerUserSerializer(member.user, )
+                payload = jwt_payload_handler(member.user)
+                token = jwt_encode_handler(payload)
+                kwargs = {'user': serializer_member.data}
+            except BaseException as e:
+                # raise e
+                raise e
+            else:
+                response = DefaultJsonResponse(res_data= kwargs, code=appcodes.CODE_100_OK, message="注册成功")
+                response['token'] = token
+                return response
         else:
-            return DefaultJsonResponse(code=appcodes.CODE_PHONE_IS_EXISTED, message="手机号已经存在")
+            return DefaultJsonResponse(code=appcodes.CODE_SMS_ERROR, message="注册失败，验证码错误")
+
 
     @method_route(methods=['POST',], url_path='login')
     @method_decorator(parameter_necessary('phoneNumber', 'password', ))
-    def login(self, request):
+    def login(self, request, *args, **kwargs):
         phone_number = request.POST.get('phoneNumber')
         password = request.POST.get('password')
         print('phone is {}'.format(phone_number))
@@ -109,7 +108,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
 
     @method_route(methods=['POST'],)
     @method_decorator(is_authenticated())
-    def logout(self,request):
+    def logout(self,request, *args, **kwargs):
         print(request.user)
         if(isinstance(request.user,AnonymousUser)):
             return Response('都没登入过叫个锤子啊')
@@ -118,7 +117,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
 
     @method_route(methods=['POST',], url_path='password')
     @method_decorator(parameter_necessary('phoneNumber', 'password', 'newPassword'))
-    def change_password(self,request):
+    def change_password(self,request, *args, **kwargs):
         phoneNumber = request.POST['phoneNumber']
         password = request.POST['password']
         new_password = request.POST['newPassword']
@@ -136,7 +135,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
 
     @method_route(methods=['PUT'],url_path='profile')
     @method_decorator(is_authenticated())
-    def update_profile(self,request):
+    def update_profile(self,request, *args, **kwargs):
         print(request.user)
         print(request.data)
         s = UpdateMemberSerializer(data=request.data)
@@ -149,7 +148,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
             return DefaultJsonResponse(message='修改失败{0}'.format(s.errors.values),code='-100')
 
     @method_route(methods=['POST'], url_path='installation')
-    def installationId_register(self,request, formate=None):
+    def installationId_register(self,request,  *args, **kwargs):
         json = request.data
         print(str(json))
         serializer = InstallationSerializer(data=json)
@@ -169,7 +168,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
 
     @method_route(methods=['POST'], url_path='installation/bind')
     @method_decorator(is_authenticated())
-    def bind_installationId(self,request):
+    def bind_installationId(self,request, *args, **kwargs):
         phoneNumber = request.user.phone_number
         installationId = request.POST.get('installationId')
         deviceToken = request.POST.get('deviceToken')
@@ -191,7 +190,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         return DefaultJsonResponse(code=appcodes.CODE_100_OK, message="success")
 
     @method_route(methods=['POST',], url_path='avatar/update_callback')
-    def update_user_avatar_callback(self,request):
+    def update_user_avatar_callback(self,request, *args, **kwargs):
         """
         采用 用户发起请求，获取ｔｏｋｅｎ，客户端得到token往　七牛云上传图片，七牛云回调我方接口的调用流程
         这个接口是  在用户上传之后 ，七牛云回调的我方接口
@@ -215,7 +214,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
 
     @method_route(methods=['GET',],url_path='avatar/token')
     @method_decorator(is_authenticated())
-    def avatar_token(self,request):
+    def avatar_token(self,request, *args, **kwargs):
         q = Auth(access_key, secret_key)
         bucket_name = 'hotelbook'
         phone_number = request.user.phone_number

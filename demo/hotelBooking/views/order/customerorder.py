@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.utils.decorators import method_decorator
 from guardian.core import ObjectPermissionChecker
 from guardian.decorators import permission_required
@@ -108,6 +109,7 @@ class HousePackageBookAPIView(APIView):
     authentication_classes = (JSONWebTokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
+    @transaction.atomic()
     @method_decorator(parameter_necessary('productId','checkinTime','checkoutTime'))
     def post(self, request, *args, **kwargs):
         # 1 .商品是否存在
@@ -115,20 +117,21 @@ class HousePackageBookAPIView(APIView):
         # 3. 是否在区间存在已购订单
         # 3. 扣除积分，通知代理商
         user = request.user
+        productId = kwargs.get('productId')
+        checkinTime = kwargs.get('checkinTime')
+        checkoutTime = kwargs.get('checkoutTime')
 
-        productId = request.POST.get('productId')
-        print(productId)
         try:
             house_package = HousePackage.objects.get(id=productId)
         except Product.DoesNotExist:
             return DefaultJsonResponse(message='不存在该商品', code=403)
-
-        checkinTime= request.POST.get('checkinTime')
-
-        checkoutTime= request.POST.get('checkoutTime')
-
+        exist = HotelPackageOrder.objects.filter(customer=user,checkin_time__lte=checkinTime,checkout_time__gte=checkinTime).exists()
+        if exist:
+            return Response(wrapper_response_dict(code=-100,message='存在订单,请先取消'))
+        # checkinTime= request.POST.get('checkinTime')
+        #
+        # checkoutTime= request.POST.get('checkoutTime')
         check_validate_checkTime(house_package,checkinTime,checkoutTime)
-
         return add_hotel_order(request,user,house_package,require_notes='需要双早',checkinTime =checkinTime,checkoutTime =checkoutTime)
 
     def is_member(self,request):

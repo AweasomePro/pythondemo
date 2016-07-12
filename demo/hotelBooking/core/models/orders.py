@@ -174,7 +174,7 @@ class Order(models.Model):
 
     id = models.AutoField(primary_key=True,auto_created=True)
     uuid = models.UUIDField(max_length=50, default=uuid.uuid4, editable=False)
-    number = models.CharField(max_length=30, db_index=True, unique=True, blank=True,)
+    number = models.CharField(max_length=30, db_index=True, unique=True, blank=True,null=False)
     customer = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='customer_orders', blank=True,
                                  on_delete=models.PROTECT, verbose_name=_('customer'))
     seller = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='seller_orders',blank=True)
@@ -224,12 +224,12 @@ class HotelPackageOrder(Order):
     )
     # order = models.OneToOneField(Order)
 
-    check_in_time = models.DateField(verbose_name='入住时间')
-    check_out_time = models.DateField(verbose_name='离店时间')
+    checkin_time = models.DateField(verbose_name='入住时间')
+    checkout_time = models.DateField(verbose_name='离店时间')
 
     process_state = models.IntegerField(choices=STATES,default=CUSTOMER_REQUIRE,help_text='订单进行的状态')
     # 客户添加的额外信息
-    require_notes = models.TextField(null=True,blank=True)
+    request_notes = models.TextField(null=True, blank=True)
     closed = models.BooleanField(default=False)
     comment = models.TextField(null=True,blank=True)
 
@@ -238,7 +238,6 @@ class HotelPackageOrder(Order):
         permissions = (
             ("change_process_state","能够操作改变订单过程状态"),
         )
-
 
     def cancelBook(self,user):
         if(user != self.customer and user!= self.seller):
@@ -284,8 +283,6 @@ class HotelPackageOrder(Order):
             pass
         else:
             raise  PermissionDenied(detail='你无权进行此操作，因为你不是该订单的所有者')
-
-
 
 
 class HotelPackageOrderSnapShot(models.Model):
