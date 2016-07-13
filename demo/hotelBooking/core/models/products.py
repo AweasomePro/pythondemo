@@ -155,3 +155,4 @@ class AgentRoomTypeState(models.Model):
         app_label = 'hotelBooking'
         verbose_name = "房间类型状态"
         verbose_name_plural = "房间类型状态"
+        get_latest_by = 'date'

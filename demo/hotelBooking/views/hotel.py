@@ -23,6 +23,11 @@ class HotelViewSet(WithDynamicViewSetMixin,ReadOnlyModelViewSet):
     serializer_class = HotelSerializer
     queryset = Hotel.objects.all()
 
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(wrapper_response_dict(serializer.data))
+
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         print(self.filter_backends)
@@ -37,6 +42,8 @@ class HotelViewSet(WithDynamicViewSetMixin,ReadOnlyModelViewSet):
             return Response(wrapper_response_dict(data, code=100, message='成功'))
         serializer = self.get_serializer(queryset, many=True)
         return Response(wrapper_response_dict(serializer.data))
+
+
 
     def get_queryset(self, queryset=None):
         if (queryset == None):

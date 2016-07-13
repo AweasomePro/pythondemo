@@ -26,8 +26,8 @@ def test(request,):
 def testsms(request):
     response = sms.request_sms_code(phone_number='15726814574',template='login')
     return response
-def createHousePackage():
 
+def createHousePackage():
     housepackage = HousePackage(owner=User.objects.first())
     housepackage.package_state = 1
     housepackage.house = House.objects.first()

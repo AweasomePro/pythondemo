@@ -1,3 +1,4 @@
+from alipay import Alipay
 from django.contrib.auth.models import AnonymousUser
 from django.db import transaction
 from django.db.models import Model
@@ -65,7 +66,6 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         password = request.POST.get('password')
         sms_code = request.POST.get('smsCode', None)
         print(sms_code)
-
         if User.existPhoneNumber(phone_number):
             return DefaultJsonResponse(code=appcodes.CODE_SMS_ERROR, message="手机号已存在")
         UserCheck.validate_pwd(password)
