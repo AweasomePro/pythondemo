@@ -34,9 +34,10 @@ def send(data, channels=None, push_time=None,expiration_time=None,expiration_int
     if expiration_interval:
         params['expiration_interval'] = expiration_interval
     if where:
-        params['where'] = where.dump().get('where', {})
+        params['where'] = where
     if cql:
         params['cql'] = cql
 
     result = leancloud_client.post('/push', params=params).json()
+    print(result)
     return result

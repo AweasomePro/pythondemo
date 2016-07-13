@@ -22,10 +22,13 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'hotelBookingProject.settings')
 
 from celery import Celery
 import time
+
 app = Celery('hotelBooking',)
 app.config_from_object('django.conf:settings')
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
-
+# app.conf.update(
+#     CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend',
+# )
 
 @app.task
 def add(x, y):
@@ -33,3 +36,4 @@ def add(x, y):
     time.sleep(10000)
     print('success')
     return x + y
+

@@ -4,7 +4,7 @@ from django.db import models
 from . import BaseModel
 from ...utils.fiels import ListField
 from hotelBooking.models import User
-
+from django.utils.translation import ugettext_lazy as _
 class Installation(BaseModel):
     valid = models.BooleanField(default=True)
     timeZone = models.CharField(max_length=200,default=timezone.now)
@@ -15,6 +15,7 @@ class Installation(BaseModel):
     badge = models.BigIntegerField(default=0,verbose_name='ios badge数')
     deviceProfile = models.CharField(max_length=200,default="")
     user = models.ForeignKey(User,null=True,verbose_name='绑定用户')
+    active = models.BooleanField(_('active?'),default=True)
 
     class Meta:
         app_label = 'hotelBooking'

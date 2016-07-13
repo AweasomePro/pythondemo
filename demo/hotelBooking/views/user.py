@@ -20,7 +20,8 @@ import re
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from . import appcodes,Installation,CustomerMember
 from rest_framework_jwt.settings import api_settings
-from hotelBooking.tasks import _do_kground_work
+
+from hotelBooking.tasks import notify
 
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
@@ -91,12 +92,13 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     @method_route(methods=['POST',], url_path='login')
     @method_decorator(parameter_necessary('phoneNumber', 'password', ))
     def login(self, request, *args, **kwargs):
-        _do_kground_work.delay('GreenPrice')
+        # _do_kground_work.delay('GreenPrice')
         phone_number = request.POST.get('phoneNumber')
         password = request.POST.get('password')
         print('phone is {}'.format(phone_number))
         try:
             user = User.objects.get(phone_number=phone_number)
+            notify.delay(user.phone_number,message='登入成功')
             if (user is not None and user.check_password(password)):
                 payload = jwt_payload_handler(user)
                 token = jwt_encode_handler(payload)

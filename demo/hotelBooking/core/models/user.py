@@ -24,8 +24,6 @@ class MemberManager(models.Manager):
             print('验证失败')
         return member
 
-
-
 class CustomerMember(models.Model):
     avatar = models.URLField(blank=True)
     user = models.OneToOneField(User)
