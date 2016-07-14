@@ -5,3 +5,4 @@ from hotelBooking import HousePackage
 from hotelBookingProject import settings
 
 
+# class

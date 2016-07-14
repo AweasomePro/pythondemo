@@ -19,6 +19,12 @@ class HouseImgSerializer(DynamicModelSerializer):
         model = HouseImg
         exclude_fields=('id',)
 
+# class RoomTypeSerializer(DynamicModelSerializer):
+#     class Meta:
+#         model = RoomType
+#         exclude_fields=('id',)
+
+
 class HouseSerializer(DynamicModelSerializer):
     house_imgs = HouseImgSerializer(many=True,embed=True)
     housePackages = HousePackageSerializer(many=True,exclude_fields=('house',),embed=True)
@@ -31,6 +37,7 @@ class HotelSerializer(DynamicModelSerializer):
     # hotel_houses = HouseSerializer(many=True)
     hotel_imgs = HotelImgSerializer(embed=True,many=True,exclude_fields=('id','hotel'))
     hotel_houses = HouseSerializer(many=True,embed=True)
+    # types = RoomTypeSerializer(many=True,embed=True)
     class Meta:
         model = Hotel
         name = 'hotel'

@@ -1,5 +1,5 @@
 # encoding:utf-8
-from datetime import timedelta
+from datetime import timedelta, datetime
 from django.db import transaction
 from celery.task import task
 from celery.schedules import crontab
@@ -28,13 +28,32 @@ def checkHousePackageState(today):
     # delete all expire date state
     AgentRoomTypeState.objects.all().filter(date__lt=today).delete()
     # 检查所有的housepackage 的states 的数量，不够的则添加
-
+    print('得到执行')
     save_object = []
     for h in HousePackage.objects.all():
         roomstate = h.housepackage_roomstates.all().last()
-        roomstate.pk = None
-        roomstate.date = roomstate.date + timedelta(days=1)
-        save_object.append(roomstate)
+        if roomstate is not None:
+            roomstate.pk = None
+            roomstate.date = roomstate.date + timedelta(days=1)
+            save_object.append(roomstate)
+        else:
+            owner = h.owner
+            housepackage = h
+            house_type = h.house
+            hotel = h.house.hotel
+            city = h.house.hotel.city
+            day = datetime.today().date()
+            for i in range(0, 30):
+                print(day.strftime('%Y-%m-%d'))
+                print(i)
+                obj = AgentRoomTypeState(agent=owner,
+                                         housePackage=housepackage,
+                                         house_type=house_type,
+                                         hotel=hotel,
+                                         city=city,
+                                         state=AgentRoomTypeState.ROOM_STATE_ENOUGH,
+                                         date=day.strftime('%Y-%m-%d'))
+                save_object.append(obj)
+                day += timedelta(days=1)
     AgentRoomTypeState.objects.bulk_create(save_object)
-
     sp_delete_expire = transaction.savepoint()

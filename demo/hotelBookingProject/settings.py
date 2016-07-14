@@ -30,9 +30,13 @@ ALLOWED_HOSTS = ['*']
 import djcelery
 djcelery.setup_loader()
 BROKER_URL = 'django://'
-CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler' # 定时任务
+CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
 CELERY_TIMEZONE = 'Asia/Shanghai'
-
+CELERY_ENABLE_UTC = False # 不是用UTC
+CELERY_TASK_RESULT_EXPIRES = 10 #任务结果的时效时间
+CELERYD_LOG_FILE = BASE_DIR + "/logs/celery/celery.log" # log路径
+CELERYBEAT_LOG_FILE = BASE_DIR + "/logs/celery/beat.log" # beat log路径
 
 # Application definition
 
@@ -183,7 +187,7 @@ LOGGING = {
         'default': {
             'level':'DEBUG',
             'class':'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(STATIC_ROOT+'/logs/','all.log'), #或者直接写路径：'c:\logs\all.log',
+            'filename': os.path.join(STATIC_ROOT+'/logs/','all_.log'), #或者直接写路径：'c:\logs\all.log',
             'maxBytes': 1024*1024*5, # 5 MB
             'backupCount': 5,
             'formatter':'standard',

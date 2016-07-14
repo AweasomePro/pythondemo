@@ -8,6 +8,7 @@ from hotelBooking.core.exceptions import  UserCheck
 from hotelBooking.core.serializers.user import CustomerUserSerializer, UpdateMemberSerializer
 from qiniu import Auth
 from rest_framework.authentication import BasicAuthentication
+from rest_framework.exceptions import APIException, ValidationError
 from rest_framework.mixins import UpdateModelMixin
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -22,7 +23,7 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from . import appcodes,Installation,CustomerMember
 from rest_framework_jwt.settings import api_settings
 
-from hotelBooking.tasks import notify
+from hotelBooking.tasks import notify,checkHousePackageState
 
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
@@ -93,6 +94,9 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     @method_decorator(parameter_necessary('phoneNumber', 'password', ))
     def login(self, request, *args, **kwargs):
         # _do_kground_work.delay('GreenPrice')
+        notify.delay(phone_number =15726814574, message='登入成功')
+        import datetime
+        checkHousePackageState(datetime.datetime.today().date())
         phone_number = request.POST.get('phoneNumber')
         password = request.POST.get('password')
         print('phone is {}'.format(phone_number))
@@ -188,7 +192,13 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
             except Installation.DoesNotExist:
                 return DefaultJsonResponse(code=appcodes.CODE_INSTALLATION_BIND＿FAILED_NOT_UPLOADED,
                                            message="installationId尚未注册到服务端")
+        else:
+            raise ValidationError(detail='参数错误',)
         user = User.objects.get(phone_number=phoneNumber)
+
+        if(user.installation_set.all().count()!=0):
+            user.installation_set.all().delete()
+
         installDevice.user = user
         installDevice.save()
         return DefaultJsonResponse(code=appcodes.CODE_100_OK, message="success")

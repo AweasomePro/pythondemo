@@ -8,7 +8,7 @@ import logging
 logger = logging.getLogger('zxw.request')
 
 
-def parameter_necessary(*necessary_key):
+def parameter_necessary(*necessary_key,optional=None):
     def decorator(func):
         def wrapper(request, *args, **kw):
             print(request.method)
@@ -23,13 +23,22 @@ def parameter_necessary(*necessary_key):
             dict = {}
             for i in necessary_key:
                 if i in params:
-                    print('{0}在{1}中'.format(i, params))
                     dict[i]= request.POST.get(i) or request.GET.get(i)
                     pass
                 else:
-                    print('{0}不在{1}中'.format(i, params))
                     return JSONWrappedResponse(status=-1, message="缺少必要的参数" + str(i))
             kw.update(dict)
+            opt_dict ={}
+            if(optional is not None):
+                for i in optional:
+                    if i in params:
+                        print('{0}在{1}中'.format(i, params))
+                        opt_dict[i] = request.POST.get(i) or request.GET.get(i)
+                    else:
+                        print('{0}不在{1}中'.format(i, params))
+                        opt_dict[i] = None
+            kw.update(opt_dict)
+
             return func(request, *args, **kw)
         return wrapper
     return decorator

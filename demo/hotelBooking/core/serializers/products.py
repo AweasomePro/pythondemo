@@ -34,6 +34,11 @@ class HousePackageSerializer(EnumFieldSerializerMixin ,DynamicModelSerializer):
     class Meta:
         model = HousePackage
 
+# class CreateHousePackageSerializer(DynamicModelSerializer):
+#     class Meta:
+#         model = HousePackage
+
+
 class HotelPackageBookSerializer(DynamicModelSerializer):
     class Meta:
         pass

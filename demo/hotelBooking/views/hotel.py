@@ -3,21 +3,22 @@ from django.utils.decorators import method_decorator
 from dynamic_rest.serializers import DynamicModelSerializer
 from dynamic_rest.viewsets import DynamicModelViewSet, WithDynamicViewSetMixin
 from rest_framework import viewsets
+from rest_framework.decorators import detail_route
 from rest_framework.generics import RetrieveAPIView, ListAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.response import Response
 from rest_framework.utils.serializer_helpers import ReturnDict
 from rest_framework.viewsets import ReadOnlyModelViewSet
-
 from hotelBooking import Hotel
 from hotelBooking.core.serializers.hotels import HouseSerializer, HotelSerializer
 from hotelBooking.core.utils import hotel_query_utils
 from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
 from hotelBooking.core.viewsets import WithCustomJsonViewSetMixin
 from hotelBooking.test.performance import fn_time
-
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 from hotelBooking.core.models.houses import House
+# from hotelBooking.core.models.hotel import RoomType
+
 
 class HotelViewSet(WithDynamicViewSetMixin,ReadOnlyModelViewSet):
     serializer_class = HotelSerializer
@@ -43,6 +44,11 @@ class HotelViewSet(WithDynamicViewSetMixin,ReadOnlyModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(wrapper_response_dict(serializer.data))
 
+    @detail_route(methods=['GET',],url_path='types/')
+    def query_room_types(self,request):
+        # 目前使用在，商家端新建house的时候
+        self.get_object()
+        return Response('success')
 
 
     def get_queryset(self, queryset=None):
@@ -56,6 +62,15 @@ class HotelViewSet(WithDynamicViewSetMixin,ReadOnlyModelViewSet):
         else:
             return queryset
 
+
+# class RoomTypeViewSet(viewsets.ViewSet):
+#     serializer_class = RoomTypeSerializer
+#
+#     def list(self,request,hotel_pk=None):
+#
+#         queryset = RoomType.objects.filter(hotel__id=hotel_pk)
+#         serializer = self.serializer_class(queryset.all(),many=True)
+#         return Response(wrapper_response_dict(data=serializer.data))
 
 # class HotelDetialView()
 
@@ -77,3 +92,10 @@ class HouseViewSet(DynamicModelViewSet):
             data =  self.get_paginated_response(serializer.data)
         serializer = self.get_serializer(queryset, many=True)
         return DefaultJsonResponse(res_data=serializer.data)
+
+
+
+
+# todo 根据酒店id   返回 该酒店目前支持的房型
+def query_hotel_room_type(request):
+    pass

@@ -81,7 +81,7 @@ class Product(BaseModel):
         verbose_name_plural = _('产品（数据库基类）')
 
     def __str__(self):
-        return '{0}的酒店房间资源'.format(self.owner.user.name)
+        return '{0}的酒店房间资源'.format(self.owner.name)
 
 
 class HousePackageQuerySet(models.query.QuerySet):
@@ -108,9 +108,11 @@ class HousePackage(Product):
     breakfast = models.IntegerField(choices=Breakfast_Types,default=Breakfast_Types[0][0],verbose_name='早餐类型')
     # agent = models.ForeignKey(settings.AUTH_USER_MODEL)
     need_point = models.IntegerField(verbose_name='所需积分',default=0)
+    # price that guest need pay at hotel front desk
     front_price = models.IntegerField(verbose_name='前台现付价格')
-    detail = models.TextField()
-
+    # the hotel package is open to guests?
+    checked = models.BooleanField(verbose_name='审核成功?',default=False)
+    detail = models.TextField(default="")
     objects = HousePackageManager()
 
     class Meta:
@@ -124,8 +126,10 @@ class HousePackage(Product):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         print('调用一次')
+
         super(HousePackage,self).save(force_insert=force_insert,force_update=force_update,using=using,
                                       update_fields=update_fields)
+
 
     def can_be_book(self,checkinTime,checkoutTime):
         exists_full_day = self.housepackage_roomstates.filter(date__gte=checkinTime,date__lte=checkoutTime,state=0).exists()

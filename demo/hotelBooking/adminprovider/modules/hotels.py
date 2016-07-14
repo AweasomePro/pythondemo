@@ -4,6 +4,7 @@ from django.contrib.admin import ModelAdmin
 from .. import Hotel,HotelImg,House,HousePackage
 
 
+
 class HotelLogoInline(admin.TabularInline):
     model = HotelImg
 
@@ -18,10 +19,15 @@ class HousePackageInline(admin.StackedInline):
     verbose_name = '套餐'
     verbose_name_plural = '套餐'
 
-    fields = ('need_point','front_price','room_avaliable','product')
+    fields = ('need_point','front_price',)
+
+class RoomTypeAdmin(ModelAdmin):
+    pass
+
 
 class HotelAdmin(ModelAdmin):
     inlines = [HotelLogoInline,HouseInline]
+
 
 class HotelImgAdmin(ModelAdmin):
     pass

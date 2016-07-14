@@ -1,6 +1,6 @@
 from rest_framework_nested import routers
 from django.conf.urls import patterns, url
-from rest_framework.routers import SimpleRouter
+from rest_framework.routers import SimpleRouter,DefaultRouter
 from hotelBooking.views.hotel import HouseViewSet
 from hotelBooking.views.product.housepackage import HousePackageView,AddHousePackageView
 from hotelBooking.views.product import  housepackage as HousePackageViews
