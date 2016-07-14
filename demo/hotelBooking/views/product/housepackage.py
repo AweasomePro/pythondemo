@@ -45,8 +45,6 @@ class AddHousePackageView(APIView):
         return Response(wrapper_response_dict(message='创建成功'))
 
 
-
-
 """
 @api {post} /product/hoousepackage/?action=create
 @apiName create new hotel package
@@ -63,7 +61,7 @@ class AddHousePackageView(APIView):
 @authentication_classes(JSONWebTokenAuthentication,)
 def create_new_hotelpackage(request,hotelId,point,price,breakfast,customHouseTypeName,houseId,*args, **kwargs):
     # 注意 atomic 需要有捕获异常，如果你内部catch 了，等于失效了
-
+    # 前端需要注意，进行 customHouseTypeName 是否已存在的判断，所有的最终都是需要服务端审核的
     print(hotelId)
     print(houseId)
     print(point)
@@ -90,7 +88,7 @@ def create_new_hotelpackage(request,hotelId,point,price,breakfast,customHouseTyp
                 breakfast = breakfast,
             )
             housepackage.save()
-            return Response('success')
+            return Response(wrapper_response_dict(message='创建成功审核中'))
     except Exception as e:
         raise e
 
@@ -129,7 +127,14 @@ def create_new_hotelpackage(request,hotelId,point,price,breakfast,customHouseTyp
     #         roomstates.append(obj)
     #         day += timedelta(days=1)
     #     AgentRoomTypeState.objects.bulk_create(roomstates)
-    return Response(wrapper_response_dict(message='创建成功'))
+    # return Response(wrapper_response_dict(message='创建成功,审核中'))
+
+
+#  这个接口目前用户商家端创建 新的 package需要的可选房型名
+def get_hotel_room_types(request,hotelId):
+
+    return Response
+
 
 
 class HousePackageStateView(DynamicModelViewSet):
@@ -151,11 +156,6 @@ class HousePackageView(DynamicModelViewSet):
         # serializer = self.get_serializer(instance)
         # return Response(wrapper_dict(serializer.data))
         return Response('success')
-
-
-
-
-
 
 # todo 不适合放在这个包下
 class HousePackageBookAPIView(APIView):

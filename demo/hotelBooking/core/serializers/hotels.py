@@ -1,3 +1,4 @@
+from dynamic_rest.fields import DynamicMethodField
 from dynamic_rest.serializers import DynamicModelSerializer
 from rest_framework import serializers
 
@@ -36,8 +37,15 @@ class HotelSerializer(DynamicModelSerializer):
     # hotel_imgs = HotelImgSerializer(many=True)
     # hotel_houses = HouseSerializer(many=True)
     hotel_imgs = HotelImgSerializer(embed=True,many=True,exclude_fields=('id','hotel'))
-    hotel_houses = HouseSerializer(many=True,embed=True)
+    # hotel_houses = HouseSerializer(many=True,embed=True)
     # types = RoomTypeSerializer(many=True,embed=True)
+    types = DynamicMethodField()
+
+    def get_types(self,hotel):
+        types = hotel.hotel_houses.values('id','name')
+        print(types)
+        return types
+
     class Meta:
         model = Hotel
         name = 'hotel'
