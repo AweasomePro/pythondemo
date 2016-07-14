@@ -64,9 +64,9 @@ class Product(BaseModel):
     created_on = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('create on'))
     modified_on = models.DateTimeField(auto_now=True, editable=False, verbose_name=_('modified on'))
     deleted = models.BooleanField(default=False, editable=False, db_index=True, verbose_name=_('deleted'))
-    type = models.IntegerField(choices=Product_Types, default= Product_Types[0][0],verbose_name=_('product type'))
+    type = models.IntegerField(choices=Product_Types, default= Product_Types[0][0],verbose_name=_('product type'),editable=False)
     #relation
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL,)
 
     #Behavior
     # 这个产品是否需要 shipping(在这里，我表示需要代理商的人工处理验证)
@@ -104,7 +104,7 @@ class HousePackage(Product):
         (2, '单早'),
         (3, '双早'),
     )
-    house = models.ForeignKey(House, verbose_name='房型', related_name='housePackages')
+    house = models.ForeignKey(House, verbose_name='房型', related_name='housePackages',editable=True)
     breakfast = models.IntegerField(choices=Breakfast_Types,default=Breakfast_Types[0][0],verbose_name='早餐类型')
     # agent = models.ForeignKey(settings.AUTH_USER_MODEL)
     need_point = models.IntegerField(verbose_name='所需积分',default=0)
@@ -120,15 +120,15 @@ class HousePackage(Product):
         verbose_name = "套餐"
         verbose_name_plural = "套餐"
 
-    def __str__(self):
-        return '{}-{}-{}-{}'.format(self.house.hotel.city.name,self.house.hotel.name,self.house.name,self.id)
+    # def __str__(self):
+    #     return '{}-{}-{}'.format(self.house.hotel.city.name,self.house.hotel.name,self.house.name)
 
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
-        print('调用一次')
-
-        super(HousePackage,self).save(force_insert=force_insert,force_update=force_update,using=using,
-                                      update_fields=update_fields)
+    # def save(self, force_insert=False, force_update=False, using=None,
+    #          update_fields=None):
+    #     print('调用一次')
+    #
+    #     super(HousePackage,self).save(force_insert=force_insert,force_update=force_update,using=using,
+    #                                   update_fields=update_fields)
 
 
     def can_be_book(self,checkinTime,checkoutTime):

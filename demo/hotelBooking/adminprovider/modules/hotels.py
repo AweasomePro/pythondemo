@@ -15,11 +15,10 @@ class HouseInline(admin.StackedInline):
 class HousePackageInline(admin.StackedInline):
     show_change_link = True
     model = HousePackage
-    extra = 0
     verbose_name = '套餐'
     verbose_name_plural = '套餐'
-
-    fields = ('need_point','front_price',)
+    extra = 0
+    fields = ('need_point','front_price','breakfast','owner')
 
 class RoomTypeAdmin(ModelAdmin):
     pass

@@ -95,6 +95,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     def login(self, request, *args, **kwargs):
         # _do_kground_work.delay('GreenPrice')
         notify.delay(phone_number =15726814574, message='登入成功')
+        print(request.version)
         import datetime
         checkHousePackageState(datetime.datetime.today().date())
         phone_number = request.POST.get('phoneNumber')

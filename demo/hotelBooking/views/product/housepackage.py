@@ -65,21 +65,28 @@ def create_new_hotelpackage(request,hotelId,point,price,breakfast,customHouseTyp
     # 注意 atomic 需要有捕获异常，如果你内部catch 了，等于失效了
 
     print(hotelId)
+    print(houseId)
     print(point)
     print(price)
     print(breakfast)
     NONE_HOUSE = -1
+    h = houseId
+    print('houseId is {}'.format(houseId))
+    assert not (customHouseTypeName is None and houseId is -1)
     try:
         with transaction.atomic():
-            if (hotelId == NONE_HOUSE):
+            if (houseId == None):
                 house = House(hotel_id=hotelId,name=customHouseTypeName)
                 house.save()
                 houseId = house.id
+                print('houseId is '.format(houseId))
+            print(houseId)
+            assert houseId is not None
             housepackage = HousePackage(
-                houseId = houseId,
+                house_id = houseId,
                 owner=request.user,
-                point = point,
-                price = price,
+                need_point = point,
+                front_price = price,
                 breakfast = breakfast,
             )
             housepackage.save()

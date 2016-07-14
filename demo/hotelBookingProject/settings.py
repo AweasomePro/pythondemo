@@ -251,8 +251,11 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',
     ),
     'DEFAULT_PAGINATION_CLASS': 'hotelBooking.pagination.StandardResultsSetPagination',
-    'PAGE_SIZE': 1,
-    'EXCEPTION_HANDLER' : 'hotelBooking.utils.exceptionhandler.exception_handler'
+    'PAGE_SIZE': 3,
+    'EXCEPTION_HANDLER' : 'hotelBooking.utils.exceptionhandler.exception_handler',
+
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.AcceptHeaderVersioning',
+    'DEFAULT_VERSION':'0.1'
 }
 import datetime
 JWT_AUTH = {
@@ -285,8 +288,6 @@ JWT_AUTH = {
 
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
 }
-
-
 
 # DYNAMIC_REST = {
 #     # DEBUG: enable/disable internal debugging
