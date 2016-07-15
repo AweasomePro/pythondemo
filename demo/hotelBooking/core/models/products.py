@@ -105,14 +105,14 @@ class HousePackage(CheckMixin,Product):
         (2, '单早'),
         (3, '双早'),
     )
-    house = models.ForeignKey(House, verbose_name='房型', related_name='housePackages',editable=True)
+    house = models.ForeignKey(House, verbose_name='房型', related_name='housePackages')
     breakfast = models.IntegerField(choices=Breakfast_Types,default=Breakfast_Types[0][0],verbose_name='早餐类型')
     # agent = models.ForeignKey(settings.AUTH_USER_MODEL)
     need_point = models.IntegerField(verbose_name='所需积分',default=0)
     # price that guest need pay at hotel front desk
     front_price = models.IntegerField(verbose_name='前台现付价格')
     # the hotel package is open to guests?
-    detail = models.TextField(default="")
+    detail = models.TextField(default="",blank=True)
     objects = HousePackageManager()
 
     class Meta:

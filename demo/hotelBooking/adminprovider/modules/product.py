@@ -11,5 +11,9 @@ class ProvinceAdmin(ModelAdmin):
     inlines = [CityInline,]
 
 class HousePackageAdmin(ModelAdmin):
+    """
+    酒店房型套餐
+    """
     list_display = ( 'owner','house','breakfast','need_point','front_price','active','checked','detail')
     fields = ('owner','house','breakfast','need_point','front_price','checked','active','detail')
+    readonly_fields = ()

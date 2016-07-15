@@ -40,10 +40,7 @@ __all__ = [
 ]
 
 
-# Now register the new UserAdmin...
-admin.site.register(User, MyUserAdmin)
-admin.site.register(CustomerMember,ModelAdmin)
-admin.site.register(PartnerMember, ModelAdmin)
+
 admin.site.register(Province, ProvinceAdmin)
 admin.site.register(City, CityAdmin)
 admin.site.register(Installation,InstallationAdmin)
@@ -60,5 +57,4 @@ admin.site.unregister(Group)
 
 
 
-# Register your models here
 

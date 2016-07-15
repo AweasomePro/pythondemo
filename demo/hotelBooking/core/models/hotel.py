@@ -18,7 +18,7 @@ from .mixin import CheckMixin
 class Hotel(models.Model):
 
     # 指定 主键 primary_key =True
-    id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True,editable=False)
     city = models.ForeignKey(City,verbose_name='所在城市',related_name='hotels')
     name = models.CharField(max_length=200,null=False,verbose_name='酒店名')
     address = models.CharField(max_length=255,null=False,verbose_name='地址')
@@ -42,7 +42,7 @@ class Hotel(models.Model):
 
 class HouseManager(models.Manager):
     def get_queryset(self):
-        return super(HouseManager, self).get_queryset().filter(checked=False,active=True)
+        return super(HouseManager, self).get_queryset()
 
 class UncheckedHouseManager(models.Manager):
     def get_queryset(self):
@@ -52,7 +52,7 @@ class House(CheckMixin, BaseModel):
     """
     这个类表示发布的房源信息
     """
-    id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True,editable=False)
     hotel = models.ForeignKey(Hotel,verbose_name='所属酒店',related_name='hotel_houses')
     name = models.CharField(max_length=255,default='未定义房型名',blank=False,verbose_name='房型')
 
@@ -69,4 +69,9 @@ class House(CheckMixin, BaseModel):
 
     def __str__(self):
         return self.name + ''
+
+    def save(self, *args,**kwargs):
+        print(args)
+        print(kwargs)
+        super(House,self).save(*args,**kwargs)
 

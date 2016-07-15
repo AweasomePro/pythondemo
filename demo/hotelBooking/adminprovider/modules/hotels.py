@@ -18,21 +18,21 @@ class HousePackageInline(admin.StackedInline):
     verbose_name = '套餐'
     verbose_name_plural = '套餐'
     extra = 0
-    fields = ('need_point','front_price','breakfast','owner')
+    fields = ('need_point','front_price','breakfast','owner','detail','checked','active','house')
 
-class RoomTypeAdmin(ModelAdmin):
-    pass
 
 
 class HotelAdmin(ModelAdmin):
     inlines = [HotelLogoInline,HouseInline]
+    search_fields = ('name',)
 
 
 class HotelImgAdmin(ModelAdmin):
     pass
 
 class HouseAdmin(ModelAdmin):
-    inlines = [HousePackageInline,]
+    # inlines = [HousePackageInline,]
     list_display = ('hotel', 'name','checked','active',)
-    fields = ('hotel', 'name', 'enable', 'checked')
+    fields = ('hotel', 'name', 'checked', 'active')
+    search_fields = ('hotel__name','active')
 

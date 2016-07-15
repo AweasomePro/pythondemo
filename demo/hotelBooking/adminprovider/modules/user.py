@@ -75,3 +75,8 @@ class MyUserAdmin(UserAdmin):
     ordering = ('phone_number',)
     filter_horizontal = ()
 
+
+# Now register the new UserAdmin...
+admin.site.register(User, MyUserAdmin)
+admin.site.register(CustomerMember,ModelAdmin)
+admin.site.register(PartnerMember, ModelAdmin)
