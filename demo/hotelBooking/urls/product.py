@@ -8,7 +8,7 @@ from hotelBooking.views.product import  housepackage as HousePackageViews
 
 house_simple_router = SimpleRouter(trailing_slash=False,)
 
-house_simple_router.register('housepackage', HousePackageView)
+house_simple_router.register('^housepackage', HousePackageView)
 
 urlpatterns = [
     url('^product/housepackage/add',HousePackageViews.create_new_hotelpackage),

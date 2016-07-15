@@ -87,3 +87,6 @@ __pycache__/
 !/demo/virutal-py3.4/
 
 
+*.pid
+
+

@@ -1,4 +1,5 @@
 from alipay import Alipay
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
 from django.db import transaction
 from django.db.models import Model
@@ -55,7 +56,7 @@ def verifySmsCode(mobilePhoneNumber, smscode):
 
 class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     authentication_classes = (JSONWebTokenAuthentication, BasicAuthentication)
-
+    # permission_classes = (login_required,)
     serializer_class = CustomerUserSerializer
     queryset = User.objects.all()
 
@@ -94,10 +95,10 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     @method_decorator(parameter_necessary('phoneNumber', 'password', ))
     def login(self, request, *args, **kwargs):
         # _do_kground_work.delay('GreenPrice')
-        notify.delay(phone_number =15726814574, message='登入成功')
+        # notify.delay(phone_number =15726814574, message='登入成功')
         print(request.version)
-        import datetime
-        checkHousePackageState(datetime.datetime.today().date())
+        # import datetime
+        # checkHousePackageState(datetime.datetime.today().date())
         phone_number = request.POST.get('phoneNumber')
         password = request.POST.get('password')
         print('phone is {}'.format(phone_number))

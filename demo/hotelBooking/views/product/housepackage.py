@@ -19,7 +19,7 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from hotelBooking.core.models.products import Product, AgentRoomTypeState
 from hotelBooking import HousePackage
-from hotelBooking.auth.decorators import login_required_and_is_member
+from hotelBooking.auth.decorators import login_required_and_is_member, login_required_and_is_partner
 from hotelBooking.core.serializers.products import RoomTypeStateSerializer, HousePackageSerializer
 from hotelBooking.core.utils import hotel_query_utils
 from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
@@ -57,8 +57,9 @@ class AddHousePackageView(APIView):
 @apiSuccess {String} lastname  Lastname of the User.
 """
 @api_view(['POST',])
-@parameter_necessary('hotelId','point','price','breakfast',optional=('customHouseTypeName','houseId'))
-@authentication_classes(JSONWebTokenAuthentication,)
+@parameter_necessary('hotelId', 'point', 'price', 'breakfast', optional=('customHouseTypeName','houseId'))
+@login_required_and_is_partner()
+@authentication_classes([JSONWebTokenAuthentication])
 def create_new_hotelpackage(request,hotelId,point,price,breakfast,customHouseTypeName,houseId,*args, **kwargs):
     # 注意 atomic 需要有捕获异常，如果你内部catch 了，等于失效了
     # 前端需要注意，进行 customHouseTypeName 是否已存在的判断，所有的最终都是需要服务端审核的
@@ -67,6 +68,7 @@ def create_new_hotelpackage(request,hotelId,point,price,breakfast,customHouseTyp
     print(point)
     print(price)
     print(breakfast)
+    print(request.user)
     NONE_HOUSE = -1
     h = houseId
     print('houseId is {}'.format(houseId))
@@ -130,10 +132,7 @@ def create_new_hotelpackage(request,hotelId,point,price,breakfast,customHouseTyp
     # return Response(wrapper_response_dict(message='创建成功,审核中'))
 
 
-#  这个接口目前用户商家端创建 新的 package需要的可选房型名
-def get_hotel_room_types(request,hotelId):
 
-    return Response
 
 
 
@@ -144,6 +143,15 @@ class HousePackageStateView(DynamicModelViewSet):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
         return Response(wrapper_response_dict(serializer.data))
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+
 
 class HousePackageView(DynamicModelViewSet):
     serializer_class = HousePackageSerializer
@@ -151,11 +159,12 @@ class HousePackageView(DynamicModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         print('do retreieve')
-        hotel_query_utils.query(1,0,0)
-        # instance = self.get_object()
-        # serializer = self.get_serializer(instance)
-        # return Response(wrapper_dict(serializer.data))
-        return Response('success')
+        # hotel_query_utils.query(1,0,0)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        print('will be serializer')
+        return Response(wrapper_response_dict(data=serializer.data))
+        # return Response('success')
 
 # todo 不适合放在这个包下
 class HousePackageBookAPIView(APIView):
