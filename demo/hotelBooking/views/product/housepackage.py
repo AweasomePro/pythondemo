@@ -57,7 +57,7 @@ class AddHousePackageView(APIView):
 @apiSuccess {String} lastname  Lastname of the User.
 """
 @api_view(['POST',])
-@parameter_necessary('hotelId', 'point', 'price', 'breakfast', optional=('customHouseTypeName','houseId'))
+@parameter_necessary('hotelId', 'point', 'price', 'breakfast','houseId', optional=('customHouseTypeName',))
 @login_required_and_is_partner()
 @authentication_classes([JSONWebTokenAuthentication])
 def create_new_hotelpackage(request,hotelId,point,price,breakfast,customHouseTypeName,houseId,*args, **kwargs):

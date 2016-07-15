@@ -37,7 +37,7 @@ class HotelSerializer(DynamicModelSerializer):
     # hotel_imgs = HotelImgSerializer(many=True)
     # hotel_houses = HouseSerializer(many=True)
     hotel_imgs = HotelImgSerializer(embed=True,many=True,exclude_fields=('id','hotel'))
-    # hotel_houses = HouseSerializer(many=True,embed=True)
+    hotel_houses = HouseSerializer(many=True,embed=True)
     # types = RoomTypeSerializer(many=True,embed=True)
     types = DynamicMethodField()
 
