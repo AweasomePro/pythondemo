@@ -40,6 +40,14 @@ class Hotel(models.Model):
 
 
 
+class HouseManager(models.Manager):
+    def get_queryset(self):
+        return super(HouseManager, self).get_queryset().filter(checked=False,active=True)
+
+class UncheckedHouseManager(models.Manager):
+    def get_queryset(self):
+        return super(UncheckedHouseManager,self).get_queryset().filter(checked=False)
+
 class House(CheckMixin, BaseModel):
     """
     这个类表示发布的房源信息
@@ -47,6 +55,10 @@ class House(CheckMixin, BaseModel):
     id = models.AutoField(primary_key=True)
     hotel = models.ForeignKey(Hotel,verbose_name='所属酒店',related_name='hotel_houses')
     name = models.CharField(max_length=255,default='未定义房型名',blank=False,verbose_name='房型')
+
+    objects = HouseManager()
+    unchecked_objects = UncheckedHouseManager()
+
     class Meta:
         app_label = 'hotelBooking'
         verbose_name = "房型"

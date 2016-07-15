@@ -25,13 +25,11 @@ class HouseImgSerializer(DynamicModelSerializer):
 #         model = RoomType
 #         exclude_fields=('id',)
 
-
 class HouseSerializer(DynamicModelSerializer):
     house_imgs = HouseImgSerializer(many=True,embed=True)
     housePackages = HousePackageSerializer(many=True,exclude_fields=('house',),embed=True)
     class Meta:
         model = House
-
 
 class HotelSerializer(DynamicModelSerializer):
     # hotel_imgs = HotelImgSerializer(many=True)

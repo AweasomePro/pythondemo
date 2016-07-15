@@ -3,6 +3,7 @@ from __future__ import unicode_literals, with_statement
 from drf_enum_field.fields import EnumField
 
 from hotelBooking import City
+from hotelBooking.core.models.mixin import CheckMixin
 from hotelBookingProject import settings
 from . import BaseModel
 
@@ -93,7 +94,7 @@ class HousePackageManager(models.Manager):
 
 
 
-class HousePackage(Product):
+class HousePackage(CheckMixin,Product):
     # HOUSE_STATE_CHOICES = (
     #     ('1', '充沛'),
     #     ('2', '满房')
@@ -111,7 +112,6 @@ class HousePackage(Product):
     # price that guest need pay at hotel front desk
     front_price = models.IntegerField(verbose_name='前台现付价格')
     # the hotel package is open to guests?
-    checked = models.BooleanField(verbose_name='审核成功?',default=False)
     detail = models.TextField(default="")
     objects = HousePackageManager()
 

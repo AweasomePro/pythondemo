@@ -33,4 +33,6 @@ class HotelImgAdmin(ModelAdmin):
 
 class HouseAdmin(ModelAdmin):
     inlines = [HousePackageInline,]
-    pass
+    list_display = ('hotel', 'name','checked','active',)
+    fields = ('hotel', 'name', 'enable', 'checked')
+
