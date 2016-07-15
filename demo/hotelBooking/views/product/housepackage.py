@@ -75,13 +75,12 @@ def create_new_hotelpackage(request,hotelId,point,price,breakfast,customHouseTyp
     assert not (customHouseTypeName is None and houseId is -1)
     try:
         with transaction.atomic():
-            if (houseId == None):
+            if (houseId == NONE_HOUSE):
                 house = House(hotel_id=hotelId,name=customHouseTypeName)
                 house.save()
                 houseId = house.id
                 print('houseId is '.format(houseId))
             print(houseId)
-            assert houseId is not None
             housepackage = HousePackage(
                 house_id = houseId,
                 owner=request.user,
@@ -92,7 +91,8 @@ def create_new_hotelpackage(request,hotelId,point,price,breakfast,customHouseTyp
             housepackage.save()
             return Response(wrapper_response_dict(message='创建成功审核中'))
     except Exception as e:
-        raise e
+        print(e.__cause__)
+        return Response(wrapper_response_dict(message='失败，服务器异常,需上报并记录',code=-100))
 
 
 
