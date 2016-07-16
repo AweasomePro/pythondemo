@@ -65,6 +65,7 @@ def get_static_prefix(parser, token):
 
         {% get_static_prefix %}
         {% get_static_prefix as static_prefix %}
+
     """
     return PrefixNode.handle_token(parser, token, "STATIC_URL")
 
@@ -83,6 +84,7 @@ def get_media_prefix(parser, token):
 
         {% get_media_prefix %}
         {% get_media_prefix as media_prefix %}
+
     """
     return PrefixNode.handle_token(parser, token, "MEDIA_URL")
 
@@ -146,6 +148,7 @@ def do_static(parser, token):
         {% static variable_with_path %}
         {% static "myapp/css/base.css" as admin_base_css %}
         {% static variable_with_path as varname %}
+
     """
     return StaticNode.handle_token(parser, token)
 

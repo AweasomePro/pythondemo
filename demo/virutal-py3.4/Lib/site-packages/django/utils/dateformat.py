@@ -136,8 +136,6 @@ class TimeFormat(Formatter):
             return ""
 
         seconds = self.Z()
-        if seconds == "":
-            return ""
         sign = '-' if seconds < 0 else '+'
         seconds = abs(seconds)
         return "%s%02d%02d" % (sign, seconds // 3600, (seconds // 60) % 60)
@@ -169,14 +167,7 @@ class TimeFormat(Formatter):
         if not self.timezone:
             return ""
 
-        name = None
-        try:
-            name = self.timezone.tzname(self.data)
-        except Exception:
-            # pytz raises AmbiguousTimeError during the autumn DST change.
-            # This happens mainly when __init__ receives a naive datetime
-            # and sets self.timezone = get_default_timezone().
-            pass
+        name = self.timezone.tzname(self.data) if self.timezone else None
         if name is None:
             name = self.format('O')
         return six.text_type(name)
@@ -197,14 +188,7 @@ class TimeFormat(Formatter):
         if not self.timezone:
             return ""
 
-        try:
-            offset = self.timezone.utcoffset(self.data)
-        except Exception:
-            # pytz raises AmbiguousTimeError during the autumn DST change.
-            # This happens mainly when __init__ receives a naive datetime
-            # and sets self.timezone = get_default_timezone().
-            return ""
-
+        offset = self.timezone.utcoffset(self.data)
         # `offset` is a datetime.timedelta. For negative values (to the west of
         # UTC) only days can be negative (days=-1) and seconds are always
         # positive. e.g. UTC-1 -> timedelta(days=-1, seconds=82800, microseconds=0)
@@ -244,16 +228,10 @@ class DateFormat(TimeFormat):
 
     def I(self):
         "'1' if Daylight Savings Time, '0' otherwise."
-        try:
-            if self.timezone and self.timezone.dst(self.data):
-                return '1'
-            else:
-                return '0'
-        except Exception:
-            # pytz raises AmbiguousTimeError during the autumn DST change.
-            # This happens mainly when __init__ receives a naive datetime
-            # and sets self.timezone = get_default_timezone().
-            return ''
+        if self.timezone and self.timezone.dst(self.data):
+            return '1'
+        else:
+            return '0'
 
     def j(self):
         "Day of the month without leading zeros; i.e. '1' to '31'"

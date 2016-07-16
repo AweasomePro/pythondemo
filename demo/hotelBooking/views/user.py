@@ -1,30 +1,28 @@
-from alipay import Alipay
-from django.contrib.auth.decorators import login_required
+import re
+import requests
 from django.contrib.auth.models import AnonymousUser
 from django.db import transaction
-from django.db.models import Model
-import requests
 from django.utils.decorators import method_decorator
-from hotelBooking.core.exceptions import  UserCheck
-from hotelBooking.core.serializers.user import CustomerUserSerializer, UpdateMemberSerializer
-from qiniu import Auth
-from rest_framework.authentication import BasicAuthentication
-from rest_framework.exceptions import APIException, ValidationError
-from rest_framework.mixins import UpdateModelMixin
-from rest_framework import viewsets
-from rest_framework.response import Response
+from hotelBooking import appcodes
 from hotelBooking.Mysettings import APP_ID, APP_KEY
+from hotelBooking.core.exceptions import  UserCheck
 from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
-from hotelBooking.serializers import  UpdateCustomerMemberSerializer, InstallationSerializer
+from hotelBooking.models import User
+from hotelBooking.models.installation import Installation
+from hotelBooking.models.user import CustomerMember
+from hotelBooking.serializers import CustomerUserSerializer, UpdateMemberSerializer
+from hotelBooking.serializers import InstallationSerializer
+from hotelBooking.tasks import notify
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 from hotelBooking.utils.decorators import method_route, parameter_necessary, is_authenticated
-from hotelBooking import User
-import re
+from qiniu import Auth
+from rest_framework import viewsets
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.exceptions import ValidationError
+from rest_framework.mixins import UpdateModelMixin
+from rest_framework.response import Response
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
-from . import appcodes,Installation,CustomerMember
 from rest_framework_jwt.settings import api_settings
-
-from hotelBooking.tasks import notify,checkHousePackageState
 
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER

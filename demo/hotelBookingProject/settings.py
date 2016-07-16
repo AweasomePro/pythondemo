@@ -28,7 +28,6 @@ ALLOWED_HOSTS = ['*']
 
 # support celery
 import djcelery
-djcelery.setup_loader()
 BROKER_URL = 'django://'
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler' # 定时任务
 CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
@@ -51,6 +50,8 @@ INSTALLED_APPS = [
     'django.contrib.admindocs',
     'rest_framework',
     'dynamic_rest',
+    'grappelli.dashboard',
+    'grappelli',
     # 'rest_framework.authtoken',
     'debug_toolbar',
     'guardian',

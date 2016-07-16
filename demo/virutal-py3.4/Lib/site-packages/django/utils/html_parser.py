@@ -1,12 +1,14 @@
 import re
 import sys
 
-from django.utils import six
 from django.utils.six.moves import html_parser as _html_parser
 
 current_version = sys.version_info
 
-use_workaround = current_version < (2, 7, 3)
+use_workaround = (
+    (current_version < (2, 7, 3)) or
+    (current_version >= (3, 0) and current_version < (3, 2, 3))
+)
 
 try:
     HTMLParseError = _html_parser.HTMLParseError
@@ -16,7 +18,7 @@ except AttributeError:
         pass
 
 if not use_workaround:
-    if six.PY3:
+    if current_version >= (3, 4):
         class HTMLParser(_html_parser.HTMLParser):
             """Explicitly set convert_charrefs to be False.
 

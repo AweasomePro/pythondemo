@@ -1,4 +1,4 @@
 
-from hotelBooking import HousePackage,Product
+from hotelBooking import RoomPackage,Product
 
 

@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand, CommandError
 from django.db import models
 # from placeholders import *
 import os
-from hotelBooking import Province,City,Hotel,House,HousePackage
+from hotelBooking import Province,City,Hotel,Room,RoomPackage
 
 
 class Command(BaseCommand):

@@ -1,14 +1,14 @@
-{% load i18n %}<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
-  <head><title>{% trans 'Popup closing...' %}</title></head>
+  <head><title></title></head>
   <body>
     <script type="text/javascript">
       {% if action == 'change' %}
-        opener.dismissChangeRelatedObjectPopup(window, "{{ value|escapejs }}", "{{ obj|escapejs }}", "{{ new_value|escapejs }}");
+        opener.dismissChangeRelatedObjectPopup(window, "{{ value }}", "{{ obj }}", "{{ new_value }}");
       {% elif action == 'delete' %}
-        opener.dismissDeleteRelatedObjectPopup(window, "{{ value|escapejs }}");
+        opener.dismissDeleteRelatedObjectPopup(window, "{{ value }}");
       {% else %}
-        opener.dismissAddRelatedObjectPopup(window, "{{ value|escapejs }}", "{{ obj|escapejs }}");
+        opener.dismissAddRelatedObjectPopup(window, "{{ value }}", "{{ obj }}");
       {% endif %}
     </script>
   </body>

@@ -112,7 +112,7 @@ class SplitArrayWidget(forms.Widget):
         value = value or []
         output = []
         final_attrs = self.build_attrs(attrs)
-        id_ = final_attrs.get('id')
+        id_ = final_attrs.get('id', None)
         for i in range(max(len(value), self.size)):
             try:
                 widget_value = value[i]
@@ -166,7 +166,7 @@ class SplitArrayField(forms.Field):
                 errors.append(None)
             except ValidationError as error:
                 errors.append(ValidationError(
-                    string_concat(self.error_messages['item_invalid'], ' '.join(error.messages)),
+                    string_concat(self.error_messages['item_invalid'], error.message),
                     code='item_invalid',
                     params={'nth': i},
                 ))

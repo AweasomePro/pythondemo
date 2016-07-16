@@ -1,11 +1,8 @@
 # import datetime
 import datetime
-import django.utils.datetime_safe
-from django.db.models import Q,F, Count
-from hotelBooking import Hotel
 
-
-from hotelBooking.core.models.products import AgentRoomTypeState
+from django.db.models import Count
+from hotelBooking.models.products import RoomDayState
 
 
 def query(queryset,cityId,checkinTime,checkoutTime):
@@ -17,7 +14,7 @@ def query(queryset,cityId,checkinTime,checkoutTime):
     check_days = (checkout_time - checkin_time).days
     print(checkin_time)
     print(checkout_time)
-    states = AgentRoomTypeState.objects.filter(city_id=cityId).values('housePackage_id', 'hotel__id') \
+    states = RoomDayState.objects.filter(city_id=cityId).values('housePackage_id', 'hotel__id') \
         .filter(date__gte=checkin_time, date__lte=checkout_time,
                 state=1) \
         .annotate(

@@ -1,14 +1,15 @@
 # encoding:utf-8
 from datetime import timedelta, datetime
-from django.db import transaction
-from celery.task import task
+
 from celery.schedules import crontab
+from celery.task import task
 from celery.task.base import periodic_task
-from hotelBookingProject.celery import app
-from hotelBooking.models import User
+from django.db import transaction
+from hotelBooking.models.products import RoomDayState
+from hotelBooking.models.products import RoomPackage
+from hotelBooking.models.user.users import User
 from hotelBooking.module import push
-from hotelBooking import HousePackage
-from hotelBooking.core.models.products import AgentRoomTypeState
+
 
 @task
 def notify(phone_number, message):
@@ -26,11 +27,11 @@ def checkHousePackageState(today):
 
     # 该任务在服务器重启 或者 是每天0点运行
     # delete all expire date state
-    AgentRoomTypeState.objects.all().filter(date__lt=today).delete()
+    RoomDayState.objects.all().filter(date__lt=today).delete()
     # 检查所有的housepackage 的states 的数量，不够的则添加
     print('得到执行')
     save_object = []
-    for h in HousePackage.objects.all():
+    for h in RoomPackage.objects.all():
         roomstate = h.housepackage_roomstates.all().last()
         if roomstate is not None:
             roomstate.pk = None
@@ -46,14 +47,14 @@ def checkHousePackageState(today):
             for i in range(0, 30):
                 print(day.strftime('%Y-%m-%d'))
                 print(i)
-                obj = AgentRoomTypeState(agent=owner,
-                                         housePackage=housepackage,
-                                         house_type=house_type,
-                                         hotel=hotel,
-                                         city=city,
-                                         state=AgentRoomTypeState.ROOM_STATE_ENOUGH,
-                                         date=day.strftime('%Y-%m-%d'))
+                obj = RoomDayState(agent=owner,
+                                   housePackage=housepackage,
+                                   house_type=house_type,
+                                   hotel=hotel,
+                                   city=city,
+                                   state=RoomDayState.ROOM_STATE_ENOUGH,
+                                   date=day.strftime('%Y-%m-%d'))
                 save_object.append(obj)
                 day += timedelta(days=1)
-    AgentRoomTypeState.objects.bulk_create(save_object)
+    RoomDayState.objects.bulk_create(save_object)
     sp_delete_expire = transaction.savepoint()

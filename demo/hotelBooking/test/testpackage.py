@@ -1,5 +1,5 @@
 from django.test import TestCase
-from hotelBooking import Hotel,House,HousePackage
+from hotelBooking import Hotel,Room,RoomPackage
 
 
 class housepackageTestCase(TestCase):
@@ -7,6 +7,6 @@ class housepackageTestCase(TestCase):
         pass
 
     def test_housepackage_can_create(self):
-        for housepackage in HousePackage.objects.all().iterator():
+        for housepackage in RoomPackage.objects.all().iterator():
             print(housepackage)
 

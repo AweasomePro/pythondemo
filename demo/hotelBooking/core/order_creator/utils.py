@@ -1,11 +1,8 @@
 from guardian.shortcuts import assign_perm
-
-from hotelBooking import Product
 from hotelBooking.core.exceptions import PointNotEnough
-from hotelBooking.core.models.orders import Order,HotelPackageOrder,HotelPackageOrderSnapShot
-from hotelBooking.core.models.plugins import HotelOrderNumberGenerator
-from hotelBooking.core.models.products import HousePackage
-from hotelBooking.core.serializers.orders import CustomerOrderSerializer
+from hotelBooking.models.orders import HotelPackageOrder
+from hotelBooking.models.plugins import HotelOrderNumberGenerator
+from hotelBooking.serializers import CustomerOrderSerializer
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 
 
@@ -47,10 +44,6 @@ def generateHotelPackageProductOrder(request,member_user,product,request_notes,c
     hotel_package_order.number = order_numbers.get_next()
 
     hotel_package_order.save()
-    snapshot = HotelPackageOrderSnapShot()
-    snapshot.hotel_package_order = hotel_package_order
-    snapshot.create_from_source(product)
-    snapshot.save()
     member_user.deductPoint(product.need_point)
     member_user.save()
     # 配置权限

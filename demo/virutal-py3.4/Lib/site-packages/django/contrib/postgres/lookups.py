@@ -9,6 +9,12 @@ class PostgresSimpleLookup(Lookup):
         return '%s %s %s' % (lhs, self.operator, rhs), params
 
 
+class FunctionTransform(Transform):
+    def as_sql(self, qn, connection):
+        lhs, params = qn.compile(self.lhs)
+        return "%s(%s)" % (self.function, lhs), params
+
+
 class DataContains(PostgresSimpleLookup):
     lookup_name = 'contains'
     operator = '@>'
@@ -24,22 +30,7 @@ class Overlap(PostgresSimpleLookup):
     operator = '&&'
 
 
-class HasKey(PostgresSimpleLookup):
-    lookup_name = 'has_key'
-    operator = '?'
-
-
-class HasKeys(PostgresSimpleLookup):
-    lookup_name = 'has_keys'
-    operator = '?&'
-
-
-class HasAnyKeys(PostgresSimpleLookup):
-    lookup_name = 'has_any_keys'
-    operator = '?|'
-
-
-class Unaccent(Transform):
+class Unaccent(FunctionTransform):
     bilateral = True
     lookup_name = 'unaccent'
     function = 'UNACCENT'

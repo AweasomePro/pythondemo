@@ -1,12 +1,8 @@
-from hotelBooking.core.serializers.province import ProvinceSerializer
 from hotelBooking.core.viewsets import GenericJsonViewSet
-from rest_framework import viewsets
-from rest_framework.generics import ListAPIView
+from hotelBooking.models.province import Province
+from hotelBooking.serializers import ProvinceSerializer
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.response import Response
-
-from hotelBooking import Province
-from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 
 
 class ProvinceViewSet(RetrieveModelMixin, GenericJsonViewSet):

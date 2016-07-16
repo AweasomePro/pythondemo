@@ -30,8 +30,6 @@ def submit_row(context):
     change = context['change']
     is_popup = context['is_popup']
     save_as = context['save_as']
-    show_save = context.get('show_save', True)
-    show_save_and_continue = context.get('show_save_and_continue', True)
     ctx = {
         'opts': opts,
         'show_delete_link': (
@@ -43,9 +41,9 @@ def submit_row(context):
             context['has_add_permission'] and not is_popup and
             (not save_as or context['add'])
         ),
-        'show_save_and_continue': not is_popup and context['has_change_permission'] and show_save_and_continue,
+        'show_save_and_continue': not is_popup and context['has_change_permission'],
         'is_popup': is_popup,
-        'show_save': show_save,
+        'show_save': True,
         'preserved_filters': context.get('preserved_filters'),
     }
     if context.get('original') is not None:

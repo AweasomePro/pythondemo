@@ -1,24 +1,18 @@
 from django.db import transaction
 from django.utils.decorators import method_decorator
 from guardian.core import ObjectPermissionChecker
-from guardian.decorators import permission_required
-from rest_framework.decorators import api_view, throttle_classes, authentication_classes, permission_classes
-from rest_framework.generics import GenericAPIView
+from hotelBooking.core.order_creator.utils import generateHotelPackageProductOrder
+from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
+from hotelBooking.models.orders import HotelPackageOrder
+from hotelBooking.models.products import RoomPackage,Product
+from hotelBooking.serializers import CustomerOrderSerializer
+from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
+from hotelBooking.utils.decorators import parameter_necessary
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
-
-from hotelBooking import HotelPackageOrder
-from hotelBooking.core.order_creator.utils import add_hotel_order, generateHotelPackageProductOrder
-from hotelBooking.core.serializers.orders import CustomerOrderSerializer
-from hotelBooking.permissions.orderpermissions import IsOrderCustomer
-from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
-from hotelBooking import wrapper_response_dict
-from hotelBooking.models import User
-from hotelBooking.core.models.products import HousePackage,Product
-from hotelBooking.utils.decorators import parameter_necessary
 
 
 class CustomerHotelBookOrderList(ReadOnlyModelViewSet):
@@ -101,7 +95,7 @@ class CustomerOrderActionAPIView(APIView):
         order = HotelPackageOrder.objects.get(number=number)
         order.cancelBook(request.user)
 
-class HousePackageBookAPIView(APIView):
+class RoomPackageBookAPIView(APIView):
     """
     用户 订购 酒店
     权限：已登入用户
@@ -124,7 +118,7 @@ class HousePackageBookAPIView(APIView):
 
         # check id 是否真实
         try:
-            house_package = HousePackage.objects.get(id=productId)
+            house_package = RoomPackage.objects.get(id=productId)
         except Product.DoesNotExist:
             return DefaultJsonResponse(message='不存在该商品', code=403)
 

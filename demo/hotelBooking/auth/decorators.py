@@ -1,5 +1,5 @@
 from django.contrib.auth.models import AnonymousUser
-from hotelBooking import User
+from hotelBooking.models import User
 from hotelBooking.utils.AppJsonResponse import JSONWrappedResponse
 
 

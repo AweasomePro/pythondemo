@@ -1,0 +1,7 @@
+from .user import CustomerMemberSerializer,CustomerUserSerializer,UpdateMemberSerializer
+from .city import CitySerializer
+from .hotels import HotelImgSerializer,HotelSerializer,RoomImgSerializer,RoomPackageSerializer,RoomSerializer
+from .products import HotelPackageBookSerializer,RoomPackageSerializer,RoomTypeStateSerializer
+from .province import ProvinceSerializer
+from .orders import OrderSerializer, CustomerOrderSerializer
+from .installation import InstallationSerializer

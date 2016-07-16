@@ -1,12 +1,8 @@
-from dynamic_rest.viewsets import WithDynamicViewSetMixin
-from rest_framework import viewsets
-from rest_framework.generics import ListAPIView
-from rest_framework.mixins import RetrieveModelMixin
-from rest_framework.response import Response
-
-from hotelBooking import City
-from hotelBooking.core.serializers.city import CitySerializer
+from hotelBooking.models.city import City
+from hotelBooking.serializers import CitySerializer
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
+from rest_framework import viewsets
+from rest_framework.mixins import RetrieveModelMixin
 
 
 class CityViewSet(RetrieveModelMixin, viewsets.GenericViewSet):
