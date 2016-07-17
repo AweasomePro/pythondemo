@@ -1,13 +1,18 @@
 from django.db import transaction
+from datetime import datetime
 from django.utils.decorators import method_decorator
 from guardian.core import ObjectPermissionChecker
-from hotelBooking.core.order_creator.utils import generateHotelPackageProductOrder
+from guardian.shortcuts import assign_perm
+from hotelBooking.core.exceptions import PointNotEnough, ConditionDenied
 from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
-from hotelBooking.models.orders import HotelPackageOrder
-from hotelBooking.models.products import RoomPackage,Product
+from hotelBooking.models.orders import HotelPackageOrder, HotelPackageOrderItem
+from hotelBooking.models.plugins import HotelOrderNumberGenerator
+from hotelBooking.models.products import RoomPackage,Product,RoomDayState
 from hotelBooking.serializers import CustomerOrderSerializer
+from hotelBooking.utils import dateutils
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 from hotelBooking.utils.decorators import parameter_necessary
+from rest_framework.exceptions import APIException
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -103,53 +108,133 @@ class RoomPackageBookAPIView(APIView):
     authentication_classes = (JSONWebTokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    @transaction.atomic()
-    @method_decorator(parameter_necessary('productId','checkinTime','checkoutTime'))
-    
+    # @transaction.atomic()
+    @method_decorator(parameter_necessary('productId','checkinTime','checkoutTime','guests'))
     def post(self, request, *args, **kwargs):
         # 1 .商品是否存在
         # 2. 用户积分是否够
         # 3. 是否在区间存在已购订单
         # 3. 扣除积分，通知代理商
+
         user = request.user
         productId = kwargs.get('productId')
         checkinTime = kwargs.get('checkinTime')
         checkoutTime = kwargs.get('checkoutTime')
-
+        checkinTime = datetime.strptime(checkinTime, '%Y-%m-%d').date()
+        checkoutTime = datetime.strptime(checkoutTime, '%Y-%m-%d').date()
+        guests = kwargs.get('guests')
+        if(guests):
+            print('guests is ')
         # check id 是否真实
         try:
-            house_package = RoomPackage.objects.get(id=productId)
+            room_package = RoomPackage.objects.get(id=productId)
         except Product.DoesNotExist:
             return DefaultJsonResponse(message='不存在该商品', code=403)
 
         # check 在区间是否存在订单
-        exist = HotelPackageOrder.objects.filter(customer=user,checkin_time__lte=checkinTime,checkout_time__gte=checkinTime).exists()
+        exist = HotelPackageOrder.objects.filter(customer=user,checkin_time__lte=checkinTime,checkout_time__gt=checkinTime).exists()
         if exist:
             return Response(wrapper_response_dict(code=-100,message='存在订单,请先取消'))
 
         # check 预订时间是否准确
-        check_validate_checkTime(house_package,checkinTime,checkoutTime)
-
-        # check 积分是否够
-        if(user.point< house_package.need_point):
-            return Response(wrapper_response_dict(code=-100,message='积分不够,充值去 - -'))
+        check_validate_checkTime(room_package,checkinTime,checkoutTime)
 
         # check point 是否足够
         request_notes = '需要wifi'
 
-        hotelPackageOrder = generateHotelPackageProductOrder(request, user, house_package, request_notes, checkinTime,
+        hotelPackageOrder = generateHotelPackageProductOrder(request, user, room_package, request_notes, checkinTime,
                                                              checkoutTime)
+
         serializer = CustomerOrderSerializer(hotelPackageOrder)
 
         return DefaultJsonResponse(res_data=serializer.data,message='预订成功')
 
 
 
-def check_point_enough_book(user,house_package):
-    if user.point >= house_package:
-        return True
+def check_point_enough_book(user, room_package, checkinTime, checkoutTime, ):
+    daystates = room_package.roompackage_daystates.filter(date__gte=checkinTime,date__lt=checkoutTime,daystate=1)
+
+    # todo 保证 state 为可预订状态
+
+    sum_point = sum(daystate.need_point for daystate in daystates)
+    if user.point >= sum_point:
+        return True,sum_point
     else:
         return False
+
+
+
+def generateHotelPackageProductOrder(request, member_user, room_package, request_notes, checkinTime, checkoutTime):
+    days = (checkoutTime - checkinTime).days
+    daystates = room_package.daystates.filter(date__gte=checkinTime,date__lt=checkoutTime)
+    # 保证 state 为可预订状态
+    if (daystates.count() != days):
+        raise ConditionDenied(detail='该套餐已满')
+    sum_point = sum(daystate.need_point for daystate in daystates)
+
+    try:
+        with transaction.atomic():
+            if member_user.point <= sum_point:
+                raise PointNotEnough()
+            sum_front_price = sum(daystate.front_price for daystate in daystates)
+            print('sum points {}'.format(sum_point))
+            print('sum_front_price {}'.format(sum_front_price))
+            hotel_package_order = HotelPackageOrder.objects.create(
+                request_notes =request_notes,
+                customer=member_user,
+                seller=room_package.owner,
+                product=room_package,
+                checkin_time = checkinTime,
+                checkout_time= checkoutTime,
+                total_need_points = sum_point,
+                total_front_prices = sum_front_price,
+                hotel_name = room_package.hotel.name,
+                room_name = room_package.room.name
+            )
+            hotel_package_order.save()
+            try:
+                order_numbers = HotelOrderNumberGenerator.objects.get(id="order_number")
+            except HotelOrderNumberGenerator.DoesNotExist:
+                order_numbers = HotelOrderNumberGenerator.objects.create(id="order_number")
+            order_numbers.init(request,hotel_package_order)
+
+            hotel_package_order.number = order_numbers.get_next()
+            hotel_package_order.save()
+            # new Order
+            orderItems = []
+
+            for daystate in daystates:
+                item = HotelPackageOrderItem(
+                    order=hotel_package_order,
+                    product_name= '',
+                    product_code=room_package.id,
+                    product=room_package,
+                    day= daystate.date,
+                    point=daystate.need_point,
+                    front_price=daystate.front_price,
+                    )
+                item.save()
+                orderItems.append(item)
+
+            # 扣除积分
+            member_user.deductPoint(sum_point)
+            member_user.save()
+            # HotelPackageOrderItem.objects.bulk_create(orderItems)
+            # 配置权限
+            assign_perm('change_process_state',member_user,hotel_package_order,)
+            return hotel_package_order
+    except Exception as e:
+        raise e
+        raise APIException(detail='服务器错误')
+
+
+def add_hotel_order(request,member_user,product,request_notes,checkinTime,checkoutTime):
+
+    hotelPackageOrder = generateHotelPackageProductOrder(request,member_user,product,request_notes,checkinTime,checkoutTime)
+    # return DefaultJsonResponse(res_data='订购成功,id 是{0}'.format(hotelPackageOrder.order.number))
+    serializer = CustomerOrderSerializer(hotelPackageOrder)
+
+    return DefaultJsonResponse(res_data=serializer.data)
 
 def check_validate_checkTime(product,checkinTime,checkoutTime):
     pass

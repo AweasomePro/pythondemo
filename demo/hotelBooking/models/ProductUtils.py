@@ -1,24 +1,51 @@
+from datetime import timedelta
+
+from django.utils.timezone import datetime
+
 from django.db import transaction
-from hotelBooking.models import RoomPackage
+from hotelBooking.models import RoomPackage,RoomDayState,Hotel
 class RoomPackageCreator(object):
 
-
-    def createRoomPackage(self, owner,hotelId,roomId,default_point,default_price,):
+    def createRoomPackage(self, owner, hotel, room, default_point, default_price, breakfast):
         # owner = partner, room = room, hotel = hotel, default_point = 20, default_front_price = 130, detail = 'zao'
         try:
             with transaction.atomic():
                 roompackage = RoomPackage.objects.create(
                     owner = owner,
-                    hotel = hotelId,
-                    room =roomId,
+                    hotel = hotel,
+                    room =room,
                     default_point = default_point,
-                    default_price = default_price,
+                    default_front_price = default_price,
+                    breakfast = breakfast
                 )
-        except:
-            pass
+                roomstates = []
+                # 说明是第一次创建
+                print('len is 0 ,will auto create')
+                day = datetime.today()
+                city =hotel.city
+                for i in range(0, 30):
+                    print(day.strftime('%Y-%m-%d'))
+                    print(i)
+                    obj = RoomDayState(agent=owner,
+                                       roomPackage=roompackage,
+                                       room=room,
+                                       hotel=hotel,
+                                       city=city,
+                                       need_point=default_point,
+                                       front_price= default_price,
+                                       state=RoomDayState.ROOM_STATE_ENOUGH,
+                                       date=day.strftime('%Y-%m-%d')
+                                       )
+                    roomstates.append(obj)
+                    day += timedelta(days=1)
+                RoomDayState.objects.bulk_create(roomstates)
+                return roompackage
+        except Hotel.DoesNotExist as e:
+            raise e
+        except Hotel.DoesNotExist as e:
+            print('error hotel id')
+            raise e
 
-
-        pass
 
     def createRoomDayState(self):
         pass

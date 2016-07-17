@@ -7,7 +7,7 @@ from hotelBooking import appcodes
 from hotelBooking.Mysettings import APP_ID, APP_KEY
 from hotelBooking.core.exceptions import  UserCheck
 from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
-from hotelBooking.models import User
+from hotelBooking.models import User,PartnerMember
 from hotelBooking.models.installation import Installation
 from hotelBooking.models.user import CustomerMember
 from hotelBooking.serializers import CustomerUserSerializer, UpdateMemberSerializer
@@ -71,9 +71,18 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         UserCheck.validate_pwd(password)
         if (True):
             try:
-                member = CustomerMember.objects.create(phone_number,password)
-                print('member 的phoneNumber' + str(member.user.phone_number))
-                print('member name =' + str(member.user.name))
+                # todo 测试
+                if request.POST.get('test',None):
+                    user =User.objects.create(phone_number = phone_number,password = password)
+                    parter = PartnerMember.objects.create(user = user)
+                    payload = jwt_payload_handler(user)
+                    token = jwt_encode_handler(payload)
+                    res = {'token': token}
+                    return Response(data=res)
+                else:
+                    member = CustomerMember.objects.create(phone_number, password)
+
+                # end
                 serializer_member = CustomerUserSerializer(member.user, )
                 payload = jwt_payload_handler(member.user)
                 token = jwt_encode_handler(payload)

@@ -89,7 +89,7 @@ class RoomPackage(CheckMixin, Product):
     # 作为默认的价格
     default_front_price = models.IntegerField(verbose_name='默认前台现付价格')
     extra = JSONField(verbose_name=_("Extra fields"),
-                      help_text=_("Arbitrary information for this roompackage object."))
+                      help_text=_("Arbitrary information for this roompackage object."),null=True,blank=True)
     # the hotel package is open to guests?
     # detail = models.TextField(default="",blank=True)
     objects = RoomPackageManager()
@@ -126,9 +126,9 @@ class RoomDayState(models.Model):
         (ROOM_STATE_NO_EMPTY,'room has no empty')
     )
     agent = models.ForeignKey(settings.AUTH_USER_MODEL)
-    hotel = models.ForeignKey(Hotel,related_name='hotel_roomstates')
-    city = models.ForeignKey(City,related_name='city_roomstates')
-    roomPackage = models.ForeignKey(RoomPackage, related_name='roompackage_daystates')
+    hotel = models.ForeignKey(Hotel,related_name='roomstates')
+    city = models.ForeignKey(City,related_name='roomstates')
+    roomPackage = models.ForeignKey(RoomPackage, related_name='roomstates')
     need_point = models.IntegerField(verbose_name='当天所需积分',default=0)
     # price that guest need pay at hotel front desk
     # 作为默认的价格

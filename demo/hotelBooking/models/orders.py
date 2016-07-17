@@ -4,7 +4,9 @@ from django.conf import settings
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
+from jsonfield.fields import JSONField
 from enumfields import Enum
+from django.db import transaction
 from rest_framework.exceptions import APIException, PermissionDenied
 
 # from parler.managers import TranslatableQuerySet
@@ -235,7 +237,9 @@ class HotelPackageOrder(Order):
     room_name = models.CharField(_('room name'),max_length=255,help_text='room name at the moment of purchase')
 
     request_notes = models.TextField(null=True, blank=True,help_text='用户订单要求')
+
     comment = models.TextField(null=True,blank=True,help_text='消费评价')
+    guests = JSONField(null=True,blank=True,help_text='入住人信息')
 
     class Meta:
         app_label = 'hotelBooking'

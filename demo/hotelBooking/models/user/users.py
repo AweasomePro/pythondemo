@@ -31,10 +31,14 @@ class UserManager(BaseUserManager):
         return user
 
 
-class PointMixin():
+class PointMixin(models.Model):
 
     def deductPoint(self,point):
         self.point -= point
+
+    class Meta:
+        app_label = 'hotelBooking'
+        abstract = True
 
 class User(PointMixin,PermissionsMixin,AbstractBaseUser):
     male = 1

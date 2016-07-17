@@ -3,9 +3,11 @@ from dynamic_rest.viewsets import DynamicModelViewSet
 from hotelBooking.auth.decorators import login_required_and_is_partner
 from hotelBooking.core.order_creator.utils import add_hotel_order
 from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
+from hotelBooking.models import User,Hotel,Room
 from hotelBooking.models.products import Product, RoomDayState
 from hotelBooking.models.products import RoomPackage
-from hotelBooking.serializers.products import RoomTypeStateSerializer, RoomPackageSerializer
+from hotelBooking.models.ProductUtils import RoomPackageCreator
+from hotelBooking.serializers.products import RoomDayStateSerializer, RoomPackageSerializer
 from hotelBooking.utils.decorators import parameter_necessary
 from rest_framework import viewsets
 from rest_framework.decorators import api_view, authentication_classes
@@ -15,8 +17,6 @@ from rest_framework.views import APIView
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 # from hotelBooking import Room
-from hotelBooking.models import User
-from hotelBooking.models.hotel import Room
 class HousePackageViewSet(viewsets.GenericViewSet):
     serializer_class = RoomPackageSerializer
     queryset = RoomPackage.objects.all()
@@ -45,20 +45,14 @@ class AddHousePackageView(APIView):
 @apiSuccess {String} lastname  Lastname of the User.
 """
 @api_view(['POST',])
-@parameter_necessary('hotelId', 'point', 'price', 'breakfast','roomId', optional=('customRoomName',))
+@parameter_necessary('hotelId', 'defaultPoint', 'defaultPrice', 'breakfast','roomId', optional=('customRoomName',))
 @login_required_and_is_partner()
 @authentication_classes([JSONWebTokenAuthentication])
-def create_new_hotelpackage(request, hotelId, point, price, breakfast, customRoomName, roomId, *args, **kwargs):
+def create_new_hotelpackage(request, hotelId, defaultPoint, defaultPrice, breakfast, customRoomName, roomId, *args, **kwargs):
     # 注意 atomic 需要有捕获异常，如果你内部catch 了，等于失效了
     # 前端需要注意，进行 customRoomName 是否已存在的判断，所有的最终都是需要服务端审核的
-    # print(hotelId)
-    # print(roomId)
-    # print(point)
-    # print(price)
-    # print(breakfast)
-    # print(request.user)
+
     NONE_ROOM = -1
-    h = roomId
     print('roomId is {}'.format(roomId))
     # assert not (customRoomName is None and roomId is -1)
     try:
@@ -67,17 +61,20 @@ def create_new_hotelpackage(request, hotelId, point, price, breakfast, customRoo
                 room = Room(hotel_id=hotelId, name=customRoomName)
                 room.save()
                 roomId = room.id
-            roompackage = RoomPackage(
-                room_id = roomId,
+
+            creater = RoomPackageCreator()
+            package = creater.createRoomPackage(
                 owner=request.user,
-                need_point = point,
-                front_price = price,
-                breakfast = breakfast,
+                hotel=Hotel.objects.get(id=hotelId),
+                room= Room.objects.get(id=roomId),
+                default_point = defaultPoint,
+                default_price =defaultPrice,
+                breakfast = breakfast
             )
-            roompackage.save()
             return Response(wrapper_response_dict(message='创建成功审核中'))
     except Exception as e:
         print(e.__cause__)
+        raise e
         return Response(wrapper_response_dict(message='失败，服务器异常,需上报并记录',code=-100))
 
 
@@ -123,7 +120,7 @@ def create_new_hotelpackage(request, hotelId, point, price, breakfast, customRoo
 
 
 class HousePackageStateView(DynamicModelViewSet):
-    serializer_class = RoomTypeStateSerializer
+    serializer_class = RoomDayStateSerializer
     queryset = RoomDayState.objects.all()
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()

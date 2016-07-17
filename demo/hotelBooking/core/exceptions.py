@@ -6,7 +6,8 @@ from hotelBooking.utils.phoneUtil import phone_is_legal
 
 class ConditionDenied(Exception):
     default_detail = '不满足验证条件'
-    def __init__(self, detail=None):
+    def __init__(self, detail=None,code = -100):
+        self.code = code
         if detail is not None:
             self.detail = force_text(detail)
         else:
@@ -15,11 +16,11 @@ class ConditionDenied(Exception):
 class PointNotEnough(ConditionDenied):
     default_detail = _('积分不够.')
 
-    def __init__(self, method, detail=None):
+    def __init__(self, detail=None):
         if detail is not None:
             self.detail = force_text(detail)
         else:
-            self.detail = force_text(self.default_detail).format(method=method)
+            self.detail = force_text(self.default_detail)
 
 class PwdSetDenied(ConditionDenied):
     default_detail = _('密码错误')

@@ -24,13 +24,14 @@ def is_hotel_package(product):
 
 def generateHotelPackageProductOrder(request,member_user,product,request_notes,checkinTime,checkoutTime):
 
+
     hotel_package_order = HotelPackageOrder.objects.create(
         request_notes =request_notes,
         customer=member_user,
         seller=product.owner,
         product=product,
         checkin_time = checkinTime,
-        checkout_time= checkoutTime
+        checkout_time= checkoutTime,
     )
     hotel_package_order.save()
 

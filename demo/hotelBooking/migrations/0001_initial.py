@@ -15,7 +15,6 @@ import hotelBooking.core.fields.pointField
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('auth', '0008_auto_20160715_1557'),
     ]
 
     operations = [

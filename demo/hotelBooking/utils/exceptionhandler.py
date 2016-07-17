@@ -61,7 +61,7 @@ def exception_handler(exc, context):
             data = exc.detail
         else:
             data = {'detail': exc.detail}
-        return DefaultJsonResponse(message=data, code=-100, status=status.HTTP_403_FORBIDDEN,)
+        return DefaultJsonResponse(message=data, code=exc.code, status=status.HTTP_400_BAD_REQUEST,)
     return None
 
 

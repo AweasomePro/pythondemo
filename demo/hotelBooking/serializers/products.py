@@ -3,38 +3,39 @@ import datetime
 from drf_enum_field.serializers import EnumFieldSerializerMixin
 from dynamic_rest.fields import DynamicMethodField
 from dynamic_rest.serializers import DynamicModelSerializer
+from rest_framework import serializers
 # class
-from hotelBooking.models.products import RoomPackage, RoomDayState
+from hotelBooking.models.products import RoomPackage, RoomDayState, Product
 
 
-class RoomTypeStateSerializer(DynamicModelSerializer):
+class RoomDayStateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RoomDayState
+        fields =('date',)
 
-
+class ProductSerializer(DynamicModelSerializer):
+    class Meta:
+        model = Product
 
 class RoomPackageSerializer(EnumFieldSerializerMixin , DynamicModelSerializer):
     states = DynamicMethodField(
-        requires=[
-            'room_roomdaystate'
-        ]
     )
+    roomstates = RoomDayStateSerializer(many=True,)
 
     def _dynamic_init(self, only_fields, include_fields, exclude_fields):
         pass
-    class Meta:
+
+    class Meta(ProductSerializer.Meta):
         model = RoomPackage
-        fields = ('breakfast','detail','default_point','default_front_price','id','states')
+        fields = ('id','breakfast','extra','default_point','default_front_price','created_on','states','roomstates')
         # include_fields = ('breakfast','detail','default_point','default_front_price','id')
 
     def get_states(self, roompackage):
-        states = roompackage.roompackage_daystates.filter(date__gte =datetime.datetime.today().date()).values_list('state', flat=True).order_by('date')
+        states = roompackage.roomstates.filter(date__gte =datetime.datetime.today().date()).values_list('state', flat=True).order_by('date')
         # hotel_query_utils.query(0,0,1)
         print(states)
         return states
-
-
 
 
 class HotelPackageBookSerializer(DynamicModelSerializer):

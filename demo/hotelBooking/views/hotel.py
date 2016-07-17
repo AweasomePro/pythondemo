@@ -20,12 +20,11 @@ class HotelViewSet(WithDynamicViewSetMixin,ReadOnlyModelViewSet):
         return Response(wrapper_response_dict(serializer.data))
 
     def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
         print(self.filter_backends)
-        queryset.filter()
+        queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
         if page is not None:
-            serializer = self.get_serializer(page, many=True)
+            serializer = self.get_serializer(page, many=True,exclude_fields=('hotel_rooms',))
             print(serializer.data)
             print(type(serializer.data))
             data = serializer.data

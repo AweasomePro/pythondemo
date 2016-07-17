@@ -14,7 +14,7 @@ def query(queryset,cityId,checkinTime,checkoutTime):
     check_days = (checkout_time - checkin_time).days
     print(checkin_time)
     print(checkout_time)
-    states = RoomDayState.objects.filter(city_id=cityId).values('housePackage_id', 'hotel__id') \
+    states = RoomDayState.objects.filter(city_id=cityId).values('room__roomPackages__id', 'hotel__id') \
         .filter(date__gte=checkin_time, date__lte=checkout_time,
                 state=1) \
         .annotate(

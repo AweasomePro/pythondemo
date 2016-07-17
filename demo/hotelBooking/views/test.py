@@ -57,12 +57,9 @@ def createRoomPackageState(roomPackage):
         RoomDayState.objects.bulk_create(roomstates)
 
 
-
-
-
-
 def pushMessage():
     push.send(data={'alert':'diu 你老母'})
+
 
 def initData():
     try:
@@ -71,20 +68,20 @@ def initData():
             partner_member.save()
             city = City(name='宁波',code=1234,province=partner_member)
             city.save()
-            hotel = Hotel(name='无敌酒店',address='address',contact_phone='15726814574',introduce='一家酒店',city=city)
+            hotel = Hotel(name='无敌酒店',address='address',contact_phone='15726814500',introduce='一家酒店',city=city)
             hotel.save()
             room  = Room(hotel=hotel, name='商务爆炸大床',checked=True,active=True )
             room.save()
-            u = User.objects.create_user('15726814575',password=123456)
+            u = User.objects.create_user('15726814500',password=123456)
             u.save()
             c = CustomerMember(user =u)
             c.save()
-            partner =  User.objects.create_user('15726814576',password=123456)
+            partner =  User.objects.create_user('15726814501',password=123456)
             partner_member = PartnerMember(user=partner)
             partner_member.save()
-            roompackage = RoomPackage(owner=partner, room=room,hotel=hotel, default_point=20, default_front_price=130, detail='zao')
-            roompackage.save()
-            createRoomPackageState(roompackage)
+            # roompackage = RoomPackage(owner=partner, room=room,hotel=hotel, default_point=20, default_front_price=130, detail='zao')
+            # roompackage.save()
+            # createRoomPackageState(roompackage)
             return Response({'res': 'success'})
     except BaseException as e:
         raise e
