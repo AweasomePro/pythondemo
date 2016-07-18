@@ -115,10 +115,6 @@ def create_new_hotelpackage(request, hotelId, defaultPoint, defaultPrice, breakf
     # return Response(wrapper_response_dict(message='创建成功,审核中'))
 
 
-
-
-
-
 class HousePackageStateView(DynamicModelViewSet):
     serializer_class = RoomDayStateSerializer
     queryset = RoomDayState.objects.all()
@@ -133,7 +129,6 @@ class HousePackageStateView(DynamicModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data)
-
 
 
 class HousePackageView(DynamicModelViewSet):
