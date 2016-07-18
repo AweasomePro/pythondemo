@@ -1,4 +1,5 @@
 from django.db import transaction
+from dynamic_rest.serializers import DynamicModelSerializer
 from dynamic_rest.viewsets import DynamicModelViewSet
 from hotelBooking.auth.decorators import login_required_and_is_partner
 from hotelBooking.core.order_creator.utils import add_hotel_order
@@ -133,7 +134,11 @@ class RoomPackageStateView(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class RoomPackageView(DynamicModelViewSet):
+from rest_framework.serializers import ModelSerializer
+
+
+
+class RoomPackageView(viewsets.ModelViewSet):
     serializer_class = RoomPackageSerializer
     queryset = RoomPackage.objects.all()
 

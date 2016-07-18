@@ -1,5 +1,6 @@
 from dynamic_rest.fields import DynamicMethodField
 from dynamic_rest.serializers import DynamicModelSerializer
+from hotelBooking.models import RoomPackage
 from hotelBooking.models.hotel import Hotel, Room
 from hotelBooking.models.image import HotelImg, RoomImg
 
@@ -20,23 +21,28 @@ class RoomImgSerializer(DynamicModelSerializer):
         model = RoomImg
         exclude_fields=('id',)
 
-# class RoomTypeSerializer(DynamicModelSerializer):
-#     class Meta:
-#         model = Room
-#         exclude_fields=('id',)
+from rest_framework.serializers import ModelSerializer
 
+class RoomPackageSerializer2(ModelSerializer):
+    class Meta:
+        model = RoomPackage
 class RoomSerializer(DynamicModelSerializer):
+    # roomPackages = RoomPackageSerializer(many=True,include_fields=('id',))
+    roomPackages = DynamicMethodField()
     room_imgs = RoomImgSerializer(many=True, embed=True)
-    roomPackages = RoomPackageSerializer(many=True, exclude_fields=('room',), embed=True)
     class Meta:
         model = Room
 
+    def get_roomPackages(self,room):
+        room.roomPackages.all()
+        rooms = room.roomPackages.all()
+        rs  = RoomPackageSerializer(rooms,many=True,)
+        print(room)
+        return rs.data
+
 class HotelSerializer(DynamicModelSerializer):
-    # hotel_imgs = HotelImgSerializer(many=True)
-    # hotel_rooms = RoomSerializer(many=True)
     hotel_imgs = HotelImgSerializer(embed=True,many=True,exclude_fields=('id','hotel'))
-    hotel_rooms = RoomSerializer(many=True, embed=True)
-    # types = RoomTypeSerializer(many=True,embed=True)
+    # hotel_rooms = RoomSerializer(many=True, embed=True)
     types = DynamicMethodField()
     min_price = DynamicMethodField()
 

@@ -5,7 +5,7 @@ from hotelBooking.serializers.support import DynamicFieldsModelSerializer
 
 
 class ProvinceSerializer(DynamicFieldsModelSerializer):
-    citys = CitySerializer(many=True,excludes=('hotels',))
+    citys = CitySerializer(many=True)
 
     class Meta:
         model= Province
