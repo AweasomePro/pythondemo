@@ -1,9 +1,12 @@
+from datetime import datetime
+
 from dynamic_rest.viewsets import DynamicModelViewSet, WithDynamicViewSetMixin
 from hotelBooking.core.utils import hotel_query_utils
 from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
 from hotelBooking.models.hotel import Hotel
 from hotelBooking.models.hotel import Room
 from hotelBooking.serializers import RoomSerializer, HotelSerializer
+from hotelBooking.utils import dateutils
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
@@ -71,7 +74,9 @@ class RoomViewSet(DynamicModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = self.get_serializer(instance)
+        startdate = datetime.strptime('2016-07-19', '%Y-%m-%d').date()
+        enddate = datetime.strptime('2016-07-22', '%Y-%m-%d').date()
+        serializer = self.get_serializer(instance,)
         return Response(wrapper_response_dict(serializer.data))
 
     def list(self, request, *args, **kwargs):
@@ -83,6 +88,10 @@ class RoomViewSet(DynamicModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return DefaultJsonResponse(res_data=serializer.data)
 
+    def get_serializer(self, *args, **kwargs):
+        return super(
+            DynamicModelViewSet, self).get_serializer(
+            *args, **kwargs)
 
 # todo 根据酒店id   返回 该酒店目前支持的房型
 def query_hotel_room_type(request):

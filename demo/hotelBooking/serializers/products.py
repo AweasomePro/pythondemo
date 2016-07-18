@@ -29,9 +29,13 @@ class RoomPackageSerializer(EnumFieldSerializerMixin , DynamicModelSerializer):
         fields = ('id','breakfast','extra','default_point','default_front_price','created_on','roomstates')
         # include_fields = ('breakfast','detail','default_point','default_front_price','id')
 
-    def get_states(self, roompackage):
-        states = roompackage.roomstates.filter(date__gte =datetime.datetime.today().date()).values_list('state', flat=True).order_by('date')
-        return states
+    # def get_states(self, roompackage):
+    #     context = self.context
+    #     startdate = context.pop('startdate',None)
+    #     print('---------startdate is {}'.format(startdate))
+    #     enddate = context.pop('enddate',None)
+    #     states = roompackage.roomstates.filter(date__gte =startdate, date_lt=enddate).values_list('state', flat=True).order_by('date')
+    #     return states
 
 
 class HotelPackageBookSerializer(DynamicModelSerializer):

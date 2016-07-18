@@ -23,20 +23,27 @@ class RoomImgSerializer(DynamicModelSerializer):
 
 from rest_framework.serializers import ModelSerializer
 
-class RoomPackageSerializer2(ModelSerializer):
-    class Meta:
-        model = RoomPackage
+
+
+class WithDayFilterMixin():
+    def __init__(self,startdate=None,enddate=None,**kwargs):
+        print('kwargs is {}'.format(kwargs))
+        self.startdate = startdate
+        self.enddate = enddate
+        super(WithDayFilterMixin, self).__init__(**kwargs)
+
 class RoomSerializer(DynamicModelSerializer):
     # roomPackages = RoomPackageSerializer(many=True,include_fields=('id',))
-    roomPackages = DynamicMethodField()
+    roomPackages = DynamicMethodField(read_only=True)
     room_imgs = RoomImgSerializer(many=True, embed=True)
     class Meta:
         model = Room
 
     def get_roomPackages(self,room):
         room.roomPackages.all()
+        context = self.context
         rooms = room.roomPackages.all()
-        rs  = RoomPackageSerializer(rooms,many=True,)
+        rs  = RoomPackageSerializer(rooms,many=True,context=context)
         print(room)
         return rs.data
 
