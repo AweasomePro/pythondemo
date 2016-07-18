@@ -12,7 +12,7 @@ class RoomDayStateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RoomDayState
-        fields =('date',)
+        # fields =('date',)
 
 class ProductSerializer(DynamicModelSerializer):
     class Meta:
@@ -21,14 +21,14 @@ class ProductSerializer(DynamicModelSerializer):
 class RoomPackageSerializer(EnumFieldSerializerMixin , DynamicModelSerializer):
     states = DynamicMethodField(
     )
-    # roomstates = RoomDayStateSerializer(many=True,)
+    roomstates = RoomDayStateSerializer(many=True,)
 
     def _dynamic_init(self, only_fields, include_fields, exclude_fields):
         pass
 
     class Meta(ProductSerializer.Meta):
         model = RoomPackage
-        fields = ('id','breakfast','extra','default_point','default_front_price','created_on','states',)
+        fields = ('id','breakfast','extra','default_point','default_front_price','created_on','states','roomstates')
         # include_fields = ('breakfast','detail','default_point','default_front_price','id')
 
     def get_states(self, roompackage):

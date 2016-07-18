@@ -17,12 +17,12 @@ from rest_framework.views import APIView
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 # from hotelBooking import Room
-class HousePackageViewSet(viewsets.GenericViewSet):
+class RoomPackageViewSet(viewsets.GenericViewSet):
     serializer_class = RoomPackageSerializer
     queryset = RoomPackage.objects.all()
 
 
-class AddHousePackageView(APIView):
+class AddRoomPackageView(APIView):
 
     def post(self, request, *args, **kwargs):
         user = User.objects.get(phone_number=15726814574)
@@ -115,11 +115,13 @@ def create_new_hotelpackage(request, hotelId, defaultPoint, defaultPrice, breakf
     # return Response(wrapper_response_dict(message='创建成功,审核中'))
 
 
-class HousePackageStateView(DynamicModelViewSet):
+class RoomPackageStateView(viewsets.ModelViewSet):
     serializer_class = RoomDayStateSerializer
     queryset = RoomDayState.objects.all()
     def retrieve(self, request, *args, **kwargs):
+        print('hha')
         instance = self.get_object()
+        print('hha')
         serializer = self.get_serializer(instance)
         return Response(wrapper_response_dict(serializer.data))
     def update(self, request, *args, **kwargs):
@@ -131,7 +133,7 @@ class HousePackageStateView(DynamicModelViewSet):
         return Response(serializer.data)
 
 
-class HousePackageView(DynamicModelViewSet):
+class RoomPackageView(DynamicModelViewSet):
     serializer_class = RoomPackageSerializer
     queryset = RoomPackage.objects.all()
 
@@ -145,7 +147,7 @@ class HousePackageView(DynamicModelViewSet):
         # return Response('success')
 
 # todo 不适合放在这个包下
-class HousePackageBookAPIView(APIView):
+class RoomPackageBookAPIView(APIView):
     authentication_classes = (JSONWebTokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     ACTION_BOOK = 'book'
