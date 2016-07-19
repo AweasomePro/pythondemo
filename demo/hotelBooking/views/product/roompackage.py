@@ -159,9 +159,7 @@ class RoomPackageBookAPIView(APIView):
     def post(self, request, *args, **kwargs):
         print(args)
         print(kwargs)
-
         return self.customer_book(request=request)
-
 
     def customer_book(self,request):
         user = request.user

@@ -41,9 +41,10 @@ class Alipay(object):
     def __init__(self, pid, key, seller_email=None, seller_id=None):
         self.key = key
         self.pid = pid
-        self.default_params = {'_input_charset': 'utf-8',
-                               'partner': pid,
-                               'payment_type': '1'}
+        self.default_params = {
+            '_input_charset': 'utf-8',
+            'partner': pid,
+            'payment_type': '1'}
         # 优先使用 seller_id （与接口端的行为一致）
         if seller_id is not None:
             self.default_params['seller_id'] = seller_id
@@ -324,6 +325,21 @@ class WapAlipay(Alipay):
             return signmethod
         return super(WapAlipay, self).get_sign_method(**kw)
 
+class MoblieAlipay(Alipay):
+
+    def __init__(self):
+        pass
+    def create_direct_pay_by_user_url(self, **kw):
+        '''即时到帐'''
+        self._check_params(kw, ('out_trade_no', 'subject'))
+
+        if not kw.get('total_fee') and \
+           not (kw.get('price') and kw.get('quantity')):
+            raise ParameterValueError(
+                'total_fee or (price && quantiry) must have one.')
+
+        url = self._build_url('create_direct_pay_by_user', **kw)
+        return url
 
 def includeme(config):
     settings = config.registry.settings

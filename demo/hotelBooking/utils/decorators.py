@@ -62,6 +62,7 @@ def is_authenticated():
         def wrapper(request, *args, **kw):
             if(isinstance(request.user,AnonymousUser)):
                 print('草 没有通过验证啊')
+                print(request.user)
                 return JSONWrappedResponse(status=-1, message='未通过token验证')
             return func(request,*args,**kw)
         return wrapper

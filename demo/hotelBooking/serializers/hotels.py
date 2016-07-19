@@ -48,6 +48,7 @@ class RoomSerializer(DynamicModelSerializer):
         return rs.data
 
 class HotelSerializer(DynamicModelSerializer):
+
     hotel_imgs = HotelImgSerializer(embed=True,many=True,exclude_fields=('id','hotel'))
     # hotel_rooms = RoomSerializer(many=True, embed=True)
     types = DynamicMethodField()
@@ -66,3 +67,13 @@ class HotelSerializer(DynamicModelSerializer):
         model = Hotel
         name = 'hotel'
         exclude =('agent',)
+
+class HotelDetailSerializer(DynamicModelSerializer):
+    """
+    根据主键
+    需要显示所有的room
+    """
+
+    class Meta:
+        model = Hotel
+        name = 'hotel'

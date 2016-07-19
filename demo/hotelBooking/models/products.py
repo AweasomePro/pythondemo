@@ -61,6 +61,7 @@ class Product(BaseModel):
     def __str__(self):
         return '{0}的酒店房间资源'.format(self.owner.name)
 
+
 class RoomPackageQuerySet(models.query.QuerySet):
     pass
 

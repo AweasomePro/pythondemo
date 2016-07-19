@@ -9,5 +9,13 @@ class CheckMixin(models.Model):
 
 class ActiveMixin(models.Model):
     active = models.BooleanField(_('是否可用',),default=True,blank=True)
+    modified = models.DateTimeField(_(u"State modified"), auto_now_add=True)
+    class Meta:
+        abstract = True
+
+
+class DateStateMixin(models.Model):
+    created = models.DateTimeField(_(u"Created"), auto_now_add=True)
+
     class Meta:
         abstract = True
