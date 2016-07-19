@@ -68,12 +68,15 @@ class HotelSerializer(DynamicModelSerializer):
         name = 'hotel'
         exclude =('agent',)
 
+
 class HotelDetailSerializer(DynamicModelSerializer):
     """
     根据主键
     需要显示所有的room
     """
 
+
     class Meta:
         model = Hotel
         name = 'hotel'
+

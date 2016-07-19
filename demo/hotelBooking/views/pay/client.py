@@ -8,6 +8,8 @@ from rest_framework import views
 from rest_framework import viewsets,permissions
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from . import alipay
+from hotelBooking.views import wrapper_response_dict
+
 
 subject = '积分充值'
 @transaction.atomic()
@@ -28,7 +30,7 @@ def point_pay(request):
         body = '商品详情',
         total_fee = 100
     )
-    return Response(url)
+    return Response()
     # alipay.create_direct_pay_by_user_url(
     #     out_trade_no = pay.id,
     #     subject = subject,
@@ -57,7 +59,7 @@ class PointPayView(views.APIView):
             body='商品详情',
             total_fee=100
         )
-        return Response(url)
+        return Response(wrapper_response_dict(data={'url':url}))
 
 
 
