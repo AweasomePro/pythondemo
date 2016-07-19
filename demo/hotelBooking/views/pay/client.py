@@ -25,7 +25,7 @@ def point_pay(request):
         number = 100,
         total_price = 100,
     )
-    tn = __split_uuid(pay.id)
+    tn = split_uuid(pay.id)
     print('uuid is {}'.format(tn))
     url = alipay.create_direct_pay_by_user(
         tn =tn,
@@ -44,9 +44,7 @@ def point_pay(request):
 
 
 
-def __split_uuid(value):
-    value = uuid.UUID(value.replace('-', ''))
-    return value
+
 class PointPayView(views.APIView):
     authentication_classes = (JSONWebTokenAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
@@ -56,13 +54,13 @@ class PointPayView(views.APIView):
         :return:
         """
         point_number = request.GET.get('point',100)
-        # pay = Pay.objects.create(
-        #     user=request.user,
-        #     number=point_number,
-        #     total_price=100,
-        # )
+        pay = Pay.objects.create(
+            user=request.user,
+            number=point_number,
+            total_price=100,
+        )
         url = alipay.create_direct_pay_by_user(
-            tn=12345,
+            tn=pay.id,
             subject=subject,
             body='商品详情',
             total_fee=100
@@ -70,6 +68,10 @@ class PointPayView(views.APIView):
         print('hahaha{}'.format(url))
         return Response(wrapper_response_dict(data={'url':url}))
 
+
+def split_uuid(value):
+    value = uuid.UUID(value.replace('-', ''))
+    return value
 
 
 @api_view(['POST',])
