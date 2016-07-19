@@ -67,13 +67,12 @@ def create_direct_pay_by_user(tn, subject, body, total_fee):
     #     params['defaultbank'] = bank  # 默认网银代号，代号列表见http://club.alipay.com/read.php?tid=8681379
 
     for i in params:
-        params[i] = "\""+ str(params[i])+"\""
+        params[i] = "\""+ smart_str(params[i])+"\""
         print(params[i])
     params, prestr = params_filter(params)
 
-    params['sign'] = build_mysign(prestr, settings.ALIPAY_KEY, settings.ALIPAY_SIGN_TYPE)
-    params['sign'] = params['sign']+'x'
-    params['sign_type'] = settings.ALIPAY_SIGN_TYPE
+    params['sign'] = "\""+build_mysign(prestr, settings.ALIPAY_KEY, settings.ALIPAY_SIGN_TYPE)+"\""
+    params['sign_type'] ="\""+ settings.ALIPAY_SIGN_TYPE+"\""
     # new_prams = []
     # for i in params:
     #     new_prams.append(addquotation(params[i]))
@@ -81,6 +80,7 @@ def create_direct_pay_by_user(tn, subject, body, total_fee):
     result = ''
     for (k,v) in params.items():
         appendstr = '{}={}&'.format(k,v)
+        print(appendstr)
         result+=appendstr
     result = result[:-1]
     return result

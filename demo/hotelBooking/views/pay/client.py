@@ -33,7 +33,7 @@ def point_pay(request):
         body = '这是一件商品',
         total_fee = 1
     )
-    return Response(wrapper_response_dict(data={'url':url}))
+    return Response(url)
     # alipay.create_direct_pay_by_user_url(
     #     out_trade_no = pay.id,
     #     subject = subject,
