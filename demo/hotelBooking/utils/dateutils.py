@@ -7,3 +7,10 @@ def caculatedays(startday,endday):
     checkin_time = real_datetime.strptime(startday, '%Y-%m-%d').date()
     checkout_time = real_datetime.strptime(endday, '%Y-%m-%d').date()
     return (checkout_time - checkin_time).days
+
+def today():
+    """
+    得到当前日期
+    :return:
+    """
+    return datetime.today().date()

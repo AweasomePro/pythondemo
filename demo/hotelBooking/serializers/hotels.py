@@ -7,6 +7,7 @@ from hotelBooking.models.hotel import Hotel, Room
 from hotelBooking.models.image import HotelImg, RoomImg
 
 from hotelBooking.serializers.products import RoomPackageSerializer
+from rest_framework.serializers import ModelSerializer
 
 
 class HotelImgSerializer(DynamicModelSerializer):
@@ -23,8 +24,6 @@ class RoomImgSerializer(DynamicModelSerializer):
         model = RoomImg
         exclude_fields=('id',)
 
-from rest_framework.serializers import ModelSerializer
-
 
 
 class WithDayFilterMixin():
@@ -35,19 +34,19 @@ class WithDayFilterMixin():
         super(WithDayFilterMixin, self).__init__(**kwargs)
 
 class RoomSerializer(DynamicModelSerializer):
-    # roomPackages = RoomPackageSerializer(many=True,include_fields=('id',))
-    roomPackages = DynamicMethodField(read_only=True)
+    roomPackages = RoomPackageSerializer(many=True)
+    # roomPackages = DynamicMethodField(read_only=True,many=True)
     room_imgs = RoomImgSerializer(many=True, embed=True)
     class Meta:
         model = Room
 
-    def get_roomPackages(self,room):
-        room.roomPackages.all()
-        context = self.context
-        rooms = room.roomPackages.all()
-        rs  = RoomPackageSerializer(rooms,many=True,context=context)
-        print(room)
-        return rs.data
+    # def get_roomPackages(self,room):
+    #     room.roomPackages.all()
+    #     context = self.context
+    #     rooms = room.roomPackages.all()
+    #     rs  = RoomPackageSerializer(rooms,many=True,context=context)
+    #     print(room)
+    #     return rs.data
 
 class HotelSerializer(DynamicModelSerializer):
 
@@ -70,7 +69,6 @@ class HotelSerializer(DynamicModelSerializer):
         name = 'hotel'
         exclude =('agent',)
 
-
 class HotelDetailSerializer(DynamicModelSerializer):
 
     """
@@ -81,7 +79,7 @@ class HotelDetailSerializer(DynamicModelSerializer):
 
     def room_details(self,hotel):
         data = RoomSerializer(hotel.hotel_rooms,many=True,include_fields=('name',)).data
-        return {'rooms':data}
+        return data
 
     class Meta:
         model = Hotel

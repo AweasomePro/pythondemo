@@ -1,10 +1,8 @@
 from django.db import models
 
 from hotelBooking.models import BaseModel
+from hotelBooking.models import RoomPackage
 
-
-class test (BaseModel):
+class TestModel (BaseModel):
     class Meta:
         app_label = 'hotelBooking'
-
-    test1 = models.CharField()

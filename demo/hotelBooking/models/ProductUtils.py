@@ -3,7 +3,7 @@ from datetime import timedelta
 from django.utils.timezone import datetime
 
 from django.db import transaction
-from hotelBooking.models import RoomPackage,RoomDayState,Hotel
+from hotelBooking.models import RoomPackage,RoomDayState,Hotel,TestModel
 class RoomPackageCreator(object):
 
     def createRoomPackage(self, owner, hotel, room, default_point, default_price, breakfast):
@@ -18,11 +18,11 @@ class RoomPackageCreator(object):
                     default_front_price = default_price,
                     breakfast = breakfast
                 )
-                roomstates = []
                 # 说明是第一次创建
                 print('len is 0 ,will auto create')
                 day = datetime.today()
                 city =hotel.city
+                roomstates = []
                 for i in range(0, 30):
                     print(day.strftime('%Y-%m-%d'))
                     print(i)
@@ -36,6 +36,7 @@ class RoomPackageCreator(object):
                                        state=RoomDayState.ROOM_STATE_ENOUGH,
                                        date=day.strftime('%Y-%m-%d')
                                        )
+
                     roomstates.append(obj)
                     day += timedelta(days=1)
                 RoomDayState.objects.bulk_create(roomstates)

@@ -208,6 +208,7 @@ class OrderItem(models.Model):
         help_text=_("Product code at the moment of purchase"))
     product = models.ForeignKey(Product,on_delete=models.SET_NULL,null=True,blank=True,verbose_name=_("Product"))
 
+
 class HotelPackageOrder(Order):
     CUSTOMER_REQUIRE = 0x01
     CUSTOMER_CANCEL = 0x02
@@ -297,24 +298,6 @@ class HotelPackageOrderItem(OrderItem):
     point = models.IntegerField(_('need point'),help_text='所需积分(moment)')
     front_price = models.IntegerField(_('front price'),help_text='当天前台现付价格(moment)')
 
-# class HotelPackageOrderSnapShot(models.Model):
-#     hotel_id = models.IntegerField()
-#     room_type_id = models.IntegerField()
-#     hotel_name = models.CharField(max_length=255)
-#     room_type_name = models.CharField(max_length=255)
-#     default_front_price = models.IntegerField()
-#     default_point = models.IntegerField()
-#     hotel_package_order = models.OneToOneField(HotelPackageOrder)
-#     # def create_from_source(self,house_package):
-#     #     room = house_package.room
-#     #     hotel = house_package.room.hotel
-#     #     self.hotel_id = hotel.id
-#     #     self.room_type_id = room.id
-#     #     self.default_point = house_package.default_point
-#     #     self.default_front_price = house_package.default_front_price
-#     #     self.hotel_name = hotel.name
-#     #     self.room_type_name = room.name
-#     class Meta:
-#         app_label = 'hotelBooking'
+
 
 

@@ -38,7 +38,8 @@ class Product(BaseModel):
         (1,'酒店订房'),
     )
     # 产品的唯一标识
-    id = models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
+    # id = models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
+    uuid = models.UUIDField(default=uuid.uuid4,editable=False)
     created_on = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('create on'))
     modified_on = models.DateTimeField(auto_now=True, editable=False, verbose_name=_('modified on'))
     deleted = models.BooleanField(default=False, editable=False, db_index=True, verbose_name=_('deleted'))

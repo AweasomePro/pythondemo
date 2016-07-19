@@ -40,7 +40,7 @@ admin.site.register(Hotel,HotelAdmin)
 admin.site.register(HotelImg, HotelImgAdmin)
 admin.site.register(Room, RoomAdmin)
 
-admin.site.register(Product,ModelAdmin)
+# admin.site.register(Product,ModelAdmin)
 admin.site.register(RoomPackage, RoomPackageAdmin)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.

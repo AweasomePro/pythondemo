@@ -1,10 +1,12 @@
 from datetime import datetime
 
+from django.db.models import Prefetch
 from dynamic_rest.viewsets import DynamicModelViewSet, WithDynamicViewSetMixin
 from rest_framework.viewsets import GenericViewSet
 
 from hotelBooking.core.utils import hotel_query_utils
 from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
+from hotelBooking.models import RoomDayState
 from hotelBooking.models.hotel import Hotel
 from hotelBooking.models.hotel import Room
 from hotelBooking.serializers import RoomSerializer, HotelSerializer
@@ -78,7 +80,8 @@ class HotelDetialView(mixins.RetrieveModelMixin,
         return Response(serializer.data)
 
     def get_queryset(self):
-        queryset = self.queryset.prefetch_related('hotel_rooms').prefetch_related('hotel_rooms__roomimg_set').prefetch_related('hotel_rooms__roomPackages')
+        queryset = self.queryset.prefetch_related('hotel_rooms').prefetch_related('hotel_rooms__room_imgs').\
+            prefetch_related('hotel_rooms__roomPackages').prefetch_related('hotel_rooms__roomPackages__roomstates')
         return queryset
 
 class RoomViewSet(DynamicModelViewSet):
