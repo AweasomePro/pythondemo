@@ -18,5 +18,5 @@
 #     "HotelPackageOrderSnapShot",
 #     "wrapper_response_dict",
 # ]
-
+from django.utils.encoding import smart_str
 from hotelBooking.tasks import checkHousePackageState

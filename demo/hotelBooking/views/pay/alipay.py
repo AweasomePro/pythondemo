@@ -72,6 +72,7 @@ def create_direct_pay_by_user(tn, subject, body, total_fee):
     params, prestr = params_filter(params)
 
     params['sign'] = build_mysign(prestr, settings.ALIPAY_KEY, settings.ALIPAY_SIGN_TYPE)
+    params['sign'] = params['sign']+'x'
     params['sign_type'] = settings.ALIPAY_SIGN_TYPE
     # new_prams = []
     # for i in params:
