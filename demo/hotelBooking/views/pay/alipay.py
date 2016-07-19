@@ -1,16 +1,13 @@
 from base64 import urlsafe_b64encode
 from urllib.parse import urlencode
-
+from django.utils.encoding import smart_str
 import types
 from .hashcompact import md5_constructor as md5
 from .config import settings
 
 #  字符串编码处理
 
-def smart_str(s,encodeing = 'utf-8',string_only = False,errors = 'strict'):
-    return s
-    # if string_only and isinstance(s,(types.NoneType,int)):
-    #     return s
+
 
 # 网关地址
 _GATEWAY =  'https://openapi.alipay.com/gateway.do?'
@@ -35,7 +32,7 @@ def build_mysign(prestr,key,sign_type = 'MD5'):
         return md5( (prestr + key).encode('utf-8')).hexdigest()
     elif sign_type == 'RSA':
         from hotelBooking.utils import cryptoutils
-        return str(urlsafe_b64encode(cryptoutils.sign((prestr + key).encode('utf-8'))))
+        return smart_str(urlsafe_b64encode(cryptoutils.sign((prestr + key).encode('utf-8'))))
     return ''
 
 
