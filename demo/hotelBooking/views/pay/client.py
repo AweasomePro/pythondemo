@@ -1,3 +1,5 @@
+import uuid
+
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from hotelBooking.models.pay import Pay
@@ -17,20 +19,21 @@ subject = '积分充值'
 @is_authenticated()
 @api_view(['GET',])
 def point_pay(request):
-    # number = request.POST('number')
+    number = request.POST('number')
     pay = Pay.objects.create(
         user = request.user,
         number = 100,
         total_price = 100,
     )
-
+    tn = __split_uuid(pay.id)
+    print('uuid is {}'.format(tn))
     url = alipay.create_direct_pay_by_user(
-        tn =pay.id,
-        subject = subject,
-        body = '商品详情',
-        total_fee = 100
+        tn =tn,
+        subject = '商品一号',
+        body = '这是一件商品',
+        total_fee = 1
     )
-    return Response()
+    return Response(wrapper_response_dict(data={'url':url}))
     # alipay.create_direct_pay_by_user_url(
     #     out_trade_no = pay.id,
     #     subject = subject,
@@ -39,6 +42,11 @@ def point_pay(request):
     #     goods_type ='0'
     # )
 
+
+
+def __split_uuid(value):
+    value = uuid.UUID(value.replace('-', ''))
+    return value
 class PointPayView(views.APIView):
     authentication_classes = (JSONWebTokenAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
@@ -48,17 +56,18 @@ class PointPayView(views.APIView):
         :return:
         """
         point_number = request.GET.get('point',100)
-        pay = Pay.objects.create(
-            user=request.user,
-            number=point_number,
-            total_price=100,
-        )
+        # pay = Pay.objects.create(
+        #     user=request.user,
+        #     number=point_number,
+        #     total_price=100,
+        # )
         url = alipay.create_direct_pay_by_user(
-            tn=pay.id,
+            tn=12345,
             subject=subject,
             body='商品详情',
             total_fee=100
         )
+        print('hahaha{}'.format(url))
         return Response(wrapper_response_dict(data={'url':url}))
 
 

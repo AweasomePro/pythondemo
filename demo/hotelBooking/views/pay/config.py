@@ -15,7 +15,7 @@ class settings:
     ALIPAY_SIGN_TYPE = 'RSA'
 
     # 付完款后跳转的页面（同步通知） 要用 http://格式的完整路径，不允许加?id=123这类自定义参数
-    ALIPAY_RETURN_URL = 'http://www.agesd.com/alipay/return/'
+    ALIPAY_RETURN_URL = ''
 
     # 交易过程中服务器异步通知的页面 要用 http://格式的完整路径，不允许加?id=123这类自定义参数
     ALIPAY_NOTIFY_URL = 'http://agesd.com/alipay/notify/'

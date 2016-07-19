@@ -61,13 +61,25 @@ class HotelViewSet(WithDynamicViewSetMixin,viewsets.ReadOnlyModelViewSet):
 
 class HotelDetialView(mixins.RetrieveModelMixin,
                            GenericViewSet):
-    queryset = Hotel.objects
+    # states = RoomDayState.objects.filter(city_id=cityId).values('room__roomPackages__id', 'hotel__id') \
+    #     .filter(date__gte=checkin_time, date__lte=checkout_time,
+    #             state=1) \
+    #     .annotate(
+    #     consecutive_days=Count('state')
+    # ).filter(consecutive_days=(check_days + 1)).distinct().order_by('hotel')
+
+    queryset = Hotel.objects.get_queryset()
     serializer_class = HotelDetailSerializer
 
     def retrieve(self, request, *args, **kwargs):
+        print('hello')
         instance = self.get_object()
-        serializer = self.get_serializer(instance,context={'request':request})
+        serializer = self.get_serializer(instance,context={'request':request},exclude_fields =('city','agent'))
         return Response(serializer.data)
+
+    def get_queryset(self):
+        queryset = self.queryset.prefetch_related('hotel_rooms').prefetch_related('hotel_rooms__roomimg_set').prefetch_related('hotel_rooms__roomPackages')
+        return queryset
 
 class RoomViewSet(DynamicModelViewSet):
 

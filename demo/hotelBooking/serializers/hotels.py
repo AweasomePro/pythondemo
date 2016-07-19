@@ -80,8 +80,8 @@ class HotelDetailSerializer(DynamicModelSerializer):
     rooms = rest_serializers.SerializerMethodField('room_details')
 
     def room_details(self,hotel):
-
-        return 'rooms'
+        data = RoomSerializer(hotel.hotel_rooms,many=True,include_fields=('name',)).data
+        return {'rooms':data}
 
     class Meta:
         model = Hotel
