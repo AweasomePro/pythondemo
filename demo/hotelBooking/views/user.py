@@ -110,6 +110,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         phone_number = request.POST.get('phoneNumber')
         password = request.POST.get('password')
         role = request.POST.get('role',None)
+
         print('phone is {}'.format(phone_number))
         try:
             user = User.objects.get(phone_number=phone_number)
