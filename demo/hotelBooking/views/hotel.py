@@ -60,12 +60,14 @@ class HotelViewSet(WithDynamicViewSetMixin,viewsets.ReadOnlyModelViewSet):
 
 
 class HotelDetialView(mixins.RetrieveModelMixin,
-                           mixins.ListModelMixin,
                            GenericViewSet):
     queryset = Hotel.objects
     serializer_class = HotelDetailSerializer
 
-    pass
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance,context={'request':request})
+        return Response(serializer.data)
 
 class RoomViewSet(DynamicModelViewSet):
 

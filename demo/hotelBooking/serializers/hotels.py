@@ -1,5 +1,7 @@
 from dynamic_rest.fields import DynamicMethodField
 from dynamic_rest.serializers import DynamicModelSerializer
+from dynamic_rest import serializers as dynamic_serializers
+from rest_framework import serializers as rest_serializers
 from hotelBooking.models import RoomPackage
 from hotelBooking.models.hotel import Hotel, Room
 from hotelBooking.models.image import HotelImg, RoomImg
@@ -70,11 +72,16 @@ class HotelSerializer(DynamicModelSerializer):
 
 
 class HotelDetailSerializer(DynamicModelSerializer):
+
     """
     根据主键
     需要显示所有的room
     """
+    rooms = rest_serializers.SerializerMethodField('room_details')
 
+    def room_details(self,hotel):
+
+        return 'rooms'
 
     class Meta:
         model = Hotel
