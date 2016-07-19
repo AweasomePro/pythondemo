@@ -12,6 +12,7 @@ from hotelBooking.models.installation import Installation
 from hotelBooking.models.user import CustomerMember
 from hotelBooking.serializers import CustomerUserSerializer, UpdateMemberSerializer
 from hotelBooking.serializers import InstallationSerializer
+from hotelBooking.serializers.user import UserSerializer
 from hotelBooking.tasks import notify
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 from hotelBooking.utils.decorators import method_route, parameter_necessary, is_authenticated
@@ -108,6 +109,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         # checkHousePackageState(datetime.datetime.today().date())
         phone_number = request.POST.get('phoneNumber')
         password = request.POST.get('password')
+        role = request.POST.get('role',None)
         print('phone is {}'.format(phone_number))
         try:
             user = User.objects.get(phone_number=phone_number)
@@ -115,7 +117,10 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
             if (user is not None and user.check_password(password)):
                 payload = jwt_payload_handler(user)
                 token = jwt_encode_handler(payload)
-                response = DefaultJsonResponse(res_data={'user':CustomerUserSerializer(user).data})
+                if(role is None):
+                    response = DefaultJsonResponse(res_data={'user':CustomerUserSerializer(user).data})
+                else:
+                    response = DefaultJsonResponse(res_data={'user':UserSerializer(user).data})
                 response['token'] = token
                 return response
             else:

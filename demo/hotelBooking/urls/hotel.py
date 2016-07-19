@@ -13,7 +13,8 @@ nested_router.register(r'$hotel', hotel.HotelViewSet)
 # hotel_types_router.register(r'types',RoomTypeViewSet,base_name='roomtypes')
 
 hotel_default_router = DefaultRouter()
-hotel_default_router.register('hotel', hotel.HotelViewSet, base_name='hotels')
+hotel_default_router.register('hotels', hotel.HotelViewSet, base_name='hotels')
+hotel_default_router.register('hotel', hotel.HotelDetialView, base_name='hotel')
 
 hotel_types_router = routers.NestedSimpleRouter(hotel_default_router, r'hotel', lookup='hotel')
 # hotel_types_router.register(r'roomtypes', RoomTypeViewSet, base_name='roomtypes')

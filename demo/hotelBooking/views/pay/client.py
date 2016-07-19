@@ -41,6 +41,10 @@ class PointPayView(views.APIView):
     authentication_classes = (JSONWebTokenAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
     def get(self,request):
+        """
+        :param point 积分数量
+        :return:
+        """
         point_number = request.GET.get('point',100)
         pay = Pay.objects.create(
             user=request.user,

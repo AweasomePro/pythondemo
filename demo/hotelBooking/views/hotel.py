@@ -1,22 +1,24 @@
 from datetime import datetime
 
 from dynamic_rest.viewsets import DynamicModelViewSet, WithDynamicViewSetMixin
+from rest_framework.viewsets import GenericViewSet
+
 from hotelBooking.core.utils import hotel_query_utils
 from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
 from hotelBooking.models.hotel import Hotel
 from hotelBooking.models.hotel import Room
 from hotelBooking.serializers import RoomSerializer, HotelSerializer
+from hotelBooking.serializers.hotels import HotelDetailSerializer
 from hotelBooking.utils import dateutils
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
-from rest_framework.viewsets import ReadOnlyModelViewSet
+from rest_framework import generics, mixins, views,viewsets
 
 
-class HotelViewSet(WithDynamicViewSetMixin,ReadOnlyModelViewSet):
+class HotelViewSet(WithDynamicViewSetMixin,viewsets.ReadOnlyModelViewSet):
     serializer_class = HotelSerializer
     queryset = Hotel.objects.all()
-
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -56,16 +58,14 @@ class HotelViewSet(WithDynamicViewSetMixin,ReadOnlyModelViewSet):
             return queryset
 
 
-# class RoomTypeViewSet(viewsets.ViewSet):
-#     serializer_class = RoomTypeSerializer
-#
-#     def list(self,request,hotel_pk=None):
-#
-#         queryset = Room.objects.filter(hotel__id=hotel_pk)
-#         serializer = self.serializer_class(queryset.all(),many=True)
-#         return Response(wrapper_response_dict(data=serializer.data))
 
-# class HotelDetialView()
+class HotelDetialView(mixins.RetrieveModelMixin,
+                           mixins.ListModelMixin,
+                           GenericViewSet):
+    queryset = Hotel.objects
+    serializer_class = HotelDetailSerializer
+
+    pass
 
 class RoomViewSet(DynamicModelViewSet):
 
