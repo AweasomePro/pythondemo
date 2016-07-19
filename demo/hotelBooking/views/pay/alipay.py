@@ -32,7 +32,7 @@ def build_mysign(prestr,key,sign_type = 'MD5'):
         return md5( (prestr + key).encode('utf-8')).hexdigest()
     elif sign_type == 'RSA':
         from hotelBooking.utils import cryptoutils
-        return smart_str(urlsafe_b64encode(cryptoutils.sign((prestr + key).encode('utf-8'))))
+        return urlsafe_b64encode(cryptoutils.sign((prestr + key).encode('utf-8')))
     return ''
 
 
