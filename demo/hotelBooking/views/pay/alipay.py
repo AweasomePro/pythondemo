@@ -84,6 +84,7 @@ def create_direct_pay_by_user(tn, subject, body, total_fee):
     for (k,v) in params.items():
         appendstr = '{}={}&'.format(k,v)
         result+=appendstr
+    result = result[:-1]
     return result
 
 def getOrderInfo(subject,body,price):
