@@ -13,7 +13,7 @@ class PartnerPermission(BasePermission):
         """
         Return `True` if permission is granted, `False` otherwise.
         """
-        return request.user is not None and request.user.role ==1 or request.user
+        return  request.user.role ==1 or request.user.is_admin
 
 
     def has_object_permission(self, request, view, obj):

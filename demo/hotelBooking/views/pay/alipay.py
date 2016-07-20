@@ -1,10 +1,10 @@
 from base64 import urlsafe_b64encode
-from urllib.parse import urlencode
+from urllib.parse import urlencode,quote
 from django.utils.encoding import smart_str
 import types
 from .hashcompact import md5_constructor as md5
 from .config import settings
-
+from collections import OrderedDict
 #  字符串编码处理
 
 
@@ -14,31 +14,30 @@ _GATEWAY =  'https://openapi.alipay.com/gateway.do?'
 
 def params_filter(params):
     ks = params.keys()
-    ks = sorted(ks)
-    newparams = {}
     prestr = ''
     for k in ks:
         v = params[k]
         k = smart_str(k,settings.ALIPAY_INPUT_CHARSET)
         if k not in ('sign','sign_type') and v !='':
-            newparams[k] = smart_str(v,settings.ALIPAY_INPUT_CHARSET)
-            prestr += '{}={}&'.format(k,newparams[k])
-    prestr = prestr[:-1]
+            params[k] = smart_str(v,settings.ALIPAY_INPUT_CHARSET)
+            prestr += '{}=\"{}\"&'.format(k,params[k])
     print('prestr is {}'.format(prestr))
-    return newparams,prestr
+    return prestr
 
 def build_mysign(prestr,key,sign_type = 'MD5'):
     if sign_type == 'MD5':
         return md5( (prestr + key).encode('utf-8')).hexdigest()
     elif sign_type == 'RSA':
         from hotelBooking.utils import cryptoutils
-        return smart_str(urlsafe_b64encode(cryptoutils.sign((prestr + key).encode('utf-8'))))
+        print(prestr+key)
+        # todo 注意  RSA不需要检验码，
+        return smart_str(quote(cryptoutils.sign((prestr).encode('utf-8')),safe=''))
     return ''
 
 
 # 即时到账交易接口
 def create_direct_pay_by_user(tn, subject, body, total_fee):
-    params = {}
+    params = OrderedDict()
 
     # 获取配置文件
     params['partner'] = settings.ALIPAY_PARTNER
@@ -65,25 +64,24 @@ def create_direct_pay_by_user(tn, subject, body, total_fee):
     # else:
     #     params['paymethod'] = 'bankPay'  # 默认支付方式，四个值可选：bankPay(网银); cartoon(卡通); directPay(余额); CASH(网点支付)
     #     params['defaultbank'] = bank  # 默认网银代号，代号列表见http://club.alipay.com/read.php?tid=8681379
+    #
+    prestr = params_filter(params)
 
-    for i in params:
-        params[i] = "\""+ smart_str(params[i])+"\""
-        print(params[i])
-    params, prestr = params_filter(params)
-
-    params['sign'] = "\""+build_mysign(prestr, settings.ALIPAY_KEY, settings.ALIPAY_SIGN_TYPE)+"\""
-    params['sign_type'] ="\""+ settings.ALIPAY_SIGN_TYPE+"\""
-    # new_prams = []
-    # for i in params:
-    #     new_prams.append(addquotation(params[i]))
-    sorted(params,reverse=True)
-    result = ''
-    for (k,v) in params.items():
-        appendstr = '{}={}&'.format(k,v)
-        print(appendstr)
-        result+=appendstr
-    result = result[:-1]
-    return result
+    print(prestr)
+    sign = 'sign =\"{}\"&'.format(build_mysign(prestr,settings.ALIPAY_KEY,settings.ALIPAY_SIGN_TYPE))
+    sign_type = 'sign_type=\"RSA\"'
+    prestr = prestr+sign+sign_type
+    # params['sign'] = "\""+build_mysign(prestr, settings.ALIPAY_KEY, settings.ALIPAY_SIGN_TYPE)+"\""
+    # params['sign_type'] ="\""+ settings.ALIPAY_SIGN_TYPE+"\""
+    # # new_prams = []
+    # # for i in params:
+    # #     new_prams.append(addquotation(params[i]))
+    # # sorted(params,reverse=True)
+    # for (k,v) in params.items():
+    #     appendstr = '{}={}&'.format(k,v)
+    #     print(appendstr)
+    #     result+=appendstr
+    return prestr
 
 def getOrderInfo(subject,body,price):
     # orderInfo =
