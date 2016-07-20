@@ -81,12 +81,10 @@ def get_order_identifier(order):
         getter = load(order_identifier_method, "Order identifier generator")
         return getter(order)
 
-staticmethod
 def get_next_pay_order_number(request):
     try:
         order_numbers = HotelOrderNumberGenerator.objects.get(id="order_pay_number")
     except HotelOrderNumberGenerator.DoesNotExist:
         order_numbers = HotelOrderNumberGenerator.objects.create(id="order_pay_number")
     order_numbers.init(request)
-
-    return order_numbers.get_next()
+    return order_numbers.get_next_pay_order()

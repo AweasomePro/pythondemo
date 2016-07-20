@@ -1,3 +1,4 @@
+import random
 from datetime import datetime
 
 from django import forms
@@ -72,7 +73,7 @@ class HotelOrderNumberGenerator(OrderNumberGenerator):
         self.last_number+=1
         number = self.last_number
         self.save()
-        orderNumber ='{0}{1}{2}'.format(1002,str,number)
+        orderNumber ='{0}{1}{2}{3}'.format(1002,str,random.randint(1,9),number)
         return int(orderNumber)
 
     def get_next_pay_order(self,formatted=True):
@@ -80,7 +81,8 @@ class HotelOrderNumberGenerator(OrderNumberGenerator):
         self.last_number += 1
         number = self.last_number
         self.save()
-        orderNumber = '{0}{1}{2}'.format(1003, str, number)
+        orderNumber = '{0}{1}{2}{3}'.format(1003, str, random.randint(1, 9),number,)
+        print('得到订单号{}'.format(orderNumber))
         return int(orderNumber)
     class Meta:
         app_label = 'hotelBooking'

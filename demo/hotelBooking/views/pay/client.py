@@ -17,8 +17,6 @@ from hotelBooking.models.order_utils import get_next_pay_order_number
 subject = '积分充值'
 
 
-
-
 class PointPayView(views.APIView):
     authentication_classes = (JSONWebTokenAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
@@ -29,8 +27,10 @@ class PointPayView(views.APIView):
         :return:
         """
         point_number = request.GET.get('point',100)
+        trade_no = get_next_pay_order_number(request)
+        print('trade_no 是{}'.format(trade_no))
         pay = Pay.objects.create(
-            id =get_next_pay_order_number(request),
+            trade_no =trade_no,
             user=request.user,
             number=point_number,
             total_price=100,
