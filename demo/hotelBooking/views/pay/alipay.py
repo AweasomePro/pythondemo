@@ -49,11 +49,8 @@ def create_direct_pay_by_user(tn, subject, body, total_fee):
     params['out_trade_no'] = tn  # 请与贵网站订单系统中的唯一订单号匹配
     # params['out_trade_no'] = '0720163411-1604'  # 请与贵网站订单系统中的唯一订单号匹配
     params['subject'] = subject  # 订单名称，显示在支付宝收银台里的“商品名称”里，显示在支付宝的交易管理的“商品名称”的列表里。
-    params['subject'] = '充值积分'  # 订单名称，显示在支付宝收银台里的“商品名称”里，显示在支付宝的交易管理的“商品名称”的列表里。
-    # params['body'] = body  # 订单描述、订单详细、订单备注，显示在支付宝收银台里的“商品描述”里，不可以为空
-    params['body'] = '充值积分'  # 订单描述、订单详细、订单备注，显示在支付宝收银台里的“商品描述”里，不可以为空
-    # params['total_fee'] = total_fee  # 订单总金额，显示在支付宝收银台里的“应付总额”里，精确到小数点后两位
-    params['total_fee'] = tn  # 订单总金额，显示在支付宝收银台里的“应付总额”里，精确到小数点后两位
+    params['body'] = body  # 订单描述、订单详细、订单备注，显示在支付宝收银台里的“商品描述”里，不可以为空
+    params['total_fee'] = total_fee  # 订单总金额，显示在支付宝收银台里的“应付总额”里，精确到小数点后两位
     params['notify_url'] = settings.ALIPAY_NOTIFY_URL
     # 从订单数据中动态获取到的必填参数
     params['service'] = 'mobile.securitypay.pay'
