@@ -1,6 +1,6 @@
 from rest_framework.permissions import BasePermission
 
-from hotelBooking import Order,HotelPackageOrder
+from hotelBooking.models import Order,HotelPackageOrder
 from hotelBooking.exceptions.order import OrderDoesNotExist
 
 

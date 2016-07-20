@@ -43,9 +43,15 @@ class PointMixin(models.Model):
 class User(PointMixin,PermissionsMixin,AbstractBaseUser):
     male = 1
     female = 0
+    CUSTOMER = 1
+    PARTNER = 2
     SEX = (
         (male,'male'),
         (female,'female'),
+    )
+    ROLE = (
+        (CUSTOMER,'顾客'),
+        (PARTNER,'合作伙伴'),
     )
 
     phone_number = models.CharField(max_length=15, unique=True)
@@ -56,6 +62,7 @@ class User(PointMixin,PermissionsMixin,AbstractBaseUser):
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_loggin = models.BooleanField(default=False)
+    role  = models.IntegerField( choices=ROLE,default=ROLE[0][0],help_text='该账号的角色标识')
     create_at = models.DateTimeField(auto_now_add=True)
     point = PointField(default=0,editable=False,verbose_name='积分')
     objects = UserManager()
@@ -97,7 +104,8 @@ class User(PointMixin,PermissionsMixin,AbstractBaseUser):
     @property
     def is_customer_member(self):
         # todo  使用数据库 字段 来优化
-        return self.customermember is not None
+        return self.customermember is not None or self.role ==self.CUSTOMER
+
 
     def __unicode__(self):
         return self.phone_number
