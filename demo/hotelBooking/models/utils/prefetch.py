@@ -62,3 +62,4 @@ class Prefetcher(object):
         model instance here.
     """
     collect = False
+
