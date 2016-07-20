@@ -19,7 +19,7 @@ class OrderNumberGenerator(BaseModel):
         app_label = 'hotelBooking'
         abstract = True
 
-    def init(self,request,order):
+    def init(self,request,order=None):
         self.request = request
         self.order = order
         self.user = request.user
@@ -63,6 +63,10 @@ class OrderNumberGenerator(BaseModel):
 class HotelOrderNumberGenerator(OrderNumberGenerator):
     last_number  = models.IntegerField(default=0)
 
+    """
+    1002 表示订房
+    1003表示充值
+    """
     def get_next(self, formatted=True):
         str = datetime.now().strftime('%Y%m%d%H')[2:]
         self.last_number+=1
@@ -71,6 +75,13 @@ class HotelOrderNumberGenerator(OrderNumberGenerator):
         orderNumber ='{0}{1}{2}'.format(1002,str,number)
         return int(orderNumber)
 
+    def get_next_pay_order(self,formatted=True):
+        str = datetime.now().strftime('%Y%m%d%H')[2:]
+        self.last_number += 1
+        number = self.last_number
+        self.save()
+        orderNumber = '{0}{1}{2}'.format(1003, str, number)
+        return int(orderNumber)
     class Meta:
         app_label = 'hotelBooking'
 

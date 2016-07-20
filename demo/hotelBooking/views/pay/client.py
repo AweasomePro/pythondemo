@@ -11,36 +11,10 @@ from rest_framework import viewsets,permissions
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from . import alipay
 from hotelBooking.views import wrapper_response_dict
+from hotelBooking.models.order_utils import get_next_pay_order_number
 
 
 subject = '积分充值'
-@transaction.atomic()
-@authentication_classes([JSONWebTokenAuthentication,])
-@is_authenticated()
-@api_view(['GET',])
-def point_pay(request):
-    number = request.POST('number')
-    pay = Pay.objects.create(
-        user = request.user,
-        number = 100,
-        total_price = 100,
-    )
-    tn = split_uuid(pay.id)
-    print('uuid is {}'.format(tn))
-    url = alipay.create_direct_pay_by_user(
-        tn =tn,
-        subject = '商品一号',
-        body = '这是一件商品',
-        total_fee = 1
-    )
-    return Response(url)
-    # alipay.create_direct_pay_by_user_url(
-    #     out_trade_no = pay.id,
-    #     subject = subject,
-    #     total_fee= number,
-    #     notify_url='your_order_notify_url',
-    #     goods_type ='0'
-    # )
 
 
 
@@ -48,6 +22,7 @@ def point_pay(request):
 class PointPayView(views.APIView):
     authentication_classes = (JSONWebTokenAuthentication,)
     permission_classes = (permissions.IsAuthenticated,)
+    @transaction.atomic()
     def get(self,request):
         """
         :param point 积分数量
@@ -55,6 +30,7 @@ class PointPayView(views.APIView):
         """
         point_number = request.GET.get('point',100)
         pay = Pay.objects.create(
+            id =get_next_pay_order_number(request),
             user=request.user,
             number=point_number,
             total_price=100,

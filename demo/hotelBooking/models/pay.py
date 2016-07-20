@@ -14,7 +14,7 @@ class Pay(DateStateMixin,models.Model):
         (1,_('未支付')),
         (2,_('支付成功')),
     )
-    id = models.UUIDField(primary_key=True,max_length=50, default=uuid.uuid4, editable=False)
+    id = models.IntegerField(primary_key=True,editable=False,default=1)
     unit_price = models.IntegerField(_('单位价格(元)'),default=1)
     number = models.IntegerField(_('购买的数量'))
     total_price = models.FloatField(_('总价'))
