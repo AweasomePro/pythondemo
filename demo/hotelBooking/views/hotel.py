@@ -55,23 +55,18 @@ class HotelViewSet(WithDynamicViewSetMixin,viewsets.ReadOnlyModelViewSet):
         checkoutTime = self.request.query_params.get('checkoutTime',None)
         cityId = self.request.query_params.get('cityId',None)
         if (checkinTime and checkoutTime and cityId):
-            return hotel_query_utils.query(queryset, cityId, checkinTime, checkoutTime)
-        else:
-            return queryset
+            queryset =  hotel_query_utils.query(queryset, cityId, checkinTime, checkoutTime)
+
+        return queryset.prefetch_related('hotel_imgs').prefetch_related('roompackage_set').prefetch_related('hotel_rooms')
 
 
 
 class HotelDetialView(mixins.RetrieveModelMixin,
                            GenericViewSet):
-    # states = RoomDayState.objects.filter(city_id=cityId).values('room__roomPackages__id', 'hotel__id') \
-    #     .filter(date__gte=checkin_time, date__lte=checkout_time,
-    #             state=1) \
-    #     .annotate(
-    #     consecutive_days=Count('state')
-    # ).filter(consecutive_days=(check_days + 1)).distinct().order_by('hotel')
 
     queryset = Hotel.objects.get_queryset()
     serializer_class = HotelDetailSerializer
+
 
     def retrieve(self, request, *args, **kwargs):
         print('hello')
@@ -125,5 +120,6 @@ class RoomViewSet(DynamicModelViewSet):
             *args, **kwargs)
 
 # todo 根据酒店id   返回 该酒店目前支持的房型
-def query_hotel_room_type(request):
+
+class HotelTypesViewSet(viewsets.ReadOnlyModelViewSet):
     pass

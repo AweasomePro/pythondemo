@@ -52,7 +52,7 @@ class HotelSerializer(DynamicModelSerializer):
 
     hotel_imgs = HotelImgSerializer(embed=True,many=True,exclude_fields=('id','hotel'))
     # hotel_rooms = RoomSerializer(many=True, embed=True)
-    types = DynamicMethodField()
+    # types = DynamicMethodField()
     min_price = DynamicMethodField()
 
     def get_types(self,hotel):
@@ -67,7 +67,7 @@ class HotelSerializer(DynamicModelSerializer):
     class Meta:
         model = Hotel
         name = 'hotel'
-        exclude =('agent',)
+        exclude =('agent','city',)
 
 class HotelDetailSerializer(DynamicModelSerializer):
 
@@ -85,3 +85,15 @@ class HotelDetailSerializer(DynamicModelSerializer):
         model = Hotel
         name = 'hotel'
 
+class HotelTypeSerializer(DynamicMethodField):
+    types = DynamicMethodField()
+
+    def get_types(self, hotel):
+        types = hotel.hotel_rooms.values('id', 'name')
+        print(types)
+        return types
+
+    class Meta:
+        model = Hotel
+        name = 'hotel'
+        fields = ('agent', 'city',)

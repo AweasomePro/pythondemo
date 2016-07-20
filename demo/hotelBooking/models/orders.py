@@ -208,7 +208,7 @@ class OrderItem(models.Model):
         help_text=_("Product code at the moment of purchase"))
     product = models.ForeignKey(Product,on_delete=models.SET_NULL,null=True,blank=True,verbose_name=_("Product"))
 
-
+from hotelBooking.models.products import RoomPackage
 class HotelPackageOrder(Order):
     CUSTOMER_REQUIRE = 0x01
     CUSTOMER_CANCEL = 0x02
@@ -233,6 +233,7 @@ class HotelPackageOrder(Order):
     # 客户添加的额外信息
     total_front_prices = models.IntegerField(_('total need prices'),help_text='所需前台总价')
     total_need_points = models.IntegerField(_('total need points'),help_text='所需积分总和')
+    breakfast = models.IntegerField(default=1, verbose_name='早餐类型',help_text=' 订单生成时,所记录的早餐类型')
 
     hotel_name = models.CharField(_('hotel name',),max_length=255,help_text='hotel name at the moment of purchase')
     room_name = models.CharField(_('room name'),max_length=255,help_text='room name at the moment of purchase')

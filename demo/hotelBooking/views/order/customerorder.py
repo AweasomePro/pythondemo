@@ -29,13 +29,7 @@ class CustomerHotelBookOrderList(ReadOnlyModelViewSet):
 
     def list(self, request, *args, **kwargs):
         serlaizer_datas = CustomerOrderSerializer(self.get_queryset().all(), many=True).data
-        # new_data = []
-        # for data in serlaizer_datas:
-        #     snapshopt = data.pop('hotelpackageordersnapshot')
-        #     type(data['order'])
-        #     data['order']['snapshot'] = snapshopt
-        #     print(data['order'])
-        #     new_data.append(data['order'])
+
         inprocess_set = self.get_inproccess_querset()
         finished_set = self.get_finished_queryset()
         return DefaultJsonResponse(res_data={
@@ -189,6 +183,7 @@ def generateHotelPackageProductOrder(request, member_user, room_package, request
                 checkout_time= checkoutTime,
                 total_need_points = sum_point,
                 total_front_prices = sum_front_price,
+                breakfast =room_package.breakfast,
                 hotel_name = room_package.hotel.name,
                 room_name = room_package.room.name
             )

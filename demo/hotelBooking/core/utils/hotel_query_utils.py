@@ -14,16 +14,15 @@ def query(queryset,cityId,checkinTime,checkoutTime):
     check_days = (checkout_time - checkin_time).days
     print(checkin_time)
     print(checkout_time)
-    states = RoomDayState.objects.filter(city_id=cityId).values('room__roomPackages__id', 'hotel__id') \
-        .filter(date__gte=checkin_time, date__lte=checkout_time,
-                state=1) \
-        .annotate(
-        consecutive_days=Count('state')
-    ).filter(consecutive_days=(check_days + 1)).distinct().order_by('hotel')
+
+    states = RoomDayState.objects.filter(city_id=cityId).values('roomPackage', 'hotel') \
+        .filter(date__gte=checkin_time, date__lt=checkout_time,
+                state=1).annotate(
+        consecutive_days=Count('state')).filter(consecutive_days=(check_days )).distinct().order_by('hotel')
     # print(type(states))
     s = set()
     for i in states:
-        s.add(i['hotel__id'])
+        s.add(i['hotel'])
     # print(s)
     queryset = queryset.filter(id__in=s)
     return queryset
