@@ -51,8 +51,12 @@ def split_uuid(value):
 
 @api_view(['POST',])
 def alipay_notify(request):
+    res_post = request.POST
+    print(request.method)
     print(request.POST)
     print('支付宝回调了我哦')
     print(request.body)
+    sing = request.POST.get('sign')
+    trade_status = res_post.get()
     return Response('success')
 
