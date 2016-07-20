@@ -57,6 +57,6 @@ def alipay_notify(request):
     print('支付宝回调了我哦')
     print(request.body)
     sing = request.POST.get('sign')
-    trade_status = res_post.get()
+
     return Response('success')
 
