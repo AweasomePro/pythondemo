@@ -25,13 +25,15 @@ def params_filter(params):
     return prestr
 
 def build_mysign(prestr,key,sign_type = 'MD5'):
+    # 去掉最后一个 &
+
     if sign_type == 'MD5':
         return md5( (prestr + key).encode('utf-8')).hexdigest()
     elif sign_type == 'RSA':
         from hotelBooking.utils import cryptoutils
         print(prestr+key)
         # todo 注意  RSA不需要检验码，
-        return smart_str(quote(cryptoutils.sign((prestr).encode('utf-8')),safe=''))
+        return smart_str(quote(cryptoutils.sign((prestr[:-1]).encode('utf-8')),safe=''))
     return ''
 
 
