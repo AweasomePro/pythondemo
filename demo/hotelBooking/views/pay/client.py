@@ -36,10 +36,10 @@ class PointPayView(views.APIView):
             total_price=100,
         )
         url = alipay.create_direct_pay_by_user(
-            tn=100,
+            tn=pay.trade_no,
             subject=subject,
             body='商品详情',
-            total_fee=100
+            total_fee=point_number
         )
         return Response(wrapper_response_dict(data={'url':url}))
 
