@@ -22,7 +22,6 @@ def params_filter(params):
         if k not in ('sign','sign_type') and v !='':
             params[k] = smart_str(v,settings.ALIPAY_INPUT_CHARSET)
             prestr += '{}=\"{}\"&'.format(k,params[k])
-    print('prestr is {}'.format(prestr))
     return prestr
 
 def build_mysign(prestr,key,sign_type = 'MD5'):
@@ -64,37 +63,11 @@ def create_direct_pay_by_user(tn, subject, body, total_fee):
     params['it_b_pay'] = '30m'
     params['return_url'] = 'm.alipay.com'
 
-    # params['seller_email'] = settings.ALIPAY_SELLER_EMAIL
-    # 可空
-    # params['return_url'] = settings.ALIPAY_RETURN_URL
-
-
-
-
-    # # 扩展功能参数——网银提前
-    # if bank == 'alipay' or bank == '':
-    #     params['paymethod'] = 'directPay'  # 支付方式，四个值可选：bankPay(网银); cartoon(卡通); directPay(余额); CASH(网点支付)
-    #     params['defaultbank'] = ''  # 支付宝支付，这个为空
-    # else:
-    #     params['paymethod'] = 'bankPay'  # 默认支付方式，四个值可选：bankPay(网银); cartoon(卡通); directPay(余额); CASH(网点支付)
-    #     params['defaultbank'] = bank  # 默认网银代号，代号列表见http://club.alipay.com/read.php?tid=8681379
-    #
     prestr = params_filter(params)
 
-    print(prestr)
     sign = 'sign=\"{}\"&'.format(build_mysign(prestr,settings.ALIPAY_KEY,settings.ALIPAY_SIGN_TYPE))
     sign_type = 'sign_type=\"RSA\"'
     prestr = prestr+sign+sign_type
-    # params['sign'] = "\""+build_mysign(prestr, settings.ALIPAY_KEY, settings.ALIPAY_SIGN_TYPE)+"\""
-    # params['sign_type'] ="\""+ settings.ALIPAY_SIGN_TYPE+"\""
-    # # new_prams = []
-    # # for i in params:
-    # #     new_prams.append(addquotation(params[i]))
-    # # sorted(params,reverse=True)
-    # for (k,v) in params.items():
-    #     appendstr = '{}={}&'.format(k,v)
-    #     print(appendstr)
-    #     result+=appendstr
     return prestr
 
 def getOrderInfo(subject,body,price):
