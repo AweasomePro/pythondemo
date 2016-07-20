@@ -18,5 +18,5 @@ class settings:
     ALIPAY_RETURN_URL = ''
 
     # 交易过程中服务器异步通知的页面 要用 http://格式的完整路径，不允许加?id=123这类自定义参数
-    ALIPAY_NOTIFY_URL = 'http://10.91.229.28/alipay/notify/'
+    ALIPAY_NOTIFY_URL = 'http://agesd.com/alipay/notify/'
     # ALIPAY_NOTIFY_URL = 'http://notify.msp.hk/notify.htm'
