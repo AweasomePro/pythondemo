@@ -46,7 +46,7 @@ def create_direct_pay_by_user(tn, subject, body, total_fee):
     # 获取配置文件
     params['partner'] = settings.ALIPAY_PARTNER
     params['seller_id'] = settings.ALIPAY_SELLER_EMAIL
-    params['out_trade_no'] = tn  # 请与贵网站订单系统中的唯一订单号匹配
+    params['out_trade_no'] = 123  # 请与贵网站订单系统中的唯一订单号匹配
     params['subject'] = '商品详情'  # 订单名称，显示在支付宝收银台里的“商品名称”里，显示在支付宝的交易管理的“商品名称”的列表里。
     params['body'] = '积分充值'  # 订单描述、订单详细、订单备注，显示在支付宝收银台里的“商品描述”里，不可以为空
     params['total_fee'] = '0.01'  # 订单总金额，显示在支付宝收银台里的“应付总额”里，精确到小数点后两位
