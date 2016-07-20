@@ -34,7 +34,11 @@ def sign(data):
 """
 encode byte转str
 """
-urlencoderes = sign(b'100')
+with open(BASE_DIR+ '/str',encoding='utf-8') as f:
+    s = f.read()
+
+
+urlencoderes = sign(bytes(s,encoding='utf-8'))
 print(urlencoderes)
 print('第二次,得到了对应的字符')
 str2 = str(urlencoderes,encoding='utf-8')

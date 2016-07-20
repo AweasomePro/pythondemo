@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 from base64 import urlsafe_b64encode
 from urllib.parse import urlencode,quote
 from django.utils.encoding import smart_str
@@ -31,8 +32,9 @@ def build_mysign(prestr,key,sign_type = 'MD5'):
         return md5( (prestr + key).encode('utf-8')).hexdigest()
     elif sign_type == 'RSA':
         from hotelBooking.utils import cryptoutils
-        print(prestr+key)
         # todo 注意  RSA不需要检验码，
+        print('需要做的解码是')
+        print(prestr[:-1])
         return smart_str(quote(cryptoutils.sign((prestr[:-1]).encode('utf-8')),safe=''))
     return ''
 

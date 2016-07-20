@@ -65,7 +65,6 @@ class PointPayView(views.APIView):
             body='商品详情',
             total_fee=100
         )
-        print('hahaha{}'.format(url))
         return Response(wrapper_response_dict(data={'url':url}))
 
 
