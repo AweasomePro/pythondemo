@@ -80,8 +80,10 @@ class HotelDetialView(mixins.RetrieveModelMixin,
         return Response(serializer.data)
 
     def get_queryset(self):
-        queryset = self.queryset.prefetch_related('hotel_rooms').prefetch_related('hotel_rooms__room_imgs').\
-            prefetch_related('hotel_rooms__roomPackages').prefetch_related('hotel_rooms__roomPackages__roomstates')
+        queryset = self.queryset.prefetch_related('hotel_rooms')\
+            .prefetch_related('hotel_rooms__room_imgs')\
+            .prefetch_related('hotel_rooms__roomPackages')\
+            .prefetch_related(Prefetch('hotel_rooms__roomPackages__roomstates',queryset = RoomDayState.objects.filter(date__gt=datetime(2016,7,30).date())))
         return queryset
 
 class RoomViewSet(DynamicModelViewSet):

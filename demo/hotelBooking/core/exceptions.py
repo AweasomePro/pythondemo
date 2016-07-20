@@ -16,11 +16,6 @@ class ConditionDenied(Exception):
 class PointNotEnough(ConditionDenied):
     default_detail = _('积分不够.')
 
-    def __init__(self, detail=None):
-        if detail is not None:
-            self.detail = force_text(detail)
-        else:
-            self.detail = force_text(self.default_detail)
 
 class PwdSetDenied(ConditionDenied):
     default_detail = _('密码错误')

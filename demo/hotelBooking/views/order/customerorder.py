@@ -127,8 +127,9 @@ class RoomPackageBookAPIView(APIView):
             print('guests is ')
         # check id 是否真实
         try:
-            room_package = RoomPackage.objects.get(id=productId)
-        except Product.DoesNotExist:
+            room_package = RoomPackage.objects.get(uuid=productId)
+
+        except RoomPackage.DoesNotExist:
             return DefaultJsonResponse(message='不存在该商品', code=403)
 
         # check 在区间是否存在订单
@@ -166,7 +167,7 @@ def check_point_enough_book(user, room_package, checkinTime, checkoutTime, ):
 
 def generateHotelPackageProductOrder(request, member_user, room_package, request_notes, checkinTime, checkoutTime):
     days = (checkoutTime - checkinTime).days
-    daystates = room_package.daystates.filter(date__gte=checkinTime,date__lt=checkoutTime)
+    daystates = room_package.roomstates.filter(date__gte=checkinTime,date__lt=checkoutTime)
     # 保证 state 为可预订状态
     if (daystates.count() != days):
         raise ConditionDenied(detail='该套餐已满')
