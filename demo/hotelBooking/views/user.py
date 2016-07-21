@@ -13,7 +13,7 @@ from hotelBooking.models.user import CustomerMember
 from hotelBooking.serializers import CustomerUserSerializer, UpdateMemberSerializer
 from hotelBooking.serializers import InstallationSerializer
 from hotelBooking.serializers.user import UserSerializer
-from hotelBooking.tasks import notify
+from hotelBooking.tasks import notify,checkHousePackageState
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 from hotelBooking.utils.decorators import method_route, parameter_necessary, is_authenticated
 from qiniu import Auth
@@ -81,6 +81,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
                     parter = PartnerMember.objects.create(user = user)
                     payload = jwt_payload_handler(user)
                     token = jwt_encode_handler(payload)
+
                     res = {'token': token}
                     return Response(data=res)
                 else:
@@ -107,15 +108,17 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         # _do_kground_work.delay('GreenPrice')
         print(request.version)
         notify.delay(phone_number =15726814574, message='登入成功')
+
         # import datetime
         # checkHousePackageState(datetime.datetime.today().date())
         phone_number = request.POST.get('phoneNumber')
         password = request.POST.get('password')
 
         print('phone is {}'.format(phone_number))
+        checkHousePackageState()
         try:
             user = User.objects.get(phone_number=phone_number)
-            notify.delay(user.phone_number,message='登入成功')
+            # notify.delay(user.phone_number,message='登入成功')
             if (user is not None and user.check_password(password)):
                 payload = jwt_payload_handler(user)
                 token = jwt_encode_handler(payload)

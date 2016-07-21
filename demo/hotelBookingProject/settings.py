@@ -28,8 +28,8 @@ ALLOWED_HOSTS = ['*']
 
 # support celery
 import djcelery
-BROKER_URL = 'redis://:Zhuo8995588@3e5069637587473d.redis.rds.aliyuncs.com:6379/DB0'
-# BROKER_URL = 'django://'
+# BROKER_URL = 'redis://:Zhuo8995588@3e5069637587473d.redis.rds.aliyuncs.com:6379/DB0'
+BROKER_URL = 'django://'
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler' # 定时任务
 CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'  #配置结果的存储
 CELERY_TIMEZONE = 'Asia/Shanghai'
