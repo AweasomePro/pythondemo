@@ -8,7 +8,7 @@ from jsonfield.fields import JSONField
 from enumfields import Enum
 from django.db import transaction
 from rest_framework.exceptions import APIException, PermissionDenied
-
+from model_utils.managers import QueryManager,InheritanceManager
 # from parler.managers import TranslatableQuerySet
 # from parler.models import TranslatableModel, TranslatedFields
 from hotelBooking.models.products import Product
@@ -183,7 +183,7 @@ class Order(models.Model):
     shipping_status = models.IntegerField(choices=SHIPPED_STATES,db_index=True, default=NOT_SHIPPED,
                                        verbose_name=_('shipping status'))
 
-    objects = OrderQuerySet.as_manager()
+    objects = InheritanceManager()
 
     class Meta:
         app_label = 'hotelBooking'
@@ -221,7 +221,7 @@ class HotelPackageOrder(Order):
         (CUSTOMER_REQUIRE, '客户已经发起请求'),
         (CUSTOMER_CANCEL, '客户取消了入住'),
         (CUSTOMER_BACKEND, '客户暂未入住，提前表示不能入住'),
-        (FRANCHISES_ACCEPT, '代理接收了订单'),
+        (FRANCHISES_ACCEPT, '代理接收了订单,但是用户尚未入住'),
         (FRANCHISES_REFUSED, '代理拒绝了订单'),
         (FRANCHISES_BACKED, '代理提前表示某些原因导致不能入住了'),
     )
@@ -243,6 +243,14 @@ class HotelPackageOrder(Order):
 
     comment = models.TextField(null=True,blank=True,help_text='消费评价')
     guests = JSONField(null=True,blank=True,help_text='入住人信息')
+
+    # 状态已经标记为完成的订单
+    objects = QueryManager()
+    closed_orders = QueryManager(closed = True)
+    unaccept_orders =QueryManager(process_state=CUSTOMER_REQUIRE)
+    # 需要保证离店时间大于当前时间
+    accepted_orders = QueryManager(process_state=FRANCHISES_ACCEPT)
+
 
     class Meta:
         app_label = 'hotelBooking'
@@ -294,6 +302,15 @@ class HotelPackageOrder(Order):
             pass
         else:
             raise  PermissionDenied(detail='你无权进行此操作，因为你不是该订单的所有者')
+
+class ClosedHotelOrderManger(models.Manager):
+    def get_query_set(self):
+        return super(ClosedHotelOrderManger,self).get_queryset().filter(closed = True)
+
+class ClosedHotelPackageOrder(HotelPackageOrder):
+    class Meta:
+
+        proxy = True
 
 class HotelPackageOrderItem(OrderItem):
     day = models.DateField(_('check in day'),help_text='日期')

@@ -11,7 +11,7 @@ router = routers.SimpleRouter(trailing_slash=True,)
 # city_router = routers.NestedSimpleRouter(nested_router,r'city',lookup='city')
 # city_router.register(r'')
 router.register('^customer/orders',CustomerHotelBookOrderList)
-router.register('^partner/orders',partner_order_views.OrderViewSet)
+router.register('^partner/orders', partner_order_views.PartnerHotelOrderViewSet)
 urlpatterns = [
     url(r'^hotel/book$', RoomPackageBookAPIView.as_view()),
     url(r'order/customer',CustomerOrderActionAPIView.as_view()),

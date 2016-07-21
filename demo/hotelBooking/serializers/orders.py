@@ -20,6 +20,12 @@ class OrderSerializer(DynamicModelSerializer):
         model = Order
         # fields = ('number','id')
 
+class PartnerHotelPackageOrderSerializer(DynamicModelSerializer):
+
+    class Meta:
+        model = HotelPackageOrder
+        exclude = ('deleted','customer',)
+
 
 class CustomerOrderSerializer(DynamicModelSerializer):
     # order = OrderSerializer()

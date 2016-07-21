@@ -44,14 +44,14 @@ class User(PointMixin,PermissionsMixin,AbstractBaseUser):
     male = 1
     female = 0
     CUSTOMER = 1
-    PARTNER = 2
+    HOTEL_PARTNER = 2
     SEX = (
         (male,'male'),
         (female,'female'),
     )
     ROLE = (
         (CUSTOMER,'顾客'),
-        (PARTNER,'合作伙伴'),
+        (HOTEL_PARTNER,'酒店代理合作伙伴'),
     )
 
     phone_number = models.CharField(max_length=15, unique=True)

@@ -1,5 +1,5 @@
 from rest_framework.permissions import BasePermission
-
+from hotelBooking.models.orders import Order
 
 # todo 使用全局的配置方式，不然修改不方便
 ROLE_CUSTOMER = 1
@@ -13,11 +13,11 @@ class PartnerPermission(BasePermission):
         """
         Return `True` if permission is granted, `False` otherwise.
         """
-        return  request.user.role ==1 or request.user.is_admin
+        return  request.user.role ==2 or request.user.is_admin
 
 
-    def has_object_permission(self, request, view, obj):
+    def has_object_permission(self, request, view, order):
         """
         Return `True` if permission is granted, `False` otherwise.
         """
-        return True
+        return order.seller == request.user
