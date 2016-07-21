@@ -17,8 +17,8 @@ from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 from rest_framework import generics, mixins, views,viewsets
-
-
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 class HotelViewSet(WithDynamicViewSetMixin,viewsets.ReadOnlyModelViewSet):
     serializer_class = HotelSerializer
     queryset = Hotel.objects.all()
@@ -30,6 +30,7 @@ class HotelViewSet(WithDynamicViewSetMixin,viewsets.ReadOnlyModelViewSet):
 
     def list(self, request, *args, **kwargs):
         print(self.filter_backends)
+
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
         if page is not None:

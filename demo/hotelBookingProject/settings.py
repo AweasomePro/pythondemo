@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
-
+from datetime import datetime
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -28,10 +28,10 @@ ALLOWED_HOSTS = ['*']
 
 # support celery
 import djcelery
-# BROKER_URL = 'redis://3e5069637587473d.redis.rds.aliyuncs.com:6379'
-BROKER_URL = 'django://'
+BROKER_URL = 'redis://:Zhuo8995588@3e5069637587473d.redis.rds.aliyuncs.com:6379/DB0'
+# BROKER_URL = 'django://'
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler' # 定时任务
-CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
+CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'  #配置结果的存储
 CELERY_TIMEZONE = 'Asia/Shanghai'
 CELERY_ENABLE_UTC = False # 不是用UTC
 CELERY_TASK_RESULT_EXPIRES = 10 #任务结果的时效时间
@@ -190,7 +190,7 @@ LOGGING = {
         'default': {
             'level':'DEBUG',
             'class':'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(STATIC_ROOT+'/logs/','all_2.log'), #或者直接写路径：'c:\logs\all.log',
+            'filename': os.path.join(STATIC_ROOT+'/logs/','all'+str(datetime.today().date())+'.log'), #或者直接写路径：'c:\logs\all.log',
             'maxBytes': 1024*1024*5, # 5 MB
             'backupCount': 5,
             'formatter':'standard',

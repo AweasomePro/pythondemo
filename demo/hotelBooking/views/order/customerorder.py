@@ -121,7 +121,7 @@ class RoomPackageBookAPIView(APIView):
             print('guests is ')
         # check id 是否真实
         try:
-            room_package = RoomPackage.objects.get(uuid=productId)
+            room_package = RoomPackage.objects.get(id=productId)
 
         except RoomPackage.DoesNotExist:
             return DefaultJsonResponse(message='不存在该商品', code=403)
