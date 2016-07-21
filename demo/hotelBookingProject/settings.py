@@ -28,6 +28,7 @@ ALLOWED_HOSTS = ['*']
 
 # support celery
 import djcelery
+# BROKER_URL = 'redis://3e5069637587473d.redis.rds.aliyuncs.com:6379'
 BROKER_URL = 'django://'
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler' # 定时任务
 CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
@@ -40,6 +41,7 @@ CELERYBEAT_LOG_FILE = BASE_DIR + "/logs/celery/beat.log" # beat log路径
 # Application definition
 
 INSTALLED_APPS = [
+    'redis_cache',
     'django_admin_bootstrapped',
     'django.contrib.admin',
     'django.contrib.auth',#它将确保为你安装的应用中的每个Django模型创建3个默认的权限- add 、changed、delete
@@ -339,4 +341,19 @@ DYNAMIC_REST = {
     'DEFAULT_PAGINATION_CLASS': 'hotelBooking.pagination.StandardResultsSetPagination',
 }
 
+
+# redis 缓存配置
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.cache.RedisCache',
+        'LOCATION': '3e5069637587473d.redis.rds.aliyuncs.com:6379',
+        'PASSWORD':'Zhuo8995588',
+        "OPTIONS": {
+            "CLIENT_CLASS": "redis_cache.client.DefaultClient",
+        },
+    },
+}
+REDIS_TIMEOUT=7*24*60*60
+CUBES_REDIS_TIMEOUT=60*60
+NEVER_REDIS_TIMEOUT=365*24*60*60
 

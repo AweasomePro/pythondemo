@@ -15,6 +15,7 @@ from hotelBooking.module import push
 def notify(phone_number, message):
     user = User.objects.get(phone_number=phone_number)
     installations = user.installation_set.filter(active=True).all()
+    print('通知用户')
     for installation in installations:
         push.send(
             where= {'installationId':str(installation.installationId)},

@@ -128,7 +128,8 @@ class ProductMemberType(Enum):
 class MemberManager(models.Manager):
 
     def create(self,phoneNumber,password):
-        user = User.objects.create_user(phoneNumber,password=password)
+        user = User.objects.create_user(phoneNumber)
+        user.set_password(raw_password=password)
         member = CustomerMember()
         member.user = user
         member.save()

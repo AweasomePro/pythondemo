@@ -74,7 +74,10 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
             try:
                 # todo 测试
                 if request.POST.get('test',None):
-                    user =User.objects.create(phone_number = phone_number,password = password)
+                    user =User.objects.create(phone_number = phone_number)
+                    user.set_password(password)
+                    user.role = user.HOTEL_PARTNER
+                    user.save()
                     parter = PartnerMember.objects.create(user = user)
                     payload = jwt_payload_handler(user)
                     token = jwt_encode_handler(payload)
@@ -82,7 +85,6 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
                     return Response(data=res)
                 else:
                     member = CustomerMember.objects.create(phone_number, password)
-
                 # end
                 serializer_member = CustomerUserSerializer(member.user, )
                 payload = jwt_payload_handler(member.user)
@@ -103,8 +105,8 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     @method_decorator(parameter_necessary('phoneNumber', 'password', ))
     def login(self, request, *args, **kwargs):
         # _do_kground_work.delay('GreenPrice')
-        # notify.delay(phone_number =15726814574, message='登入成功')
         print(request.version)
+        notify.delay(phone_number =15726814574, message='登入成功')
         # import datetime
         # checkHousePackageState(datetime.datetime.today().date())
         phone_number = request.POST.get('phoneNumber')

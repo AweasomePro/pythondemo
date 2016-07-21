@@ -14,7 +14,7 @@ class Installation(BaseModel):
     deviceType = models.CharField(max_length=200,default="android")
     badge = models.BigIntegerField(default=0,verbose_name='ios badge数')
     deviceProfile = models.CharField(max_length=200,default="")
-    user = models.ForeignKey(User,null=True,verbose_name='绑定用户')
+    user = models.ForeignKey(User,null=True,verbose_name='绑定用户',to_field='phone_number')
     active = models.BooleanField(_('active?'),default=True)
 
     class Meta:
