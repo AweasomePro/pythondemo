@@ -283,12 +283,13 @@ class HotelPackageOrder(Order):
                 # todo 在有效时间内可以进行返回积分
                 self.process_state = self.CUSTOMER_CANCEL
                 self.closed = True
-        elif( hex(process_state)[-1] == self.FRANCHISES_ACCEPT):
+        elif( process_state== self.FRANCHISES_ACCEPT):
             self.process_state = self.CUSTOMER_BACKEND
             self.closed = True
         else:
             raise APIException(detail='非法操作')
         self.save(update_fields=('process_state','closed'))
+        return True,self
             #todo 对用户的积分不返回
 
     def partner_cancel_order(self,user):

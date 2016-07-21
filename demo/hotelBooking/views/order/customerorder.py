@@ -17,7 +17,7 @@ from rest_framework.exceptions import APIException
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.viewsets import ReadOnlyModelViewSet
+from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework import filters
 from dynamic_rest.viewsets import WithDynamicViewSetMixin
@@ -53,7 +53,7 @@ class CustomerHotelBookOrderList(WithDynamicViewSetMixin,ReadOnlyModelViewSet):
 
 
 # url is  order/customer
-class CustomerOrderActionAPIView(APIView):
+class CustomerOrderActionAPIView(WithDynamicViewSetMixin,ModelViewSet):
     serializer_class = CustomerOrderSerializer
     queryset = HotelPackageOrder.objects.all()
 
@@ -81,8 +81,9 @@ class CustomerOrderActionAPIView(APIView):
         if action == CustomerOrderActionAPIView.ACTION_CANCEL:
             #  用户取消订单
             hotelpackageorder = request.order
-            request.order.customer_cancel_order(request.user)
-            request.order.refresh_from_db()
+            success,order = request.order.customer_cancel_order(request.user)
+            if(success):
+                order.refresh_from_db()
             cs = CustomerOrderSerializer(hotelpackageorder)
             return Response(wrapper_response_dict(message='退订成功',data=cs.data))
         else:
