@@ -14,7 +14,6 @@ class StandardResultsSetPagination(PageNumberPagination):
     max_page_size = 100
 
     def get_painator_json_response(self, data_key, data):
-        print('哈哈哈，笑死人了')
         return DefaultJsonResponse(res_data={data_key:data})
 
     def get_paginated_response(self, data):

@@ -12,19 +12,19 @@ def parameter_necessary(*necessary_key,optional=None):
     def decorator(func):
         def wrapper(request, *args, **kw):
             print(request.method)
-            print(request.POST)
             if request.method == 'POST':
                 params = request.POST
-            elif request.method == 'PUT':
-                params = request.data
+            elif request.method == 'GET':
+                params = request.GET
             else:
                 # 如果 不是 'POST' 'GET',不做处理
                 return func(request, *args, **kw)
             dict = {}
             for i in necessary_key:
+                print('求{}'.format(i))
                 if i in params:
                     dict[i]= request.POST.get(i) or request.GET.get(i)
-                    pass
+                    print('从请求中得到{}'.format(dict[i]))
                 else:
                     return JSONWrappedResponse(status=-1, message="缺少必要的参数" + str(i))
             kw.update(dict)

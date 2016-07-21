@@ -241,6 +241,7 @@ LOGGING = {
 
 
 REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
     'DEFAULT_AUTHENTICATION_CLASSES': (
           'rest_framework.authentication.BasicAuthentication',
           'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
@@ -255,7 +256,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'hotelBooking.pagination.StandardResultsSetPagination',
     'PAGE_SIZE': 3,
     'EXCEPTION_HANDLER' : 'hotelBooking.utils.exceptionhandler.exception_handler',
-
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.AcceptHeaderVersioning',
     'DEFAULT_VERSION':'0.1'
 }

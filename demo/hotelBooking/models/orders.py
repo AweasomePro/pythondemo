@@ -13,6 +13,8 @@ from model_utils.managers import QueryManager,InheritanceManager
 # from parler.models import TranslatableModel, TranslatedFields
 from hotelBooking.models.products import Product
 from django.utils.timezone import datetime
+from model_utils.fields import StatusField
+from model_utils import Choices
 # def get_unique_id_str():
 #     return str(uuid.uuid4())
 
@@ -211,12 +213,12 @@ class OrderItem(models.Model):
 
 from hotelBooking.models.products import RoomPackage
 class HotelPackageOrder(Order):
-    CUSTOMER_REQUIRE = 0x01
-    CUSTOMER_CANCEL = 0x02
-    CUSTOMER_BACKEND = 0x03
-    FRANCHISES_ACCEPT = 0x10
-    FRANCHISES_REFUSED = 0x20
-    FRANCHISES_BACKED = 0x30
+    CUSTOMER_REQUIRE = 1
+    CUSTOMER_CANCEL = 2
+    CUSTOMER_BACKEND = 3
+    FRANCHISES_ACCEPT = 11
+    FRANCHISES_REFUSED = 12
+    FRANCHISES_BACKED = 13
     STATES = (
         (CUSTOMER_REQUIRE, '客户已经发起请求'),
         (CUSTOMER_CANCEL, '客户取消了入住'),
@@ -295,13 +297,35 @@ class HotelPackageOrder(Order):
             self.process_state = self.FRANCHISES_BACKED
             self.closed = True
 
-    def refused_order(self,user):
+    def refuse_by(self, user):
         if user == self.seller:
-            self.process_state = self.FRANCHISES_REFUSED
-            self.closed = True
-            pass
+            if(self.process_state == self.CUSTOMER_REQUIRE):
+                self.process_state = self.FRANCHISES_REFUSED
+                self.closed = True
+                self.save()
+                print('成功拒单')
+                # 表示成功拒单，
+                return True,1
+            else:
+                return False,'当前状态无法进行此操作'
         else:
             raise  PermissionDenied(detail='你无权进行此操作，因为你不是该订单的所有者')
+
+    def accept_by(self,user):
+        if user == self.seller:
+            if (self.process_state == self.CUSTOMER_REQUIRE):
+                self.process_state = self.FRANCHISES_ACCEPT
+                self.closed = True
+                self.save()
+                print('成功接单单')
+                # 表示成功拒单，
+                return True, 1
+            else:
+                return False, '当前状态无法进行此操作'
+        else:
+            raise PermissionDenied(detail='你无权进行此操作，因为你不是该订单的所有者')
+
+
 
 class ClosedHotelOrderManger(models.Manager):
     def get_query_set(self):

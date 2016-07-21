@@ -109,7 +109,6 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         # checkHousePackageState(datetime.datetime.today().date())
         phone_number = request.POST.get('phoneNumber')
         password = request.POST.get('password')
-        role = request.POST.get('role',None)
 
         print('phone is {}'.format(phone_number))
         try:

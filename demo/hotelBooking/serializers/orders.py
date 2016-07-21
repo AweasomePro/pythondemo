@@ -25,7 +25,11 @@ class PartnerHotelPackageOrderSerializer(DynamicModelSerializer):
     class Meta:
         model = HotelPackageOrder
         exclude = ('deleted','customer',)
+        name = 'orders'
 
+class ClassfiedPartnerHotelOrderSerializer(PartnerHotelPackageOrderSerializer):
+
+    pass
 
 class CustomerOrderSerializer(DynamicModelSerializer):
     # order = OrderSerializer()
