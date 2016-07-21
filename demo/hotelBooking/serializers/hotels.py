@@ -34,25 +34,20 @@ class WithDayFilterMixin():
         super(WithDayFilterMixin, self).__init__(**kwargs)
 
 class RoomSerializer(DynamicModelSerializer):
-    roomPackages = RoomPackageSerializer(many=True)
-    # roomPackages = DynamicMethodField(read_only=True,many=True)
+    roomPackages = RoomPackageSerializer(many=True,embed=True)
     room_imgs = RoomImgSerializer(many=True, embed=True)
+
     class Meta:
         model = Room
+        exclude = ('checked','active','hotel',)
 
-    # def get_roomPackages(self,room):
-    #     room.roomPackages.all()
-    #     context = self.context
-    #     rooms = room.roomPackages.all()
-    #     rs  = RoomPackageSerializer(rooms,many=True,context=context)
-    #     print(room)
-    #     return rs.data
+
+
 
 class HotelSerializer(DynamicModelSerializer):
 
     hotel_imgs = HotelImgSerializer(embed=True,many=True,exclude_fields=('id','hotel'))
-    # hotel_rooms = RoomSerializer(many=True, embed=True)
-    # types = DynamicMethodField()
+
     min_price = DynamicMethodField()
 
     def get_types(self,hotel):
@@ -78,7 +73,7 @@ class HotelDetailSerializer(DynamicModelSerializer):
     rooms = rest_serializers.SerializerMethodField('room_details')
 
     def room_details(self,hotel):
-        data = RoomSerializer(hotel.hotel_rooms,many=True,include_fields=('name',)).data
+        data = RoomSerializer(hotel.hotel_rooms,many=True,include_fields=('name',),embed=True).data
         return data
 
     class Meta:
@@ -86,11 +81,10 @@ class HotelDetailSerializer(DynamicModelSerializer):
         name = 'hotel'
 
 class HotelTypeSerializer(DynamicMethodField):
-    types = DynamicMethodField()
+    # types = DynamicMethodField()
 
     def get_types(self, hotel):
         types = hotel.hotel_rooms.values('id', 'name')
-        print(types)
         return types
 
     class Meta:

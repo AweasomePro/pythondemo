@@ -12,14 +12,13 @@ from hotelBooking.serializers.support import DynamicFieldsModelSerializer
 #         # fields =('hotel_name','room_type_name',)
 
 
-class OrderSerializer(DynamicFieldsModelSerializer):
+class OrderSerializer(DynamicModelSerializer):
     # number = serializers.IntegerField()
     # shipping_status = serializers.IntegerField
 
     class Meta:
         model = Order
         # fields = ('number','id')
-
 
 
 class CustomerOrderSerializer(DynamicModelSerializer):

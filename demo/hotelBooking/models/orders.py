@@ -194,6 +194,7 @@ class Order(models.Model):
     def __str__(self):  # pragma: no cover
         return self.customer.name+'的订单'+self.number
 
+
 class OrderItem(models.Model):
     """
     An item for an order

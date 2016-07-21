@@ -4,6 +4,7 @@ from hotelBooking.views import hotel
 from rest_framework.routers import SimpleRouter, DefaultRouter
 
 # from hotelBooking.views.hotel import RoomTypeViewSet
+from hotelBooking.views.hotel import HotelTypesViewSet
 from .city import nested_router as city_nested_router
 
 nested_router = routers.NestedSimpleRouter(city_nested_router, r'city', lookup='city', trailing_slash=False)
@@ -17,7 +18,7 @@ hotel_default_router.register('hotels', hotel.HotelViewSet, base_name='hotels')
 hotel_default_router.register('hotel', hotel.HotelDetialView, base_name='hotel')
 
 hotel_types_router = routers.NestedSimpleRouter(hotel_default_router, r'hotel', lookup='hotel')
-# hotel_types_router.register(r'roomtypes', RoomTypeViewSet, base_name='roomtypes')
+hotel_types_router.register(r'roomtypes', HotelTypesViewSet, base_name='roomtypes')
 
 
 

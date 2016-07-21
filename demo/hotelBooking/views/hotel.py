@@ -9,6 +9,7 @@ from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
 from hotelBooking.models import RoomDayState
 from hotelBooking.models.hotel import Hotel
 from hotelBooking.models.hotel import Room
+from hotelBooking.pagination import StandardResultsSetPagination
 from hotelBooking.serializers import RoomSerializer, HotelSerializer
 from hotelBooking.serializers.hotels import HotelDetailSerializer
 from hotelBooking.utils import dateutils
@@ -61,7 +62,7 @@ class HotelViewSet(WithDynamicViewSetMixin,viewsets.ReadOnlyModelViewSet):
 
 
 
-class HotelDetialView(mixins.RetrieveModelMixin,
+class HotelDetialView(WithDynamicViewSetMixin,mixins.RetrieveModelMixin,
                            GenericViewSet):
 
     queryset = Hotel.objects.get_queryset()
@@ -72,9 +73,9 @@ class HotelDetialView(mixins.RetrieveModelMixin,
         print('hello')
         instance = self.get_object()
         serializer = self.get_serializer(instance,context={'request':request},exclude_fields =('city','agent'))
-        return Response(serializer.data)
+        return Response(wrapper_response_dict(serializer.data))
 
-    def get_queryset(self):
+    def get_queryset(self,queryset=None):
         request = self.request
         checkinTime = request.GET.get('checkinTime', None)
         checkoutTime = request.GET.get('checkoutTime', None)
@@ -122,4 +123,18 @@ class RoomViewSet(DynamicModelViewSet):
 # todo 根据酒店id   返回 该酒店目前支持的房型
 
 class HotelTypesViewSet(viewsets.ReadOnlyModelViewSet):
-    pass
+    """
+    获得某酒店的所有房型名称
+    """
+    pagination_class = StandardResultsSetPagination
+    def get_queryset(self):
+       return Room.objects.all()
+
+    def get_serializer_class(self,*args,**kwargs):
+        return RoomSerializer
+
+    def get_serializer(self, *args, **kwargs):
+        serializer_class = self.get_serializer_class()
+        kwargs['context'] = self.get_serializer_context()
+        return serializer_class(exclude_fields=('roomPackages','room_imgs',),*args, **kwargs)
+

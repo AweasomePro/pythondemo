@@ -1,3 +1,4 @@
+
 import uuid
 
 from django.contrib.auth.decorators import login_required
@@ -12,7 +13,7 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from . import alipay
 from hotelBooking.views import wrapper_response_dict
 from hotelBooking.models.order_utils import get_next_pay_order_number
-
+from hotelBooking.models import User
 
 subject = '积分充值'
 
@@ -57,6 +58,9 @@ def alipay_notify(request):
     print('支付宝回调了我哦')
     print(request.body)
     sing = request.POST.get('sign')
-
+    # 验证成功用 对 该订单的用户充值积分
+    out_trade_no = request.POST.get('out_trade_no')
+    pay = Pay.objects.get(trade_no=out_trade_no)
+    pay.user.point += 100
     return Response('success')
 

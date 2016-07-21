@@ -10,4 +10,4 @@ def wrapper_response_dict(data=None, code=100, message='success'):
     if(data == None):
         return {'code':code,'message':message}
     else:
-        return {'code':code,'message':message,'result':data}
+        return {'code': code,'message':message,'result':data}
