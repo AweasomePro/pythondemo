@@ -62,7 +62,7 @@ class CustomerHotelBookOrderList(WithDynamicViewSetMixin,ModelViewSet):
             if (success):
                 order.refresh_from_db()
             cs = CustomerOrderSerializer(order)
-            return Response(wrapper_response_dict(message='退订成功', data=cs.data))
+            return Response(wrapper_response_dict(message='退订成功', data={'order':cs.data}))
         else:
             return Response(data='未知操作')
 

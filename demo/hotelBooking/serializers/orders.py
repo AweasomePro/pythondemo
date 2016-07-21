@@ -27,22 +27,14 @@ class PartnerHotelPackageOrderSerializer(DynamicModelSerializer):
         exclude = ('deleted','customer',)
         name = 'orders'
 
-class ClassfiedPartnerHotelOrderSerializer(PartnerHotelPackageOrderSerializer):
-
-    pass
 
 class CustomerOrderSerializer(DynamicModelSerializer):
-    # order = OrderSerializer()
-    # hotelpackageordersnapshot = HotelPackgeOrderSnapShotSerialier()
 
     class Meta:
         model = HotelPackageOrder
         name = 'order'
-        # exclude = ('id','order')
+        plural_name = 'orders'
 
-    def to_representation(self, instance):
-        print('to_presentation')
-        orderDict = super(CustomerOrderSerializer,self).to_representation(instance)
-        return orderDict
+
 
 
