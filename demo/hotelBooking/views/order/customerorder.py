@@ -58,11 +58,10 @@ class CustomerHotelBookOrderList(WithDynamicViewSetMixin,ModelViewSet):
         # print(checker.has_perm('hotelpackageorder.change_process_state', order))
         if action == CustomerOrderActionAPIView.ACTION_CANCEL:
             #  用户取消订单
-            hotelpackageorder = request.order
-            success, order = request.order.customer_cancel_order(request.user)
+            success, order = order.customer_cancel_order(request.user)
             if (success):
                 order.refresh_from_db()
-            cs = CustomerOrderSerializer(hotelpackageorder)
+            cs = CustomerOrderSerializer(order)
             return Response(wrapper_response_dict(message='退订成功', data=cs.data))
         else:
             return Response(data='未知操作')
