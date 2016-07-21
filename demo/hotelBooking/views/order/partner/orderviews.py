@@ -2,6 +2,8 @@ from django.utils.decorators import method_decorator
 from rest_framework.response import Response
 
 from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
+from hotelBooking.pagination import StandardResultsSetPagination
+from hotelBooking.utils.AppJsonResponse import JSONWrappedResponse
 from hotelBooking.utils.decorators import parameter_necessary
 from hotelBooking.views import views,viewsets
 from dynamic_rest.viewsets import DynamicModelViewSet,WithDynamicViewSetMixin
@@ -23,10 +25,10 @@ class PartnerHotelOrderViewSet(DynamicModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields =('process_state','closed','checkin_time')
     lookup_field = 'number'
+    pagination_class = StandardResultsSetPagination
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
-
         page = self.paginate_queryset(queryset)
         if page is not None:
             print('to page')
@@ -34,12 +36,12 @@ class PartnerHotelOrderViewSet(DynamicModelViewSet):
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+        return JSONWrappedResponse(serializer.data)
 
     #  api like
-    @detail_route(methods=['GET','POST'],url_path='handle')
+    @detail_route(methods=['GET','POST'], url_path='handle')
     @method_decorator(parameter_necessary('action',))
-    def handle_order(self,request,number=None, action=None, *args,**kwargs):
+    def handle_order(self, request, number=None, action=None, *args, **kwargs):
         """
         :param request:
         :param number: 订单号
