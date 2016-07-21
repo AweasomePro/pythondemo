@@ -39,6 +39,8 @@ class RoomSerializer(DynamicModelSerializer):
 
     class Meta:
         model = Room
+        name = 'room'
+        plural_name = 'roomtypes'
         exclude = ('checked','active','hotel',)
 
 
@@ -80,7 +82,7 @@ class HotelDetailSerializer(DynamicModelSerializer):
         model = Hotel
         name = 'hotel'
 
-class HotelTypeSerializer(DynamicMethodField):
+class HotelTypeSerializer(DynamicModelSerializer):
     # types = DynamicMethodField()
 
     def get_types(self, hotel):
@@ -89,5 +91,7 @@ class HotelTypeSerializer(DynamicMethodField):
 
     class Meta:
         model = Hotel
-        name = 'hotel'
+        name = 'roomtype'
+        plural_name = 'roomtypes'
+
         fields = ('agent', 'city',)

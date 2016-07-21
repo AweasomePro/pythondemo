@@ -127,11 +127,27 @@ class HotelTypesViewSet(viewsets.ReadOnlyModelViewSet):
     获得某酒店的所有房型名称
     """
     pagination_class = StandardResultsSetPagination
+
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response({'roomtypes':serializer.data})
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response({'roomtypes':serializer.data})
+
     def get_queryset(self):
        return Room.objects.all()
 
     def get_serializer_class(self,*args,**kwargs):
         return RoomSerializer
+
+
+
 
     def get_serializer(self, *args, **kwargs):
         serializer_class = self.get_serializer_class()

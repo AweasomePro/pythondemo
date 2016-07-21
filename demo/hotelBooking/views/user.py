@@ -118,7 +118,8 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
             if (user is not None and user.check_password(password)):
                 payload = jwt_payload_handler(user)
                 token = jwt_encode_handler(payload)
-                if(role is None):
+
+                if(user.role ==User.CUSTOMER):
                     response = DefaultJsonResponse(res_data={'user':CustomerUserSerializer(user).data})
                 else:
                     response = DefaultJsonResponse(res_data={'user':UserSerializer(user).data})
