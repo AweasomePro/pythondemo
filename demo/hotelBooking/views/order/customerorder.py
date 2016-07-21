@@ -8,9 +8,10 @@ from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
 from hotelBooking.models.orders import HotelPackageOrder, HotelPackageOrderItem
 from hotelBooking.models.plugins import HotelOrderNumberGenerator
 from hotelBooking.models.products import RoomPackage,Product,RoomDayState
+from hotelBooking.pagination import StandardResultsSetPagination
 from hotelBooking.serializers import CustomerOrderSerializer
 from hotelBooking.utils import dateutils
-from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
+from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse, JSONWrappedResponse
 from hotelBooking.utils.decorators import parameter_necessary
 from rest_framework.exceptions import APIException
 from rest_framework.permissions import IsAuthenticated
@@ -18,38 +19,37 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
-
-
-class CustomerHotelBookOrderList(ReadOnlyModelViewSet):
+from rest_framework import filters
+from dynamic_rest.viewsets import WithDynamicViewSetMixin
+class CustomerHotelBookOrderList(WithDynamicViewSetMixin,ReadOnlyModelViewSet):
     authentication_classes = (JSONWebTokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
     queryset = HotelPackageOrder.objects.all()
     serializer_class = CustomerOrderSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields =('process_state','closed','checkin_time')
+    lookup_field = 'number'
+    pagination_class = StandardResultsSetPagination
 
     def list(self, request, *args, **kwargs):
-        serlaizer_datas = CustomerOrderSerializer(self.get_queryset().all(), many=True).data
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            print('to page')
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
 
-        inprocess_set = self.get_inproccess_querset()
-        finished_set = self.get_finished_queryset()
-        return DefaultJsonResponse(res_data={
-            'orders':
-                {
-                    'inprocess' : CustomerOrderSerializer(inprocess_set.all(),many=True).data,
-                    'finished':CustomerOrderSerializer(finished_set.all(),many=True).data,
-                }})
+        serializer = self.get_serializer(queryset, many=True)
+        return JSONWrappedResponse(serializer.data)
 
-    def get_queryset(self):
+    def get_queryset(self,queryset=None):
         queryset = self.queryset
         user = self.request.user
         state = self.request.GET.get('state')
         return queryset.filter(customer=user)
 
-    def get_finished_queryset(self):
-        return self.queryset.filter(customer=self.request.user,closed=True)
 
-    def get_inproccess_querset(self):
-        return self.queryset.filter(customer=self.request.user,closed=False)
 
 
 # url is  order/customer
