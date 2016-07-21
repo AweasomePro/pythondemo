@@ -14,7 +14,6 @@ router.register('^customer/orders',CustomerHotelBookOrderList)
 router.register('^partner/orders', partner_order_views.PartnerHotelOrderViewSet)
 urlpatterns = [
     url(r'^hotel/book$', RoomPackageBookAPIView.as_view()),
-    url(r'order/customer',CustomerOrderActionAPIView.as_view()),
     url(r'deleteorder',DeleteAllOrderView.as_view())
 ]
 urlpatterns += router.urls

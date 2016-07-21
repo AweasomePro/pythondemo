@@ -3,6 +3,8 @@ from datetime import datetime
 from django.utils.decorators import method_decorator
 from guardian.core import ObjectPermissionChecker
 from guardian.shortcuts import assign_perm
+from rest_framework.decorators import detail_route
+
 from hotelBooking.core.exceptions import PointNotEnough, ConditionDenied
 from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
 from hotelBooking.models.orders import HotelPackageOrder, HotelPackageOrderItem
@@ -21,7 +23,7 @@ from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework import filters
 from dynamic_rest.viewsets import WithDynamicViewSetMixin
-class CustomerHotelBookOrderList(WithDynamicViewSetMixin,ReadOnlyModelViewSet):
+class CustomerHotelBookOrderList(WithDynamicViewSetMixin,ModelViewSet):
     authentication_classes = (JSONWebTokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
@@ -42,6 +44,28 @@ class CustomerHotelBookOrderList(WithDynamicViewSetMixin,ReadOnlyModelViewSet):
 
         serializer = self.get_serializer(queryset, many=True)
         return JSONWrappedResponse(serializer.data)
+
+    @detail_route(methods=['GET','POST'], url_path='handle')
+    @method_decorator(parameter_necessary('action',))
+    def handle_order(self, request, number=None, action=None, *args, **kwargs):
+        """
+        :param request:
+        :param number: 订单号
+        :return:
+        """
+        order = self.get_object()
+        checker = ObjectPermissionChecker(request.user)
+        # print(checker.has_perm('hotelpackageorder.change_process_state', order))
+        if action == CustomerOrderActionAPIView.ACTION_CANCEL:
+            #  用户取消订单
+            hotelpackageorder = request.order
+            success, order = request.order.customer_cancel_order(request.user)
+            if (success):
+                order.refresh_from_db()
+            cs = CustomerOrderSerializer(hotelpackageorder)
+            return Response(wrapper_response_dict(message='退订成功', data=cs.data))
+        else:
+            return Response(data='未知操作')
 
     def get_queryset(self,queryset=None):
         queryset = self.queryset
