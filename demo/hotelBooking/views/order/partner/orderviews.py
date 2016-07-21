@@ -66,5 +66,5 @@ class PartnerHotelOrderViewSet(DynamicModelViewSet):
         return PartnerHotelPackageOrderSerializer
 
     def get_queryset(self, queryset=None):
-        self.queryset.filter(product__owner=self.request.user)
+        return self.queryset.filter(product__owner=self.request.user)
 
