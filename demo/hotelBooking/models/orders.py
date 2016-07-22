@@ -7,6 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 from jsonfield.fields import JSONField
 from enumfields import Enum
 from django.db import transaction
+from model_utils.models import TimeStampedModel
 from rest_framework.exceptions import APIException, PermissionDenied
 from model_utils.managers import QueryManager,InheritanceManager
 # from parler.managers import TranslatableQuerySet
@@ -131,7 +132,7 @@ class OrderQuerySet(models.QuerySet):
         )
 
 @python_2_unicode_compatible
-class Order(models.Model):
+class Order(TimeStampedModel,models.Model):
     """
     当交易发生时 生成一个订单
     number
@@ -171,11 +172,13 @@ class Order(models.Model):
     product = models.ForeignKey(Product, related_name='product_orders', blank=True,
                                 on_delete=models.PROTECT,
                                 verbose_name=_('product'))
-    created_on = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('created on'))
-    modified_on = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('modified on'))
+    # created_on = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('created on'))
+    #
+    # modified_on = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('modified on'))
 
     modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='orders_modified', blank=True, null=True,
                                     on_delete=models.PROTECT, verbose_name=_('modifier user'))
+
     deleted = models.BooleanField(db_index=True, default=False, verbose_name=_('deleted'))
     # status = models.ForeignKey("OrderStatus", verbose_name=_('status'), on_delete=models.PROTECT)
     payment_status = models.IntegerField(choices = PAID_STATES,db_index=True, default=PARTIALLY_PAID,
@@ -188,7 +191,7 @@ class Order(models.Model):
 
     class Meta:
         app_label = 'hotelBooking'
-        ordering = ("created_on",)
+        ordering = ("modified",)
         verbose_name = _('order')
         verbose_name_plural = _('orders')
 
@@ -245,13 +248,13 @@ class HotelPackageOrder(Order):
     comment = models.TextField(null=True,blank=True,help_text='消费评价')
     guests = JSONField(null=True,blank=True,help_text='入住人信息')
 
+
     # 状态已经标记为完成的订单
     objects = QueryManager()
     closed_orders = QueryManager(closed = True)
     unaccept_orders =QueryManager(process_state=CUSTOMER_REQUIRE)
     # 需要保证离店时间大于当前时间
     accepted_orders = QueryManager(process_state=FRANCHISES_ACCEPT)
-
 
     class Meta:
         app_label = 'hotelBooking'

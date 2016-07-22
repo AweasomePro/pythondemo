@@ -24,11 +24,11 @@ def notify(phone_number, message):
         )
 
 @task
-def send_sms(**kwargs):
-    response = request_sms_code(**kwargs)
+def send_sms(phone_number, idd='+86', sms_type='sms',template=None,params =None):
+    response = request_sms_code(phone_number, idd='+86', sms_type= 'sms',template = None,params = None)
     if(response.status_code != 200):
         # 记录失败
-        pass
+        return '发送短信到{}成功'.format(phone_number)
 
 @periodic_task(run_every=(crontab(minute=2)),name='check_package_task')
 @transaction.atomic()
