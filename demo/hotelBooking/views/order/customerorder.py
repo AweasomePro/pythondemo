@@ -155,16 +155,12 @@ class RoomPackageBookAPIView(APIView):
         exist = HotelPackageOrder.objects.filter(customer=user,checkin_time__lte=checkinTime,checkout_time__gt=checkinTime).exists()
         if exist:
             return Response(wrapper_response_dict(code=-100,message='存在订单,请先取消'))
-
         # check 预订时间是否准确
         check_validate_checkTime(room_package,checkinTime,checkoutTime)
-
         # check point 是否足够
         request_notes = '需要wifi'
-
         hotelPackageOrder = generateHotelPackageProductOrder(request, user, room_package, request_notes, checkinTime,
                                                              checkoutTime)
-
         serializer = CustomerOrderSerializer(hotelPackageOrder)
 
         return DefaultJsonResponse(res_data=serializer.data,message='预订成功')
@@ -247,11 +243,9 @@ def generateHotelPackageProductOrder(request, member_user, room_package, request
 
 
 def add_hotel_order(request,member_user,product,request_notes,checkinTime,checkoutTime):
-
     hotelPackageOrder = generateHotelPackageProductOrder(request,member_user,product,request_notes,checkinTime,checkoutTime)
     # return DefaultJsonResponse(res_data='订购成功,id 是{0}'.format(hotelPackageOrder.order.number))
     serializer = CustomerOrderSerializer(hotelPackageOrder)
-
     return DefaultJsonResponse(res_data=serializer.data)
 
 def check_validate_checkTime(product,checkinTime,checkoutTime):

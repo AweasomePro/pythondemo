@@ -3,13 +3,12 @@ from dynamic_rest.serializers import DynamicModelSerializer
 from hotelBooking.models.user import User,CustomerMember
 from rest_framework import serializers
 from rest_framework.utils.serializer_helpers import ReturnDict
+class UserSerializer(DynamicModelSerializer):
 
-
-class CustomerMemberSerializer(DynamicModelSerializer):
     class Meta:
-        model = CustomerMember
-        fields = ('avatar',)
-
+        model = User
+        name = 'user'
+        fields = ('id','name','phone_number','point','sex',)
 
 class UpdateMemberSerializer(DynamicModelSerializer):
     avatar = DynamicMethodField(
@@ -28,12 +27,6 @@ class UpdateMemberSerializer(DynamicModelSerializer):
         # instance.customermember.avatar = validated_data.get('avatar', instance.avatar)
         return instance
 
-class UserSerializer(DynamicModelSerializer):
-
-    class Meta:
-        model = User
-        name = 'user'
-        fields = ('id','name','phone_number','point','sex',)
 
 class CustomerUserSerializer(DynamicModelSerializer):
     avatar = DynamicMethodField(

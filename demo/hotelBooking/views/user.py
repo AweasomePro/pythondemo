@@ -31,27 +31,6 @@ jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 access_key = 'u-ryAwaQeBx9BS5t8OMSPs6P1Ewoqiu6-ZbbMNYm'
 secret_key = 'hVXFHO8GusQduMqLeYXZx_C5_c7D-VSwz6AKhjZJ'
 
-def verifySmsCode(mobilePhoneNumber, smscode):
-    url = 'https://api.leancloud.cn/1.1/verifySmsCode/' + str(smscode)
-    print(url)
-    values = {
-        "mobilePhoneNumber": str(mobilePhoneNumber),
-    }
-    headers = {'X-LC-Id': APP_ID, 'X-LC-Key': APP_KEY, 'Content-Type': 'application/json'}
-    response = requests.post(url, headers=headers, params=values)
-    response.encoding = 'utf-8'
-    # 使用异步
-    print(response.content)
-    print(response.status_code)
-    print(type(response.json()))
-    if response.status_code == 200:
-        return True, "Success"
-    elif response.json().get('code', 0) == 603:
-        # Invalid SMS code
-        print(response.json()['code'])
-        return False, "Invalid SMS code"
-    else:
-        return False, "尚未处理的错误"
 
 class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     authentication_classes = (JSONWebTokenAuthentication, BasicAuthentication)
@@ -81,7 +60,6 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
                     parter = PartnerMember.objects.create(user = user)
                     payload = jwt_payload_handler(user)
                     token = jwt_encode_handler(payload)
-
                     res = {'token': token}
                     return Response(data=res)
                 else:
