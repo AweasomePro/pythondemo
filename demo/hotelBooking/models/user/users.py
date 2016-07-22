@@ -140,8 +140,8 @@ class MemberManager(models.Manager):
         return member
 
 class CustomerMember(models.Model):
+    user = models.OneToOneField(User,primary_key=True)
     avatar = models.URLField(blank=True)
-    user = models.OneToOneField(User)
     last_access = models.DateTimeField(_("Last accessed"), default=timezone.now)
     objects = MemberManager()
 
@@ -168,8 +168,7 @@ class CustomerMember(models.Model):
         return self.user.name+'-'+str(self.user.phone_number)
 
 class PartnerMember(models.Model):
-    user = models.OneToOneField(User)
-    type = EnumIntegerField(ProductMemberType, default = ProductMemberType.HotelAgent,verbose_name = _('加盟商类型'))
+    user = models.OneToOneField(User,primary_key=True)
 
     class Meta:
         app_label = 'hotelBooking'

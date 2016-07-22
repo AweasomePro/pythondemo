@@ -5,4 +5,4 @@ class HotelbookingConfig(AppConfig):
     app_label = 'hotelBooking'
     name = 'hotelBooking'
     def ready(self):
-        import hotelBooking.signals.handlers
+        from . import signals
