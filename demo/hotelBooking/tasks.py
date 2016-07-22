@@ -5,6 +5,7 @@ from celery.schedules import crontab
 from celery.task import task
 from celery.task.base import periodic_task
 from django.db import transaction
+from django.db.models import Q
 from hotelBooking.models.products import RoomDayState
 from hotelBooking.models.products import RoomPackage
 from hotelBooking.models.user.users import User
@@ -29,13 +30,14 @@ def checkHousePackageState():
     # 该任务在服务器重启 或者 是每天0点运行
     # delete all expire date state
     today = datetime.today().date()
-    RoomDayState.objects.all().filter(date__lt=today).delete()
+    RoomDayState.objects.all().filter(Q(date__lt=today)|Q(date__gte=today+timedelta(days=29))).delete()
     # 检查所有的housepackage 的states 的数量，不够的则添加
     print('得到执行')
     save_object = []
-    for roompackage in RoomPackage.objects.all():
+    for roompackage in RoomPackage.objects.prefetch_related('roomstates',).all():
         roomstate = roompackage.roomstates.all().last()
-        if roomstate is not None:
+
+        if roomstate is not None and roomstate.date < today +timedelta(days=29):
             roomstate.pk = None
             roomstate.date = roomstate.date + timedelta(days=1)
             roomstate.need_point = roompackage.default_point

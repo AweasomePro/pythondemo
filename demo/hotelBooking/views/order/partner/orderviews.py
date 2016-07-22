@@ -23,7 +23,7 @@ class PartnerHotelOrderViewSet(DynamicModelViewSet):
     permission_classes = (IsAuthenticated,PartnerPermission)
     queryset = HotelPackageOrder.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields =('process_state','closed','checkin_time')
+    filter_fields = ('process_state','closed','checkin_time','checkout_time')
     lookup_field = 'number'
     pagination_class = StandardResultsSetPagination
 
@@ -62,7 +62,6 @@ class PartnerHotelOrderViewSet(DynamicModelViewSet):
             else:
                 return Response(wrapper_response_dict(message=code, code=-100))
         return Response('success')
-
 
     def get_serializer_class(self,*args,**kwargs):
         return PartnerHotelPackageOrderSerializer

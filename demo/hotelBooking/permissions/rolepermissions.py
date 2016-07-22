@@ -19,5 +19,6 @@ class PartnerPermission(BasePermission):
     def has_object_permission(self, request, view, order):
         """
         Return `True` if permission is granted, `False` otherwise.
+        admin is God!
         """
-        return order.seller == request.user
+        return order.seller == request.user or request.user.is_admin

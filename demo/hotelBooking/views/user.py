@@ -3,20 +3,7 @@ import requests
 from django.contrib.auth.models import AnonymousUser
 from django.db import transaction
 from django.utils.decorators import method_decorator
-from hotelBooking import appcodes
-from hotelBooking.Mysettings import APP_ID, APP_KEY
-from hotelBooking.core.exceptions import  UserCheck
-from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
-from hotelBooking.models import User,PartnerMember
-from hotelBooking.models.installation import Installation
-from hotelBooking.models.user import CustomerMember
-from hotelBooking.serializers import CustomerUserSerializer, UpdateMemberSerializer
-from hotelBooking.serializers import InstallationSerializer
-from hotelBooking.serializers.user import UserSerializer
-from hotelBooking.tasks import notify,checkHousePackageState
-from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
-from hotelBooking.utils.decorators import method_route, parameter_necessary, is_authenticated
-from qiniu import Auth
+from django.core.signals import request_finished
 from rest_framework import viewsets
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.exceptions import ValidationError
@@ -24,6 +11,19 @@ from rest_framework.mixins import UpdateModelMixin
 from rest_framework.response import Response
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework_jwt.settings import api_settings
+from qiniu import Auth
+from hotelBooking import appcodes
+from hotelBooking.Mysettings import APP_ID, APP_KEY
+from hotelBooking.core.exceptions import  UserCheck
+from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
+from hotelBooking.models.installation import Installation
+from hotelBooking.models import User,PartnerMember,CustomerMember
+from hotelBooking.serializers import CustomerUserSerializer, UpdateMemberSerializer
+from hotelBooking.serializers import InstallationSerializer
+from hotelBooking.serializers.user import UserSerializer
+from hotelBooking.tasks import notify,checkHousePackageState
+from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
+from hotelBooking.utils.decorators import method_route, parameter_necessary, is_authenticated
 
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
@@ -101,21 +101,15 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         else:
             return DefaultJsonResponse(code=appcodes.CODE_SMS_ERROR, message="注册失败，验证码错误")
 
-
     @method_route(methods=['POST',], url_path='login')
     @method_decorator(parameter_necessary('phoneNumber', 'password', ))
     def login(self, request, *args, **kwargs):
-        # _do_kground_work.delay('GreenPrice')
         print(request.version)
-        notify.delay(phone_number =15726814574, message='登入成功')
-
-        # import datetime
-        # checkHousePackageState(datetime.datetime.today().date())
+        # checkHousePackageState.delay()
         phone_number = request.POST.get('phoneNumber')
         password = request.POST.get('password')
 
         print('phone is {}'.format(phone_number))
-        checkHousePackageState()
         try:
             user = User.objects.get(phone_number=phone_number)
             # notify.delay(user.phone_number,message='登入成功')

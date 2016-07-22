@@ -13,10 +13,10 @@ from model_utils.managers import QueryManager,InheritanceManager
 # from parler.models import TranslatableModel, TranslatedFields
 from hotelBooking.models.products import Product
 from django.utils.timezone import datetime
+from hotelBooking.signals import order_cancel
 from model_utils.fields import StatusField
 from model_utils import Choices
-# def get_unique_id_str():
-#     return str(uuid.uuid4())
+
 
 class PaymentStatus(Enum):
     """
@@ -163,9 +163,8 @@ class Order(models.Model):
         (PARTIALLY_SHIPPED, 'not shipped'),
         (FULLY_SHIPPED, 'fully shipped'),
     )
-    id = models.AutoField(primary_key=True,auto_created=True)
     # uuid = models.UUIDField(max_length=50, default=uuid.uuid4, editable=False)
-    number = models.CharField(max_length=30, db_index=True, unique=True, blank=True,null=False)
+    number = models.CharField(primary_key=True,max_length=30, db_index=True, unique=True, blank=True,null=False)
     customer = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='customer_orders', blank=True,
                                  on_delete=models.PROTECT, verbose_name=_('customer'))
     seller = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='seller_orders',blank=True)
@@ -202,7 +201,7 @@ class OrderItem(models.Model):
     An item for an order
     依赖于Order,所有有些信息就不需要申明了
     """
-    order = models.ForeignKey(Order,related_name='items',verbose_name='Order')
+    order = models.ForeignKey(Order,related_name='items',verbose_name='Order',to_field='number')
 
     # 对于 酒店订房来说，跟所属Order 是一样的，考虑到未来 每个Order的item 可能不同，所以
     product_name = models.CharField(_('Product name'),max_length=255,null=True,blank=True,
@@ -227,7 +226,7 @@ class HotelPackageOrder(Order):
         (FRANCHISES_REFUSED, '代理拒绝了订单'),
         (FRANCHISES_BACKED, '代理提前表示某些原因导致不能入住了'),
     )
-    # order = models.OneToOneField(Order)
+    order = models.OneToOneField(Order,primary_key=True,to_field='number')
 
     checkin_time = models.DateField(verbose_name='入住时间')
     checkout_time = models.DateField(verbose_name='离店时间')
@@ -283,6 +282,7 @@ class HotelPackageOrder(Order):
                 # todo 在有效时间内可以进行返回积分
                 self.process_state = self.CUSTOMER_CANCEL
                 self.closed = True
+
         elif( process_state== self.FRANCHISES_ACCEPT):
             self.process_state = self.CUSTOMER_BACKEND
             self.closed = True
@@ -292,12 +292,6 @@ class HotelPackageOrder(Order):
         return True,self
             #todo 对用户的积分不返回
 
-    def partner_cancel_order(self,user):
-        process_state = self.process_state
-        if (process_state == self.FRANCHISES_ACCEPT):
-            self.process_state = self.FRANCHISES_BACKED
-            self.closed = True
-
     def refuse_by(self, user):
         if user == self.seller:
             if(self.process_state == self.CUSTOMER_REQUIRE):
@@ -306,6 +300,7 @@ class HotelPackageOrder(Order):
                 self.save()
                 print('成功拒单')
                 # 表示成功拒单，
+                order_cancel.send(sender=self.__class__,order = self,cancelby=user)
                 return True,1
             else:
                 return False,'当前状态无法进行此操作'
@@ -325,8 +320,6 @@ class HotelPackageOrder(Order):
                 return False, '当前状态无法进行此操作'
         else:
             raise PermissionDenied(detail='你无权进行此操作，因为你不是该订单的所有者')
-
-
 
 class ClosedHotelOrderManger(models.Manager):
     def get_query_set(self):

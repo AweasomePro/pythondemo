@@ -143,6 +143,7 @@ class RoomDayState(models.Model):
         app_label = 'hotelBooking'
         verbose_name = "房间类型状态"
         verbose_name_plural = "房间类型状态"
+        ordering = ('agent','date')
         get_latest_by = 'date'
 
     def save(self, force_insert=False, force_update=False, using=None,
