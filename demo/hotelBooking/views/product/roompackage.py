@@ -1,26 +1,27 @@
 from django.db import transaction
+from django.utils.decorators import method_decorator
+from datetime import datetime
 from dynamic_rest.serializers import DynamicModelSerializer
-from dynamic_rest.viewsets import DynamicModelViewSet
+from dynamic_rest.viewsets import DynamicModelViewSet, WithDynamicViewSetMixin
+from rest_framework.viewsets import ModelViewSet
+
 from hotelBooking.auth.decorators import login_required_and_is_partner
-from hotelBooking.core.order_creator.utils import add_hotel_order
+from hotelBooking.core.order_creator.utils import add_hotel_order, generateHotelPackageProductOrder
 from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
-from hotelBooking.models import User,Hotel,Room
+from hotelBooking.models import User,Hotel,Room,HotelPackageOrder
 from hotelBooking.models.products import Product, RoomDayState
 from hotelBooking.models.products import RoomPackage
 from hotelBooking.models.ProductUtils import RoomPackageCreator
+from hotelBooking.serializers import CustomerOrderSerializer
 from hotelBooking.serializers.products import RoomDayStateSerializer, RoomPackageSerializer
+from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 from hotelBooking.utils.decorators import parameter_necessary
 from rest_framework import viewsets
-from rest_framework.decorators import api_view, authentication_classes
+from rest_framework.decorators import api_view, authentication_classes, detail_route
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
-
-# from hotelBooking import Room
-class RoomPackageViewSet(viewsets.GenericViewSet):
-    serializer_class = RoomPackageSerializer
-    queryset = RoomPackage.objects.all()
 
 
 class AddRoomPackageView(APIView):
@@ -115,17 +116,16 @@ def create_new_hotelpackage(request, hotelId, defaultPoint, defaultPrice, breakf
     #     RoomDayState.objects.bulk_create(roomstates)
     # return Response(wrapper_response_dict(message='创建成功,审核中'))
 
-
 class RoomPackageStateView(viewsets.ModelViewSet):
     serializer_class = RoomDayStateSerializer
     queryset = RoomDayState.objects.all()
     def retrieve(self, request, *args, **kwargs):
-        print('hha')
+
         instance = self.get_object()
-        print('hha')
         serializer = self.get_serializer(instance)
         return Response(wrapper_response_dict(serializer.data))
     def update(self, request, *args, **kwargs):
+
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
@@ -134,11 +134,7 @@ class RoomPackageStateView(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-from rest_framework.serializers import ModelSerializer
-
-
-
-class RoomPackageView(viewsets.ModelViewSet):
+class RoomPackageView(WithDynamicViewSetMixin,ModelViewSet):
     serializer_class = RoomPackageSerializer
     queryset = RoomPackage.objects.all()
 
@@ -151,21 +147,31 @@ class RoomPackageView(viewsets.ModelViewSet):
         return Response(wrapper_response_dict(data=serializer.data))
         # return Response('success')
 
-# todo 不适合放在这个包下
-class RoomPackageBookAPIView(APIView):
-    authentication_classes = (JSONWebTokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
-    ACTION_BOOK = 'book'
-    def post(self, request, *args, **kwargs):
-        print(args)
-        print(kwargs)
-        return self.customer_book(request=request)
-
-    def customer_book(self,request):
+    @detail_route(methods=['GET', 'POST'], url_path='book')
+    @method_decorator(parameter_necessary( 'checkinTime','checkoutTime','guests'))
+    def book(self,request,pk,checkinTime,checkoutTime,guests):
+        roomPackage = self.get_object()
+        checkinTime = datetime.strptime(checkinTime, '%Y-%m-%d').date()
+        checkoutTime = datetime.strptime(checkoutTime, '%Y-%m-%d').date()
         user = request.user
-        customeruser = user.customermember
-        product_id = request.POST.get('productId',None)
-        return add_hotel_order(request,user)
+        exist = HotelPackageOrder.objects.filter(customer=request.user, checkin_time__lte=checkinTime,
+                                                 checkout_time__gt=checkinTime).exists()
+        if exist:
+            return Response(wrapper_response_dict(code=-100, message='存在订单,请先取消'))
+
+        # check 预订时间是否准确
+        # check_validate_checkTime(roomPackage, checkinTime, checkoutTime)
+
+        # check point 是否足够
+        request_notes = '需要wifi'
+
+        hotelPackageOrder = generateHotelPackageProductOrder(request, user, roomPackage, request_notes, checkinTime,
+                                                             checkoutTime)
+
+        serializer = CustomerOrderSerializer(hotelPackageOrder)
+
+        return DefaultJsonResponse(res_data=serializer.data, message='预订成功')
+
 
 
 

@@ -1,5 +1,9 @@
 from hotelBooking.module import leancloud_client
 
+# 注意 channel名称只能包含 字母和数字
+channel_customer = 'customer'
+channel_hotel_partner = 'Hpartner'
+
 
 def send(data, channels=None, push_time=None,expiration_time=None,expiration_interval=None,where=None,cql=None):
     """

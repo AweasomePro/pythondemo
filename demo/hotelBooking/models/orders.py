@@ -14,9 +14,10 @@ from model_utils.managers import QueryManager,InheritanceManager
 # from parler.models import TranslatableModel, TranslatedFields
 from hotelBooking.models.products import Product
 from django.utils.timezone import datetime
-from hotelBooking.signals import order_cancel
 from model_utils.fields import StatusField
 from model_utils import Choices
+from model_utils import FieldTracker
+from model_utils.fields import MonitorField
 
 
 class PaymentStatus(Enum):
@@ -235,6 +236,8 @@ class HotelPackageOrder(Order):
     checkout_time = models.DateField(verbose_name='离店时间')
     closed = models.BooleanField(default=False)
     process_state = models.IntegerField(choices=STATES,default=CUSTOMER_REQUIRE,help_text='订单进行的状态')
+    # process_changed = MonitorField(monitor='process_state')
+    tracker = FieldTracker() #跟踪数据的变化，如果数据没有 save 会返回None
     # 客户添加的额外信息
     total_front_prices = models.IntegerField(_('total need prices'),help_text='所需前台总价')
     total_need_points = models.IntegerField(_('total need points'),help_text='所需积分总和')
@@ -247,7 +250,6 @@ class HotelPackageOrder(Order):
 
     comment = models.TextField(null=True,blank=True,help_text='消费评价')
     guests = JSONField(null=True,blank=True,help_text='入住人信息')
-
 
     # 状态已经标记为完成的订单
     objects = QueryManager()
@@ -303,6 +305,7 @@ class HotelPackageOrder(Order):
                 self.save()
                 print('成功拒单')
                 # 表示成功拒单，
+                from hotelBooking.signals import order_cancel
                 order_cancel.send(sender=self.__class__,order = self,cancelby=user)
                 return True,1
             else:
@@ -323,6 +326,12 @@ class HotelPackageOrder(Order):
                 return False, '当前状态无法进行此操作'
         else:
             raise PermissionDenied(detail='你无权进行此操作，因为你不是该订单的所有者')
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        super(HotelPackageOrder,self).save(force_insert,force_update,using,update_fields)
+
+
 
 class ClosedHotelOrderManger(models.Manager):
     def get_query_set(self):

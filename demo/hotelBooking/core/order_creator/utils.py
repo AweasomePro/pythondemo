@@ -1,6 +1,7 @@
+from django.db import transaction
 from guardian.shortcuts import assign_perm
-from hotelBooking.core.exceptions import PointNotEnough
-from hotelBooking.models.orders import HotelPackageOrder
+from hotelBooking.core.exceptions import PointNotEnough, ConditionDenied
+from hotelBooking.models.orders import HotelPackageOrder, HotelPackageOrderItem
 from hotelBooking.models.plugins import HotelOrderNumberGenerator
 from hotelBooking.serializers import CustomerOrderSerializer
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
@@ -22,34 +23,68 @@ def is_hotel_package(product):
     return True
 
 
-def generateHotelPackageProductOrder(request,member_user,product,request_notes,checkinTime,checkoutTime):
-
-
-    hotel_package_order = HotelPackageOrder.objects.create(
-        request_notes =request_notes,
-        customer=member_user,
-        seller=product.owner,
-        product=product,
-        checkin_time = checkinTime,
-        checkout_time= checkoutTime,
-    )
-    hotel_package_order.save()
+def generateHotelPackageProductOrder(request, member_user, room_package, request_notes, checkinTime, checkoutTime):
+    days = (checkoutTime - checkinTime).days
+    daystates = room_package.roomstates.filter(date__gte=checkinTime,date__lt=checkoutTime)
+    # 保证 state 为可预订状态
+    if (daystates.count() != days):
+        raise ConditionDenied(detail='该套餐已满')
+    sum_point = sum(daystate.need_point for daystate in daystates)
 
     try:
-        order_numbers = HotelOrderNumberGenerator.objects.get(id="order_number")
-    except HotelOrderNumberGenerator.DoesNotExist:
-        order_numbers = HotelOrderNumberGenerator.objects.create(id="order_number")
-    # new Order
-    order_numbers.init(request,hotel_package_order)
+        with transaction.atomic():
+            if member_user.point <= sum_point:
+                raise PointNotEnough()
+            sum_front_price = sum(daystate.front_price for daystate in daystates)
+            print('sum points {}'.format(sum_point))
+            print('sum_front_price {}'.format(sum_front_price))
+            hotel_package_order = HotelPackageOrder(
+                request_notes =request_notes,
+                customer=member_user,
+                seller=room_package.owner,
+                product=room_package,
+                checkin_time = checkinTime,
+                checkout_time= checkoutTime,
+                total_need_points = sum_point,
+                total_front_prices = sum_front_price,
+                breakfast = room_package.breakfast,
+                hotel_name = room_package.hotel.name,
+                room_name = room_package.room.name
+            )
+            try:
+                order_numbers = HotelOrderNumberGenerator.objects.get(id="order_number")
+            except HotelOrderNumberGenerator.DoesNotExist:
+                order_numbers = HotelOrderNumberGenerator.objects.create(id="order_number")
+            order_numbers.init(request,hotel_package_order)
+            hotel_package_order.number = order_numbers.get_next()
+            print('为number 赋值{}'.format(hotel_package_order.number))
+            hotel_package_order.save()
+            # new Order
+            orderItems = []
 
-    hotel_package_order.number = order_numbers.get_next()
+            for daystate in daystates:
+                item = HotelPackageOrderItem(
+                    order=hotel_package_order,
+                    product_name= '',
+                    product_code=room_package.id,
+                    product=room_package,
+                    day= daystate.date,
+                    point=daystate.need_point,
+                    front_price=daystate.front_price,
+                    )
+                item.save()
+                orderItems.append(item)
+            # 扣除积分
+            member_user.deductPoint(sum_point)
+            member_user.save()
+            # 配置权限
+            assign_perm('change_process_state',member_user,hotel_package_order,)
+            return hotel_package_order
+    except Exception as e:
+        raise e
+        raise APIException(detail='服务器错误')
 
-    hotel_package_order.save()
-    member_user.deductPoint(product.need_point)
-    member_user.save()
-    # 配置权限
-    assign_perm('change_process_state',member_user,hotel_package_order,)
-    return hotel_package_order
+
 
 def add_hotel_order(request,member_user,product,request_notes,checkinTime,checkoutTime):
 

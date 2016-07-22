@@ -45,9 +45,8 @@ class CustomerHotelBookOrderList(WithDynamicViewSetMixin,ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return JSONWrappedResponse(serializer.data)
 
-    @detail_route(methods=['GET','POST'], url_path='handle')
-    @method_decorator(parameter_necessary('action',))
-    def handle_order(self, request, number=None, action=None, *args, **kwargs):
+    @detail_route(methods=['GET','POST'], url_path='cancel')
+    def handle_order(self, request, number=None, *args, **kwargs):
         """
         :param request:
         :param number: 订单号
@@ -56,15 +55,16 @@ class CustomerHotelBookOrderList(WithDynamicViewSetMixin,ModelViewSet):
         order = self.get_object()
         checker = ObjectPermissionChecker(request.user)
         # print(checker.has_perm('hotelpackageorder.change_process_state', order))
-        if action == CustomerOrderActionAPIView.ACTION_CANCEL:
-            #  用户取消订单
-            success, order = order.customer_cancel_order(request.user)
-            if (success):
-                order.refresh_from_db()
-            cs = CustomerOrderSerializer(order)
-            return Response(wrapper_response_dict(message='退订成功', data={'order':cs.data}))
-        else:
-            return Response(data='未知操作')
+        #  用户取消订单
+        success, order = order.customer_cancel_order(request.user)
+        if (success):
+            order.refresh_from_db()
+        cs = CustomerOrderSerializer(order)
+        return Response(wrapper_response_dict(message='退订成功', data={'order':cs.data}))
+
+
+
+
 
     def get_queryset(self,queryset=None):
         queryset = self.queryset
@@ -143,6 +143,7 @@ class RoomPackageBookAPIView(APIView):
         guests = kwargs.get('guests')
         if(guests):
             print('guests is ')
+
         # check id 是否真实
         try:
             room_package = RoomPackage.objects.get(id=productId)
@@ -167,7 +168,6 @@ class RoomPackageBookAPIView(APIView):
         serializer = CustomerOrderSerializer(hotelPackageOrder)
 
         return DefaultJsonResponse(res_data=serializer.data,message='预订成功')
-
 
 
 def check_point_enough_book(user, room_package, checkinTime, checkoutTime, ):
@@ -207,7 +207,7 @@ def generateHotelPackageProductOrder(request, member_user, room_package, request
                 checkout_time= checkoutTime,
                 total_need_points = sum_point,
                 total_front_prices = sum_front_price,
-                breakfast =room_package.breakfast,
+                breakfast = room_package.breakfast,
                 hotel_name = room_package.hotel.name,
                 room_name = room_package.room.name
             )
@@ -255,4 +255,5 @@ def add_hotel_order(request,member_user,product,request_notes,checkinTime,checko
     return DefaultJsonResponse(res_data=serializer.data)
 
 def check_validate_checkTime(product,checkinTime,checkoutTime):
+
     pass

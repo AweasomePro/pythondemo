@@ -27,7 +27,12 @@ class Installation(BaseModel):
 
     def __str__(self):
         return '%s-Token %s'%(self.deviceType,self.deviceToken)
-
+    @property
+    def key(self):
+        if(self.deviceType == 'android'):
+            return {'installationId':self.installationId}
+        else:
+            return {'deviceToken':self.deviceToken}
 
 def validate_unique_deviceToken_or_null(value):
     if value != None:
