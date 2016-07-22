@@ -10,7 +10,7 @@ from hotelBooking.models.products import RoomDayState
 from hotelBooking.models.products import RoomPackage
 from hotelBooking.models.user.users import User
 from hotelBooking.module import push
-
+from hotelBooking.module.sms import request_sms_code
 
 @task
 def notify(phone_number, message):
@@ -22,6 +22,13 @@ def notify(phone_number, message):
             where= {'installationId':str(installation.installationId)},
             data={'alert':message}
         )
+
+@task
+def send_sms(**kwargs):
+    response = request_sms_code(**kwargs)
+    if(response.status_code != 200):
+        # 记录失败
+        pass
 
 @periodic_task(run_every=(crontab(minute=2)),name='check_package_task')
 @transaction.atomic()

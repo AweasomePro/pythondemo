@@ -73,15 +73,15 @@ class HotelOrderNumberGenerator(OrderNumberGenerator):
         self.last_number+=1
         number = self.last_number
         self.save()
-        orderNumber ='{0}{1}{2}{3}'.format(1002,str,random.randint(1,9),number)
-        return int(orderNumber)
+        orderNumber ='{0}{1}{2}{3}'.format(1002,str,number,random.randint(1, 9))
+        return orderNumber
 
     def get_next_pay_order(self,formatted=True):
         str = datetime.now().strftime('%Y%m%d%H')[2:]
         self.last_number += 1
         number = self.last_number
         self.save()
-        orderNumber = '{0}{1}{2}{3}'.format(1003, str, random.randint(1, 9),number,)
+        orderNumber = '{0}{1}{2}{3}'.format(1003, str, number,number,random.randint(1, 9))
         print('得到订单号{}'.format(orderNumber))
         return int(orderNumber)
     class Meta:

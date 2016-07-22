@@ -164,7 +164,7 @@ class Order(models.Model):
         (FULLY_SHIPPED, 'fully shipped'),
     )
     # uuid = models.UUIDField(max_length=50, default=uuid.uuid4, editable=False)
-    number = models.CharField(primary_key=True,max_length=30, db_index=True, unique=True, blank=True,null=False)
+    number = models.CharField(primary_key=True,max_length=64, db_index=True, unique=True, blank=True,null=False,editable=False)
     customer = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='customer_orders', blank=True,
                                  on_delete=models.PROTECT, verbose_name=_('customer'))
     seller = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='seller_orders',blank=True)

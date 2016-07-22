@@ -198,7 +198,7 @@ def generateHotelPackageProductOrder(request, member_user, room_package, request
             sum_front_price = sum(daystate.front_price for daystate in daystates)
             print('sum points {}'.format(sum_point))
             print('sum_front_price {}'.format(sum_front_price))
-            hotel_package_order = HotelPackageOrder.objects.create(
+            hotel_package_order = HotelPackageOrder(
                 request_notes =request_notes,
                 customer=member_user,
                 seller=room_package.owner,
@@ -211,14 +211,13 @@ def generateHotelPackageProductOrder(request, member_user, room_package, request
                 hotel_name = room_package.hotel.name,
                 room_name = room_package.room.name
             )
-            hotel_package_order.save()
             try:
                 order_numbers = HotelOrderNumberGenerator.objects.get(id="order_number")
             except HotelOrderNumberGenerator.DoesNotExist:
                 order_numbers = HotelOrderNumberGenerator.objects.create(id="order_number")
             order_numbers.init(request,hotel_package_order)
-
             hotel_package_order.number = order_numbers.get_next()
+            print('为number 赋值{}'.format(hotel_package_order.number))
             hotel_package_order.save()
             # new Order
             orderItems = []
@@ -235,17 +234,16 @@ def generateHotelPackageProductOrder(request, member_user, room_package, request
                     )
                 item.save()
                 orderItems.append(item)
-
             # 扣除积分
             member_user.deductPoint(sum_point)
             member_user.save()
-            # HotelPackageOrderItem.objects.bulk_create(orderItems)
             # 配置权限
             assign_perm('change_process_state',member_user,hotel_package_order,)
             return hotel_package_order
     except Exception as e:
         raise e
         raise APIException(detail='服务器错误')
+
 
 
 def add_hotel_order(request,member_user,product,request_notes,checkinTime,checkoutTime):

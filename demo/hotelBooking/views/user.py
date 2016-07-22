@@ -105,7 +105,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     @method_decorator(parameter_necessary('phoneNumber', 'password', ))
     def login(self, request, *args, **kwargs):
         print(request.version)
-        # checkHousePackageState.delay()
+        checkHousePackageState()
         phone_number = request.POST.get('phoneNumber')
         password = request.POST.get('password')
 
