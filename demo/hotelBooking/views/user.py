@@ -235,3 +235,10 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         return DefaultJsonResponse(code=appcodes.CODE_100_OK,
                                    res_data={'upload_token': token, 'imageUrl': key})
 
+    def get_serializer_class(self):
+        if(self.request.user.is_partner_member):
+            return UserSerializer
+        elif(self.request.user.is_customer_member):
+            return CustomerUserSerializer
+        else: #todo 是否有该情况
+            return self.serializer_class

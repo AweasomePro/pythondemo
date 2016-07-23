@@ -72,3 +72,10 @@ def checkHousePackageState():
                 day += timedelta(days=1)
     RoomDayState.objects.bulk_create(save_object)
     sp_delete_expire = transaction.savepoint()
+
+@task
+def createRoomDaysetsFormRoomPackage(roomPackageId):
+    roomPackage = RoomPackage.objects.get(id =roomPackageId)
+    from hotelBooking.service.packageServices import createRoomDaysetsFormRoomPackage
+    if(roomPackage.roomstates.count() == 0):
+        createRoomDaysetsFormRoomPackage(roomPackageId)

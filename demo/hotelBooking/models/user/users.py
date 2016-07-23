@@ -104,8 +104,10 @@ class User(PointMixin,PermissionsMixin,AbstractBaseUser):
     @property
     def is_customer_member(self):
         # todo  使用数据库 字段 来优化
-        return self.customermember is not None or self.role ==self.CUSTOMER
-
+        return self.role ==self.CUSTOMER
+    @property
+    def is_partner_member(self):
+        return self.role == self.HOTEL_PARTNER
 
     def __unicode__(self):
         return self.phone_number

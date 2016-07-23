@@ -73,48 +73,12 @@ def create_new_hotelpackage(request, hotelId, defaultPoint, defaultPrice, breakf
                 default_price =defaultPrice,
                 breakfast = breakfast
             )
+
             return Response(wrapper_response_dict(message='创建成功审核中'))
     except Exception as e:
         print(e.__cause__)
         raise e
         return Response(wrapper_response_dict(message='失败，服务器异常,需上报并记录',code=-100))
-
-
-
-    #
-    #
-    # roompackage = RoomPackage(owner=User.objects.first())
-    # pararms = request.POST
-    #
-    # roompackage.package_state = 1
-    # roompackage.room = Room.objects.first()
-    # roompackage.default_front_price = 340
-    # roompackage.package_state = 1
-    # roompackage.save()
-    # room = roompackage.room
-    # hotel = room.hotel
-    # city = hotel.city
-    # if roompackage.roompackage_roomstates.all().count() == 0:
-    #     roomstates = []
-    #     # 说明是第一次创建
-    #     print('len is 0 ,will auto create')
-    #     day = datetime.today().date()
-    #     room = roompackage.room
-    #     owner = roompackage.owner
-    #     for i in range(0, 30):
-    #         print(day.strftime('%Y-%m-%d'))
-    #         print(i)
-    #         obj = RoomDayState(agent=owner,
-    #                                  roomPackage=roompackage,
-    #                                  room=room,
-    #                                  hotel=hotel,
-    #                                  city=city,
-    #                                  state=RoomDayState.ROOM_STATE_ENOUGH,
-    #                                  date=day.strftime('%Y-%m-%d'))
-    #         roomstates.append(obj)
-    #         day += timedelta(days=1)
-    #     RoomDayState.objects.bulk_create(roomstates)
-    # return Response(wrapper_response_dict(message='创建成功,审核中'))
 
 class RoomPackageStateView(viewsets.ModelViewSet):
     serializer_class = RoomDayStateSerializer
