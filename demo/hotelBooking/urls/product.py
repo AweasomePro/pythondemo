@@ -6,7 +6,7 @@ from hotelBooking.views.product.roompackage import RoomPackageView,AddRoomPackag
 from hotelBooking.views.product import  roompackage as RoomPackageViews
 
 
-house_simple_router = SimpleRouter(trailing_slash=False,)
+house_simple_router = SimpleRouter(trailing_slash=True,)
 
 house_simple_router.register('^roompackage', RoomPackageView)
 house_simple_router.register('^roomstate', RoomPackageStateView)
@@ -14,6 +14,5 @@ house_simple_router.register('^roomstate', RoomPackageStateView)
 
 urlpatterns = [
     url('^product/roompackage/add', RoomPackageViews.create_new_hotelpackage),
-
 ]
 urlpatterns += house_simple_router.urls

@@ -4,7 +4,7 @@ from . import python_2_unicode_compatible
 
 class ImageModel(models.Model):
     id = models.AutoField(primary_key=True, )
-    img_url = models.CharField(max_length=250, verbose_name='图片地址', )
+    img = models.ImageField(verbose_name='图片')
     class Meta:
         app_label = 'hotelBooking'
         abstract = True

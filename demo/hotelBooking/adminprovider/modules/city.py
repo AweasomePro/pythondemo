@@ -7,5 +7,5 @@ class HotelInline(admin.TabularInline):
     model = Hotel
 
 class CityAdmin(admin.ModelAdmin):
-    list_display = ( 'name','logo', 'province')
+    list_display = ( 'name','code','logo', 'province')
     inlines = [HotelInline,]

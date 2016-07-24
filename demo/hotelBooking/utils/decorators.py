@@ -11,6 +11,7 @@ logger = logging.getLogger('zxw.request')
 def parameter_necessary(*necessary_key,optional=None):
     def decorator(func):
         def wrapper(request, *args, **kw):
+            # todo 使用 set判断元素是否在其中，可以带来性能上的提升
             print(request.method)
             if request.method == 'POST':
                 params = request.POST

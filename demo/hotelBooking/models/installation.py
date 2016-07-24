@@ -34,6 +34,13 @@ class Installation(BaseModel):
         else:
             return {'deviceToken':self.deviceToken}
 
+    @property
+    def where_json(self):
+        if (self.deviceType == 'android'):
+            return {'installationId': self.installationId}
+        else:
+            return {'deviceToken': self.deviceToken}
+
 def validate_unique_deviceToken_or_null(value):
     if value != None:
         Installation.objects.update_or_create()

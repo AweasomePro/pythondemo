@@ -13,15 +13,19 @@ from hotelBooking.module import push
 from hotelBooking.module.sms import request_sms_code
 
 @task
-def notify(phone_number, message):
+def simple_notify(phone_number, message):
     user = User.objects.get(phone_number=phone_number)
     installations = user.installation_set.filter(active=True).all()
     print('通知用户')
     for installation in installations:
         push.send(
-            where= {'installationId':str(installation.installationId)},
+            where= installation.where_json,
             data={'alert':message}
         )
+
+@task
+def push(data, channels=None, push_time=None,expiration_time=None,expiration_interval=None,where=None,cql=None):
+    push.send(data, channels, push_time,expiration_time,expiration_interval,where,cql)
 
 @task
 def send_sms(phone_number, idd='+86', sms_type='sms',template=None,params =None):
@@ -76,6 +80,6 @@ def checkHousePackageState():
 @task
 def createRoomDaysetsFormRoomPackage(roomPackageId):
     roomPackage = RoomPackage.objects.get(id =roomPackageId)
-    from hotelBooking.service.packageServices import createRoomDaysetsFormRoomPackage
+    from hotelBooking.service.packageServices import createRoomDaysFormRoomPackage
     if(roomPackage.roomstates.count() == 0):
-        createRoomDaysetsFormRoomPackage(roomPackageId)
+        createRoomDaysFormRoomPackage(roomPackageId)

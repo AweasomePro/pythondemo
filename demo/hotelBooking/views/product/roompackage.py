@@ -12,17 +12,18 @@ from hotelBooking.models import User,Hotel,Room,HotelPackageOrder
 from hotelBooking.models.products import Product, RoomDayState
 from hotelBooking.models.products import RoomPackage
 from hotelBooking.models.ProductUtils import RoomPackageCreator
+from hotelBooking.permissions.rolepermissions import IsHotelPartnerRole
 from hotelBooking.serializers import CustomerOrderSerializer
 from hotelBooking.serializers.products import RoomDayStateSerializer, RoomPackageSerializer
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 from hotelBooking.utils.decorators import parameter_necessary
+from hotelBooking.utils.dateutils import formatStrToDate
 from rest_framework import viewsets
-from rest_framework.decorators import api_view, authentication_classes, detail_route
+from rest_framework.decorators import api_view, authentication_classes, detail_route,permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
-
 
 class AddRoomPackageView(APIView):
 
@@ -48,7 +49,7 @@ class AddRoomPackageView(APIView):
 """
 @api_view(['POST',])
 @parameter_necessary('hotelId', 'defaultPoint', 'defaultPrice', 'breakfast','roomId', optional=('customRoomName',))
-@login_required_and_is_partner()
+@permission_classes(IsHotelPartnerRole,)
 @authentication_classes([JSONWebTokenAuthentication])
 def create_new_hotelpackage(request, hotelId, defaultPoint, defaultPrice, breakfast, customRoomName, roomId, *args, **kwargs):
     # 注意 atomic 需要有捕获异常，如果你内部catch 了，等于失效了
@@ -103,11 +104,9 @@ class RoomPackageView(WithDynamicViewSetMixin,ModelViewSet):
     queryset = RoomPackage.objects.all()
 
     def retrieve(self, request, *args, **kwargs):
-        print('do retreieve')
         # hotel_query_utils.query(1,0,0)
         instance = self.get_object()
         serializer = self.get_serializer(instance)
-        print('will be serializer')
         return Response(wrapper_response_dict(data=serializer.data))
         # return Response('success')
 
@@ -115,27 +114,25 @@ class RoomPackageView(WithDynamicViewSetMixin,ModelViewSet):
     @method_decorator(parameter_necessary( 'checkinTime','checkoutTime','guests'))
     def book(self,request,pk,checkinTime,checkoutTime,guests):
         roomPackage = self.get_object()
-        checkinTime = datetime.strptime(checkinTime, '%Y-%m-%d').date()
-        checkoutTime = datetime.strptime(checkoutTime, '%Y-%m-%d').date()
+        checkinTime = formatStrToDate(checkinTime)
+        checkoutTime = formatStrToDate(checkoutTime)
         user = request.user
+
+        from hotelBooking.validation import orderValidates
+        if not orderValidates.validate_book_date(checkinTime,checkoutTime):
+            return Response(wrapper_response_dict(code=-100, message='非法的check time'))
         exist = HotelPackageOrder.objects.filter(customer=request.user, checkin_time__lte=checkinTime,
                                                  checkout_time__gt=checkinTime).exists()
-        if exist:
-            return Response(wrapper_response_dict(code=-100, message='存在订单,请先取消'))
 
-        # check 预订时间是否准确
-        # check_validate_checkTime(roomPackage, checkinTime, checkoutTime)
+        if (exist):
+            return Response(wrapper_response_dict(code=-100, message='存在当天订单 请先取消'))
 
-        # check point 是否足够
         request_notes = '需要wifi'
-
+        # 内部检查了积分是否足够
         hotelPackageOrder = generateHotelPackageProductOrder(request, user, roomPackage, request_notes, checkinTime,
                                                              checkoutTime)
-
         serializer = CustomerOrderSerializer(hotelPackageOrder)
-
         return DefaultJsonResponse(res_data=serializer.data, message='预订成功')
-
 
 
 

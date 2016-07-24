@@ -21,7 +21,7 @@ from hotelBooking.models import User,PartnerMember,CustomerMember
 from hotelBooking.serializers import CustomerUserSerializer, UpdateMemberSerializer
 from hotelBooking.serializers import InstallationSerializer
 from hotelBooking.serializers.user import UserSerializer
-from hotelBooking.tasks import notify,checkHousePackageState
+from hotelBooking.tasks import simple_notify,checkHousePackageState
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 from hotelBooking.utils.decorators import method_route, parameter_necessary, is_authenticated
 

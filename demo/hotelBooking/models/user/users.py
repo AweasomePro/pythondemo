@@ -105,6 +105,7 @@ class User(PointMixin,PermissionsMixin,AbstractBaseUser):
     def is_customer_member(self):
         # todo  使用数据库 字段 来优化
         return self.role ==self.CUSTOMER
+
     @property
     def is_partner_member(self):
         return self.role == self.HOTEL_PARTNER
@@ -112,12 +113,18 @@ class User(PointMixin,PermissionsMixin,AbstractBaseUser):
     def __unicode__(self):
         return self.phone_number
 
+    @property
+    def lean_push_json(self):
+        installation = self.installation_set.filter()
+
     @staticmethod
-    def existPhoneNumber(phone_number = None):
+    def existPhoneNumber(phone_number = None,exception = False):
         try:
             User.objects.get(phone_number=phone_number)
             return True
         except User.DoesNotExist:
+            if(exception):
+              pass # todo 直接抛出异常
             return False
 
 class ProductMemberType(Enum):

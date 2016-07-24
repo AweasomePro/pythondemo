@@ -9,7 +9,7 @@ def caculatedays(startday,endday):
     checkout_time = real_datetime.strptime(endday, '%Y-%m-%d').date()
     return (checkout_time - checkin_time).days
 
-def formatstrToDate(date_str):
+def formatStrToDate(date_str):
     # todo 检查输入是否合法
     return real_datetime.strptime(date_str, '%Y-%m-%d').date()
 

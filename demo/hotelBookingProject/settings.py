@@ -342,6 +342,13 @@ DYNAMIC_REST = {
     'DEFAULT_PAGINATION_CLASS': 'hotelBooking.pagination.StandardResultsSetPagination',
 }
 
+# 文件系统设置
+QINIU_ACCESS_KEY = 'u-ryAwaQeBx9BS5t8OMSPs6P1Ewoqiu6-ZbbMNYm'
+QINIU_SECRET_KEY = 'hVXFHO8GusQduMqLeYXZx_C5_c7D-VSwz6AKhjZJ'
+QINIU_BUCKET_NAME = 'hotelbook'
+QINIU_BUCKET_DOMAIN = 'qiniu.agesd.com'
+QINIU_SECURE_URL = False
+DEFAULT_FILE_STORAGE = 'qiniustorage.backends.QiniuStorage'
 
 # redis 缓存配置
 CACHES = {

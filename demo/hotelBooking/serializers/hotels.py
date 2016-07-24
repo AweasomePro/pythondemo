@@ -15,7 +15,7 @@ class HotelImgSerializer(DynamicModelSerializer):
     class Meta:
         model = HotelImg
         name = 'hotel_img'
-        exclude =()
+        exclude =('id','hotel',)
 
 
 class RoomImgSerializer(DynamicModelSerializer):
@@ -47,9 +47,7 @@ class RoomSerializer(DynamicModelSerializer):
 
 
 class HotelSerializer(DynamicModelSerializer):
-
-    hotel_imgs = HotelImgSerializer(embed=True,many=True,exclude_fields=('id','hotel'))
-
+    hotel_imgs = HotelImgSerializer(read_only=True, many=True, embed=True)
     min_price = DynamicMethodField()
 
     def get_types(self,hotel):
@@ -73,6 +71,7 @@ class HotelDetailSerializer(DynamicModelSerializer):
     需要显示所有的room
     """
     rooms = rest_serializers.SerializerMethodField('room_details')
+    hotel_imgs = HotelImgSerializer(read_only=True,many=True,embed=True)
 
     def room_details(self,hotel):
         data = RoomSerializer(hotel.hotel_rooms,many=True,include_fields=('name',),embed=True).data

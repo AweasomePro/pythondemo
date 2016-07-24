@@ -1,5 +1,7 @@
 from django.db import transaction
 from guardian.shortcuts import assign_perm
+from rest_framework.exceptions import APIException
+
 from hotelBooking.core.exceptions import PointNotEnough, ConditionDenied
 from hotelBooking.models.orders import HotelPackageOrder, HotelPackageOrderItem
 from hotelBooking.models.plugins import HotelOrderNumberGenerator
@@ -30,11 +32,13 @@ def generateHotelPackageProductOrder(request, member_user, room_package, request
     if (daystates.count() != days):
         raise ConditionDenied(detail='该套餐已满')
     sum_point = sum(daystate.need_point for daystate in daystates)
-
+    if(member_user.point < sum_point):
+        raise PointNotEnough()
     try:
         with transaction.atomic():
             if member_user.point <= sum_point:
                 raise PointNotEnough()
+            # 合计前台付款
             sum_front_price = sum(daystate.front_price for daystate in daystates)
             print('sum points {}'.format(sum_point))
             print('sum_front_price {}'.format(sum_front_price))
@@ -57,7 +61,7 @@ def generateHotelPackageProductOrder(request, member_user, room_package, request
                 order_numbers = HotelOrderNumberGenerator.objects.create(id="order_number")
             order_numbers.init(request,hotel_package_order)
             hotel_package_order.number = order_numbers.get_next()
-            print('为number 赋值{}'.format(hotel_package_order.number))
+            print('生成订单号{}'.format(hotel_package_order.number))
             hotel_package_order.save()
             # new Order
             orderItems = []
@@ -78,11 +82,11 @@ def generateHotelPackageProductOrder(request, member_user, room_package, request
             member_user.deductPoint(sum_point)
             member_user.save()
             # 配置权限
-            assign_perm('change_process_state',member_user,hotel_package_order,)
+            # todo 这些操作可以加入 异步队列中
+            # assign_perm('change_process_state',member_user,hotel_package_order,)
             return hotel_package_order
     except Exception as e:
-        raise e
-        raise APIException(detail='服务器错误')
+        raise APIException(detail='服务器错误{}'.format(e.__cause__))
 
 
 

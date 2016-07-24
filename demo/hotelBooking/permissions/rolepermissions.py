@@ -22,3 +22,11 @@ class PartnerPermission(BasePermission):
         admin is God!
         """
         return order.seller == request.user or request.user.is_admin
+
+class IsHotelPartnerRole(BasePermission):
+    """
+    Allows access only to authenticated users.
+    """
+
+    def has_permission(self, request, view):
+        return request.user and request.user.is_partner_member

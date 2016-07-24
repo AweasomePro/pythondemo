@@ -30,7 +30,6 @@ class HotelViewSet(WithDynamicViewSetMixin,viewsets.ReadOnlyModelViewSet):
 
     def list(self, request, *args, **kwargs):
         print(self.filter_backends)
-
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -43,12 +42,6 @@ class HotelViewSet(WithDynamicViewSetMixin,viewsets.ReadOnlyModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(wrapper_response_dict(serializer.data))
 
-    @detail_route(methods=['GET',],url_path='types/')
-    def query_room_types(self,request):
-        # 目前使用在，商家端新建room的时候
-        self.get_object()
-        return Response('success')
-
 
     def get_queryset(self, queryset=None):
         if (queryset == None):
@@ -56,10 +49,9 @@ class HotelViewSet(WithDynamicViewSetMixin,viewsets.ReadOnlyModelViewSet):
         checkinTime = self.request.query_params.get('checkinTime',None)
         checkoutTime = self.request.query_params.get('checkoutTime',None)
         cityId = self.request.query_params.get('cityId',None)
-        if (checkinTime and checkoutTime and cityId):
-            queryset =  hotel_query_utils.query(queryset, cityId, checkinTime, checkoutTime)
-
-        return queryset.prefetch_related('hotel_imgs').prefetch_related('roompackage_set').prefetch_related('hotel_rooms')
+        return queryset.prefetch_related('hotel_imgs')\
+            .prefetch_related('roompackage_set')\
+            .prefetch_related('hotel_rooms')
 
 
 
@@ -80,20 +72,23 @@ class HotelDetialView(WithDynamicViewSetMixin,mixins.RetrieveModelMixin,
         request = self.request
         checkinTime = request.GET.get('checkinTime', None)
         checkoutTime = request.GET.get('checkoutTime', None)
-        queryset = self.queryset.prefetch_related('hotel_rooms')\
+        queryset = self.queryset\
+            .prefetch_related('hotel_imgs')\
+            .prefetch_related('hotel_rooms')\
             .prefetch_related('hotel_rooms__room_imgs')\
             .prefetch_related('hotel_rooms__roomPackages')
         if(checkinTime and checkoutTime):
-            dateutils.formatstrToDate(checkinTime)
-            dateutils.formatstrToDate(checkoutTime)
+            dateutils.formatStrToDate(checkinTime)
+            dateutils.formatStrToDate(checkoutTime)
             filter_date_queryset = queryset.prefetch_related(Prefetch('hotel_rooms__roomPackages__roomstates',
-                        queryset=RoomDayState.objects.filter(date__gte=dateutils.formatstrToDate(checkinTime),
-                        date__lt = dateutils.formatstrToDate(checkoutTime))))
+                                                                      queryset=RoomDayState.objects.filter(date__gte=dateutils.formatStrToDate(checkinTime),
+                                                                                                           date__lt = dateutils.formatStrToDate(checkoutTime))))
             return filter_date_queryset
         else:
             filter_date_queryset = queryset.prefetch_related(Prefetch('hotel_rooms__roomPackages__roomstates',
                                                                        queryset=RoomDayState.objects.filter(date__gte=dateutils.today())))
             return filter_date_queryset
+
 
 class RoomViewSet(DynamicModelViewSet):
 
@@ -146,9 +141,6 @@ class HotelTypesViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_serializer_class(self,*args,**kwargs):
         return RoomSerializer
-
-
-
 
     def get_serializer(self, *args, **kwargs):
         serializer_class = self.get_serializer_class()

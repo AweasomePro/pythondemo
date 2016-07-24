@@ -4,8 +4,7 @@ from hotelBooking.models import User
 from ..models.city import  City
 from . import BaseModel
 from .mixin import CheckMixin, ActiveMixin
-
-
+from django.utils.translation import ugettext_lazy as _
 # class Room(CheckMixin,models.Model):
 #     name = models.CharField(max_length=255,null=False,blank=False,default='商务大床房')
 #
@@ -23,10 +22,12 @@ class Hotel(ActiveMixin,models.Model):
     id = models.AutoField(primary_key=True,editable=False)
     city = models.ForeignKey(City,verbose_name='所在城市',related_name='hotels')
     name = models.CharField(max_length=200,null=False,verbose_name='酒店名')
+    Smoking = models.BooleanField(default=False,verbose_name=_('can smoke '))
     address = models.CharField(max_length=255,null=False,verbose_name='地址')
     introduce = models.TextField(max_length=255,verbose_name='介绍')
     contact_phone = models.CharField(max_length=255,verbose_name='联系电话')
     agent = models.ManyToManyField(User)
+
     # types = models.ManyToManyField(Room)
 
     class Meta:
