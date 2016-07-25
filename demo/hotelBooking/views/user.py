@@ -41,7 +41,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     @method_route(methods=['POST', 'GET'], url_path='sms/register')
     @method_decorator(parameter_necessary('phoneNumber', ))
     def get_register_sms(self, request, phoneNumber, *args, **kwargs):
-        if not User.existPhoneNumber(phoneNumber):
+        if not User.existPhoneNumber(phoneNumber,raise_exception=False):
             response = send_sms.delay(phoneNumber, template='register')
             return Response(wrapper_response_dict(message='验证码已发送'))
         else:
