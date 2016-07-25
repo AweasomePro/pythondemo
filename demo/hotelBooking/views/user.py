@@ -55,10 +55,10 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         password = request.POST.get('smsCode')
         sms_code = request.POST.get('smsCode', None)
         print(sms_code)
-        if User.existPhoneNumber(phone_number):
+        if User.existPhoneNumber(phone_number,raise_exception=False):
             return DefaultJsonResponse(code=appcodes.CODE_SMS_ERROR, message="手机号已存在")
         # UserCheck.validate_pwd(password)
-        if (True):
+        if (sms.verify_sms_code(phone_number,sms_code)[0]):
             try:
                 # todo 测试
                 if request.POST.get('test',None):
@@ -108,7 +108,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         print('phone is {}'.format(phone_number))
         try:
             user = User.objects.get(phone_number=phone_number)
-            if (password and user.check_password(password) or smsCode and user.check_smscode(phone_number,smsCode)):
+            if (smsCode and user.check_smscode(phone_number,smsCode)):
                 payload = jwt_payload_handler(user)
                 token = jwt_encode_handler(payload)
                 if(user.role == User.CUSTOMER):
