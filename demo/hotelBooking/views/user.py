@@ -21,7 +21,7 @@ from hotelBooking.module import sms
 from hotelBooking.serializers import CustomerUserSerializer, UpdateMemberSerializer
 from hotelBooking.serializers import InstallationSerializer
 from hotelBooking.serializers.user import UserSerializer
-from hotelBooking.tasks import simple_notify
+from hotelBooking.tasks import simple_notify,send_sms
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 from hotelBooking.utils.decorators import method_route, parameter_necessary, is_authenticated
 
@@ -80,15 +80,15 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         else:
             return DefaultJsonResponse(code=appcodes.CODE_SMS_ERROR, message="注册失败，验证码错误")
 
-    @method_route(methods=['GET ', 'GET'], url_path='sms/login')
+    @method_route(methods=['POST', 'GET'], url_path='sms/login')
     @method_decorator(parameter_necessary('phoneNumber',))
-    def get_login_sms(self,request,phone_number,*args,**kwargs):
-        User.existPhoneNumber(phone_number)
-        response = sms.request_sms_code(phone_number,template='login')
-        return 'success'
+    def get_login_sms(self,request,phoneNumber,*args,**kwargs):
+        User.existPhoneNumber(phoneNumber)
+        response = send_sms.delay(phoneNumber,template='login')
+        return Response(wrapper_response_dict(message='验证码已发送'))
 
     @method_route(methods=['POST',], url_path='login')
-    @method_decorator(parameter_necessary('phoneNumber', 'password', 'smsCode'))
+    @method_decorator(parameter_necessary('phoneNumber',))
     def login(self, request, *args, **kwargs):
         print(request.version)
         # checkHousePackageState()
@@ -98,10 +98,10 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         print('phone is {}'.format(phone_number))
         try:
             user = User.objects.get(phone_number=phone_number)
-            if (password and user.check_password(password) or smsCode and user.check_smscode(phone_number,code=smsCode)):
+            if (password and user.check_password(password) or smsCode and user.check_smscode(phone_number,smsCode)):
                 payload = jwt_payload_handler(user)
                 token = jwt_encode_handler(payload)
-                if(user.role ==User.CUSTOMER):
+                if(user.role == User.CUSTOMER):
                     response = DefaultJsonResponse(res_data={'user':CustomerUserSerializer(user).data})
                 else:
                     response = DefaultJsonResponse(res_data={'user':UserSerializer(user).data})
