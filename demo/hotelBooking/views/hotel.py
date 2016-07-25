@@ -46,12 +46,12 @@ class HotelViewSet(WithDynamicViewSetMixin,viewsets.ReadOnlyModelViewSet):
     def get_queryset(self, queryset=None):
         if (queryset == None):
             queryset = self.queryset
+        cityId = self.request.query_params.get('cityId',None)
         checkinTime = self.request.query_params.get('checkinTime',None)
         checkoutTime = self.request.query_params.get('checkoutTime',None)
-        cityId = self.request.query_params.get('cityId',None)
-        return queryset.prefetch_related('hotel_imgs')\
-            .prefetch_related('roompackage_set')\
-            .prefetch_related('hotel_rooms')
+        if (checkinTime and checkoutTime and cityId): #todo 该方法效率不高
+                        queryset = hotel_query_utils.query(queryset, cityId, checkinTime, checkoutTime)
+        return queryset.prefetch_related('hotel_rooms').prefetch_related('hotel_rooms__roomPackages')
 
 
 
@@ -77,6 +77,7 @@ class HotelDetialView(WithDynamicViewSetMixin,mixins.RetrieveModelMixin,
             .prefetch_related('hotel_rooms')\
             .prefetch_related('hotel_rooms__room_imgs')\
             .prefetch_related('hotel_rooms__roomPackages')
+        # 如果带了check time 则只返回 那区间的 roomdaystate
         if(checkinTime and checkoutTime):
             dateutils.formatStrToDate(checkinTime)
             dateutils.formatStrToDate(checkoutTime)

@@ -6,15 +6,12 @@ from hotelBooking.models.products import RoomDayState
 
 
 def query(queryset,cityId,checkinTime,checkoutTime):
-    # in_str = '2016-07-07'
-    # in_str = '2016-07-08'
     cityId = int(cityId)
     checkin_time = datetime.datetime.strptime(checkinTime, '%Y-%m-%d').date()
     checkout_time = datetime.datetime.strptime(checkoutTime, '%Y-%m-%d').date()
     check_days = (checkout_time - checkin_time).days
     print(checkin_time)
     print(checkout_time)
-
     states = RoomDayState.objects.filter(city_id=cityId).values('roomPackage', 'hotel') \
         .filter(date__gte=checkin_time, date__lt=checkout_time,
                 state=1).annotate(

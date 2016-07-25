@@ -57,8 +57,8 @@ def checkHousePackageState():
         else:
             owner = roompackage.owner
             room = roompackage.room
-            hotel = roompackage.house.hotel
-            city = roompackage.house.hotel.city
+            hotel = room.hotel
+            city = room.hotel.city
             day = datetime.today().date()
             for i in range(0, 30):
                 print(day.strftime('%Y-%m-%d'))
