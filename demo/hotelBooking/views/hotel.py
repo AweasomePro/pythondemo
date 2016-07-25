@@ -73,7 +73,6 @@ class HotelDetialView(WithDynamicViewSetMixin,mixins.RetrieveModelMixin,
         checkinTime = request.GET.get('checkinTime', None)
         checkoutTime = request.GET.get('checkoutTime', None)
         queryset = self.queryset\
-            .prefetch_related('hotel_imgs')\
             .prefetch_related('hotel_rooms')\
             .prefetch_related('hotel_rooms__room_imgs')\
             .prefetch_related('hotel_rooms__roomPackages')
