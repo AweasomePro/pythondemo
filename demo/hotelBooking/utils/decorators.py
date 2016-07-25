@@ -27,7 +27,7 @@ def parameter_necessary(*necessary_key,optional=None):
                     dict[i]= request.POST.get(i) or request.GET.get(i)
                     print('从请求中得到{}'.format(dict[i]))
                 else:
-                    return JSONWrappedResponse(status=-1, message="缺少必要的参数" + str(i))
+                    return JSONWrappedResponse(code=-1, message="缺少必要的参数" + str(i))
             kw.update(dict)
             opt_dict ={}
             if(optional is not None):
@@ -64,7 +64,7 @@ def is_authenticated():
             if(isinstance(request.user,AnonymousUser)):
                 print('草 没有通过验证啊')
                 print(request.user)
-                return JSONWrappedResponse(status=-1, message='未通过token验证')
+                return JSONWrappedResponse(code=-1, message='未通过token验证')
             return func(request,*args,**kw)
         return wrapper
     return decorator

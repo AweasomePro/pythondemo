@@ -8,7 +8,7 @@ def is_authenticated():
         def wrapper(request, *args, **kw):
             if(isinstance(request.user,AnonymousUser)):
                 print('草 没有通过验证啊')
-                return JSONWrappedResponse(status=-1, message='未通过token验证')
+                return JSONWrappedResponse(code=-1, message='未通过token验证')
             return func(request,*args,**kw)
         return wrapper
     return decorator
@@ -21,7 +21,7 @@ def login_required_and_is_member():
         def wrapper(request, *args, **kw):
             if (not isinstance(request.user, User)):
                 print('草 没有通过验证啊')
-                return JSONWrappedResponse(status=-1, message='用户未登入')
+                return JSONWrappedResponse(code=-1, message='用户未登入')
             return func(request, *args, **kw)
 
         return wrapper
@@ -36,9 +36,9 @@ def login_required_and_is_partner():
             user = request.user
             if (not isinstance(user, User)):
                 print('草 没有通过验证啊')
-                return JSONWrappedResponse(status=-1, message='用户未登入')
+                return JSONWrappedResponse(code=-1, message='用户未登入')
             if user.partnermember is  None:
-                return JSONWrappedResponse(status=-1, message='不是合作伙伴')
+                return JSONWrappedResponse(code=-1, message='不是合作伙伴')
             print('permission ')
             return func(request, *args, **kw)
         return wrapper
