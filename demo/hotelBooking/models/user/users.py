@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 from enumfields import Enum
 
 from hotelBooking.core.fields.pointField import PointField
+from hotelBooking.exceptions import NotExistUser
 from hotelBooking.exceptions import UserCheck
 
 
@@ -117,15 +118,18 @@ class User(PointMixin,PermissionsMixin,AbstractBaseUser):
     @property
     def lean_push_json(self):
         installation = self.installation_set.filter()
+        return 'nothing,to delete'
 
     @staticmethod
-    def existPhoneNumber(phone_number = None,exception = False):
+    def existPhoneNumber(phone_number = None,raise_exception = True):
         try:
             User.objects.get(phone_number=phone_number)
             return True
         except User.DoesNotExist:
-            from hotelBooking.exceptions import NotExistUser
-            raise NotExistUser()
+            if(not raise_exception):
+                return False
+            else:
+                raise NotExistUser()
     @staticmethod
     def check_smscode(phone_number,smsCode):
         from hotelBooking.module import sms

@@ -40,22 +40,24 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
 
     @method_route(methods=['POST', 'GET'], url_path='sms/register')
     @method_decorator(parameter_necessary('phoneNumber', ))
-    def get_login_sms(self, request, phoneNumber, *args, **kwargs):
-        User.existPhoneNumber(phoneNumber)
-        response = send_sms.delay(phoneNumber, template='register')
-        return Response(wrapper_response_dict(message='验证码已发送'))
+    def get_register_sms(self, request, phoneNumber, *args, **kwargs):
+        if not User.existPhoneNumber(phoneNumber):
+            response = send_sms.delay(phoneNumber, template='register')
+            return Response(wrapper_response_dict(message='验证码已发送'))
+        else:
+            return Response(wrapper_response_dict(message='手机号已存在',code=-100))
 
     @method_route(methods=['POST',],url_path='register')
     @transaction.atomic()
-    @method_decorator(parameter_necessary('phoneNumber', 'password', 'smsCode',))
+    @method_decorator(parameter_necessary('phoneNumber', 'smsCode',))
     def register(self, request, *args, **kwargs):
         phone_number = request.POST.get('phoneNumber')
-        password = request.POST.get('password')
+        password = request.POST.get('smsCode')
         sms_code = request.POST.get('smsCode', None)
         print(sms_code)
         if User.existPhoneNumber(phone_number):
             return DefaultJsonResponse(code=appcodes.CODE_SMS_ERROR, message="手机号已存在")
-        UserCheck.validate_pwd(password)
+        # UserCheck.validate_pwd(password)
         if (True):
             try:
                 # todo 测试
