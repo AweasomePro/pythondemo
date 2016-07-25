@@ -1,13 +1,14 @@
-from django.db import models
-from django.contrib.auth.models import  BaseUserManager,AbstractBaseUser, PermissionsMixin
-from django.utils import timezone
-from hotelBooking.core.exceptions import UserCheck
-from hotelBooking.core.fields.pointField import PointField
-from django.db import models
 from django.contrib.auth.models import  BaseUserManager,AbstractBaseUser
-from django.contrib.auth.models import Group,Permission
-from enumfields import Enum, EnumIntegerField
+from django.contrib.auth.models import PermissionsMixin
+from django.db import models
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from enumfields import Enum
+
+from hotelBooking.core.fields.pointField import PointField
+from hotelBooking.exceptions import UserCheck
+
+
 # Create your models here.
 
 
@@ -123,9 +124,8 @@ class User(PointMixin,PermissionsMixin,AbstractBaseUser):
             User.objects.get(phone_number=phone_number)
             return True
         except User.DoesNotExist:
-            if(exception):
-              pass # todo 直接抛出异常
-            return False
+            from hotelBooking.exceptions import NotExistUser
+            raise NotExistUser()
     @staticmethod
     def check_smscode(phone_number,smsCode):
         from hotelBooking.module import sms

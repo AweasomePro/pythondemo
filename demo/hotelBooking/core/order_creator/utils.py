@@ -1,8 +1,6 @@
 from django.db import transaction
-from guardian.shortcuts import assign_perm
-from rest_framework.exceptions import APIException
 
-from hotelBooking.core.exceptions import PointNotEnough, ConditionDenied
+from hotelBooking.exceptions import PointNotEnough, ConditionDenied
 from hotelBooking.models.orders import HotelPackageOrder, HotelPackageOrderItem
 from hotelBooking.models.plugins import HotelOrderNumberGenerator
 from hotelBooking.serializers import CustomerOrderSerializer

@@ -1,9 +1,9 @@
 import re
-import requests
+
 from django.contrib.auth.models import AnonymousUser
 from django.db import transaction
 from django.utils.decorators import method_decorator
-from django.core.signals import request_finished
+from qiniu import Auth
 from rest_framework import viewsets
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.exceptions import ValidationError
@@ -11,20 +11,20 @@ from rest_framework.mixins import UpdateModelMixin
 from rest_framework.response import Response
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework_jwt.settings import api_settings
-from qiniu import Auth
+
 from hotelBooking import appcodes
-from hotelBooking.Mysettings import APP_ID, APP_KEY
-from hotelBooking.core.exceptions import  UserCheck
 from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
-from hotelBooking.models.installation import Installation
+from hotelBooking.exceptions import  UserCheck
 from hotelBooking.models import User,PartnerMember,CustomerMember
+from hotelBooking.models.installation import Installation
+from hotelBooking.module import sms
 from hotelBooking.serializers import CustomerUserSerializer, UpdateMemberSerializer
 from hotelBooking.serializers import InstallationSerializer
 from hotelBooking.serializers.user import UserSerializer
-from hotelBooking.tasks import simple_notify,checkHousePackageState
+from hotelBooking.tasks import simple_notify
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 from hotelBooking.utils.decorators import method_route, parameter_necessary, is_authenticated
-from hotelBooking.module import sms
+
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
@@ -79,6 +79,13 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
                 return response
         else:
             return DefaultJsonResponse(code=appcodes.CODE_SMS_ERROR, message="注册失败，验证码错误")
+
+    @method_route(methods=['GET ', 'GET'], url_path='sms/login')
+    @method_decorator(parameter_necessary('phoneNumber',))
+    def get_login_sms(self,request,phone_number,*args,**kwargs):
+        User.existPhoneNumber(phone_number)
+        response = sms.request_sms_code(phone_number,template='login')
+        return 'success'
 
     @method_route(methods=['POST',], url_path='login')
     @method_decorator(parameter_necessary('phoneNumber', 'password', 'smsCode'))

@@ -1,6 +1,4 @@
-from rest_framework.views import exception_handler
-
-from hotelBooking.core.exceptions import ConditionDenied
+from hotelBooking.exceptions import ConditionDenied
 from ..utils.AppJsonResponse import DefaultJsonResponse
 """
 Provides an APIView class that is the base of all views in REST framework.
@@ -13,7 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from rest_framework import exceptions, status
 from rest_framework.compat import set_rollback
-from rest_framework.response import Response
+
 
 def exception_handler(exc, context):
     """

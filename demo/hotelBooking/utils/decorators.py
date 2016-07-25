@@ -15,8 +15,10 @@ def parameter_necessary(*necessary_key,optional=None):
             print(request.method)
             if request.method == 'POST':
                 params = request.POST
+                print(params)
             elif request.method == 'GET':
                 params = request.GET
+                print(params)
             else:
                 # 如果 不是 'POST' 'GET',不做处理
                 return func(request, *args, **kw)
