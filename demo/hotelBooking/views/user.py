@@ -38,6 +38,13 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     serializer_class = CustomerUserSerializer
     queryset = User.objects.all()
 
+    @method_route(methods=['POST', 'GET'], url_path='sms/register')
+    @method_decorator(parameter_necessary('phoneNumber', ))
+    def get_login_sms(self, request, phoneNumber, *args, **kwargs):
+        User.existPhoneNumber(phoneNumber)
+        response = send_sms.delay(phoneNumber, template='register')
+        return Response(wrapper_response_dict(message='验证码已发送'))
+
     @method_route(methods=['POST',],url_path='register')
     @transaction.atomic()
     @method_decorator(parameter_necessary('phoneNumber', 'password', 'smsCode',))
@@ -85,8 +92,8 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     def get_login_sms(self,request,phoneNumber,*args,**kwargs):
         User.existPhoneNumber(phoneNumber)
         response = send_sms.delay(phoneNumber,template='login')
-
         return Response(wrapper_response_dict(message='验证码已发送'))
+
 
     @method_route(methods=['POST',], url_path='login')
     @method_decorator(parameter_necessary('phoneNumber',))

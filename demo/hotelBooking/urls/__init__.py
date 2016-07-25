@@ -3,10 +3,11 @@ from rest_framework import routers
 from hotelBooking.urls import user,hotel,province,city,room,order,product,pay
 from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token
 from hotelBooking.views import test
-
+from hotelBooking.views.sms import SmsAPIView
 router = routers.SimpleRouter(trailing_slash=True)
 
 urlpatterns = [
+    url(r'^sms/',SmsAPIView.as_view()),
     url(r'',include(user)),
     url(r'',include(hotel)),
     url(r'', include(province)),

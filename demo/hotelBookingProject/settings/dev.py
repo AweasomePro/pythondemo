@@ -11,3 +11,15 @@ DATABASES = {
         'PORT': '3306',  # 你的数据库端口
     },
 }
+
+# redis 缓存配置
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.cache.RedisCache',
+        'LOCATION': '3e5069637587473d.redis.rds.aliyuncs.com:6379',
+        'PASSWORD':'Zhuo8995588',
+        "OPTIONS": {
+            "CLIENT_CLASS": "redis_cache.client.DefaultClient",
+        },
+    },
+}

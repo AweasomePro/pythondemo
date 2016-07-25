@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 import django
 import manage
-from datetime import datetime
+import datetime
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 DJANGO_ROOT = os.path.dirname(os.path.realpath(django.__file__))
 BASE_DIR = os.path.dirname(os.path.realpath(manage.__file__))
@@ -169,75 +169,75 @@ SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 # session setting
 SESSION_COOKIE_AGE = 365*24*60*60
 
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': True,
-#     'formatters': {
-#         'standard': {
-#             'format': '%(asctime)s [%(threadName)s:%(thread)d] [%(name)s:%(lineno)d] [%(levelname)s]- %(message)s'
-#         },
-#     },
-#     'filters': {
-#     },
-#     'handlers': {
-#         'mail_admins': {
-#             'level': 'ERROR',
-#             'class': 'django.utils.log.AdminEmailHandler',
-#             'include_html': True,
-#         },
-#         'default': {
-#             'level':'DEBUG',
-#             'class':'logging.handlers.RotatingFileHandler',
-#             'filename': os.path.join(STATIC_ROOT+'/logs/','all'+str(datetime.today().date())+'.log'), #或者直接写路径：'c:\logs\all.log',
-#             'maxBytes': 1024*1024*5, # 5 MB
-#             'backupCount': 5,
-#             'formatter':'standard',
-#         },
-#         'console':{
-#             'level': 'DEBUG',
-#             'class': 'logging.StreamHandler',
-#             'formatter': 'standard'
-#         },
-#         'request_handler': {
-#             'level':'DEBUG',
-#             'class':'logging.handlers.RotatingFileHandler',
-#             'filename': os.path.join(STATIC_ROOT+'/logs/','script.log'), #或者直接写路径：'filename':'c:\logs\request.log''
-#             'maxBytes': 1024*1024*5, # 5 MB
-#             'backupCount': 5,
-#             'formatter':'standard',
-#         },
-#         'scprits_handler': {
-#             'level':'DEBUG',
-#             'class':'logging.handlers.RotatingFileHandler',
-#             'filename': os.path.join(STATIC_ROOT+'/logs/','script.log'), #或者直接写路径：'filename':'c:\logs\script.log'
-#             'maxBytes': 1024*1024*5, # 5 MB
-#             'backupCount': 5,
-#             'formatter':'standard',
-#         },
-#     },
-#     'loggers': {
-#         'django': {
-#             'handlers': ['default','console'],
-#             'level': 'DEBUG',
-#             'propagate': False
-#         },
-#         'XieYin.app':{
-#             'handlers': ['default','console'],
-#             'level': 'DEBUG',
-#             'propagate': True
-#         },
-#         'django.request': {
-#             'handlers': ['request_handler'],
-#             'level': 'DEBUG',
-#             'propagate': False
-#         },
-#         'scripts': { # 脚本专用日志
-#             'handlers': ['scprits_handler'],
-#             'level': 'INFO',
-#             'propagate': False
-#         },
-#     }
-# }
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'standard': {
+            'format': '%(asctime)s [%(threadName)s:%(thread)d] [%(name)s:%(lineno)d] [%(levelname)s]- %(message)s'
+        },
+    },
+    'filters': {
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+        },
+        'default': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(STATIC_ROOT+'/logs/','all'+str(datetime.datetime.today().date())+'.log'), #或者直接写路径：'c:\logs\all.log',
+            'maxBytes': 1024*1024*5, # 5 MB
+            'backupCount': 5,
+            'formatter':'standard',
+        },
+        'console':{
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'standard'
+        },
+        'request_handler': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(STATIC_ROOT+'/logs/','script.log'), #或者直接写路径：'filename':'c:\logs\request.log''
+            'maxBytes': 1024*1024*5, # 5 MB
+            'backupCount': 5,
+            'formatter':'standard',
+        },
+        'scprits_handler': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(STATIC_ROOT+'/logs/','script.log'), #或者直接写路径：'filename':'c:\logs\script.log'
+            'maxBytes': 1024*1024*5, # 5 MB
+            'backupCount': 5,
+            'formatter':'standard',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['default','console'],
+            'level': 'DEBUG',
+            'propagate': False
+        },
+        'XieYin.app':{
+            'handlers': ['default','console'],
+            'level': 'DEBUG',
+            'propagate': True
+        },
+        'django.request': {
+            'handlers': ['request_handler'],
+            'level': 'DEBUG',
+            'propagate': False
+        },
+        'scripts': { # 脚本专用日志
+            'handlers': ['scprits_handler'],
+            'level': 'INFO',
+            'propagate': False
+        },
+    }
+}
 
 
 REST_FRAMEWORK = {
@@ -259,7 +259,6 @@ REST_FRAMEWORK = {
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.AcceptHeaderVersioning',
     'DEFAULT_VERSION':'0.1'
 }
-import datetime
 JWT_AUTH = {
     'JWT_ENCODE_HANDLER':
     'rest_framework_jwt.utils.jwt_encode_handler',
@@ -347,17 +346,7 @@ QINIU_BUCKET_DOMAIN = 'qiniu.agesd.com'
 QINIU_SECURE_URL = False
 DEFAULT_FILE_STORAGE = 'qiniustorage.backends.QiniuStorage'
 
-# redis 缓存配置
-CACHES = {
-    'default': {
-        'BACKEND': 'redis_cache.cache.RedisCache',
-        'LOCATION': '3e5069637587473d.redis.rds.aliyuncs.com:6379',
-        'PASSWORD':'Zhuo8995588',
-        "OPTIONS": {
-            "CLIENT_CLASS": "redis_cache.client.DefaultClient",
-        },
-    },
-}
+
 REDIS_TIMEOUT=7*24*60*60
 CUBES_REDIS_TIMEOUT=60*60
 NEVER_REDIS_TIMEOUT=365*24*60*60
