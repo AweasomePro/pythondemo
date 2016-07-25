@@ -34,10 +34,10 @@ def on_order_create(sender, instance, signal, update_fields, using, created, **k
     """
     print(sender)
     print(kwargs)
+    from hotelBooking.service.order.OrderService import HotelOrderProcessStateChangeHandler
     if (created):# 新的订单被创建的情况
-        pass
+        HotelOrderProcessStateChangeHandler(instance).handle()
     print(update_fields)
-    if('process_state' in update_fields):
-        from hotelBooking.service.order.OrderService import HotelOrderProcessStateChangeHandler
+    if(update_fields and 'process_state' in update_fields):
         HotelOrderProcessStateChangeHandler(instance).handle()
     print(instance.tracker)

@@ -65,7 +65,7 @@ def generateHotelPackageProductOrder(request, member_user, room_package, request
             hotel_package_order.save()
             # new Order
             orderItems = []
-
+            assert daystates != None
             for daystate in daystates:
                 item = HotelPackageOrderItem(
                     order=hotel_package_order,
@@ -86,7 +86,7 @@ def generateHotelPackageProductOrder(request, member_user, room_package, request
             # assign_perm('change_process_state',member_user,hotel_package_order,)
             return hotel_package_order
     except Exception as e:
-        raise APIException(detail='服务器错误{}'.format(e.__cause__))
+        raise e
 
 
 
