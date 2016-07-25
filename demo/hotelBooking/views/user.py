@@ -64,6 +64,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
                     return Response(data=res)
                 else:
                     member = CustomerMember.objects.create(phone_number, password)
+                    assert  member.user.check_password(raw_password=password) == True
                 # end
                 serializer_member = CustomerUserSerializer(member.user, )
                 payload = jwt_payload_handler(member.user)
@@ -83,18 +84,17 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     @method_decorator(parameter_necessary('phoneNumber', 'password', ))
     def login(self, request, *args, **kwargs):
         print(request.version)
-        checkHousePackageState()
+        # checkHousePackageState()
         phone_number = request.POST.get('phoneNumber')
         password = request.POST.get('password')
 
         print('phone is {}'.format(phone_number))
         try:
             user = User.objects.get(phone_number=phone_number)
-            # notify.delay(user.phone_number,message='登入成功')
+            simple_notify.delay(user.phone_number,message='登入成功')
             if (user is not None and user.check_password(password)):
                 payload = jwt_payload_handler(user)
                 token = jwt_encode_handler(payload)
-
                 if(user.role ==User.CUSTOMER):
                     response = DefaultJsonResponse(res_data={'user':CustomerUserSerializer(user).data})
                 else:
