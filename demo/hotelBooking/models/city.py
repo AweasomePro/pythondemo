@@ -1,4 +1,5 @@
 from django.db import models
+from model_utils.models import StatusModel
 from ..models.province import Province
 
 class City(models.Model):
