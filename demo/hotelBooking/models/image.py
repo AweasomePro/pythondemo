@@ -24,5 +24,8 @@ class HotelImg(ImageModel):
     relation_name = 'hotel_imgs'
     hotel = models.ForeignKey(Hotel,verbose_name='房型',related_name=relation_name)
 
+    class Meta:
+        app_label = 'hotelBooking'
+        verbose_name = '房间展示图片'
     def __str__(self):
-        return self.hotel.name + ':' + self.img_url
+        return self.hotel.name + ':' + self.img.url

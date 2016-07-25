@@ -196,10 +196,10 @@ class InspectLoader(Loader):
         raise ImportError
 
     def get_code(self, fullname):
-        """Method which returns the code object for the module.
+        """Method which returns the default_code object for the module.
 
         The fullname is a str.  Returns a types.CodeType if possible, else
-        returns None if a code object does not make sense
+        returns None if a default_code object does not make sense
         (e.g. built-in module). Raises ImportError if the module cannot be
         found.
         """
@@ -210,7 +210,7 @@ class InspectLoader(Loader):
 
     @abc.abstractmethod
     def get_source(self, fullname):
-        """Abstract method which should return the source code for the
+        """Abstract method which should return the source default_code for the
         module.  The fullname is a str.  Returns a str.
 
         Raises ImportError if the module cannot be found.
@@ -218,7 +218,7 @@ class InspectLoader(Loader):
         raise ImportError
 
     def source_to_code(self, data, path='<string>'):
-        """Compile 'data' into a code object.
+        """Compile 'data' into a default_code object.
 
         The 'data' argument can be anything that compile() can handle. The'path'
         argument should be where the data was retrieved (when applicable)."""
@@ -249,7 +249,7 @@ class ExecutionLoader(InspectLoader):
         raise ImportError
 
     def get_code(self, fullname):
-        """Method to return the code object for fullname.
+        """Method to return the default_code object for fullname.
 
         Should return None if not applicable (e.g. built-in module).
         Raise ImportError if the module cannot be found.
@@ -278,10 +278,10 @@ _register(FileLoader, machinery.SourceFileLoader,
 
 class SourceLoader(_bootstrap.SourceLoader, ResourceLoader, ExecutionLoader):
 
-    """Abstract base class for loading source code (and optionally any
+    """Abstract base class for loading source default_code (and optionally any
     corresponding bytecode).
 
-    To support loading from source code, the abstractmethods inherited from
+    To support loading from source default_code, the abstractmethods inherited from
     ResourceLoader and ExecutionLoader need to be implemented. To also support
     loading from bytecode, the optional methods specified directly by this ABC
     is required.
@@ -303,8 +303,8 @@ class SourceLoader(_bootstrap.SourceLoader, ResourceLoader, ExecutionLoader):
         """Return a metadata dict for the source pointed to by the path (str).
         Possible keys:
         - 'mtime' (mandatory) is the numeric timestamp of last source
-          code modification;
-        - 'size' (optional) is the size in bytes of the source code.
+          default_code modification;
+        - 'size' (optional) is the size in bytes of the source default_code.
         """
         if self.path_mtime.__func__ is SourceLoader.path_mtime:
             raise IOError

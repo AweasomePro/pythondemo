@@ -124,7 +124,7 @@ class Completer:
         (as revealed by dir()) are used as possible completions.  (For class
         instances, class members are also considered.)
 
-        WARNING: this can still invoke arbitrary C code, if an object
+        WARNING: this can still invoke arbitrary C default_code, if an object
         with a __getattr__ hook is evaluated.
 
         """

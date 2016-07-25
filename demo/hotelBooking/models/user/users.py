@@ -126,6 +126,14 @@ class User(PointMixin,PermissionsMixin,AbstractBaseUser):
             if(exception):
               pass # todo 直接抛出异常
             return False
+    @staticmethod
+    def check_smscode(phone_number,smsCode):
+        from hotelBooking.module import sms
+        success,res = sms.verify_sms_code(phone_number,smsCode)
+        if(success):
+            return True
+        else:
+            return False
 
 class ProductMemberType(Enum):
     HotelAgent = 1

@@ -49,7 +49,7 @@ _FORMATTING_GROUP = group
 
 
 def _error(msg, exit_=None):
-    """Print msg and optionally exit with return code exit_."""
+    """Print msg and optionally exit with return default_code exit_."""
     sys.stderr.write('[ERROR] %s\n' % msg)
     if exit_ is not None:
         sys.exit(exit_)

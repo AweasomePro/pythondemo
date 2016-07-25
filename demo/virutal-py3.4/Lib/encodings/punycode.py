@@ -8,7 +8,7 @@ import codecs
 ##################### Encoding #####################################
 
 def segregate(str):
-    """3.1 Basic code point segregation"""
+    """3.1 Basic default_code point segregation"""
     base = bytearray()
     extended = set()
     for c in str:
@@ -142,7 +142,7 @@ def decode_generalized_number(extended, extpos, bias, errors):
         elif 0x30 <= char <= 0x39:
             digit = char - 22 # 0x30-26
         elif errors == "strict":
-            raise UnicodeError("Invalid extended code point '%s'"
+            raise UnicodeError("Invalid extended default_code point '%s'"
                                % extended[extpos])
         else:
             return extpos, None

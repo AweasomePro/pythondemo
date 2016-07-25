@@ -34,7 +34,7 @@ this is spam
 
 this is ham
 
-.. code::
+.. default_code::
    :class: spam
    
    print "spam"

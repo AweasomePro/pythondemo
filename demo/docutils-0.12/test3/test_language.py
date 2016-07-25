@@ -8,7 +8,7 @@
 """
 Tests for language module completeness.
 
-Specify a language code (e.g. "de") as a command-line parameter to test only
+Specify a language default_code (e.g. "de") as a command-line parameter to test only
 that language.
 """
 

@@ -18,7 +18,7 @@ from docutils.utils.code_analyzer import with_pygments
 def suite():
     s = DocutilsTestSupport.ParserTestSuite()
     if not with_pygments:
-        del(totest['include-code'])
+        del(totest['include-default_code'])
     s.generateTests(totest)
     return s
 
@@ -139,35 +139,35 @@ Literal include, add line numbers
         This file is used by ``test_include.py``.
 """ % reldir(include1)],
 ["""\
-Include code
+Include default_code
 
 .. include:: %s
-   :code:
+   :default_code:
    :class: test
    :name: my name
 """ % include1,
 """\
 <document source="test data">
     <paragraph>
-        Include code
-    <literal_block classes="code test" ids="my-name" names="my\ name" source="%s" xml:space="preserve">
+        Include default_code
+    <literal_block classes="default_code test" ids="my-name" names="my\ name" source="%s" xml:space="preserve">
         Inclusion 1
         -----------
         \n\
         This file is used by ``test_include.py``.
 """ % reldir(include1)],
 ["""\
-Include code, add line numbers
+Include default_code, add line numbers
 
 .. include:: %s
-   :code:
+   :default_code:
    :number-lines:
 """ % include1,
 """\
 <document source="test data">
     <paragraph>
-        Include code, add line numbers
-    <literal_block classes="code" source="%s" xml:space="preserve">
+        Include default_code, add line numbers
+    <literal_block classes="default_code" source="%s" xml:space="preserve">
         <inline classes="ln">
             1 \n\
         Inclusion 1
@@ -441,7 +441,7 @@ Testing errors in included file:
         Testing errors in included file:
     <system_message level="3" line="1" source="%(source)s" type="ERROR">
         <paragraph>
-            Invalid character code: 0x11111111
+            Invalid character default_code: 0x11111111
             %(unichr_exception)s
         <literal_block xml:space="preserve">
             unicode:: 0x11111111
@@ -901,18 +901,18 @@ No TAB expansion with literal include:
 """ % include_literal],
 ]
 
-totest['include-code'] = [
+totest['include-default_code'] = [
 ["""\
-Included code
+Included default_code
 
 .. include:: %s
-   :code: rst
+   :default_code: rst
 """ % include1,
 """\
 <document source="test data">
     <paragraph>
-        Included code
-    <literal_block classes="code rst" source="%s" xml:space="preserve">
+        Included default_code
+    <literal_block classes="default_code rst" source="%s" xml:space="preserve">
         <inline classes="generic heading">
             Inclusion 1
         \n\
@@ -926,17 +926,17 @@ Included code
         .
 """ % reldir(include1)],
 ["""\
-Included code
+Included default_code
 
 .. include:: %s
-   :code: rst
+   :default_code: rst
    :number-lines:
 """ % include1,
 """\
 <document source="test data">
     <paragraph>
-        Included code
-    <literal_block classes="code rst" source="%s" xml:space="preserve">
+        Included default_code
+    <literal_block classes="default_code rst" source="%s" xml:space="preserve">
         <inline classes="ln">
             1 \n\
         <inline classes="generic heading">

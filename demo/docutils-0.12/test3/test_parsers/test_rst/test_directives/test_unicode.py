@@ -19,7 +19,7 @@ def suite():
 unichr_exception = DocutilsTestSupport.exception_data(
     chr, int("111111111111111111", 16))[0]
 if isinstance(unichr_exception, OverflowError):
-    unichr_exception_string = 'code too large (%s)' % unichr_exception
+    unichr_exception_string = 'default_code too large (%s)' % unichr_exception
 else:
     unichr_exception_string = str(unichr_exception)
 
@@ -142,7 +142,7 @@ Copyright |copy| 2003, |BogusMegaCorp (TM)|.
 <document source="test data">
     <system_message level="3" line="2" source="test data" type="ERROR">
         <paragraph>
-            Invalid character code: 0x111111111111111111
+            Invalid character default_code: 0x111111111111111111
             ValueError: %s
         <literal_block xml:space="preserve">
             unicode:: 0x111111111111111111
@@ -153,7 +153,7 @@ Copyright |copy| 2003, |BogusMegaCorp (TM)|.
             .. |too big for int| unicode:: 0x111111111111111111
     <system_message level="3" line="3" source="test data" type="ERROR">
         <paragraph>
-            Invalid character code: 0x11111111
+            Invalid character default_code: 0x11111111
             %s
         <literal_block xml:space="preserve">
             unicode:: 0x11111111

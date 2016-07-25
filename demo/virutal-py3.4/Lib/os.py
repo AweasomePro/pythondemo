@@ -833,7 +833,7 @@ if _exists("fork") and not _exists("spawnv") and _exists("execv"):
 
 Execute file with arguments from args in a subprocess.
 If mode == P_NOWAIT return the pid of the process.
-If mode == P_WAIT return the process's exit code if it exits normally;
+If mode == P_WAIT return the process's exit default_code if it exits normally;
 otherwise return -SIG, where SIG is the signal that killed it. """
         return _spawnvef(mode, file, args, None, execv)
 
@@ -843,7 +843,7 @@ otherwise return -SIG, where SIG is the signal that killed it. """
 Execute file with arguments from args in a subprocess with the
 specified environment.
 If mode == P_NOWAIT return the pid of the process.
-If mode == P_WAIT return the process's exit code if it exits normally;
+If mode == P_WAIT return the process's exit default_code if it exits normally;
 otherwise return -SIG, where SIG is the signal that killed it. """
         return _spawnvef(mode, file, args, env, execve)
 
@@ -855,7 +855,7 @@ otherwise return -SIG, where SIG is the signal that killed it. """
 Execute file (which is looked for along $PATH) with arguments from
 args in a subprocess.
 If mode == P_NOWAIT return the pid of the process.
-If mode == P_WAIT return the process's exit code if it exits normally;
+If mode == P_WAIT return the process's exit default_code if it exits normally;
 otherwise return -SIG, where SIG is the signal that killed it. """
         return _spawnvef(mode, file, args, None, execvp)
 
@@ -865,7 +865,7 @@ otherwise return -SIG, where SIG is the signal that killed it. """
 Execute file (which is looked for along $PATH) with arguments from
 args in a subprocess with the supplied environment.
 If mode == P_NOWAIT return the pid of the process.
-If mode == P_WAIT return the process's exit code if it exits normally;
+If mode == P_WAIT return the process's exit default_code if it exits normally;
 otherwise return -SIG, where SIG is the signal that killed it. """
         return _spawnvef(mode, file, args, env, execvpe)
 
@@ -882,7 +882,7 @@ if _exists("spawnv"):
 
 Execute file with arguments from args in a subprocess.
 If mode == P_NOWAIT return the pid of the process.
-If mode == P_WAIT return the process's exit code if it exits normally;
+If mode == P_WAIT return the process's exit default_code if it exits normally;
 otherwise return -SIG, where SIG is the signal that killed it. """
         return spawnv(mode, file, args)
 
@@ -892,7 +892,7 @@ otherwise return -SIG, where SIG is the signal that killed it. """
 Execute file with arguments from args in a subprocess with the
 supplied environment.
 If mode == P_NOWAIT return the pid of the process.
-If mode == P_WAIT return the process's exit code if it exits normally;
+If mode == P_WAIT return the process's exit default_code if it exits normally;
 otherwise return -SIG, where SIG is the signal that killed it. """
         env = args[-1]
         return spawnve(mode, file, args[:-1], env)
@@ -910,7 +910,7 @@ if _exists("spawnvp"):
 Execute file (which is looked for along $PATH) with arguments from
 args in a subprocess with the supplied environment.
 If mode == P_NOWAIT return the pid of the process.
-If mode == P_WAIT return the process's exit code if it exits normally;
+If mode == P_WAIT return the process's exit default_code if it exits normally;
 otherwise return -SIG, where SIG is the signal that killed it. """
         return spawnvp(mode, file, args)
 
@@ -920,7 +920,7 @@ otherwise return -SIG, where SIG is the signal that killed it. """
 Execute file (which is looked for along $PATH) with arguments from
 args in a subprocess with the supplied environment.
 If mode == P_NOWAIT return the pid of the process.
-If mode == P_WAIT return the process's exit code if it exits normally;
+If mode == P_WAIT return the process's exit default_code if it exits normally;
 otherwise return -SIG, where SIG is the signal that killed it. """
         env = args[-1]
         return spawnvpe(mode, file, args[:-1], env)

@@ -24,6 +24,7 @@ class RoomPackageInline(admin.StackedInline):
 
 class HotelAdmin(ModelAdmin):
     inlines = [HotelLogoInline, RoomInline]
+    list_display = ('city','name', )
     search_fields = ('name',)
 
 

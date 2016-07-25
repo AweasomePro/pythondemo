@@ -5,7 +5,7 @@
 # Copyright: This module has been placed in the public domain.
 
 """
-Test the 'code' directive in parsers/rst/directives/body.py.
+Test the 'default_code' directive in parsers/rst/directives/body.py.
 """
 
 from .__init__ import DocutilsTestSupport
@@ -14,95 +14,95 @@ from docutils.utils.code_analyzer import with_pygments
 def suite():
     s = DocutilsTestSupport.ParserTestSuite()
     if not with_pygments:
-        del(totest['code-parsing'])
+        del(totest['default_code-parsing'])
     s.generateTests(totest)
     return s
 
 totest = {}
 
-totest['code'] = [
+totest['default_code'] = [
 ["""\
-.. code::
+.. default_code::
 
-   This is a code block.
+   This is a default_code block.
 """,
 """\
 <document source="test data">
-    <literal_block classes="code" xml:space="preserve">
-        This is a code block.
+    <literal_block classes="default_code" xml:space="preserve">
+        This is a default_code block.
 """],
 ["""\
-.. code::
+.. default_code::
   :class: testclass
   :name: without argument
 
-  This is a code block with generic options.
+  This is a default_code block with generic options.
 """,
 """\
 <document source="test data">
-    <literal_block classes="code testclass" ids="without-argument" names="without\ argument" xml:space="preserve">
-        This is a code block with generic options.
+    <literal_block classes="default_code testclass" ids="without-argument" names="without\ argument" xml:space="preserve">
+        This is a default_code block with generic options.
 """],
 ["""\
-.. code:: text
+.. default_code:: text
   :class: testclass
 
-  This is a code block with text.
+  This is a default_code block with text.
 """,
 """\
 <document source="test data">
-    <literal_block classes="code text testclass" xml:space="preserve">
-        This is a code block with text.
+    <literal_block classes="default_code text testclass" xml:space="preserve">
+        This is a default_code block with text.
 """],
 ["""\
-.. code::
+.. default_code::
   :number-lines:
 
-  This is a code block with text.
+  This is a default_code block with text.
 """,
 """\
 <document source="test data">
-    <literal_block classes="code" xml:space="preserve">
+    <literal_block classes="default_code" xml:space="preserve">
         <inline classes="ln">
             1 \n\
-        This is a code block with text.
+        This is a default_code block with text.
 """],
 ["""\
-.. code::
+.. default_code::
   :number-lines: 30
 
-  This is a code block with text.
+  This is a default_code block with text.
 """,
 """\
 <document source="test data">
-    <literal_block classes="code" xml:space="preserve">
+    <literal_block classes="default_code" xml:space="preserve">
         <inline classes="ln">
             30 \n\
-        This is a code block with text.
+        This is a default_code block with text.
 """],
 ["""\
-.. code::
+.. default_code::
 """,
 """\
 <document source="test data">
     <system_message level="3" line="1" source="test data" type="ERROR">
         <paragraph>
-            Content block expected for the "code" directive; none found.
+            Content block expected for the "default_code" directive; none found.
         <literal_block xml:space="preserve">
-            .. code::
+            .. default_code::
 """],
 ]
 
-totest['code-parsing'] = [
+totest['default_code-parsing'] = [
 ["""\
-.. code:: python
+.. default_code:: python
   :class: testclass
 
    print 'hello world' # to stdout
 """,
 """\
 <document source="test data">
-    <literal_block classes="code python testclass" xml:space="preserve">
+    <literal_block classes="default_code python testclass" xml:space="preserve">
          \n\
         <inline classes="keyword">
             print
@@ -114,7 +114,7 @@ totest['code-parsing'] = [
             # to stdout
 """],
 ["""\
-.. code:: python
+.. default_code:: python
   :class: testclass
   :name: my_function
   :number-lines: 7
@@ -128,7 +128,7 @@ totest['code-parsing'] = [
 """,
 """\
 <document source="test data">
-    <literal_block classes="code python testclass" ids="my-function" names="my_function" xml:space="preserve">
+    <literal_block classes="default_code python testclass" ids="my-function" names="my_function" xml:space="preserve">
         <inline classes="ln">
              7 \n\
         <inline classes="keyword">
@@ -172,14 +172,14 @@ totest['code-parsing'] = [
             2
 """],
 ["""\
-.. code:: latex
+.. default_code:: latex
   :class: testclass
 
   hello \emph{world} % emphasize
 """,
 """\
 <document source="test data">
-    <literal_block classes="code latex testclass" xml:space="preserve">
+    <literal_block classes="default_code latex testclass" xml:space="preserve">
         hello \n\
         <inline classes="keyword">
             \\emph
@@ -192,20 +192,20 @@ totest['code-parsing'] = [
         <inline classes="comment">
             % emphasize"""],
 ["""\
-.. code:: rst
+.. default_code:: rst
   :number-lines:
 
-  This is a code block with text.
+  This is a default_code block with text.
 """,
 """\
 <document source="test data">
-    <literal_block classes="code rst" xml:space="preserve">
+    <literal_block classes="default_code rst" xml:space="preserve">
         <inline classes="ln">
             1 \n\
-        This is a code block with text.
+        This is a default_code block with text.
 """],
 ["""\
-.. code:: s-lang
+.. default_code:: s-lang
 
    % abc.sl
    autoload("abc_mode", "abc");
@@ -214,9 +214,9 @@ totest['code-parsing'] = [
 <document source="test data">
     <system_message level="2" line="1" source="test data" type="WARNING">
         <paragraph>
-            Cannot analyze code. No Pygments lexer found for "s-lang".
+            Cannot analyze default_code. No Pygments lexer found for "s-lang".
         <literal_block xml:space="preserve">
-            .. code:: s-lang
+            .. default_code:: s-lang
             \n\
                % abc.sl
                autoload("abc_mode", "abc");
@@ -224,7 +224,7 @@ totest['code-parsing'] = [
 ["""\
 Place the language name in a class argument to avoid the no-lexer warning:
 
-.. code::
+.. default_code::
    :class: s-lang
 
    % abc.sl
@@ -234,7 +234,7 @@ Place the language name in a class argument to avoid the no-lexer warning:
 <document source="test data">
     <paragraph>
         Place the language name in a class argument to avoid the no-lexer warning:
-    <literal_block classes="code s-lang" xml:space="preserve">
+    <literal_block classes="default_code s-lang" xml:space="preserve">
         % abc.sl
         autoload("abc_mode", "abc");
 """],

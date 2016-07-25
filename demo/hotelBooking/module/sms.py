@@ -43,9 +43,9 @@ def verify_sms_code(phone_number,code):
     response = leancloud_client.post('/verifySmsCode/{0}'.format(code), params=params)
     if response.status_code == 200:
         return True, "Success"
-    elif response.json().get('code', 0) == 603:
-        # Invalid SMS code
-        print(response.json()['code'])
-        return False, "Invalid SMS code"
+    elif response.json().get('default_code', 0) == 603:
+        # Invalid SMS default_code
+        print(response.json()['default_code'])
+        return False, "Invalid SMS default_code"
     else:
         return False, "尚未处理的错误"

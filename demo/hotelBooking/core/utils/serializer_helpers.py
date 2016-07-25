@@ -8,6 +8,6 @@ class Custom_ReturnDict(ReturnDict):
 
 def wrapper_response_dict(data=None, code=100, message='success'):
     if(data == None):
-        return {'code':code,'message':message}
+        return {'default_code':code,'message':message}
     else:
-        return {'code': code,'message':message,'result':data}
+        return {'default_code': code,'message':message,'result':data}

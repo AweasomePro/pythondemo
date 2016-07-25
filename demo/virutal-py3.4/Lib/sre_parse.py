@@ -265,7 +265,7 @@ def isname(name):
     return True
 
 def _class_escape(source, escape):
-    # handle escape code inside character class
+    # handle escape default_code inside character class
     code = ESCAPES.get(escape)
     if code:
         return code
@@ -292,7 +292,7 @@ def _class_escape(source, escape):
             if len(escape) != 10:
                 raise ValueError
             c = int(escape[2:], 16)
-            chr(c) # raise ValueError for invalid code
+            chr(c) # raise ValueError for invalid default_code
             return LITERAL, c
         elif c in OCTDIGITS:
             # octal escape (up to three digits)
@@ -307,7 +307,7 @@ def _class_escape(source, escape):
     raise error("bogus escape: %s" % repr(escape))
 
 def _escape(source, escape, state):
-    # handle escape code in expression
+    # handle escape default_code in expression
     code = CATEGORIES.get(escape)
     if code:
         return code
@@ -334,7 +334,7 @@ def _escape(source, escape, state):
             if len(escape) != 10:
                 raise ValueError
             c = int(escape[2:], 16)
-            chr(c) # raise ValueError for invalid code
+            chr(c) # raise ValueError for invalid default_code
             return LITERAL, c
         elif c == "0":
             # octal escape

@@ -33,15 +33,15 @@ def verifySmsCode(mobilePhoneNumber, smscode):
     print(response.status_code)
     if response.status_code == 200:
         return True, "Success"
-    elif response.json().has_key('code') and response.json()['code'] == 603:
-        # Invalid SMS code
-        print(response.json()['code'])
-        return False, "Invalid SMS code"
+    elif response.json().has_key('default_code') and response.json()['default_code'] == 603:
+        # Invalid SMS default_code
+        print(response.json()['default_code'])
+        return False, "Invalid SMS default_code"
     else:
         return False, "尚未处理的错误"
 
 # print(response.status_code)
-# print(response.json()['code'])
+# print(response.json()['default_code'])
 
 
 def push_notification(putdata):

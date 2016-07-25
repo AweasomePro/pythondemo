@@ -229,7 +229,7 @@ def load_module(name, file, filename, details):
     if mode and (not mode.startswith(('r', 'U')) or '+' in mode):
         raise ValueError('invalid file open mode {!r}'.format(mode))
     elif file is None and type_ in {PY_SOURCE, PY_COMPILED}:
-        msg = 'file object required for import (type code {})'.format(type_)
+        msg = 'file object required for import (type default_code {})'.format(type_)
         raise ValueError(msg)
     elif type_ == PY_SOURCE:
         return load_source(name, filename, file)
@@ -248,7 +248,7 @@ def load_module(name, file, filename, details):
     elif type_ == PY_FROZEN:
         return init_frozen(name)
     else:
-        msg =  "Don't know how to import {} (type code {})".format(name, type_)
+        msg =  "Don't know how to import {} (type default_code {})".format(name, type_)
         raise ImportError(msg, name=name)
 
 

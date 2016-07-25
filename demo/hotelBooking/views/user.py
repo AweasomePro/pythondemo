@@ -24,7 +24,7 @@ from hotelBooking.serializers.user import UserSerializer
 from hotelBooking.tasks import simple_notify,checkHousePackageState
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 from hotelBooking.utils.decorators import method_route, parameter_necessary, is_authenticated
-
+from hotelBooking.module import sms
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
@@ -81,18 +81,17 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
             return DefaultJsonResponse(code=appcodes.CODE_SMS_ERROR, message="注册失败，验证码错误")
 
     @method_route(methods=['POST',], url_path='login')
-    @method_decorator(parameter_necessary('phoneNumber', 'password', ))
+    @method_decorator(parameter_necessary('phoneNumber', 'password', 'smsCode'))
     def login(self, request, *args, **kwargs):
         print(request.version)
         # checkHousePackageState()
         phone_number = request.POST.get('phoneNumber')
-        password = request.POST.get('password')
-
+        password = request.POST.get('password',None)
+        smsCode = request.POST.get('smsCode',None)
         print('phone is {}'.format(phone_number))
         try:
             user = User.objects.get(phone_number=phone_number)
-            simple_notify.delay(user.phone_number,message='登入成功')
-            if (user is not None and user.check_password(password)):
+            if (password and user.check_password(password) or smsCode and user.check_smscode(phone_number,code=smsCode)):
                 payload = jwt_payload_handler(user)
                 token = jwt_encode_handler(payload)
                 if(user.role ==User.CUSTOMER):
@@ -100,6 +99,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
                 else:
                     response = DefaultJsonResponse(res_data={'user':UserSerializer(user).data})
                 response['token'] = token
+                simple_notify.delay(user.phone_number,message='登入成功')
                 return response
             else:
                 return DefaultJsonResponse(message='验证失败',code=-100)

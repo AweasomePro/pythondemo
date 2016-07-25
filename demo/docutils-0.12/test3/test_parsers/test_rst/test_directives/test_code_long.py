@@ -5,7 +5,7 @@
 # Copyright: This module has been placed in the public domain.
 
 """
-Test the 'code' directive in body.py with syntax_highlight = 'long'.
+Test the 'default_code' directive in body.py with syntax_highlight = 'long'.
 """
 
 from .__init__ import DocutilsTestSupport
@@ -19,9 +19,9 @@ def suite():
 
 totest = {}
 
-totest['code-parsing-long'] = [
+totest['default_code-parsing-long'] = [
 ["""\
-.. code:: python
+.. default_code:: python
   :number-lines: 7
 
   def my_function():
@@ -33,7 +33,7 @@ totest['code-parsing-long'] = [
 """,
 """\
 <document source="test data">
-    <literal_block classes="code python" xml:space="preserve">
+    <literal_block classes="default_code python" xml:space="preserve">
         <inline classes="ln">
              7 \n\
         <inline classes="keyword">
@@ -77,13 +77,13 @@ totest['code-parsing-long'] = [
             2
 """],
 ["""\
-.. code:: latex
+.. default_code:: latex
 
   hello \emph{world} % emphasize
 """,
 """\
 <document source="test data">
-    <literal_block classes="code latex" xml:space="preserve">
+    <literal_block classes="default_code latex" xml:space="preserve">
         hello \n\
         <inline classes="keyword">
             \\emph

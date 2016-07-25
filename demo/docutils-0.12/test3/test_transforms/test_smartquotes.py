@@ -57,10 +57,10 @@ Do not "educate" quotes ``inside "literal" text`` and ::
 
   "literal" blocks.
 
-Keep quotes straight in code and math: 
-:code:`print "hello"` :math:`1' 12"`.
+Keep quotes straight in default_code and math:
+:default_code:`print "hello"` :math:`1' 12"`.
 
-.. code::
+.. default_code::
 
    print "hello"
   
@@ -79,14 +79,14 @@ Keep quotes straight in code and math:
     <literal_block xml:space="preserve">
         "literal" blocks.
     <paragraph>
-        Keep quotes straight in code and math:
-        <literal classes="code">
+        Keep quotes straight in default_code and math:
+        <literal classes="default_code">
             print "hello"
          
         <math>
             1' 12"
         .
-    <literal_block classes="code" xml:space="preserve">
+    <literal_block classes="default_code" xml:space="preserve">
         print "hello"
     <math_block xml:space="preserve">
         f'(x) = df(x)/dx

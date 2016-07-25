@@ -61,7 +61,7 @@ latex_preamble = r"""% PDF Standard Fonts
 """,
 stylesheet = '',
 fallbacks =  '',
-fallbacks_highlight = r"""% basic code highlight:
+fallbacks_highlight = r"""% basic default_code highlight:
 \providecommand*\DUrolecomment[1]{\textcolor[rgb]{0.40,0.40,0.40}{#1}}
 \providecommand*\DUroledeleted[1]{\textcolor[rgb]{0.40,0.40,0.40}{#1}}
 \providecommand*\DUrolekeyword[1]{\textbf{#1}}
@@ -144,12 +144,12 @@ Und damit \foreignlanguage{spanish}{basta}!
 """],
 ]
 
-totest['code role'] = [
-[":code:`x=1`",
+totest['default_code role'] = [
+[":default_code:`x=1`",
 head_template.substitute(dict(parts, requirements = parts['requirements']+
 r"""\usepackage{color}
 """, fallbacks = parts['fallbacks_highlight'])) + r"""
-\texttt{\DUrole{code}{x=1}}
+\texttt{\DUrole{default_code}{x=1}}
 
 \end{document}
 """],

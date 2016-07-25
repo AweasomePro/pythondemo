@@ -317,7 +317,7 @@ class Untokenizer:
 
 
 def untokenize(iterable):
-    """Transform tokens back into Python source code.
+    """Transform tokens back into Python source default_code.
     It returns a bytes object, encoded using the ENCODING
     token, which is the first token sequence output by tokenize.
 

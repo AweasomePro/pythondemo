@@ -423,7 +423,7 @@ def a85decode(b, *, foldspaces=False, adobe=False, ignorechars=b' \t\n\r\v'):
         result = result[:-padding]
     return result
 
-# The following code is originally taken (with permission) from Mercurial
+# The following default_code is originally taken (with permission) from Mercurial
 
 _b85alphabet = (b"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 b"abcdefghijklmnopqrstuvwxyz!#$%&()*+-;<=>?@^_`{|}~")
@@ -483,7 +483,7 @@ def b85decode(b):
         result = result[:-padding]
     return result
 
-# Legacy interface.  This code could be cleaned up since I don't believe
+# Legacy interface.  This default_code could be cleaned up since I don't believe
 # binascii has any line length limitations.  It just doesn't seem worth it
 # though.  The files should be opened in binary mode.
 

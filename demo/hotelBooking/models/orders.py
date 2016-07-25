@@ -210,8 +210,8 @@ class OrderItem(models.Model):
     # 对于 酒店订房来说，跟所属Order 是一样的，考虑到未来 每个Order的item 可能不同，所以
     product_name = models.CharField(_('Product name'),max_length=255,null=True,blank=True,
         help_text=_("Product name at the moment of purchase"))
-    product_code = models.CharField(_("Product code "),max_length=255,null=True,blank=True,
-        help_text=_("Product code at the moment of purchase"))
+    product_code = models.CharField(_("Product default_code "),max_length=255,null=True,blank=True,
+        help_text=_("Product default_code at the moment of purchase"))
     product = models.ForeignKey(Product,on_delete=models.SET_NULL,null=True,blank=True,verbose_name=_("Product"))
 
 from hotelBooking.models.products import RoomPackage

@@ -2,7 +2,7 @@
 // Modified for Docutils (http://docutils.sf.net) by David Goodger
 //
 // Please see http://www.meyerweb.com/eric/tools/s5/credits.html for
-// information about all the wonderful and talented contributors to this code!
+// information about all the wonderful and talented contributors to this default_code!
 
 var undef;
 var slideCSS = '';
@@ -234,7 +234,7 @@ function showHide(action) {
 	}
 }
 
-// 'keys' code adapted from MozPoint (http://mozpoint.mozdev.org/)
+// 'keys' default_code adapted from MozPoint (http://mozpoint.mozdev.org/)
 function keys(key) {
 	if (!key) {
 		key = event;

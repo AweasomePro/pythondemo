@@ -25,12 +25,12 @@ else:
     try:
         _bootstrap.__file__ = __file__.replace('__init__.py', '_bootstrap.py')
     except NameError:
-        # __file__ is not guaranteed to be defined, e.g. if this code gets
+        # __file__ is not guaranteed to be defined, e.g. if this default_code gets
         # frozen by a tool like cx_Freeze.
         pass
     sys.modules['importlib._bootstrap'] = _bootstrap
 
-# To simplify imports in test code
+# To simplify imports in test default_code
 _w_long = _bootstrap._w_long
 _r_long = _bootstrap._r_long
 

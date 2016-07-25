@@ -372,17 +372,17 @@ def _append_modifier(code, modifier):
 
 def normalize(localename):
 
-    """ Returns a normalized locale code for the given locale
+    """ Returns a normalized locale default_code for the given locale
         name.
 
-        The returned locale code is formatted for use with
+        The returned locale default_code is formatted for use with
         setlocale().
 
         If normalization fails, the original name is returned
         unchanged.
 
         If the given encoding is not known, the function defaults to
-        the default encoding for the locale code just like setlocale()
+        the default encoding for the locale default_code just like setlocale()
         does.
 
     """
@@ -455,14 +455,14 @@ def normalize(localename):
 
 def _parse_localename(localename):
 
-    """ Parses the locale code for localename and returns the
-        result as tuple (language code, encoding).
+    """ Parses the locale default_code for localename and returns the
+        result as tuple (language default_code, encoding).
 
         The localename is normalized and passed through the locale
         alias engine. A ValueError is raised in case the locale name
         cannot be parsed.
 
-        The language code corresponds to RFC 1766.  code and encoding
+        The language default_code corresponds to RFC 1766.  default_code and encoding
         can be None in case the values cannot be determined or are
         unknown to this implementation.
 
@@ -485,7 +485,7 @@ def _parse_localename(localename):
 
 def _build_localename(localetuple):
 
-    """ Builds a locale code from the given tuple (language code,
+    """ Builds a locale default_code from the given tuple (language default_code,
         encoding).
 
         No aliasing or normalizing takes place.
@@ -501,12 +501,12 @@ def _build_localename(localetuple):
         else:
             return language + '.' + encoding
     except (TypeError, ValueError):
-        raise TypeError('Locale must be None, a string, or an iterable of two strings -- language code, encoding.')
+        raise TypeError('Locale must be None, a string, or an iterable of two strings -- language default_code, encoding.')
 
 def getdefaultlocale(envvars=('LC_ALL', 'LC_CTYPE', 'LANG', 'LANGUAGE')):
 
     """ Tries to determine the default locale settings and returns
-        them as tuple (language code, encoding).
+        them as tuple (language default_code, encoding).
 
         According to POSIX, a program which has not called
         setlocale(LC_ALL, "") runs using the portable 'C' locale.
@@ -521,8 +521,8 @@ def getdefaultlocale(envvars=('LC_ALL', 'LC_CTYPE', 'LANG', 'LANGUAGE')):
         used. envvars defaults to the search path used in GNU gettext;
         it must always contain the variable name 'LANG'.
 
-        Except for the code 'C', the language code corresponds to RFC
-        1766.  code and encoding can be None in case the values cannot
+        Except for the default_code 'C', the language default_code corresponds to RFC
+        1766.  default_code and encoding can be None in case the values cannot
         be determined.
 
     """
@@ -534,7 +534,7 @@ def getdefaultlocale(envvars=('LC_ALL', 'LC_CTYPE', 'LANG', 'LANGUAGE')):
     except (ImportError, AttributeError):
         pass
     else:
-        # make sure the code/encoding values are valid
+        # make sure the default_code/encoding values are valid
         if sys.platform == "win32" and code and code[:2] == "0x":
             # map windows language identifier to language name
             code = windows_locale.get(int(code, 0))
@@ -559,13 +559,13 @@ def getdefaultlocale(envvars=('LC_ALL', 'LC_CTYPE', 'LANG', 'LANGUAGE')):
 def getlocale(category=LC_CTYPE):
 
     """ Returns the current setting for the given locale category as
-        tuple (language code, encoding).
+        tuple (language default_code, encoding).
 
         category may be one of the LC_* value except LC_ALL. It
         defaults to LC_CTYPE.
 
-        Except for the code 'C', the language code corresponds to RFC
-        1766.  code and encoding can be None in case the values cannot
+        Except for the default_code 'C', the language default_code corresponds to RFC
+        1766.  default_code and encoding can be None in case the values cannot
         be determined.
 
     """
@@ -577,7 +577,7 @@ def getlocale(category=LC_CTYPE):
 def setlocale(category, locale=None):
 
     """ Set the locale for the given category.  The locale can be
-        a string, an iterable of two strings (language code and encoding),
+        a string, an iterable of two strings (language default_code and encoding),
         or None.
 
         Iterables are converted to strings using the locale aliasing
@@ -602,7 +602,7 @@ def resetlocale(category=LC_ALL):
     _setlocale(category, _build_localename(getdefaultlocale()))
 
 if sys.platform.startswith("win"):
-    # On Win32, this will return the ANSI code page
+    # On Win32, this will return the ANSI default_code page
     def getpreferredencoding(do_setlocale = True):
         """Return the charset that the user is likely using."""
         import _bootlocale
@@ -1385,7 +1385,7 @@ locale_alias = {
 # NOTE: this mapping is incomplete.  If your language is missing, please
 # submit a bug report to the Python bug tracker at http://bugs.python.org/
 # Make sure you include the missing language identifier and the suggested
-# locale code.
+# locale default_code.
 #
 
 windows_locale = {

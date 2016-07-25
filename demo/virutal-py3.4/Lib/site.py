@@ -543,7 +543,7 @@ def setencoding():
 
 
 def execsitecustomize():
-    """Run custom site specific code, if available."""
+    """Run custom site specific default_code, if available."""
     try:
         import sitecustomize
     except ImportError:
@@ -658,7 +658,7 @@ def fixclasspath():
     sys.path.extend(classpaths)
 
 def execusercustomize():
-    """Run custom user specific code, if available."""
+    """Run custom user specific default_code, if available."""
     try:
         import usercustomize
     except ImportError:

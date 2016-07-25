@@ -14,7 +14,7 @@ from docutils.utils.code_analyzer import with_pygments
 def suite():
     s = DocutilsTestSupport.ParserTestSuite()
     if not with_pygments:
-        del(totest['code-parsing'])
+        del(totest['default_code-parsing'])
     s.generateTests(totest)
     return s
 
@@ -217,34 +217,34 @@ Simple explicit roles:
 """],
 ]
 
-totest['code'] = [
+totest['default_code'] = [
 ["""\
-Code role for inline code snippets:
-:code:`$\alpha = \int_0^\infty f(x) dx$`.
+Code role for inline default_code snippets:
+:default_code:`$\alpha = \int_0^\infty f(x) dx$`.
 """,
 """\
 <document source="test data">
     <paragraph>
-        Code role for inline code snippets:
-        <literal classes="code">
+        Code role for inline default_code snippets:
+        <literal classes="default_code">
             $\x07lpha = \\int_0^\\infty f(x) dx$
         .
 """],
 ]
 
-totest['code-parsing'] = [
+totest['default_code-parsing'] = [
 ["""\
-.. role:: tex(code)
+.. role:: tex(default_code)
    :language: latex
 
-Custom role based on code role:
+Custom role based on default_code role:
 :tex:`$\alpha = f(x)$`.
 """,
 """\
 <document source="test data">
     <paragraph>
-        Custom role based on code role:
-        <literal classes="code tex latex">
+        Custom role based on default_code role:
+        <literal classes="default_code tex latex">
             <inline classes="literal string">
                 $
             <inline classes="name builtin">
@@ -264,21 +264,21 @@ Custom role based on code role:
         .
 """],
 ["""\
-Custom role based on code role:
+Custom role based on default_code role:
 
-.. role:: python(code)
+.. role:: python(default_code)
    :language: python
    :class: testclass
 
-Python code :python:`print("The end")`.
+Python default_code :python:`print("The end")`.
 """,
 """\
 <document source="test data">
     <paragraph>
-        Custom role based on code role:
+        Custom role based on default_code role:
     <paragraph>
-        Python code \n\
-        <literal classes="code testclass python">
+        Python default_code \n\
+        <literal classes="default_code testclass python">
             <inline classes="keyword">
                 print
             <inline classes="punctuation">

@@ -148,7 +148,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('product_name', models.CharField(help_text='Product name at the moment of purchase', null=True, verbose_name='Product name', blank=True, max_length=255)),
-                ('product_code', models.CharField(help_text='Product code at the moment of purchase', null=True, verbose_name='Product code ', blank=True, max_length=255)),
+                ('product_code', models.CharField(help_text='Product default_code at the moment of purchase', null=True, verbose_name='Product default_code ', blank=True, max_length=255)),
             ],
         ),
         migrations.CreateModel(

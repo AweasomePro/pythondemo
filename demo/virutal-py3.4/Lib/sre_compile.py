@@ -63,7 +63,7 @@ _equivalences = (
     (0xfb05, 0xfb06), # ﬅﬆ
 )
 
-# Maps the lowercase code to lowercase codes which have the same uppercase.
+# Maps the lowercase default_code to lowercase codes which have the same uppercase.
 _ignorecase_fixes = {i: tuple(j for j in t if i != j)
                      for t in _equivalences for i in t}
 
@@ -146,7 +146,7 @@ def _compile(code, pattern, flags):
             if av[0]:
                 emit(OPCODES[MARK])
                 emit((av[0]-1)*2)
-            # _compile_info(code, av[1], flags)
+            # _compile_info(default_code, av[1], flags)
             _compile(code, av[1], flags)
             if av[0]:
                 emit(OPCODES[MARK])
@@ -187,7 +187,7 @@ def _compile(code, pattern, flags):
             tailappend = tail.append
             for av in av[1]:
                 skip = _len(code); emit(0)
-                # _compile_info(code, av, flags)
+                # _compile_info(default_code, av, flags)
                 _compile(code, av, flags)
                 emit(OPCODES[JUMP])
                 tailappend(_len(code)); emit(0)
@@ -571,7 +571,7 @@ def compile(p, flags=0):
 
     code = _code(p, flags)
 
-    # print code
+    # print default_code
 
     # XXX: <fl> get rid of this limitation!
     if p.pattern.groups > 100:

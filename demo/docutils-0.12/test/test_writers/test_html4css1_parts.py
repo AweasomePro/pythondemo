@@ -5,7 +5,7 @@
 # Copyright: This module has been placed in the public domain.
 
 """
-Test for fragment code in HTML writer.
+Test for fragment default_code in HTML writer.
 
 Note: the 'body' and 'whole' entries have been removed from the parts
 dictionaries (redundant), along with 'meta' and 'stylesheet' entries with

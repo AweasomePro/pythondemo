@@ -315,8 +315,8 @@ jQuery.extend({
 		code = jQuery.trim( code );
 
 		if ( code ) {
-			// If the code includes a valid, prologue position
-			// strict mode pragma, execute code by injecting a
+			// If the default_code includes a valid, prologue position
+			// strict mode pragma, execute default_code by injecting a
 			// script tag into the document.
 			if ( code.indexOf("use strict") === 1 ) {
 				script = document.createElement("script");
@@ -3716,7 +3716,7 @@ var data_user = new Data();
 //	2. Improve the module's maintainability by reducing the storage
 //		paths to a single mechanism.
 //	3. Use the same single mechanism to support "private" and "user" data.
-//	4. _Never_ expose "private" data to user code (TODO: Drop _data, _removeData)
+//	4. _Never_ expose "private" data to user default_code (TODO: Drop _data, _removeData)
 //	5. Avoid exposing implementation details on user objects (eg. expando properties)
 //	6. Provide a clear path for implementation upgrade to WeakMap in 2014
 
@@ -8525,7 +8525,7 @@ jQuery.ajaxSettings.xhr = function() {
 var xhrId = 0,
 	xhrCallbacks = {},
 	xhrSuccessStatus = {
-		// file protocol always yields status code 0, assume 200
+		// file protocol always yields status default_code 0, assume 200
 		0: 200,
 		// Support: IE9
 		// #1450: sometimes IE returns 1223 when it should be 204

@@ -3,7 +3,7 @@
 #
 # Copyright (c) 2012-2016, Shoop Ltd. All rights reserved.
 #
-# This source code is licensed under the AGPLv3 license found in the
+# This source default_code is licensed under the AGPLv3 license found in the
 # LICENSE file in the root directory of this source tree.
 from __future__ import unicode_literals
 
@@ -20,7 +20,7 @@ your own, the :ref:`apps-naming-settings` section is an important read.
 #: are implicitly in this currency unless somehow otherwise specified.
 SHOOP_HOME_CURRENCY = "EUR"
 
-#: The home country code (ISO 3166-1 alpha 2) for the Shoop installation.
+#: The home country default_code (ISO 3166-1 alpha 2) for the Shoop installation.
 #: Among other things, addresses that would be printed with this country
 #: visible are printed with no country.
 SHOOP_ADDRESS_HOME_COUNTRY = None

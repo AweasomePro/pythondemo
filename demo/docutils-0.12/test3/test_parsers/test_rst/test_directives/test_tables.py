@@ -28,7 +28,7 @@ empty_txt = os.path.join(mydir, 'empty.txt')
 unichr_exception = DocutilsTestSupport.exception_data(
     chr, int("9999999999999", 16))[0]
 if isinstance(unichr_exception, OverflowError):
-    unichr_exception_string = 'code too large (%s)' % unichr_exception
+    unichr_exception_string = 'default_code too large (%s)' % unichr_exception
 else:
     unichr_exception_string = str(unichr_exception)
 
@@ -746,7 +746,7 @@ totest['csv-table'] = [
         <paragraph>
             Error in "csv-table" directive:
             invalid option value: (option: "delim"; value: 'multiple')
-            'multiple' invalid; must be a single character or a Unicode code.
+            'multiple' invalid; must be a single character or a Unicode default_code.
         <literal_block xml:space="preserve">
             .. csv-table:: bad delimiter
                :delim: multiple

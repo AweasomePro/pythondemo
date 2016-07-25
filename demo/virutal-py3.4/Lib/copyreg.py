@@ -49,7 +49,7 @@ def _reconstructor(cls, base, state):
 
 _HEAPTYPE = 1<<9
 
-# Python code for object.__reduce_ex__ for protocols 0 and 1
+# Python default_code for object.__reduce_ex__ for protocols 0 and 1
 
 def _reduce_ex(self, proto):
     assert proto < 2
@@ -143,42 +143,42 @@ def _slotnames(cls):
 # A registry of extension codes.  This is an ad-hoc compression
 # mechanism.  Whenever a global reference to <module>, <name> is about
 # to be pickled, the (<module>, <name>) tuple is looked up here to see
-# if it is a registered extension code for it.  Extension codes are
+# if it is a registered extension default_code for it.  Extension codes are
 # universal, so that the meaning of a pickle does not depend on
 # context.  (There are also some codes reserved for local use that
 # don't have this restriction.)  Codes are positive ints; 0 is
 # reserved.
 
-_extension_registry = {}                # key -> code
-_inverted_registry = {}                 # code -> key
-_extension_cache = {}                   # code -> object
+_extension_registry = {}                # key -> default_code
+_inverted_registry = {}                 # default_code -> key
+_extension_cache = {}                   # default_code -> object
 # Don't ever rebind those names:  pickling grabs a reference to them when
 # it's initialized, and won't see a rebinding.
 
 def add_extension(module, name, code):
-    """Register an extension code."""
+    """Register an extension default_code."""
     code = int(code)
     if not 1 <= code <= 0x7fffffff:
-        raise ValueError("code out of range")
+        raise ValueError("default_code out of range")
     key = (module, name)
     if (_extension_registry.get(key) == code and
         _inverted_registry.get(code) == key):
         return # Redundant registrations are benign
     if key in _extension_registry:
-        raise ValueError("key %s is already registered with code %s" %
+        raise ValueError("key %s is already registered with default_code %s" %
                          (key, _extension_registry[key]))
     if code in _inverted_registry:
-        raise ValueError("code %s is already in use for key %s" %
+        raise ValueError("default_code %s is already in use for key %s" %
                          (code, _inverted_registry[code]))
     _extension_registry[key] = code
     _inverted_registry[code] = key
 
 def remove_extension(module, name, code):
-    """Unregister an extension code.  For testing only."""
+    """Unregister an extension default_code.  For testing only."""
     key = (module, name)
     if (_extension_registry.get(key) != code or
         _inverted_registry.get(code) != key):
-        raise ValueError("key %s is not registered with code %s" %
+        raise ValueError("key %s is not registered with default_code %s" %
                          (key, code))
     del _extension_registry[key]
     del _inverted_registry[code]
@@ -188,7 +188,7 @@ def remove_extension(module, name, code):
 def clear_extension_cache():
     _extension_cache.clear()
 
-# Standard extension code assignments
+# Standard extension default_code assignments
 
 # Reserved ranges
 

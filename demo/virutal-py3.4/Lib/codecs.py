@@ -69,7 +69,7 @@ else:
     # UTF-32, native endianness
     BOM_UTF32 = BOM_UTF32_BE
 
-# Old broken names (don't use in new code)
+# Old broken names (don't use in new default_code)
 BOM32_LE = BOM_UTF16_LE
 BOM32_BE = BOM_UTF16_BE
 BOM64_LE = BOM_UTF32_LE
@@ -123,7 +123,7 @@ class Codec:
                     Python will use the official U+FFFD REPLACEMENT
                     CHARACTER for the builtin Unicode codecs on
                     decoding and '?' on encoding.
-         'surrogateescape' - replace with private code points U+DCnn.
+         'surrogateescape' - replace with private default_code points U+DCnn.
          'xmlcharrefreplace' - Replace with the appropriate XML
                                character reference (only for encoding).
          'backslashreplace'  - Replace with backslashed escape sequences
@@ -448,12 +448,12 @@ class StreamReader(Codec):
         """ Decodes data from the stream self.stream and returns the
             resulting object.
 
-            chars indicates the number of decoded code points or bytes to
+            chars indicates the number of decoded default_code points or bytes to
             return. read() will never return more data than requested,
             but it might return less, if there is not enough available.
 
             size indicates the approximate maximum number of decoded
-            bytes or code points to read for decoding. The decoder
+            bytes or default_code points to read for decoding. The decoder
             can modify this setting as appropriate. The default value
             -1 indicates to read and decode as much as possible.  size
             is intended to prevent having to decode huge files in one

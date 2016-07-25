@@ -22,5 +22,5 @@ class StandardResultsSetPagination(PageNumberPagination):
             ('next', self.get_next_link()),
             ('previous', self.get_previous_link()),
             ('result', data),
-            ('code',100)
+            ('default_code',100)
         ]))
