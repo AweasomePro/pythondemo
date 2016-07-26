@@ -21,9 +21,9 @@ from hotelBooking.utils.dateutils import formatStrToDate
 from rest_framework import viewsets
 from rest_framework.decorators import api_view, authentication_classes, detail_route,permission_classes
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 class AddRoomPackageView(APIView):
 
@@ -50,7 +50,7 @@ class AddRoomPackageView(APIView):
 @api_view(['POST',])
 @parameter_necessary('hotelId', 'defaultPoint', 'defaultPrice', 'breakfast','roomId', optional=('customRoomName',))
 @permission_classes(IsHotelPartnerRole,)
-@authentication_classes([JSONWebTokenAuthentication])
+@authentication_classes([TokenAuthentication])
 def create_new_hotelpackage(request, hotelId, defaultPoint, defaultPrice, breakfast, customRoomName, roomId, *args, **kwargs):
     # 注意 atomic 需要有捕获异常，如果你内部catch 了，等于失效了
     # 前端需要注意，进行 customRoomName 是否已存在的判断，所有的最终都是需要服务端审核的

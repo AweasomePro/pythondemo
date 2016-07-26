@@ -13,7 +13,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
-from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+from rest_framework.authentication import TokenAuthentication
 
 from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
 from hotelBooking.exceptions import PointNotEnough, ConditionDenied
@@ -83,7 +83,7 @@ class CustomerOrderActionAPIView(WithDynamicViewSetMixin,ModelViewSet):
     serializer_class = CustomerOrderSerializer
     queryset = HotelPackageOrder.objects.all()
 
-    authentication_classes = (JSONWebTokenAuthentication,)
+    authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
     ACTION_CANCEL = 'cancel'
@@ -126,7 +126,7 @@ class RoomPackageBookAPIView(APIView):
     用户 订购 酒店
     权限：已登入用户
     """
-    authentication_classes = (JSONWebTokenAuthentication,)
+    authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
     # @transaction.atomic()

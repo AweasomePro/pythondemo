@@ -10,9 +10,6 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.mixins import UpdateModelMixin
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
-from rest_framework_jwt.authentication import JSONWebTokenAuthentication
-from rest_framework_jwt.settings import api_settings
-
 from hotelBooking import appcodes
 from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
 from hotelBooking.exceptions import  UserCheck
@@ -26,15 +23,14 @@ from hotelBooking.tasks import simple_notify,send_sms
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 from hotelBooking.utils.decorators import method_route, parameter_necessary, is_authenticated
 
-jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
-jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+
 
 access_key = 'u-ryAwaQeBx9BS5t8OMSPs6P1Ewoqiu6-ZbbMNYm'
 secret_key = 'hVXFHO8GusQduMqLeYXZx_C5_c7D-VSwz6AKhjZJ'
 
 
 class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
-    authentication_classes = (JSONWebTokenAuthentication, BasicAuthentication)
+    authentication_classes = (TokenAuthentication, BasicAuthentication)
     # permission_classes = (login_required,)
     serializer_class = CustomerUserSerializer
     queryset = User.objects.all()
