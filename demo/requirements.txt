@@ -5,6 +5,7 @@ djangorestframework == 3.3.3
 djangorestframework-jwt
 django-admin-bootstrapped
 django-crispy-forms
+django-grappelli
 django-enumfields == 0.7.4
 django-redis-cache
 requests == 2.10.0

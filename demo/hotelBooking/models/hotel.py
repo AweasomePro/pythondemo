@@ -27,7 +27,7 @@ class Hotel(ActiveMixin,models.Model):
     introduce = models.TextField(max_length=255,verbose_name='介绍')
     contact_phone = models.CharField(max_length=255,verbose_name='联系电话')
     cover_img = models.ImageField(verbose_name='封面图片')
-    agent = models.ManyToManyField(User)
+    agent = models.ManyToManyField(User,blank=True)
     # types = models.ManyToManyField(Room)
 
     class Meta:

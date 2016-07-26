@@ -6,7 +6,6 @@ from hotelBooking.models.hotel import Hotel,Room
 from hotelBooking.models.products import Product,RoomPackage,RoomDayState
 from hotelBooking.models.orders import Order,OrderItem,HotelPackageOrder,HotelPackageOrderItem
 from hotelBooking.models.tests import TestModel
-from six import python_2_unicode_compatible
 
 
 class Meta:
@@ -14,7 +13,6 @@ class Meta:
 
 
 __all__ = [
-    "python_2_unicode_compatible",
     "BaseModel",
     "User",
     "CustomerMember","PartnerMember",
