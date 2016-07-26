@@ -20,6 +20,7 @@ django-debug-toolbar
 celery == 3.1.18
 pycrypto
 django-qiniu-storage
+Pillow
 
 
  

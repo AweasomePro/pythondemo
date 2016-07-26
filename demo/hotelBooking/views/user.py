@@ -111,7 +111,7 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
             user = User.objects.get(phone_number=phone_number)
             if ( True or smsCode and user.check_smscode(phone_number,smsCode) ):
                 from rest_framework.authtoken.models import Token
-                token = Token.objects.get(user=user)
+                token,create = Token.objects.get_or_create(user=user)
                 if(user.role == User.CUSTOMER):
                     response = DefaultJsonResponse(res_data={'user':CustomerUserSerializer(user).data})
                 else:

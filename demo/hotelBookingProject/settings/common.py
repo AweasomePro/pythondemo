@@ -69,7 +69,6 @@ INSTALLED_APPS = [
     'dynamic_rest',
     'grappelli.dashboard',
     'grappelli',
-    'rest_framework.authtoken',
     'debug_toolbar',
     'guardian',
     'hotelBooking',
