@@ -113,7 +113,7 @@ WSGI_APPLICATION = 'hotelBookingProject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 from hotelBookingProject import dbconfig
-DATABASES = dbconfig.get_config(testing=False).DATABASES
+DATABASES = dbconfig.get_config(testing=True).DATABASES
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
