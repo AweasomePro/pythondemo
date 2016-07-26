@@ -8,7 +8,6 @@ from rest_framework import status
 from django.utils.translation import ugettext as _
 from hotelBooking.models import User
 from ..utils.AppJsonResponse import DefaultJsonResponse
-from ..serializers import CustomerMemberSerializer
 from ..utils.decorators import parameter_necessary
 from .. import appcodes
 from django.contrib.auth.models import update_last_login

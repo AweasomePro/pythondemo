@@ -34,17 +34,17 @@ class VerifyTokenSerializer(serializers.Serializer):
     Check the veracity of an access token.
     """
     token = serializers.CharField()
-    phone_number = serializers.CharField(style={'input_type': 'password'})
+    phoneNumber = serializers.CharField(style={'input_type': 'password'})
 
     def validate(self, attrs):
         token = attrs['token']
-        phone_number = attrs[get_username_field()]
+        phone_number = attrs['phoneNumber']
         token = self._check_token(token=token)
         user = self._check_user(token,phone_number)
 
         return {
             'token': token,
-            'phone_number': user.phone_number
+            'phoneNumber': user.phone_number
         }
 
     def _check_token(self, token,):

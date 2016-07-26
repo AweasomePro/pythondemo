@@ -24,7 +24,6 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-
     def create_superuser(self, phone_number, name, password):
         user = self.create_user(phone_number=phone_number,name=name, password=password)
         user.is_active = True
@@ -65,6 +64,7 @@ class User(PointMixin,PermissionsMixin,AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_loggin = models.BooleanField(default=False)
     role  = models.IntegerField( choices=ROLE,default=ROLE[0][0],help_text='该账号的角色标识')
+
     create_at = models.DateTimeField(auto_now_add=True)
     point = PointField(default=0,editable=False,verbose_name='积分')
     objects = UserManager()
@@ -163,6 +163,7 @@ class CustomerMember(models.Model):
     user = models.OneToOneField(User,primary_key=True)
     avatar = models.URLField(blank=True)
     last_access = models.DateTimeField(_("Last accessed"), default=timezone.now)
+
     objects = MemberManager()
 
     def __init__(self,*args,**kwargs):

@@ -31,6 +31,6 @@ class VerifyWebToken(APIView):
         print(request.data)
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['phone_number']
+        user = serializer.validated_data['phoneNumber']
         # token, created = Token.objects.get_or_create(user=user)
         return DefaultJsonResponse(code=100,message='有效')

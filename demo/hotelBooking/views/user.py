@@ -32,7 +32,6 @@ secret_key = 'hVXFHO8GusQduMqLeYXZx_C5_c7D-VSwz6AKhjZJ'
 
 class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
     authentication_classes = (TokenAuthentication, BasicAuthentication)
-    # permission_classes = (login_required,)
     serializer_class = CustomerUserSerializer
     queryset = User.objects.all()
 
@@ -93,14 +92,12 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         response = send_sms.delay(phoneNumber,template='login')
         return Response(wrapper_response_dict(message='验证码已发送'))
 
-
     @method_route(methods=['POST',], url_path='login')
     @method_decorator(parameter_necessary('phoneNumber',))
     def login(self, request, *args, **kwargs):
         print(request.version)
         # checkHousePackageState()
         phone_number = request.POST.get('phoneNumber')
-        password = request.POST.get('password',None)
         smsCode = request.POST.get('smsCode',None)
         print('phone is {}'.format(phone_number))
         try:
