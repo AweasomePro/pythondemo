@@ -74,13 +74,13 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
                     serializer = CustomerUserSerializer(user, )
                 # end
                 token, create = Token.objects.get_or_create(user=user)
-                kwargs = {'user': serializer.data}
+                user_data = {'user': serializer.data}
             except BaseException as e:
                 # raise e
                 raise e
             else:
                 # 都没出错
-                response = JSONWrappedResponse(data= serializer.data, code=appcodes.CODE_100_OK, message="注册成功")
+                response = JSONWrappedResponse(data= user_data, code=appcodes.CODE_100_OK, message="注册成功")
                 response['token'] = token
                 return response
         else:
