@@ -9,6 +9,7 @@ from rest_framework.authentication import BasicAuthentication
 from rest_framework.exceptions import ValidationError
 from rest_framework.mixins import UpdateModelMixin
 from rest_framework.response import Response
+from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication
 from hotelBooking import appcodes
 from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
@@ -20,7 +21,7 @@ from hotelBooking.serializers import CustomerUserSerializer, UpdateMemberSeriali
 from hotelBooking.serializers import InstallationSerializer
 from hotelBooking.serializers.user import UserSerializer
 from hotelBooking.tasks import simple_notify,send_sms
-from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
+from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse, JSONWrappedResponse
 from hotelBooking.utils.decorators import method_route, parameter_necessary, is_authenticated
 
 
@@ -64,23 +65,22 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
                     user.role = user.HOTEL_PARTNER
                     user.save()
                     parter = PartnerMember.objects.create(user = user)
-                    payload = jwt_payload_handler(user)
-                    token = jwt_encode_handler(payload)
-                    res = {'token': token}
-                    return Response(data=res)
+                    from hotelBooking.serializers.user import UserSerializer
+                    serializer = UserSerializer(user)
                 else:
                     member = CustomerMember.objects.create(phone_number, password)
+                    user = member.user
                     assert  member.user.check_password(raw_password=password) == True
+                    serializer = CustomerUserSerializer(user, )
                 # end
-                serializer_member = CustomerUserSerializer(member.user, )
-                payload = jwt_payload_handler(member.user)
-                token = jwt_encode_handler(payload)
-                kwargs = {'user': serializer_member.data}
+                token, create = Token.objects.get_or_create(user=user)
+                kwargs = {'user': serializer.data}
             except BaseException as e:
                 # raise e
                 raise e
             else:
-                response = DefaultJsonResponse(res_data= kwargs, code=appcodes.CODE_100_OK, message="注册成功")
+                # 都没出错
+                response = JSONWrappedResponse(data= serializer.data, code=appcodes.CODE_100_OK, message="注册成功")
                 response['token'] = token
                 return response
         else:
