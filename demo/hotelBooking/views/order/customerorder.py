@@ -6,6 +6,7 @@ from dynamic_rest.viewsets import WithDynamicViewSetMixin
 from guardian.core import ObjectPermissionChecker
 from guardian.shortcuts import assign_perm
 from rest_framework import filters
+from rest_framework.authentication import BasicAuthentication, TokenAuthentication
 from rest_framework.decorators import detail_route
 from rest_framework.exceptions import APIException
 from rest_framework.permissions import IsAuthenticated
@@ -26,7 +27,7 @@ from hotelBooking.utils.decorators import parameter_necessary
 
 
 class CustomerHotelBookOrderList(WithDynamicViewSetMixin,ModelViewSet):
-    authentication_classes = (JSONWebTokenAuthentication,)
+    authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
     queryset = HotelPackageOrder.objects.all()

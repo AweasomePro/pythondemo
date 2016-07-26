@@ -9,6 +9,7 @@ from rest_framework.authentication import BasicAuthentication
 from rest_framework.exceptions import ValidationError
 from rest_framework.mixins import UpdateModelMixin
 from rest_framework.response import Response
+from rest_framework.authentication import TokenAuthentication
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework_jwt.settings import api_settings
 
@@ -108,14 +109,14 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
         print('phone is {}'.format(phone_number))
         try:
             user = User.objects.get(phone_number=phone_number)
-            if (smsCode and user.check_smscode(phone_number,smsCode) or True):
-                payload = jwt_payload_handler(user)
-                token = jwt_encode_handler(payload)
+            if ( True or smsCode and user.check_smscode(phone_number,smsCode) ):
+                from rest_framework.authtoken.models import Token
+                token = Token.objects.get(user=user)
                 if(user.role == User.CUSTOMER):
                     response = DefaultJsonResponse(res_data={'user':CustomerUserSerializer(user).data})
                 else:
                     response = DefaultJsonResponse(res_data={'user':UserSerializer(user).data})
-                response['token'] = token
+                response['token'] = token.key
                 simple_notify.delay(user.phone_number,message='登入成功')
                 return response
             else:
