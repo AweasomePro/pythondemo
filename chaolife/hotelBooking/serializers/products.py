@@ -12,7 +12,7 @@ class RoomDayStateSerializer(DynamicModelSerializer):
 
     class Meta:
         model = RoomDayState
-        fields = ('s_point','s_price','date','state')
+        fields = ('s_point','s_price','d_point','d_price','date','state')
 
 
 class ProductSerializer(DynamicModelSerializer):
@@ -25,7 +25,7 @@ class RoomPackageSerializer(EnumFieldSerializerMixin , DynamicModelSerializer):
 
     class Meta(ProductSerializer.Meta):
         model = RoomPackage
-        fields = ('id','breakfast','extra','default_s_point','default_s_price','created_on','roomstates',)
+        fields = ('id','breakfast','extra','default_s_point','default_s_price','default_d_point','default_d_price''created_on','roomstates',)
 
 
 
