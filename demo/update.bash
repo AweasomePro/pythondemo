@@ -1,1 +1,0 @@
-celery -A HotelBookingProject worker -l info
