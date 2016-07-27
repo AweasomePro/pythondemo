@@ -25,7 +25,7 @@ class RoomPackageSerializer(EnumFieldSerializerMixin , DynamicModelSerializer):
 
     class Meta(ProductSerializer.Meta):
         model = RoomPackage
-        fields = ('id','breakfast','extra','default_s_point','default_s_price','default_d_point','default_d_price''created_on','roomstates',)
+        fields = ('id','breakfast','extra','default_s_point','default_s_price','default_d_point','default_d_price','created_on','roomstates',)
 
 
 
