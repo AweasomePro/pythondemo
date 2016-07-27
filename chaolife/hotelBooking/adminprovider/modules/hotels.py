@@ -18,7 +18,7 @@ class RoomPackageInline(admin.StackedInline):
     verbose_name = '套餐'
     verbose_name_plural = '套餐'
     extra = 0
-    fields = ('default_point','default_front_price','breakfast','owner','detail','checked','active','room')
+    fields = ('default_s_point','default_s_price','breakfast','owner','detail','checked','active','room')
 
 
 

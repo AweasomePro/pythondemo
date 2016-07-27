@@ -307,8 +307,8 @@ class Migration(migrations.Migration):
                 ('checked', models.BooleanField(verbose_name='审核过 ?', default=False)),
                 ('active', models.BooleanField(verbose_name='是否可用 ?', default=False)),
                 ('breakfast', models.IntegerField(choices=[(1, '无早'), (2, '单早'), (3, '双早')], default=1, verbose_name='早餐类型')),
-                ('default_point', models.IntegerField(verbose_name='默认所需积分', default=0)),
-                ('default_front_price', models.IntegerField(verbose_name='默认前台现付价格')),
+                ('default_s_point', models.IntegerField(verbose_name='默认所需积分', default=0)),
+                ('default_s_price', models.IntegerField(verbose_name='默认前台现付价格')),
                 ('extra', jsonfield.fields.JSONField(help_text='Arbitrary information for this roompackage object.', null=True, blank=True, verbose_name='Extra fields')),
             ],
             options={

@@ -79,7 +79,7 @@ def initData():
             partner =  User.objects.create_user('15726814501',password=123456)
             partner_member = PartnerMember(user=partner)
             partner_member.save()
-            # roompackage = RoomPackage(owner=partner, room=room,hotel=hotel, default_point=20, default_front_price=130, detail='zao')
+            # roompackage = RoomPackage(owner=partner, room=room,hotel=hotel, default_s_point=20, default_s_price=130, detail='zao')
             # roompackage.save()
             # createRoomPackageState(roompackage)
             return Response({'res': 'success'})

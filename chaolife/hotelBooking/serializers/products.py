@@ -1,4 +1,5 @@
 import datetime
+from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from drf_enum_field.serializers import EnumFieldSerializerMixin
 from dynamic_rest.fields import DynamicMethodField, DynamicRelationField
@@ -11,36 +12,54 @@ class RoomDayStateSerializer(DynamicModelSerializer):
 
     class Meta:
         model = RoomDayState
-        fields = ('need_point','front_price','date','state')
+        fields = ('s_point','s_price','date','state')
 
 
 class ProductSerializer(DynamicModelSerializer):
     class Meta:
         model = Product
 
-from hotelBooking.models import TestModel
-
-class TestSerializer(DynamicModelSerializer):
-    class Meta:
-        model = TestModel
 class RoomPackageSerializer(EnumFieldSerializerMixin , DynamicModelSerializer):
 
     roomstates = RoomDayStateSerializer(many=True,embed=True)
 
     class Meta(ProductSerializer.Meta):
         model = RoomPackage
-        fields = ('id','breakfast','extra','default_point','default_front_price','created_on','roomstates',)
-
-    # def get_states(self, roompackage):
-        # context = self.context
-        # startdate = context.pop('startdate',None)
-        # print('---------startdate is {}'.format(startdate))
-        # enddate = context.pop('enddate',None)
-        # states = roompackage.roomstates.filter(date__gte =startdate, date_lt=enddate).values_list('state', flat=True).order_by('date')
-        # states = roompackage.roomstates
-        # return states
+        fields = ('id','breakfast','extra','default_s_point','default_s_price','created_on','roomstates',)
 
 
-class HotelPackageBookSerializer(DynamicModelSerializer):
-    class Meta:
-        pass
+
+class RoomPackageCreateSerialzer(serializers.Serializer):
+    hotel = serializers.IntegerField() #酒店
+    room = serializers.IntegerField() #房型id
+    price_type = serializers.IntegerField() # 单双同价?
+    default_s_point = serializers.IntegerField() #
+    default_s_price = serializers.IntegerField()
+    default_d_point = serializers.IntegerField()
+    default_d_price = serializers.IntegerField()
+    breakfast = serializers.IntegerField() # 早餐类型
+    owner = serializers.IntegerField()
+    customRoomName = serializers.CharField(allow_null=True,allow_blank=True)
+
+    class _inner_serializer(serializers.ModelSerializer):
+        class Meta:
+            model = RoomPackage
+
+    def validate(self, attrs):
+        room = attrs.get('room',-1)
+        hotel = attrs.get('hotel')
+        if(room == -1):
+            from hotelBooking.models import Room
+            room = Room(name=attrs.get('customRoomName'),hotel_id=hotel)
+            room.save()
+            attrs['room']= room.id
+        del attrs['customRoomName']
+        serializer = self._inner_serializer(data=attrs)
+        serializer.is_valid(raise_exception=True)
+        print('是合法的')
+        print(serializer.validated_data)
+        print('开始保存')
+        serializer.save()
+        roompackage = RoomPackage.objects.first()
+        # print(roompackage.default_s_price)
+        return {'succcess':True}

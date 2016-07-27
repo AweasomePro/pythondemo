@@ -231,7 +231,6 @@ class HotelPackageOrder(Order):
         (FRANCHISES_BACKED, '代理提前表示某些原因导致不能入住了'),
     )
     order = models.OneToOneField(Order,primary_key=True,to_field='number')
-
     checkin_time = models.DateField(verbose_name='入住时间')
     checkout_time = models.DateField(verbose_name='离店时间')
     closed = models.BooleanField(default=False)
@@ -242,12 +241,11 @@ class HotelPackageOrder(Order):
     total_front_prices = models.IntegerField(_('total need prices'),help_text='所需前台总价')
     total_need_points = models.IntegerField(_('total need points'),help_text='所需积分总和')
     breakfast = models.IntegerField(default=1, verbose_name='早餐类型',help_text=' 订单生成时,所记录的早餐类型')
-
     hotel_name = models.CharField(_('hotel name',),max_length=255,help_text='hotel name at the moment of purchase')
     room_name = models.CharField(_('room name'),max_length=255,help_text='room name at the moment of purchase')
-
     request_notes = models.TextField(null=True, blank=True,help_text='用户订单要求')
-
+    room_count = models.SmallIntegerField(verbose_name=_('房间件数'),default=1)
+    people_count = models.SmallIntegerField(verbose_name=('入住人数'),default=1)
     comment = models.TextField(null=True,blank=True,help_text='消费评价')
     guests = JSONField(null=True,blank=True,help_text='入住人信息')
 
@@ -339,13 +337,13 @@ class ClosedHotelOrderManger(models.Manager):
 
 class ClosedHotelPackageOrder(HotelPackageOrder):
     class Meta:
-
         proxy = True
 
 class HotelPackageOrderItem(OrderItem):
+    # 每天的积分和价格可能是不一样的，so do it
     day = models.DateField(_('check in day'),help_text='日期')
     point = models.IntegerField(_('need point'),help_text='所需积分(moment)')
-    front_price = models.IntegerField(_('front price'),help_text='当天前台现付价格(moment)')
+    price = models.IntegerField(_('front price'), help_text='当天前台现付价格(moment)')
 
 
 

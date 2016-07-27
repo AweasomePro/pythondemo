@@ -15,6 +15,6 @@ class RoomPackageAdmin(ModelAdmin):
     """
     酒店房型套餐
     """
-    list_display = ( 'owner','room','breakfast','default_point','default_front_price','active','checked',)
-    fields = ('owner','room','breakfast','default_point','default_front_price','checked','active',)
+    list_display = ( 'owner','room','breakfast','default_s_point','default_s_price','active','checked',)
+    fields = ('owner','room','breakfast','default_s_point','default_s_price','checked','active',)
     readonly_fields = ()

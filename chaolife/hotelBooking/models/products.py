@@ -81,15 +81,26 @@ class RoomPackage(CheckMixin, Product):
         (2, '单早'),
         (3, '双早'),
     )
+    Price_Types = (
+        (1, '单双同价'),
+        (2, '单双异价'),
+    )
+
     hotel = models.ForeignKey(Hotel,verbose_name='酒店')
     room = models.ForeignKey(Room, verbose_name='房型', related_name='roomPackages')
     breakfast = models.IntegerField(choices=Breakfast_Types,default=Breakfast_Types[0][0],verbose_name='早餐类型')
     # agent = models.ForeignKey(settings.AUTH_USER_MODEL)
     # 作为默认的积分
-    default_point = models.IntegerField(verbose_name='默认所需积分', default=0)
+    price_type = models.IntegerField(choices=Price_Types,default=Price_Types[0][0],verbose_name='价格类型')
+    default_s_point = models.IntegerField(verbose_name='默认单人所需积分', default=0)
     # price that guest need pay at hotel front desk
     # 作为默认的价格
-    default_front_price = models.IntegerField(verbose_name='默认前台现付价格')
+    default_s_price = models.IntegerField(verbose_name='默认单人现付价格')
+    default_d_point = models.IntegerField(verbose_name='默认双人所需积分', default=0)
+    # price that guest need pay at hotel front desk
+    # 作为默认的价格
+    default_d_price = models.IntegerField(verbose_name='默认双人现付价格')
+
     extra = JSONField(verbose_name=_("Extra fields"),
                       help_text=_("Arbitrary information for this roompackage object."),null=True,blank=True)
     # the hotel package is open to guests?
@@ -131,10 +142,10 @@ class RoomDayState(models.Model):
     hotel = models.ForeignKey(Hotel,related_name='roomstates')
     city = models.ForeignKey(City,related_name='roomstates')
     roomPackage = models.ForeignKey(RoomPackage, related_name='roomstates')
-    need_point = models.IntegerField(verbose_name='当天所需积分',default=0)
-    # price that guest need pay at hotel front desk
-    # 作为默认的价格
-    front_price = models.IntegerField(verbose_name='当天前台现付价格')
+    s_point = models.IntegerField(verbose_name='当天单人所需积分', default=0)
+    s_price = models.IntegerField(verbose_name='当天单人前台现付价格')
+    d_point = models.IntegerField(verbose_name='当天双人所需积分', default=0)
+    d_price = models.IntegerField(verbose_name='当天双人前台现付价格')
     room = models.ForeignKey(Room)
     date = models.DateField()
     state = models.IntegerField(choices=ROOM_STATES,default=ROOM_STATE_ENOUGH)
@@ -148,8 +159,8 @@ class RoomDayState(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        # if self.default_point == 0:
-        #     self.default_point = self.roomPackage.default_point
+        # if self.default_s_point == 0:
+        #     self.default_s_point = self.roomPackage.default_s_point
         # todo  设置一个默认值，注意 不要访问外数据库
         super(self,RoomDayState).save(force_insert=False, force_update=False, using=None,
              update_fields=None)

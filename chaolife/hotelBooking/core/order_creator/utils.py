@@ -23,13 +23,18 @@ def is_hotel_package(product):
     return True
 
 
-def generateHotelPackageProductOrder(request, member_user, room_package, request_notes, checkinTime, checkoutTime):
+def generateHotelPackageProductOrder(request, member_user, room_package, request_notes, checkinTime, checkoutTime,price_type):
     days = (checkoutTime - checkinTime).days
     daystates = room_package.roomstates.filter(date__gte=checkinTime,date__lt=checkoutTime)
     # 保证 state 为可预订状态
     if (daystates.count() != days):
         raise ConditionDenied(detail='该套餐已满')
-    sum_point = sum(daystate.need_point for daystate in daystates)
+    if price_type ==1 :
+        sum_point = sum(daystate.s_point for daystate in daystates)
+        sum_price = sum(daystate.s_price for daystate in daystates)
+    else:
+        sum_point = sum(daystate.d_point for daystate in daystates)
+        sum_price = sum(daystate.d_price for daystate in daystates)
     if(member_user.point < sum_point):
         raise PointNotEnough()
     try:
@@ -37,9 +42,9 @@ def generateHotelPackageProductOrder(request, member_user, room_package, request
             if member_user.point <= sum_point:
                 raise PointNotEnough()
             # 合计前台付款
-            sum_front_price = sum(daystate.front_price for daystate in daystates)
+
             print('sum points {}'.format(sum_point))
-            print('sum_front_price {}'.format(sum_front_price))
+            print('sum_price {}'.format(sum_price))
             hotel_package_order = HotelPackageOrder(
                 request_notes =request_notes,
                 customer=member_user,
@@ -48,7 +53,7 @@ def generateHotelPackageProductOrder(request, member_user, room_package, request
                 checkin_time = checkinTime,
                 checkout_time= checkoutTime,
                 total_need_points = sum_point,
-                total_front_prices = sum_front_price,
+                total_front_prices = sum_price,
                 breakfast = room_package.breakfast,
                 hotel_name = room_package.hotel.name,
                 room_name = room_package.room.name
@@ -71,8 +76,8 @@ def generateHotelPackageProductOrder(request, member_user, room_package, request
                     product_code=room_package.id,
                     product=room_package,
                     day= daystate.date,
-                    point=daystate.need_point,
-                    front_price=daystate.front_price,
+                    point=daystate.s_point,
+                    price=daystate.s_price,
                     )
                 item.save()
                 orderItems.append(item)

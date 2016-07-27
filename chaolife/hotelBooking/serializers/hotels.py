@@ -44,8 +44,6 @@ class RoomSerializer(DynamicModelSerializer):
         exclude = ('checked','active','hotel',)
 
 
-
-
 class HotelSerializer(DynamicModelSerializer):
     hotel_imgs = HotelImgSerializer(read_only=True, many=True, embed=True)
     min_price = DynamicMethodField()
@@ -56,7 +54,7 @@ class HotelSerializer(DynamicModelSerializer):
         return types
 
     def get_min_price(self,hotel):
-        res = hotel.roompackage_set.values('default_front_price', 'default_point').order_by('-default_front_price').last()
+        res = hotel.roompackage_set.values('default_s_price', 'default_s_point').order_by('-default_s_price').last()
         return res
 
     class Meta:

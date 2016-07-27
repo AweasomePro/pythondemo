@@ -21,8 +21,10 @@ def createRoomDaysFormRoomPackage(roomPackage):
                            room=roomPackage.room,
                            hotel=roomPackage.hotel,
                            city=roomPackage.hotel.city,
-                           need_point=roomPackage.default_point,
-                           front_price=roomPackage.default_front_price,
+                           d_point=roomPackage.default_d_point,
+                           d_price=roomPackage.default_d_price,
+                           s_point=roomPackage.default_s_point,
+                           s_price=roomPackage.default_s_price,
                            state=RoomDayState.ROOM_STATE_ENOUGH,
                            date=day.strftime('%Y-%m-%d')
                            )

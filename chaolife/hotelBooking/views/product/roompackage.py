@@ -48,38 +48,42 @@ class AddRoomPackageView(APIView):
 @apiSuccess {String} lastname  Lastname of the User.
 """
 @api_view(['POST',])
-@parameter_necessary('hotelId', 'defaultPoint', 'defaultPrice', 'breakfast','roomId', optional=('customRoomName',))
-@permission_classes(IsHotelPartnerRole,)
+@permission_classes((IsHotelPartnerRole,))
 @authentication_classes([TokenAuthentication])
-def create_new_hotelpackage(request, hotelId, defaultPoint, defaultPrice, breakfast, customRoomName, roomId, *args, **kwargs):
+def create_new_hotelpackage(request, *args, **kwargs):
     # 注意 atomic 需要有捕获异常，如果你内部catch 了，等于失效了
     # 前端需要注意，进行 customRoomName 是否已存在的判断，所有的最终都是需要服务端审核的
-
+    from hotelBooking.serializers.products import RoomPackageCreateSerialzer
+    print(request.data)
+    request.data['owner'] = request.user.id
+    rs = RoomPackageCreateSerialzer(data=request.data)
+    rs.is_valid(raise_exception=True)
+    print(rs.validated_data)
     NONE_ROOM = -1
-    print('roomId is {}'.format(roomId))
+    # print('roomId is {}'.format(roomId))
+    return Response('success')
+
     # assert not (customRoomName is None and roomId is -1)
-    try:
-        with transaction.atomic():
-            if (int(roomId) == NONE_ROOM):
-                room = Room(hotel_id=hotelId, name=customRoomName)
-                room.save()
-                roomId = room.id
-
-            creater = RoomPackageCreator()
-            package = creater.createRoomPackage(
-                owner=request.user,
-                hotel=Hotel.objects.get(id=hotelId),
-                room= Room.objects.get(id=roomId),
-                default_point = defaultPoint,
-                default_price =defaultPrice,
-                breakfast = breakfast
-            )
-
-            return Response(wrapper_response_dict(message='创建成功审核中'))
-    except Exception as e:
-        print(e.__cause__)
-        raise e
-        return Response(wrapper_response_dict(message='失败，服务器异常,需上报并记录',code=-100))
+    # try:
+    #     with transaction.atomic():
+    #         if (int(roomId) == NONE_ROOM):
+    #             room = Room(hotel_id=hotelId, name=customRoomName)
+    #             room.save()
+    #             roomId = room.id
+    #         creater = RoomPackageCreator()
+    #         package = creater.createRoomPackage(
+    #             owner=request.user,
+    #             hotel=Hotel.objects.get(id=hotelId),
+    #             room= Room.objects.get(id=roomId),
+    #             default_point = defaultPoint,
+    #             default_price =defaultPrice,
+    #             breakfast = breakfast
+    #         )
+    #         return Response(wrapper_response_dict(message='创建成功审核中'))
+    # except Exception as e:
+    #     print(e.__cause__)
+    #     raise e
+    #     return Response(wrapper_response_dict(message='失败，服务器异常,需上报并记录',code=-100))
 
 class RoomPackageStateView(viewsets.ModelViewSet):
     serializer_class = RoomDayStateSerializer
@@ -111,8 +115,8 @@ class RoomPackageView(WithDynamicViewSetMixin,ModelViewSet):
         # return Response('success')
 
     @detail_route(methods=['GET', 'POST'], url_path='book')
-    @method_decorator(parameter_necessary( 'checkinTime','checkoutTime','guests'))
-    def book(self,request,pk,checkinTime,checkoutTime,guests):
+    @method_decorator(parameter_necessary( 'checkinTime','checkoutTime','guests','price_type'))
+    def book(self,request,pk,checkinTime,checkoutTime,guests,price_type):
         roomPackage = self.get_object()
         checkinTime = formatStrToDate(checkinTime)
         checkoutTime = formatStrToDate(checkoutTime)
@@ -129,7 +133,7 @@ class RoomPackageView(WithDynamicViewSetMixin,ModelViewSet):
         request_notes = '需要wifi'
         # 内部检查了积分是否足够
         hotelPackageOrder = generateHotelPackageProductOrder(request, user, roomPackage, request_notes, checkinTime,
-                                                             checkoutTime)
+                                                             checkoutTime,price_type)
         serializer = CustomerOrderSerializer(hotelPackageOrder)
         return DefaultJsonResponse(res_data=serializer.data, message='预订成功')
 
