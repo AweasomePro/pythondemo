@@ -55,7 +55,9 @@ class HotelSerializer(DynamicModelSerializer):
 
     def get_min_price(self,hotel):
         res = hotel.roompackage_set.values('default_s_price', 'default_s_point').order_by('-default_s_price').last()
-        return res
+        res2 = hotel.roompackage_set.values('default_d_price', 'default_d_point').order_by('-default_d_price').last()
+
+        return dict(res,**res2)
 
     class Meta:
         model = Hotel
