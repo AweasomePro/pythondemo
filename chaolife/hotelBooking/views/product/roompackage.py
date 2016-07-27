@@ -117,12 +117,11 @@ class RoomPackageView(WithDynamicViewSetMixin,ModelViewSet):
         checkinTime = formatStrToDate(checkinTime)
         checkoutTime = formatStrToDate(checkoutTime)
         user = request.user
-
         from hotelBooking.validation import orderValidates
         if not orderValidates.validate_book_date(checkinTime,checkoutTime):
             return Response(wrapper_response_dict(code=-100, message='非法的check time'))
         exist = HotelPackageOrder.objects.filter(customer=request.user, checkin_time__lte=checkinTime,
-                                                 checkout_time__gt=checkinTime).exists()
+                                                 checkout_time__gt=checkinTime,closed=False).exists()
 
         if (exist):
             return Response(wrapper_response_dict(code=-100, message='存在当天订单 请先取消'))
