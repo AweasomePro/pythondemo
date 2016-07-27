@@ -1,0 +1,2 @@
+class BasicUserBackend(object):
+    pass

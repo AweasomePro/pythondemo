@@ -1,0 +1,4 @@
+-i https://pypi.douban.com
+-i https://pypi.douban.com --trusted-host
+
+http://blog.xiayf.cn/2013/11/01/change-pypi-mirror/
