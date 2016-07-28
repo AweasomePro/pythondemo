@@ -15,8 +15,8 @@ class Pay(DateStateMixin,models.Model):
         (2,_('支付成功')),
     )
     trade_no = models.CharField(editable=False,db_index=True,max_length=32)
-    unit_price = models.IntegerField(_('单位价格(元)'),default=1)
-    number = models.IntegerField(_('购买的数量'))
+    unit_price = models.PositiveIntegerField(_('单位价格(元)'),default=1)
+    number = models.PositiveIntegerField(_('购买的数量'))
     total_price = models.FloatField(_('总价'))
     user = models.ForeignKey(User)
     status = models.IntegerField(choices=PAY_STATUS,default=PAY_STATUS[0][0])

@@ -93,14 +93,14 @@ class RoomPackage(CheckMixin, Product):
     # agent = models.ForeignKey(settings.AUTH_USER_MODEL)
     # 作为默认的积分
     price_type = models.IntegerField(choices=Price_Types,default=Price_Types[0][0],verbose_name='价格类型')
-    default_s_point = models.IntegerField(verbose_name='默认单人所需积分', default=0)
+    default_s_point = models.PositiveIntegerField(verbose_name='默认单人所需积分', default=0)
     # price that guest need pay at hotel front desk
     # 作为默认的价格
-    default_s_price = models.IntegerField(verbose_name='默认单人现付价格')
-    default_d_point = models.IntegerField(verbose_name='默认双人所需积分', default=0)
+    default_s_price = models.PositiveIntegerField(verbose_name='默认单人现付价格')
+    default_d_point = models.PositiveIntegerField(verbose_name='默认双人所需积分', default=0)
     # price that guest need pay at hotel front desk
     # 作为默认的价格
-    default_d_price = models.IntegerField(verbose_name='默认双人现付价格')
+    default_d_price = models.PositiveIntegerField(verbose_name='默认双人现付价格')
 
     extra = JSONField(verbose_name=_("Extra fields"),
                       help_text=_("Arbitrary information for this roompackage object."),null=True,blank=True)
@@ -143,10 +143,10 @@ class RoomDayState(models.Model):
     hotel = models.ForeignKey(Hotel,related_name='roomstates')
     city = models.ForeignKey(City,related_name='roomstates')
     roomPackage = models.ForeignKey(RoomPackage, related_name='roomstates')
-    s_point = models.IntegerField(verbose_name='当天单人所需积分', default=0)
-    s_price = models.IntegerField(verbose_name='当天单人前台现付价格')
-    d_point = models.IntegerField(verbose_name='当天双人所需积分', default=0)
-    d_price = models.IntegerField(verbose_name='当天双人前台现付价格')
+    s_point = models.PositiveIntegerField(verbose_name='当天单人所需积分', default=0)
+    s_price = models.PositiveIntegerField(verbose_name='当天单人前台现付价格')
+    d_point = models.PositiveIntegerField(verbose_name='当天双人所需积分', default=0)
+    d_price = models.PositiveIntegerField(verbose_name='当天双人前台现付价格')
     room = models.ForeignKey(Room)
     date = models.DateField()
     state = models.IntegerField(choices=ROOM_STATES,default=ROOM_STATE_ENOUGH)

@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 
-from hotelBooking.views.order.customerorder import (CustomerOrderActionAPIView, CustomerHotelBookOrderList,
+from hotelBooking.views.order.customerorder import (CustomerHotelBookOrderList,
                                                     )
 from hotelBooking.views.order.partner import orderviews as partner_order_views
 from hotelBooking.views.order.util import DeleteAllOrderView

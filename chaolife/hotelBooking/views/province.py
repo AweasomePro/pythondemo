@@ -3,7 +3,7 @@ from hotelBooking.models.province import Province
 from hotelBooking.serializers import ProvinceSerializer
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.response import Response
-
+from django.views.decorators.cache import cache_page
 
 class ProvinceViewSet(RetrieveModelMixin, GenericJsonViewSet):
     serializer_class = ProvinceSerializer

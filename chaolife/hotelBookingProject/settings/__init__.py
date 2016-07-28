@@ -115,6 +115,18 @@ WSGI_APPLICATION = 'hotelBookingProject.wsgi.application'
 from hotelBookingProject import dbconfig
 DATABASES = dbconfig.get_config(testing=True).DATABASES
 
+# 缓存系统
+CACHES = {
+'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'common_cache_table',
+        'TIMEOUT': 600,
+        'OPTIONS': {
+            'MAX_ENTRIES': 2000
+        }
+    }
+}
+
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 
@@ -254,7 +266,7 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',
     ),
     'DEFAULT_PAGINATION_CLASS': 'hotelBooking.pagination.StandardResultsSetPagination',
-    'PAGE_SIZE': 3,
+    'PAGE_SIZE': 5,
     'EXCEPTION_HANDLER' : 'hotelBooking.utils.exceptionhandler.exception_handler',
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.AcceptHeaderVersioning',
     'DEFAULT_VERSION':'0.1'

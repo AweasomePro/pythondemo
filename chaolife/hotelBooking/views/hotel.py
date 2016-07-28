@@ -22,11 +22,11 @@ from django.core.cache import cache
 class HotelViewSet(WithDynamicViewSetMixin,viewsets.ReadOnlyModelViewSet):
     serializer_class = HotelSerializer
     queryset = Hotel.objects.all()
-
-    # def retrieve(self, request, *args, **kwargs):
-    #     instance = self.get_object()
-    #     serializer = self.get_serializer(instance)
-    #     return Response(wrapper_response_dict(serializer.data))
+    pagination_class = StandardResultsSetPagination
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(wrapper_response_dict(serializer.data))
 
     def list(self, request, *args, **kwargs):
         print(self.filter_backends)
@@ -37,7 +37,6 @@ class HotelViewSet(WithDynamicViewSetMixin,viewsets.ReadOnlyModelViewSet):
             print(serializer.data)
             print(type(serializer.data))
             data = serializer.data
-            meta = self.paginator.get_page_metadata()
             return Response(wrapper_response_dict(data, code=100, message='成功'))
         serializer = self.get_serializer(queryset, many=True)
         return Response(wrapper_response_dict(serializer.data))
@@ -47,11 +46,14 @@ class HotelViewSet(WithDynamicViewSetMixin,viewsets.ReadOnlyModelViewSet):
     def get_queryset(self, queryset=None):
         if (queryset == None):
             queryset = self.queryset
+        # 客户端查询
         cityId = self.request.query_params.get('cityId',None)
         checkinTime = self.request.query_params.get('checkinTime',None)
         checkoutTime = self.request.query_params.get('checkoutTime',None)
         if (checkinTime and checkoutTime and cityId): #todo 该方法效率不高
                         queryset = hotel_query_utils.query(queryset, cityId, checkinTime, checkoutTime)
+        if(cityId):
+            queryset = queryset.filter(city__code=cityId)
         return queryset.prefetch_related('hotel_rooms').prefetch_related('hotel_rooms__roomPackages')
 
 

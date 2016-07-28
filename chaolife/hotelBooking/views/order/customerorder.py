@@ -54,19 +54,15 @@ class CustomerHotelBookOrderList(WithDynamicViewSetMixin,ModelViewSet):
         :param number: 订单号
         :return:
         """
+        # 在ios 端，GET请求无法取到token?????????? ,so 加了 post......
         order = self.get_object()
         checker = ObjectPermissionChecker(request.user)
-        # print(checker.has_perm('hotelpackageorder.change_process_state', order))
-        #  用户取消订单
+
         success, order = order.customer_cancel_order(request.user)
         if (success):
             order.refresh_from_db()
         cs = CustomerOrderSerializer(order)
         return Response(wrapper_response_dict(message='退订成功', data={'order':cs.data}))
-
-
-
-
 
     def get_queryset(self,queryset=None):
         queryset = self.queryset
@@ -74,41 +70,7 @@ class CustomerHotelBookOrderList(WithDynamicViewSetMixin,ModelViewSet):
         state = self.request.GET.get('state')
         return queryset.filter(customer=user)
 
-# url is  order/customer
-class CustomerOrderActionAPIView(WithDynamicViewSetMixin,ModelViewSet):
-    serializer_class = CustomerOrderSerializer
-    queryset = HotelPackageOrder.objects.all()
 
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
-
-    ACTION_CANCEL = 'cancel'
-
-    def post(self,request):
-        action = request.POST.get('action',None)
-        number = request.POST.get('number', None)
-        if number:
-            request.number = number
-            try:
-                order = HotelPackageOrder.objects.get(number=number)
-                request.order = order
-                print('request user is {}'.format(request.user.name))
-                print('order customer is {}'.format(request.order.customer))
-            except HotelPackageOrder.DoesNotExist:
-                return Response('error number')
-
-        checker = ObjectPermissionChecker(request.user)
-        print(checker.has_perm('hotelpackageorder.change_process_state', order))
-        if action == CustomerOrderActionAPIView.ACTION_CANCEL:
-            #  用户取消订单
-            hotelpackageorder = request.order  #用get_object代替
-            success,order = request.order.customer_cancel_order(request.user)
-            if(success):
-                order.refresh_from_db()
-            cs = CustomerOrderSerializer(hotelpackageorder)
-            return Response(wrapper_response_dict(message='退订成功',data=cs.data))
-        else:
-            return Response(data='未知操作')
 
 
 
