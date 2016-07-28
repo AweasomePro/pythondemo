@@ -89,6 +89,7 @@ class RoomPackage(CheckMixin, Product):
     hotel = models.ForeignKey(Hotel,verbose_name='酒店')
     room = models.ForeignKey(Room, verbose_name='房型', related_name='roomPackages')
     breakfast = models.IntegerField(choices=Breakfast_Types,default=Breakfast_Types[0][0],verbose_name='早餐类型')
+    bill = models.BooleanField(default=True,verbose_name=_('提供发票'))
     # agent = models.ForeignKey(settings.AUTH_USER_MODEL)
     # 作为默认的积分
     price_type = models.IntegerField(choices=Price_Types,default=Price_Types[0][0],verbose_name='价格类型')
