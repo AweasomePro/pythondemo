@@ -84,7 +84,6 @@ class CustomerOrderActionAPIView(WithDynamicViewSetMixin,ModelViewSet):
 
     ACTION_CANCEL = 'cancel'
 
-
     def post(self,request):
         action = request.POST.get('action',None)
         number = request.POST.get('number', None)

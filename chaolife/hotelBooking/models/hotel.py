@@ -22,7 +22,7 @@ class Hotel(ActiveMixin,models.Model):
     id = models.AutoField(primary_key=True,editable=False)
     city = models.ForeignKey(City,verbose_name='所在城市',related_name='hotels')
     name = models.CharField(max_length=200,null=False,verbose_name='酒店名')
-    Smoking = models.BooleanField(default=False,verbose_name=_('can smoke '))
+    smoking = models.BooleanField(default=False,verbose_name=_('can smoke '))
     address = models.CharField(max_length=255,null=False,verbose_name='地址')
     introduce = models.TextField(max_length=255,verbose_name='介绍')
     contact_phone = models.CharField(max_length=255,verbose_name='联系电话')
