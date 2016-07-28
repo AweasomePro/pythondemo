@@ -12,7 +12,7 @@ def createRoomDaysFormRoomPackage(roomPackage):
     """
     roomStates = []
     day = datetime.today().date()
-    assert day == roomPackage.created_on.date()
+    # assert day == roomPackage.created_on.date()
     for i in range(0, 30):
         print(day.strftime('%Y-%m-%d'))
         print(i)
@@ -30,6 +30,7 @@ def createRoomDaysFormRoomPackage(roomPackage):
                            )
         roomStates.append(obj)
         day += timedelta(days=1)
+    print('执行完毕。创建了对象'.format(len(roomStates)))
     RoomDayState.objects.bulk_create(roomStates)
 
 def exit_sameday_order(user,checkin_date):

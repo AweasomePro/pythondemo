@@ -6,7 +6,7 @@ from dynamic_rest.fields import DynamicMethodField, DynamicRelationField
 from dynamic_rest.serializers import DynamicModelSerializer
 # class
 from hotelBooking.models.products import RoomPackage, RoomDayState, Product
-
+from hotelBooking.tasks import createRoomDaysetsFormRoomPackage
 
 class RoomDayStateSerializer(DynamicModelSerializer):
 
@@ -68,6 +68,7 @@ class RoomPackageCreateSerialzer(serializers.Serializer):
 
     def create(self, validated_data):
         instance = self._inner_serialize.save()
+        createRoomDaysetsFormRoomPackage.delay(instance.id)
         return instance
 
     @property

@@ -22,7 +22,7 @@ from hotelBooking.module import sms
 from hotelBooking.serializers import CustomerUserSerializer, UpdateMemberSerializer
 from hotelBooking.serializers import InstallationSerializer
 from hotelBooking.serializers.user import UserSerializer
-from hotelBooking.tasks import simple_notify,send_sms
+from hotelBooking.tasks import simple_notify,send_sms,createRoomDaysetsFormRoomPackage
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse, JSONWrappedResponse
 from hotelBooking.utils.decorators import method_route, parameter_necessary, is_authenticated
 
@@ -111,7 +111,10 @@ class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
                 else:
                     response = DefaultJsonResponse(res_data={'user':UserSerializer(user).data})
                 response['token'] = token.key
-                simple_notify.delay(user.phone_number,message='登入成功')
+                # simple_notify.delay(user.phone_number,message='登入成功')
+                result = createRoomDaysetsFormRoomPackage.delay(30)
+
+                print(result)
                 return response
             else:
                 return DefaultJsonResponse(message='验证失败',code=-100)

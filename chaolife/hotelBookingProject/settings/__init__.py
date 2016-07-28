@@ -50,7 +50,7 @@ CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'  #配置结
 CELERY_TIMEZONE = 'Asia/Shanghai'
 CELERY_ENABLE_UTC = False # 不是用UTC
 CELERY_TASK_RESULT_EXPIRES = 10 #任务结果的时效时间
-CELERYD_LOG_FILE = BASE_DIR + "/logs/celery/celery.log" # log路径
+CELERYD_LOG_FILE = BASE_DIR + "/logs/celery/celery2.log" # log路径
 CELERYBEAT_LOG_FILE = BASE_DIR + "/logs/celery/beat.log" # beat log路径
 
 # Application definition

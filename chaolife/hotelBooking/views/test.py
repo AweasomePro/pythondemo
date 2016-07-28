@@ -15,15 +15,16 @@ from rest_framework.response import Response
 
 @api_view(['POST',])
 def test(request,):
-    print(request.POST)
-    initData()
-    createRoomPackageState()
+    print('有人回调了我')
+    # initData()
+    # createRoomPackageState()
     return Response('success')
 
 @api_view(['POST',])
 def testsms(request):
-    response = sms.request_sms_code(phone_number='15726814574',template='login')
-    return response
+    print('有人调用了我')
+    # response = sms.request_sms_code(phone_number='15726814574',template='login')
+    return Response('success')
 
 @api_view(['GET',])
 def init(request):

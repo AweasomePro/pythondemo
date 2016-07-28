@@ -5,7 +5,7 @@ from hotelBooking.models.orders import HotelPackageOrder, HotelPackageOrderItem
 from hotelBooking.models.plugins import HotelOrderNumberGenerator
 from hotelBooking.serializers import CustomerOrderSerializer
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
-
+from hotelBooking.tasks import createRoomDaysetsFormRoomPackage
 
 def verifyPointEnough(customer, hotelPackageProduct):
     if customer.user.point <= hotelPackageProduct.need_point:
@@ -29,6 +29,7 @@ def generateHotelPackageProductOrder(request, member_user, room_package, request
     # 保证 state 为可预订状态
     if (daystates.count() != days):
         raise ConditionDenied(detail='该套餐已满')
+
     if price_type ==1 :
         sum_point = sum(daystate.s_point for daystate in daystates)
         sum_price = sum(daystate.s_price for daystate in daystates)

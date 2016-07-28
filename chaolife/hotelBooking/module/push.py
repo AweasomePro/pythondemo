@@ -43,5 +43,5 @@ def send(data, channels=None, push_time=None,expiration_time=None,expiration_int
         params['cql'] = cql
 
     result = leancloud_client.post('/push', params=params).json()
-    print(result)
+    print('lenancoud ->result'.format(result))
     return result

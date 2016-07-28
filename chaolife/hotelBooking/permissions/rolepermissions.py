@@ -36,5 +36,6 @@ class CustomerPermission(BasePermission):
         """
         Return `True` if permission is granted, `False` otherwise.
         """
-        return request.user.role == 1 or request.user.is_admin
+        print('判断是否有权限{}'.format((not request.user.is_anonymous() and request.user.role == 1) or request.user.is_admin))
+        return (not request.user.is_anonymous() and request.user.role == 1) or request.user.is_admin
 

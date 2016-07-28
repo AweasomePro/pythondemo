@@ -11,6 +11,10 @@ from hotelBooking.models.products import RoomPackage
 from hotelBooking.models.user.users import User
 from hotelBooking.module.push import send
 from hotelBooking.module.sms import request_sms_code
+from celery.utils.log import get_task_logger
+
+logger = get_task_logger(__name__)
+
 
 @task
 def simple_notify(phone_number, message):
@@ -45,6 +49,7 @@ def checkHousePackageState():
     RoomDayState.objects.all().filter(Q(date__lt=today)|Q(date__gte=today+timedelta(days=29))).delete()
     # 检查所有的housepackage 的states 的数量，不够的则添加
     print('得到执行')
+    logger.log(level=1,msg='start work')
     save_object = []
     for roompackage in RoomPackage.objects.prefetch_related('roomstates',).all():
         roomstate = roompackage.roomstates.all().last()
@@ -76,6 +81,7 @@ def checkHousePackageState():
                 save_object.append(obj)
                 day += timedelta(days=1)
     RoomDayState.objects.bulk_create(save_object)
+    print('执行完毕，创建了对象{}'.format(len(save_object)))
     sp_delete_expire = transaction.savepoint()
 
 @task
@@ -83,4 +89,6 @@ def createRoomDaysetsFormRoomPackage(roomPackageId):
     roomPackage = RoomPackage.objects.get(id =roomPackageId)
     from hotelBooking.service.packageServices import createRoomDaysFormRoomPackage
     if(roomPackage.roomstates.count() == 0):
-        createRoomDaysFormRoomPackage(roomPackageId)
+        print('haha{}'.format(roomPackage.type))
+        createRoomDaysFormRoomPackage(roomPackage)
+        return {'result':'success'}

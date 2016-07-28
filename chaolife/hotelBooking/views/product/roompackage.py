@@ -13,12 +13,13 @@ from hotelBooking.models import User, Hotel, Room, HotelPackageOrder
 from hotelBooking.models.products import Product, RoomDayState
 from hotelBooking.models.products import RoomPackage
 from hotelBooking.models.ProductUtils import RoomPackageCreator
-from hotelBooking.permissions.rolepermissions import IsHotelPartnerRole, CustomerPermission
+from hotelBooking.permissions.rolepermissions import IsHotelPartnerRole, CustomerPermission, PartnerPermission
 from hotelBooking.serializers import CustomerOrderSerializer
 from hotelBooking.serializers.products import RoomDayStateSerializer, RoomPackageSerializer
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 from hotelBooking.utils.decorators import parameter_necessary
 from hotelBooking.utils.dateutils import formatStrToDate
+
 from rest_framework import viewsets
 from rest_framework.decorators import api_view, authentication_classes, detail_route, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -73,8 +74,10 @@ class RoomPackageStateView(viewsets.ModelViewSet):
 
 
 class RoomPackageView(CustomViewSetMixin,WithDynamicViewSetMixin, ModelViewSet):
+    # authentication_classes = (TokenAuthentication,)
     serializer_class = RoomPackageSerializer
     queryset = RoomPackage.objects.all()
+
 
     def retrieve(self, request, *args, **kwargs):
         # hotel_query_utils.query(1,0,0)
@@ -82,6 +85,7 @@ class RoomPackageView(CustomViewSetMixin,WithDynamicViewSetMixin, ModelViewSet):
         serializer = self.get_serializer(instance)
         return Response(wrapper_response_dict(data=serializer.data))
 
+    @method_decorator(permission_classes( (IsAuthenticated, PartnerPermission)))
     def create(self, request, *args, **kwargs):
         from hotelBooking.serializers.products import RoomPackageCreateSerialzer
         request_data = request.data.copy()
@@ -93,10 +97,10 @@ class RoomPackageView(CustomViewSetMixin,WithDynamicViewSetMixin, ModelViewSet):
         headers = self.get_success_headers(serializer.data)
         return Response(wrapper_response_dict(message='创建成功审核中'))
 
-    @permission_classes((CustomerPermission,))
     @detail_route(methods=['GET', 'POST'], url_path='book')
     @method_decorator(parameter_necessary('checkinTime', 'checkoutTime', 'guests', 'price_type'))
     def book(self, request, pk, checkinTime, checkoutTime, guests, price_type):
+        print('_____开始预订')
         roomPackage = self.get_object()
         checkinTime = formatStrToDate(checkinTime)
         checkoutTime = formatStrToDate(checkoutTime)
@@ -112,6 +116,7 @@ class RoomPackageView(CustomViewSetMixin,WithDynamicViewSetMixin, ModelViewSet):
 
         request_notes = '需要wifi'
         # 内部检查了积分是否足够
+
         hotelPackageOrder = generateHotelPackageProductOrder(request, user, roomPackage, request_notes, checkinTime,
                                                              checkoutTime, price_type)
         serializer = CustomerOrderSerializer(hotelPackageOrder)

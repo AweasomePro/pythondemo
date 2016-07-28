@@ -18,7 +18,7 @@ urlpatterns = [
     url(r'',include(product)),
     url(r'', include(pay)),
     url(r'',include(auth)),
-    url(r'^test$',test.test),
+    url(r'^test/$',test.test),
     url(r'^init',test.init),
 ]
 urlpatterns += router.urls
