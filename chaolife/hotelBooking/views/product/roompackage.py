@@ -5,7 +5,12 @@ from dynamic_rest.serializers import DynamicModelSerializer
 from dynamic_rest.viewsets import DynamicModelViewSet, WithDynamicViewSetMixin
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
-
+from rest_framework import viewsets
+from rest_framework.decorators import api_view, authentication_classes, detail_route, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from hotelBooking.auth.decorators import login_required_and_is_partner
 from hotelBooking.core.order_creator.utils import add_hotel_order, generateHotelPackageProductOrder
 from hotelBooking.core.utils.serializer_helpers import wrapper_response_dict
@@ -19,15 +24,7 @@ from hotelBooking.serializers.products import RoomDayStateSerializer, RoomPackag
 from hotelBooking.utils.AppJsonResponse import DefaultJsonResponse
 from hotelBooking.utils.decorators import parameter_necessary
 from hotelBooking.utils.dateutils import formatStrToDate
-
-from rest_framework import viewsets
-from rest_framework.decorators import api_view, authentication_classes, detail_route, permission_classes
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.response import Response
-from rest_framework.views import APIView
-
-from hotelBooking.views.viewsets import CustomViewSetMixin
+from hotelBooking.views.viewsets import CustomSupportMixin
 
 
 class AddRoomPackageView(APIView):
@@ -73,7 +70,7 @@ class RoomPackageStateView(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class RoomPackageView(CustomViewSetMixin,WithDynamicViewSetMixin, ModelViewSet):
+class RoomPackageView(CustomSupportMixin, WithDynamicViewSetMixin, ModelViewSet):
     # authentication_classes = (TokenAuthentication,)
     serializer_class = RoomPackageSerializer
     queryset = RoomPackage.objects.all()
@@ -85,16 +82,14 @@ class RoomPackageView(CustomViewSetMixin,WithDynamicViewSetMixin, ModelViewSet):
         serializer = self.get_serializer(instance)
         return Response(wrapper_response_dict(data=serializer.data))
 
-    @method_decorator(permission_classes( (IsAuthenticated, PartnerPermission)))
+    @detail_route(methods=['post'], permission_classes=[IsAuthenticated,PartnerPermission])
     def create(self, request, *args, **kwargs):
-        from hotelBooking.serializers.products import RoomPackageCreateSerialzer
+        from hotelBooking.serializers.products import RoomPackageCreateSerializer
         request_data = request.data.copy()
         request_data['owner'] = request.user.id
-        serializer = RoomPackageCreateSerialzer(data=request_data)
-        serializer.is_valid(raise_exception=True)
-        print(serializer.validated_data)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
+        s = RoomPackageCreateSerializer(data=request_data)
+        s.is_valid(raise_exception=True)
+        s.save()
         return Response(wrapper_response_dict(message='创建成功审核中'))
 
     @detail_route(methods=['GET', 'POST'], url_path='book')

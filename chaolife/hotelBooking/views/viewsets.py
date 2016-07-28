@@ -1,3 +1,3 @@
 from hotelBooking.pagination import StandardResultsSetPagination
-class CustomViewSetMixin(object):
+class CustomSupportMixin(object):
     pagination_class = StandardResultsSetPagination

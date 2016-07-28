@@ -23,6 +23,7 @@ class HotelOrderProcessStateChangeHandler():
         elif hotelPackageOrder.process_state ==13:
             pass
         c_phone_number = hotelPackageOrder.customer.phone_number
+
         s_phone_number = hotelPackageOrder.seller.phone_number
         print('发送通知')
         simple_notify.delay(c_phone_number,message={
