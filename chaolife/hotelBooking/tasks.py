@@ -25,7 +25,7 @@ def simple_notify(phone_number, message):
         print('发送给设备号{}'.format(installation.where_json))
         send(
             where= installation.where_json,
-            data={'alert':message}
+            data=message
         )
 
 @task

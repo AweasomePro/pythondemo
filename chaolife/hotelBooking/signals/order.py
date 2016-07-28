@@ -7,15 +7,23 @@ from hotelBooking.models.orders import HotelPackageOrder
 from hotelBooking.module import push
 from hotelBooking.models import User
 from hotelBooking.serializers.orders import PartnerHotelPackageOrderSerializer
-
+from hotelBooking.serializers.orders import CustomerOrderSerializer
 order_cancel = Signal(providing_args=["order", "cancelby"])
 
 @receiver(order_cancel, )
 def on_order_cancel(sender, order, cancelby, **kwargs):
     customer = order.customer
     seller = order.seller
-    simple_notify.delay(seller.phone_number, message='你的订单已被取消')
-    simple_notify.delay(customer.phone_number, message='你的订单已被取消')
+    simple_notify.delay(seller.phone_number, message={
+        'alert': '订单操作',
+        'order':CustomerOrderSerializer(order).data,
+        'action':'com.pushHotel.action',
+    })
+    simple_notify.delay(customer.phone_number, message={
+        'alert':'订单操作',
+        'order':PartnerHotelPackageOrderSerializer(order).data,
+        'action':'com.BusinessHotel.action'}
+                        )
     print('妈的怎么可以取消呢')
 
 
