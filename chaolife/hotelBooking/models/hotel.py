@@ -41,6 +41,11 @@ class Hotel(ActiveMixin,models.Model):
     def __str__(self):
         return self.name
 
+    def min_price(self):
+        #todo 求得该酒店最低的价格，并做cache缓存，该字段用于前端的界面展示
+        #warn  !! 该方法会联合多表查询，要做很多的性能优化
+        pass
+
 class RoomManager(models.Manager):
     def get_queryset(self):
         return super(RoomManager, self).get_queryset()
