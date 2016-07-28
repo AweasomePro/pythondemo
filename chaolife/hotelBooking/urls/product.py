@@ -13,6 +13,6 @@ house_simple_router.register('^roomstate', RoomPackageStateView)
 
 
 urlpatterns = [
-    url('^product/roompackage/add', RoomPackageViews.create_new_hotelpackage),
+    # url('^product/roompackage/add', RoomPackageViews.create_new_hotelpackage),
 ]
-urlpatterns += house_simple_router.urls
+# urlpatterns += house_simple_router.urls

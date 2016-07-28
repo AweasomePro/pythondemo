@@ -50,20 +50,7 @@ class AddRoomPackageView(APIView):
 """
 
 
-@api_view(['POST', ])
-@permission_classes((IsHotelPartnerRole,))
-def create_new_hotelpackage(request, *args, **kwargs):
-    # 注意 atomic 需要有捕获异常，如果你内部catch 了，等于失效了
-    # 前端需要注意，进行 customRoomName 是否已存在的判断，所有的最终都是需要服务端审核的
-    from hotelBooking.serializers.products import RoomPackageCreateSerialzer
-    print(request.data)
-    request.data['owner'] = request.user.id
-    rs = RoomPackageCreateSerialzer(data=request.data)
-    # TODO 让人困惑的写法。。。。 没有save()
-    rs.is_valid(raise_exception=True)
-    print(rs.validated_data)
-    # print('roomId is {}'.format(roomId))
-    return Response(wrapper_response_dict(message='创建成功审核中'))
+
 
 class RoomPackageStateView(viewsets.ModelViewSet):
     serializer_class = RoomDayStateSerializer
@@ -95,6 +82,7 @@ class RoomPackageView(WithDynamicViewSetMixin, ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         from hotelBooking.serializers.products import RoomPackageCreateSerialzer
+        request = request.copy()
         request.data['owner'] = request.user.id
         serializer = RoomPackageCreateSerialzer(data=request.data)
         serializer.is_valid(raise_exception=True)
