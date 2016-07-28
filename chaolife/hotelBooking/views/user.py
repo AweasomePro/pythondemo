@@ -6,8 +6,10 @@ from django.utils.decorators import method_decorator
 from qiniu import Auth
 from rest_framework import viewsets
 from rest_framework.authentication import BasicAuthentication
+from rest_framework.decorators import permission_classes, authentication_classes
 from rest_framework.exceptions import ValidationError
 from rest_framework.mixins import UpdateModelMixin
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication
@@ -31,7 +33,6 @@ secret_key = 'hVXFHO8GusQduMqLeYXZx_C5_c7D-VSwz6AKhjZJ'
 
 
 class UserViewSet(UpdateModelMixin,viewsets.GenericViewSet):
-    authentication_classes = (TokenAuthentication, BasicAuthentication)
     serializer_class = CustomerUserSerializer
     queryset = User.objects.all()
 
