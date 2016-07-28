@@ -38,7 +38,9 @@ class RoomPackageCreateSerialzer(serializers.Serializer):
     default_d_point = serializers.IntegerField()
     default_d_price = serializers.IntegerField()
     breakfast = serializers.IntegerField() # 早餐类型
+    bill = serializers.BooleanField()
     owner = serializers.IntegerField()
+
     customRoomName = serializers.CharField(allow_null=True,allow_blank=True)
 
     _inner_serialize = None
