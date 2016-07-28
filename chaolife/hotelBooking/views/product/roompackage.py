@@ -82,9 +82,9 @@ class RoomPackageView(WithDynamicViewSetMixin, ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         from hotelBooking.serializers.products import RoomPackageCreateSerialzer
-        request = request.copy()
-        request.data['owner'] = request.user.id
-        serializer = RoomPackageCreateSerialzer(data=request.data)
+        request_data = request.data.copy()
+        request_data['owner'] = request.user.id
+        serializer = RoomPackageCreateSerialzer(data=request_data)
         serializer.is_valid(raise_exception=True)
         print(serializer.validated_data)
         self.perform_create(serializer)
