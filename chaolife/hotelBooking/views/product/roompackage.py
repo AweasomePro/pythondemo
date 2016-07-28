@@ -26,6 +26,8 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from hotelBooking.views.viewsets import CustomViewSetMixin
+
 
 class AddRoomPackageView(APIView):
     def post(self, request, *args, **kwargs):
@@ -70,7 +72,7 @@ class RoomPackageStateView(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class RoomPackageView(WithDynamicViewSetMixin, ModelViewSet):
+class RoomPackageView(CustomViewSetMixin,WithDynamicViewSetMixin, ModelViewSet):
     serializer_class = RoomPackageSerializer
     queryset = RoomPackage.objects.all()
 
