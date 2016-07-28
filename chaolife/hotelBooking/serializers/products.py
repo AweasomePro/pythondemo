@@ -41,6 +41,7 @@ class RoomPackageCreateSerialzer(serializers.Serializer):
     owner = serializers.IntegerField()
     customRoomName = serializers.CharField(allow_null=True,allow_blank=True)
 
+    _inner_serialize = None
     class _inner_serializer(serializers.ModelSerializer):
         class Meta:
             model = RoomPackage
@@ -59,7 +60,10 @@ class RoomPackageCreateSerialzer(serializers.Serializer):
         print('是合法的')
         print(serializer.validated_data)
         print('开始保存')
-        serializer.save()
-        roompackage = RoomPackage.objects.first()
-        # print(roompackage.default_s_price)
+        # serializer.save()
+        self._inner_serialize = serializer
         return {'succcess':True}
+
+    def create(self, validated_data):
+        instance = self._inner_serialize.save()
+        return instance

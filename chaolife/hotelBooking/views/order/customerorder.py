@@ -102,7 +102,7 @@ class CustomerOrderActionAPIView(WithDynamicViewSetMixin,ModelViewSet):
         print(checker.has_perm('hotelpackageorder.change_process_state', order))
         if action == CustomerOrderActionAPIView.ACTION_CANCEL:
             #  用户取消订单
-            hotelpackageorder = request.order
+            hotelpackageorder = request.order  #用get_object代替
             success,order = request.order.customer_cancel_order(request.user)
             if(success):
                 order.refresh_from_db()
@@ -112,8 +112,4 @@ class CustomerOrderActionAPIView(WithDynamicViewSetMixin,ModelViewSet):
             return Response(data='未知操作')
 
 
-    def cancelBookOrder(self, request,):
-        number = request.POST.get('number', None)
-        order = HotelPackageOrder.objects.get(number=number)
-        order.cancelBook(request.user)
 

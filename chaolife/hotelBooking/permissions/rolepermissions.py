@@ -29,4 +29,12 @@ class IsHotelPartnerRole(BasePermission):
     """
 
     def has_permission(self, request, view):
-        return request.user and request.user.is_partner_member
+        return not request.user.is_anonymous() and request.user.is_partner_member
+
+class CustomerPermission(BasePermission):
+    def has_permission(self, request, view):
+        """
+        Return `True` if permission is granted, `False` otherwise.
+        """
+        return request.user.role == 1 or request.user.is_admin
+
