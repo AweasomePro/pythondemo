@@ -100,7 +100,7 @@ class RoomPackageView(WithDynamicViewSetMixin, ModelViewSet):
         serializer.is_valid(raise_exception=True)
         print(serializer.validated_data)
         self.perform_create(serializer)
-        headers = self.get_success_headers(serializer._inner_serialize.data)
+        headers = self.get_success_headers(serializer.data)
         return Response(wrapper_response_dict(message='创建成功审核中'))
 
     @permission_classes((CustomerPermission,))
@@ -126,3 +126,8 @@ class RoomPackageView(WithDynamicViewSetMixin, ModelViewSet):
                                                              checkoutTime, price_type)
         serializer = CustomerOrderSerializer(hotelPackageOrder)
         return DefaultJsonResponse(res_data=serializer.data, message='预订成功')
+
+
+    def get_serializer_class(self):
+#     todo  通过判断请求方法 或者请求的地址提供不同的 serializser
+        return self.serializer_class

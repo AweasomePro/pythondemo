@@ -69,3 +69,7 @@ class RoomPackageCreateSerialzer(serializers.Serializer):
     def create(self, validated_data):
         instance = self._inner_serialize.save()
         return instance
+
+    @property
+    def data(self):
+        return self._inner_serialize.data
