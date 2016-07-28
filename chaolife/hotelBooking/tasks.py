@@ -53,7 +53,6 @@ def checkHousePackageState():
     save_object = []
     for roompackage in RoomPackage.objects.prefetch_related('roomstates',).all():
         roomstate = roompackage.roomstates.all().last()
-
         if roomstate is not None and roomstate.date < today +timedelta(days=29):
             roomstate.pk = None
             roomstate.date = roomstate.date + timedelta(days=1)

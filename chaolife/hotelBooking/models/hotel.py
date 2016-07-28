@@ -80,4 +80,3 @@ class Room(CheckMixin, BaseModel):
         print(args)
         print(kwargs)
         super(Room, self).save(*args, **kwargs)
-

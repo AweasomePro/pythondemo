@@ -68,7 +68,6 @@ class RoomPackageCreateSerialzer(serializers.Serializer):
 
     def create(self, validated_data):
         instance = self._inner_serialize.save()
-        createRoomDaysetsFormRoomPackage.delay(instance.id)
         return instance
 
     @property
