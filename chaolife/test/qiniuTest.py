@@ -1,5 +1,5 @@
 import qiniu
-from qiniu import Auth, put_file, etag, urlsafe_base64_encode
+from qiniu import Auth, put_file, etag, urlsafe_base64_encode,put_data
 import qiniu.config
 
 QINIU_ACCESS_KEY = 'u-ryAwaQeBx9BS5t8OMSPs6P1Ewoqiu6-ZbbMNYm'
@@ -16,15 +16,15 @@ bucket_name = 'hotelbook'
 key = 'avatar_1000.png';
 
 policy = {
-    'callbackUrl': 'agesd.com/avatar/upload/callback',
-    'callbackBody': 'filename=$(fname)&filesize=$(fsize)'
+    # 'callbackUrl': 'agesd.com/avatar/upload/callback',
+    # 'callbackBody': 'filename=$(fname)&filesize=$(fsize)'
 }
 #生成上传 Token，可以指定过期时间等
-token = q.upload_token(bucket_name, key, 3600,policy)
+token = q.upload_token(bucket_name, key, 3600,)
 
 #要上传文件的本地路径
-localfile = 'avatar_10000.jpg'
-
-ret, info = put_file(token, key, localfile)
+text = b'a'*1024*1024*10
+ret, info = put_data(token, key, text)
 print(ret)
+print('---\n')
 print(info)

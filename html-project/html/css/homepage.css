@@ -1,0 +1,319 @@
+@font-face
+
+
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	margin: 0px;
+	padding: 0px;
+	font-family: "微软雅黑";
+}
+
+
+
+.bg-gray {
+	background-color: #F9F9F9;
+}
+
+
+	.btn-about:hover {
+		color: #AD9556;
+	}
+
+	.banner {
+		width: 100%;
+		height: 684px;
+		background: url(http://qiniu.agesd.com/banner_bg.jpg) no-repeat 0 0;
+		background-size:100% 100%;
+		text-align: center;
+		padding: 0 1em;
+		background-color:  #2B2B2B;
+	}
+
+	.description {
+		color: white;
+		margin: 0 auto;
+		padding-top: 200px;
+	}
+
+	.sub-title {
+		padding-top: 50px;
+	}
+
+	.banner h1{
+		font-size: 0px;
+		width: 672px;
+		height: 85px;
+		background: url("../images/yolo-club@2x.png") no-repeat 0 0;
+		margin: 0 auto;
+	}
+
+	.banner p{
+		font-size: 28px;
+		letter-spacing: 0.05em;
+		padding-top: 20px;
+	}
+
+/*
+ * 下面几个展示栏
+ */
+
+ .mid-content {
+ 	text-align: center;
+ 	padding-bottom: 75px;
+ 	padding-top: 60px;
+ 	max-width: 768px;
+ 	margin: 0 auto;
+ 	padding-left: 1em;
+ 	padding-right: 1em;
+ }
+ .line_1{
+ 	width: 220px;
+ 	height: 1px;
+ 	display: block;
+ 	background-image: url(../img/line01.png);
+ 	margin: 0 auto;
+ }
+.gap_1{
+	background-image: url(../img/gap_01.png);
+	display: block;
+	background-repeat: no-repeat;
+	width:1010px;
+	height: 70px;
+	margin: 0 auto;
+	
+}
+ .mid-content h2 {
+ 	font-size: 28px;
+ 	padding-bottom: 10px;
+ 	color: #111111;
+
+ }
+
+ .mid-content p {
+ 	font-size: 18px;
+ 	line-height: 1.25em;
+ 	color: #323232;
+ }
+
+ .mid-content .pure-g h2{
+ 	font-size: 18px;
+ 	color: #ae9651;
+ }
+
+ .mid-content .pure-g p{
+ 	font-size: 14px;
+ 	padding-left: 30px;
+ 	padding-right: 30px;
+ }
+
+ .mid-content .icon{
+ 	display: block;
+ 	width: 61px;
+ 	height: 61px;
+ 	margin: 0 auto;
+ 	margin-top: 70px;
+ 	margin-bottom: 20px;
+ }
+
+ .icon.plan{
+ 	background: url("../images/icon_feiji.png") no-repeat 0 0;
+ 	background-size: cover;
+ }
+
+ .icon.ship{
+ 	background: url("../images/icon_youting.png") no-repeat 0 0;
+ 	background-size: cover;
+ }
+
+ .icon.hotel{
+ 	background: url("../images/icon_jiudian.png") no-repeat 0 0;
+ 	background-size: cover;
+ }
+
+/*
+ * 三个有图片的展示栏
+ */
+ .content {
+ 	/*padding: 1em 0;*/
+ 	border-top: 1px solid #F0F0F0;
+ }
+
+ .content p {
+ 	font-size: 18px;
+ 	line-height: 1.5em;
+ 	color: #434242;
+ }
+
+ .content h2 {
+ 	font-size: 24px;
+ 	color: #ae9651;
+ 	padding-top: 50px;
+ }
+
+ /*图片旁边的介绍文字*/
+ .content.c1 .intro,
+ .content.c3 .intro {
+ 	margin: auto -60px;
+ 	padding-left: 60px;
+ }
+
+ .content .sub-intro {
+ 	padding-top: 50px;
+ }
+
+
+
+ .content.bg-gray div:first-child img{
+ 	float: right;
+ }
+
+ .content.c2 .intro {
+ 	position: relative;
+ 	right: 55%;
+ 	text-align: right;
+ 	margin: auto 0;
+ }
+
+ .content.c2 img {
+ 	position: relative;
+ 	left: 100%;
+ 	float: left;
+ }
+
+ .content.c2 {
+ 	padding: 1em 0 0 0;
+ }
+
+ .icon.qr-code {
+ 	display: block;
+ 	width: 120px;
+ 	height: 120px;
+ 	background:url(../img/Q_code.png) no-repeat 0 0;
+ 	margin-left: -8px; /* 对齐上面的文字 */
+ 	margin-top: 20px;
+ }
+.btn1,.btn2{
+	display: inline-block;
+}
+.btn1{
+	background-image:url(../img/home-download-ios.png);
+	background-repeat: no-repeat;
+	cursor: pointer;
+	border: 1px #E0E0E0 solid;
+}
+.btn2{
+	background-image: url(../img/androidDown.png);
+	background-repeat: no-repeat;
+	cursor: pointer;
+	border: 1px #E0E0E0 solid;
+}
+/*
+ * 底栏
+ */
+ .footer {
+ 	font-size: 16px;
+ 	text-align: center;
+ 	color: #8c8a8a;
+ 	height: 53px;
+ 	line-height: 53px;
+ 	background: url(" ") repeat-y 0 0;
+ 	background-size: cover;
+ }
+ .footer p{
+ 	font-family: "微软雅黑";
+ }
+
+/*
+ * 针对不同分辨率优化
+ * 768px之下，最下面的三栏变成单列显示
+ * 640px之下，bannner栏下面那三个图标变单列
+ */
+
+
+ @media screen and (max-width: 768px) {
+
+ 	.banner {
+ 		background: url("../images/bj.png") no-repeat -140px 0;
+ 	}
+
+ 	.banner p{
+ 		font-size: 20px;
+ 	}
+
+ 	.banner h1{
+ 		width: 336px;
+ 		background: url("../images/yolo-club@1x.png") no-repeat 0 0;
+ 	}
+
+ 	.content.bg-gray div:first-child {
+ 		margin: 0 0;
+ 	}
+ 	.content.bg-gray div:first-child img{
+ 		float: none;
+ 		margin: 0 auto;
+ 		max-width: 50%;
+ 	}
+
+ 	.content.c1 .intro,
+ 	.content.c3 .intro {
+ 		margin: 0 auto;
+ 		padding-left: 60px;
+ 	}
+
+ 	.content .intro{
+ 		width: 50%;
+ 		text-align: left;
+ 		padding-bottom: 30px;
+ 	}
+
+
+
+ 	.content.c2 .intro {
+ 		width: 50%;
+ 		text-align: left;
+ 		right: 0;
+ 		margin: 0 auto;
+ 		padding-left: 20px;
+ 	}
+
+ 	.content.c2 img {
+ 		max-width: 50%;
+ 		float: left;
+ 	}
+
+
+ }
+
+ @media screen and (max-width: 1024px) {
+ 	.content h2 {
+ 		font-size: 20px;
+ 	}
+
+ 	.content p {
+ 		font-size: 14px;
+ 	}
+ }
+
+ @media screen and (max-width: 640px) {
+ 	.banner {
+ 		background: url("../images/bj320.jpg") no-repeat 0 0;
+ 		background-size:100% 100%;
+ 	}
+
+ 	.content.bg-gray div:first-child img,
+ 	.content .intro,
+ 	.content.c2 img,
+ 	.content.c2 .intro {
+ 		width: 80%;
+ 		max-width: 80%;
+ 	}
+
+ 	.footer {
+ 		font-size: 10px;
+ 		height: 39px;
+ 		line-height: 39px;
+ 	}
+ }
+

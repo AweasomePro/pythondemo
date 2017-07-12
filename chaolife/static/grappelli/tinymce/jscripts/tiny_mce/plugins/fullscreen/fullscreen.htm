@@ -5,12 +5,12 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<script type="text/javascript" src="../../tiny_mce.js"></script>
 	<script type="text/javascript">
-		function patchCallback(settings, key) {
+		function patchCallback(Alipaysettings, key) {
 			if (settings[key])
 				settings[key] = "window.opener." + settings[key];
 		}
 
-		var settings = {}, paSe = window.opener.tinyMCE.activeEditor.settings, oeID = window.opener.tinyMCE.activeEditor.id;
+		var Alipaysettings = {}, paSe = window.opener.tinyMCE.activeEditor.settings, oeID = window.opener.tinyMCE.activeEditor.id;
 
 		// Clone array
 		for (var n in paSe)

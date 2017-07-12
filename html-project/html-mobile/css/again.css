@@ -1,0 +1,137 @@
+@charset 'utf-8';
+*{
+	padding: 0;
+	margin: 0;
+
+}
+body{
+	
+	font-family: "微软雅黑";
+	font-size: 12px;
+	overflow-x: hidden;
+	width: 100%;
+	background-color: #efeef4;
+	background: url(http://qiniu.agesd.com/bg.png)  center;
+}
+img {
+	display: block;
+	width:100%;
+}
+#top{
+	width: 100%;
+	margin: 0 auto;
+	padding: 0;
+	position: relative;
+}
+#header{
+	width: 20%;
+	margin-top: 100px;
+	margin: 0 auto;
+	padding: 50px 0 0 0;
+	position: relative;
+}
+#word{
+	width: 70%;
+	
+	margin: 0 auto;
+	padding:20px 0 0 0;
+	position: relative;
+	font-size: 16px;
+	
+	text-align: center;
+}
+.form{
+	padding-top: 40px;
+	position: relative;
+	bottom: 20px;
+	width: 100%;
+	display: block;
+}
+.mid_part{
+	
+}
+.btn_group{
+	margin: 10px 24px;
+	display: block;
+}
+.btn_group input{
+	border-radius: 10px;
+	width: 100%;
+	font-size: 18px;
+	border: 1px solid #CFCECD;
+	text-align: left;
+	height: 40px;
+	line-height: 40px;
+}
+#id_tel{
+	
+}
+.second_line{
+	margin-top: 10px;
+	height: 40px;
+}
+#id_verify{
+	width: 60%;
+	display:inline;
+	line-height: 40px;
+}
+#id_verbtn{
+	background-color: #c490bf;
+	text-align:right;
+	font-size: 12px;
+	color: white;
+	width: 38%;
+	
+	display:inline;
+	line-height: 40px;
+	text-align: center;
+}
+#id_invite{
+	text-align: center;
+	margin-top: 10px;
+	color: white;
+	background-color: #88abda;
+}
+#tips{
+	height: 36px;
+	line-height: 36px;
+}
+.middle{
+	margin-top: 80px;
+	width: 100%;
+	display: block;
+	bottom: 40px;
+	
+}
+.comfirm_word{
+	width: 70%;
+	margin: 0 auto;
+	padding:20px 0 0 0;
+	position: relative;
+	text-align: center;
+}
+.btn_group_2{
+	
+	margin: 30px 24px 10px 24px;
+	display: block;
+}
+#id_download{
+	border-radius: 10px;
+	height: 40px;
+	width: 100%;
+	background-color: #c490bf;
+	color: white;
+	text-align: center;
+	font-size: 18px;
+}
+#id_more_invite{
+	border-radius: 10px;
+	height: 40px;
+	width: 100%;
+	margin-top: 10px;
+	border: 2px #c490bf solid;
+	background:transparent;
+	text-align: center;
+	color: #c490bf;
+	font-size: 18px;
+}

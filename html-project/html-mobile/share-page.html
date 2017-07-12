@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+		<title>邀请用户注册</title>
+		<link rel="stylesheet" href="css/share.css"/>
+		<link rel="stylesheet" href="css/dialog.css"/>
+		<script src="js/jquery-3.1.0.js"></script>
+		<script src="js/bootstrap.js"></script>
+		
+	
+ 
+	</head>
+	<body>
+	
+	
+		<div id="word" style="margin-top:30px ;">
+			<p class="s-title">邀请好友开始CHAO活！</p> 
+			<p class="sub-title">邀请好友加入CHAO活，赢奖励！</p>
+			<a href="#btn_dialog" id="btn_dialog" style="margin-top: 30px;color: #88abda; font-size: 12px;">活动规则</a>
+		<div id="dialog-content" style="display:none;width: 300px;height: auto; margin: 0 auto; font-size: 10px;font-family: '微软雅黑';">
+			<ul style="margin:10px; ">
+				<li style="margin-top: 5px;"><b>1.活动内容</b><br />&nbsp;&nbsp;<span style="font-size: 10px; color: #BFBFBF; margin-top:5px;">邀请1-10人返现5%， 11－20人返现7%，21-50人返现10%，50人以上15%。有效人数为新用户注册且充值，有效充值为新用户第一次充值；</span></li>
+				<li style="margin-top: 5px;"><b>2.参与方式</b><br />&nbsp;&nbsp;<span style="font-size: 10px; color: #BFBFBF; margin-top:5px;">用户分享自己的邀请链接给好友，被邀请者在邀请链接中输入手机号并短信验证后提交，即完成邀请。</span></li>
+				<li style="margin-top: 5px;"><b>3.积分有效期</b><br />&nbsp;&nbsp;<span style="font-size:10px; color: #BFBFBF; margin-top:5px;">永久有效；</span></li>
+				<li style="margin-top: 5px;"><b>4.活动时间</b><br />&nbsp;&nbsp;<span style="font-size: 10px; color: #BFBFBF; margin-top:5px;">即日起至2016年12月31日24时；</span></li>
+				
+			</ul>	
+		</div>
+		<script src="js/zepto.js"></script>
+		<script src="js/dialog.js"></script>
+		<script>
+		var dialog = new Dialog();
+		dialog.init({
+			target:"#dialog-content",trigger:"#btn_dialog",mask:true,title:'活动规则'
+			});
+		</script>
+	
+			
+		
+		<div id="header">
+			<img src="http://qiniu.agesd.com/mid_img.png" alt="">
+		</div>
+		<div class="form">
+			<div class="btn_group">
+				<div class="mid_block">
+					<div class="justify">
+						<div class="sub" style="border-right: 1px solid #BFBFBF; box-sizing: border-box;">
+							<div class="left_sub">已邀请<span id="id_num">0</span>位好友<br />
+							<p class="ls_title" style="font-size: 8px;">好友首次充值我得奖励5%</p>
+							</div>
+						</div>
+					
+						<div class="sub" style="box-sizing: border-box;">
+							<div class="right_sub">奖励总额<span id="id_points">0</span>积分<br />
+							<p class="rs_title" style="font-size: 8px;">好友首次充值我得奖励5%</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<input type="button" value="邀请好友来注册，干他" id="id_invite" onclick="window.share.share()"/>
+				<p style="font-size: 10px;">点击邀请按钮即默认为您已阅读并同意<a href=" #dialog-content2" id="btn_dialog2" style="color: #88ABDA;">《用户邀请用户活动协议》</a>，知悉返现积分不可提现。</p>
+				
+		<div id="dialog-content2" style="display:none; width: 300px;height: auto; margin: 0 auto; font-size: 10px;font-family: '微软雅黑';">
+			<ul style="margin:10px; ">
+				<li style="font-size: 10px; color:  #BFBFBF;">尊敬的用户，为保障您的合法权益，请您在参与用户拉用户活动前仔细阅读本协议。您参与用户邀请用户活动时，我们默认您已经知悉如下活动条款。</li>
+				<li style="margin-top: 5px;"><b>1.活动内容</b><br />&nbsp;&nbsp;<span style="font-size: 10px; color: #BFBFBF; margin-top:5px;">邀请1-10人返现5%， 11－20人返现7%，21-50人返现10%，50人以上15%。有效人数为新用户注册且充值，有效充值为新用户第一次充值；</span></li>
+				<li style="margin-top: 5px;"><b>2.参与方式</b><br />&nbsp;&nbsp;<span style="font-size: 10px; color: #BFBFBF; margin-top:5px;">用户分享自己的邀请链接给好友，被邀请者在邀请链接中输入手机号并短信验证后提交，即完成邀请。被邀请者仅以接受第一位邀请者的邀请为有效邀请，邀请关系不可替换，不可解除；</span></li>
+				<li style="margin-top: 5px;"><b>3.成功邀请条件</b><br />&nbsp;&nbsp;<span style="font-size: 10px; color: #BFBFBF; margin-top:5px;">被邀请者接受邀请前需未参与过充值返现活动，且没有接受过其他人的邀请；</span></li>
+				<li style="margin-top: 5px;"><b>4.活动时间</b><br />&nbsp;&nbsp;<span style="font-size: 10px; color: #BFBFBF; margin-top:5px;">即日起至2016年12月31日24时；</span></li>
+				<li style="margin-top: 5px;"><b>5.余额使用规则</b><br />&nbsp;&nbsp;<span style="font-size: 10px; color: #BFBFBF; margin-top:5px;">积分可用于CHAO活平台内所有消费。奖励积分不支持提现、转移、转赠，永久有效；</span></li>
+				<li style="margin-top: 5px;"><b>6.发票金额</b><br />&nbsp;&nbsp;<span style="font-size: 10px; color: #BFBFBF; margin-top:5px;">发票金额会依据您实际支付的充值本金而定，返现积分不能开具发票；活动中，按照CHAO活现行的风控规则，一旦发现作弊行为，CHAO活有权取消相关账户活动返利金额、追回作弊所得、回收账号使用权，并保留取消作弊人后续参与CHAO活任何活动的权利，必要时会追究其法律责任；</span></li>
+				<li style="margin-top: 5px;"><b>7.特别声明</b><br />&nbsp;&nbsp;<span style="font-size: 10px; color: #BFBFBF; margin-top:5px;">用户邀请用户活动福利仅提供给正当、合法订房服务的CHAO活客户。每位参与者（含邀请人及被邀请人）的CHAO活账号、手机设备号都必须是唯一的，任意信息与其他用户重合都不能参加该活动；</span></li>
+				<li style="margin-top: 5px;"><b>8.本次充值返现活动的最终解释权归CHAO活所有。</b></li>
+			</ul>
+		</div>
+		<script src="js/zepto.js"></script>
+		<script src="js/dialog.js"></script>
+		<script>
+		var dialog = new Dialog();
+		dialog.init({
+			target:"#dialog-content2",trigger:"#btn_dialog2",mask:true,title:'用户邀请用户活动协议'
+			});
+		</script>
+			</div>
+			<!--
+            	作者：joblessperson@qq.com
+            	时间：2016-09-22
+            	描述：
+            <div id="second_invite">
+				<a href="" style="color: #88abda;font-family: '微软雅黑'; font-size: 8px;margin-top: 20px;">还有3位好友未充值，快去邀请TA充值</a>
+			</div>-->
+			<div style="margin-top: 30px; width: 100%;">
+				<div class="rec_title" style="width: 30%;height: 1px;background-color: #88abda;margin-bottom:3px ;"></div>
+				<div class="rec_title" style="font: '微软雅黑';color: #88abda;font-size: 8px;">好友充值记录</div>
+				<div class="rec_title" style="width: 30%;height: 1px;background-color: #88abda;margin-bottom:3px ;"></div>
+			</div>
+			<ul class="rec_ul" style="list-style: none;">
+				<li class="rec_li"><p class="recond">2016-09-20</p>-----<p class="recond">15726816104用户已充值</p></li>
+				<li class="rec_li"><p class="recond">2016-09-20</p>-----<p class="recond">15726816104用户已充值</p></li>
+				<li class="rec_li"><p class="recond">2016-09-20</p>-----<p class="recond">15726816104用户已充值</p></li>
+			</ul>
+		</div>
+	
+	</body>
+</html>

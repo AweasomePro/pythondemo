@@ -1,0 +1,23 @@
+web:
+  restart: always
+  build: ./chaolife
+  expose:
+    - "8000"
+  env_file: .env
+  command: /usr/local/bin/gunicorn chaolife_project.wsgi:application -w 2 -b :8000
+
+nginx:
+  restart: always
+  build: ./nginx/
+  ports:
+    - "80:80"
+  volumes:
+    - ./chaolife/static
+  volumes_from:
+    - web
+  links:
+    - web:web
+
+
+
+

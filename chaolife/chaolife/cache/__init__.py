@@ -1,0 +1,1 @@
+from .hotelcache import generate_hotel_min_price_cache_key

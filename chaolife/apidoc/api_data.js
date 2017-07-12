@@ -39,7 +39,7 @@ define({ "api": [
       }
     },
     "version": "0.0.0",
-    "filename": "hotelBooking/views/product/housepackage.py",
+    "filename": "hotelBooking/views/product/roompackage.py",
     "groupTitle": "partner_____"
   }
 ] });

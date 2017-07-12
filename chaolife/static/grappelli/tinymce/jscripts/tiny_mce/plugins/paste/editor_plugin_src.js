@@ -197,7 +197,7 @@
 					dom.remove(n);
 
 					// Check if the contents was changed, if it wasn't then clipboard extraction failed probably due
-					// to IE security settings so we pass the junk though better than nothing right
+					// to IE security Alipaysettings so we pass the junk though better than nothing right
 					if (n.innerHTML === '\uFEFF\uFEFF') {
 						ed.execCommand('mcePasteWord');
 						e.preventDefault();

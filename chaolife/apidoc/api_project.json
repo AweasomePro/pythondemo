@@ -1,14 +1,14 @@
 {
-  "name": "hotelBook",
+  "name": "hotelBook ",
   "version": "0.1.0",
-  "description": "apiDoc basic example",
+  "description": "接口文档",
   "title": "api doc",
-  "url": "https://api.github.com/v1",
+  "url": "http://www.agesd.com/v1",
   "sampleUrl": false,
   "apidoc": "0.2.0",
   "generator": {
     "name": "apidoc",
-    "time": "2016-07-14T09:48:46.100Z",
+    "time": "2016-07-29T06:17:28.606Z",
     "url": "http://apidocjs.com",
     "version": "0.16.1"
   }

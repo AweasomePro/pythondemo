@@ -1,18 +1,26 @@
+from _datetime import datetime
+from _datetime import timedelta
+today = datetime.today()
+print(today)
+today = today - timedelta(hours=24)
+print(datetime.today() > today)
+print( (datetime.today() - today).total_seconds())
+print(datetime.today() - today)
 
 import datetime
 from datetime import timedelta
-in_str = '2016-07-07'
-out_str = '2016-07-08'
-in_array = in_str.split('-')
-out_array = out_str.split('-')
-checkin_time = datetime.datetime(int(in_array[0]),int(in_array[1]),int(in_array[2])).date()
-checkout_time = datetime.datetime(int(out_array[0]),int(out_array[1]),int(out_array[2])).date()
-interval =  (checkout_time-checkin_time).days
-aDay = timedelta(days=1)
-
-for i in range(1,interval+1):
-    checkin_time += aDay
-    print(checkin_time.day)
+# in_str = '2016-07-07'
+# out_str = '2016-07-08'
+# in_array = in_str.split('-')
+# out_array = out_str.split('-')
+# checkin_time = datetime.datetime(int(in_array[0]),int(in_array[1]),int(in_array[2])).date()
+# checkout_time = datetime.datetime(int(out_array[0]),int(out_array[1]),int(out_array[2])).date()
+# interval =  (checkout_time-checkin_time).days
+# aDay = timedelta(days=1)
+#
+# for i in range(1,interval+1):
+#     checkin_time += aDay
+#     print(checkin_time.day)
 
 
 # str =datetime.datetime.now().strftime('%Y%m%d%H')[2:]

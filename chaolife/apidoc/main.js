@@ -622,7 +622,7 @@ require([
     }
 
     /**
-     * Add article settings.
+     * Add article Alipaysettings.
      */
     function addArticleSettings(fields, entry) {
         // add unique id
@@ -655,7 +655,7 @@ require([
             fields._hasTypeInInfoFields = _hasTypeInFields(entry.info.fields);
         }
 
-        // add template settings
+        // add template Alipaysettings
         fields.template = apiProject.template;
     }
 

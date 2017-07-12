@@ -168,7 +168,7 @@
 				}, s);
 			}
 
-			// Default settings
+			// Default Alipaysettings
 			t.settings = s = extend({
 				theme_advanced_path : true,
 				theme_advanced_toolbar_location : 'top',

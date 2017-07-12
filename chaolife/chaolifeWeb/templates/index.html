@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<body>
+<p>请输入两个数字</p>
+<form action="/add/" method="get">
+    a: <input type="text" id="a" name="a"> <br>
+    b: <input type="text" id="b" name="b"> <br>
+    <p>result: <span id='result'></span></p>
+    <button type="button" id='sum'>提交</button>
+</form>
+
+<script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#sum").click(function () {
+            var a = $("#a").val();
+            var b = $("#b").val();
+
+            $.getJSON("http:www.baidu.com")
+{#            $.ajax(#}
+{#                    {#}
+{#                        type:'get',#}
+{#                        url:'http://114.55.67.147/city',#}
+{#                        dataType:'jsonp',#}
+{#                        jsonp:'jsoncallback',#}
+{#                        success: function (data) {#}
+{#                            $("#result").text(data);#}
+{#                            console.log(typeof data);#}
+{#                        },#}
+{#                    });#}
+        });
+    });
+</script>
+</body>
+</html>

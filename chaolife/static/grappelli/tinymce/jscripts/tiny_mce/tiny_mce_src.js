@@ -7593,7 +7593,7 @@ tinymce.dom.TreeWalker = function(start_node, root_node) {
 					moveRng = body.createTextRange();
 					moveRng.moveToElementText(resolveIndexes(endPoint.indexes));
 
-					offset = endPoint.offset;
+					var offset = endPoint.offset;
 					if (offset !== undef) {
 						moveRng.collapse(endPoint.inside || moveLeft);
 						moveRng.moveStart('character', moveLeft ? -offset : offset);

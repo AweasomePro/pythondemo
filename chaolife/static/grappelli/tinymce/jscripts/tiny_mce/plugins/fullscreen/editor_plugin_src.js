@@ -33,7 +33,7 @@
 							de.style.overflow = ed.getParam('fullscreen_html_overflow');
 							DOM.setStyle(DOM.doc.body, 'overflow', ed.getParam('fullscreen_overflow'));
 							DOM.win.scrollTo(ed.getParam('fullscreen_scrollx'), ed.getParam('fullscreen_scrolly'));
-							tinyMCE.settings = tinyMCE.oldSettings; // Restore old settings
+							tinyMCE.settings = tinyMCE.oldSettings; // Restore old Alipaysettings
 						}, 10);
 					}
 
@@ -48,7 +48,7 @@
 						// Ignore
 					}
 				} else {
-					tinyMCE.oldSettings = tinyMCE.settings; // Store old settings
+					tinyMCE.oldSettings = tinyMCE.settings; // Store old Alipaysettings
 					s.fullscreen_overflow = DOM.getStyle(DOM.doc.body, 'overflow', 1) || 'auto';
 					s.fullscreen_html_overflow = DOM.getStyle(de, 'overflow', 1);
 					vp = DOM.getViewPort();
